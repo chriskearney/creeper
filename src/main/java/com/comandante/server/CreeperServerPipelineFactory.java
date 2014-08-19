@@ -1,4 +1,4 @@
-package com.comandante.telnetserver;
+package com.comandante.server;
 
 
 import org.jboss.netty.channel.ChannelHandler;
@@ -10,11 +10,11 @@ import org.jboss.netty.handler.codec.frame.Delimiters;
 import org.jboss.netty.handler.codec.string.StringDecoder;
 import org.jboss.netty.handler.codec.string.StringEncoder;
 
-public class TelnetServerPipelineFactory implements ChannelPipelineFactory {
+public class CreeperServerPipelineFactory implements ChannelPipelineFactory {
 
     private final ChannelHandler handler;
 
-    public TelnetServerPipelineFactory(ChannelHandler handler) {
+    public CreeperServerPipelineFactory(ChannelHandler handler) {
         this.handler = handler;
     }
 

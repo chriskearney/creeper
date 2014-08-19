@@ -1,8 +1,8 @@
-package com.comandante.telnetserver;
+package com.comandante.server;
 
 import com.google.common.base.Optional;
 
-public class TelnetServerAuthState {
+public class CreeperSessionState {
 
     private Optional<String> username = Optional.absent();
     private Optional<String> password = Optional.absent();
@@ -12,7 +12,6 @@ public class TelnetServerAuthState {
     enum State {
         promptedForPassword,
         promptedForUsername,
-        failed,
         authed
     }
 

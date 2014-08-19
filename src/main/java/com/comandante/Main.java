@@ -1,8 +1,11 @@
 package com.comandante;
 
-import com.comandante.telnetserver.TelnetServer;
+import com.comandante.managers.GameManager;
+import com.comandante.managers.PlayerManager;
+import com.comandante.managers.RoomManager;
+import com.comandante.model.Room;
+import com.comandante.server.CreeperServer;
 import com.google.common.base.Optional;
-import org.fusesource.jansi.Ansi;
 
 public class Main {
 
@@ -16,19 +19,17 @@ public class Main {
         Room janitorialCloset = new Room(6, Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.of(3), Optional.<Integer>absent(),
                 "You find yourself in the janitorial closet.  It smells like bleach.");
 
-        GameManager gameManager = new GameManager();
-        gameManager.addRoom(lobby);
-        gameManager.addRoom(hallway);
-        gameManager.addRoom(intake);
-        gameManager.addRoom(janitorialCloset);
+        RoomManager roomManager = new RoomManager();
+        roomManager.addRoom(lobby);
+        roomManager.addRoom(hallway);
+        roomManager.addRoom(intake);
+        roomManager.addRoom(janitorialCloset);
+        PlayerManager playerManager = new PlayerManager();
+        GameManager gameManager = new GameManager(roomManager, playerManager);
 
-        Ansi ansi = new Ansi();
-        ansi.fg(Ansi.Color.RED);
-        String hello = ansi.render("hello").toString();
-        System.out.println(hello);
+        CreeperServer creeperServer = new CreeperServer(8080);
+        creeperServer.run(gameManager);
 
-
-        TelnetServer telnetServer = new TelnetServer(8080);
-        telnetServer.run(gameManager);
+        System.out.println("Creeper started.");
     }
 }

@@ -1,4 +1,4 @@
-package com.comandante;
+package com.comandante.model;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;

@@ -1,4 +1,4 @@
-package com.comandante;
+package com.comandante.model;
 
 
 import org.apache.commons.codec.binary.Base64;

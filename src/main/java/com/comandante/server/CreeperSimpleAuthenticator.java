@@ -1,15 +1,17 @@
-package com.comandante;
+package com.comandante.server;
 
+import com.comandante.managers.GameManager;
+import com.comandante.model.Player;
 import org.jboss.netty.channel.Channel;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SimpleGameAuthenticator implements GameAuthenticator {
+public class CreeperSimpleAuthenticator implements CreeperAuthenticator {
 
     GameManager gameManager;
 
-    public SimpleGameAuthenticator(GameManager gameManager) {
+    public CreeperSimpleAuthenticator(GameManager gameManager) {
         this.gameManager = gameManager;
     }
 
@@ -22,11 +24,10 @@ public class SimpleGameAuthenticator implements GameAuthenticator {
         userMap.put("test2", "poop");
         userMap.put("test3", "poop");
         userMap.put("test4", "poop");
-
     }
 
     @Override
-    public boolean authenticatePlayer(String userName, String passWord, Channel channel) {
+    public boolean authenticateAndRegisterPlayer(String userName, String passWord, Channel channel) {
         String userPassword = userMap.get(userName);
         if (userPassword == null) {
             return false;
@@ -34,12 +35,15 @@ public class SimpleGameAuthenticator implements GameAuthenticator {
         if (!userPassword.equals(passWord)) {
             return false;
         }
-        Player player = new Player(userName);
-        if (gameManager.doesPlayerExist(player)) {
-            gameManager.removePlayer(player);
+        if (gameManager.getPlayerManager().doesPlayerExist(userName)) {
+            gameManager.getPlayerManager().removePlayer(userName);
         }
+        Player player = new Player(userName);
         player.setChannel(channel);
-        gameManager.addPlayer(player);
+        if (!gameManager.getPlayerCurrentRoom(player).isPresent()) {
+            gameManager.placePlayerInLobby(player);
+        }
+        gameManager.getPlayerManager().addPlayer(player);
         return true;
     }
 }
