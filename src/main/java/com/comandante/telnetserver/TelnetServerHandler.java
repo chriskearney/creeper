@@ -1,10 +1,10 @@
 package com.comandante.telnetserver;
 
 import com.comandante.GameAuthenticator;
+import com.comandante.GameManager;
 import com.comandante.Movement;
 import com.comandante.Player;
 import com.comandante.Room;
-import com.comandante.RoomManager;
 import com.google.common.base.Optional;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelEvent;
@@ -17,11 +17,11 @@ import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 public class TelnetServerHandler extends SimpleChannelUpstreamHandler {
 
     GameAuthenticator gameAuthenticator;
-    RoomManager roomManager;
+    GameManager gameManager;
 
-    public TelnetServerHandler(GameAuthenticator gameAuthenticator, RoomManager roomManager) {
+    public TelnetServerHandler(GameAuthenticator gameAuthenticator, GameManager gameManager) {
         this.gameAuthenticator = gameAuthenticator;
-        this.roomManager = roomManager;
+        this.gameManager = gameManager;
     }
 
     @Override
@@ -44,14 +44,13 @@ public class TelnetServerHandler extends SimpleChannelUpstreamHandler {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws InterruptedException {
         TelnetServerAuthState telnetServerAuthState = (TelnetServerAuthState) ctx.getAttachment();
-        if(!telnetServerAuthState.isAuthed()) {
+        if (!telnetServerAuthState.isAuthed()) {
             doAuthentication(ctx, e);
             if (telnetServerAuthState.isAuthed()) {
                 currentRoomLogic(ctx, e);
             }
         } else {
             processCommand(ctx, e);
-            currentRoomLogic(ctx, e);
         }
 
     }
@@ -59,28 +58,59 @@ public class TelnetServerHandler extends SimpleChannelUpstreamHandler {
     private void processCommand(ChannelHandlerContext ctx, MessageEvent e) throws InterruptedException {
         String command = (String) e.getMessage();
         TelnetServerAuthState telnetServerAuthState = (TelnetServerAuthState) ctx.getAttachment();
-        Player player = roomManager.getPlayer(new Player(telnetServerAuthState.getUsername().get()));
-        Room room = roomManager.getPlayerCurrentRoom(player).get();
+        Player player = gameManager.getPlayer(new Player(telnetServerAuthState.getUsername().get()));
+        Room room = gameManager.getPlayerCurrentRoom(player).get();
         if (command.equals("n")) {
             if (room.getNorthId().isPresent()) {
-                Movement movement = new Movement(player, room.getRoomId(), room.getNorthId().get());
-                roomManager._processMovment(movement);
+                Movement movement = new Movement(player, room.getRoomId(), room.getNorthId().get(), command);
+                gameManager.movePlayer(movement);
+                currentRoomLogic(ctx, e);
             } else {
                 e.getChannel().write("There's no northern exit.\r\n");
             }
         }
         if (command.equals("s")) {
             if (room.getSouthId().isPresent()) {
-                Movement movement = new Movement(player, room.getRoomId(), room.getSouthId().get());
-                roomManager._processMovment(movement);
+                Movement movement = new Movement(player, room.getRoomId(), room.getSouthId().get(), command);
+                gameManager.movePlayer(movement);
+                currentRoomLogic(ctx, e);
             } else {
                 e.getChannel().write("There's no southern exit.\r\n");
             }
         }
+        if (command.equals("e")) {
+            if (room.getSouthId().isPresent()) {
+                Movement movement = new Movement(player, room.getRoomId(), room.getEastId().get(), command);
+                gameManager.movePlayer(movement);
+                currentRoomLogic(ctx, e);
+            } else {
+                e.getChannel().write("There's no eastern exit.\r\n");
+            }
+        }
+        if (command.equals("w")) {
+            if (room.getSouthId().isPresent()) {
+                Movement movement = new Movement(player, room.getRoomId(), room.getWestId().get(), command);
+                gameManager.movePlayer(movement);
+                currentRoomLogic(ctx, e);
+            } else {
+                e.getChannel().write("There's no western exit.\r\n");
+            }
+        }
+        if (command.startsWith("say ")) {
+            String s = command.replaceFirst("^say ", "");
+            gameManager.say(player, s);
+        }
+        if (command.startsWith("gossip ")) {
+            String s = command.replaceFirst("^gossip ", "");
+            gameManager.gossip(player, s);
+        }
+        if (command.isEmpty()) {
+            currentRoomLogic(ctx, e);
+        }
     }
 
     private void printExits(Room room, Channel channel) {
-        channel.write("Exits: ");
+        channel.write("-exits: ");
         if (room.getEastId().isPresent()) {
             channel.write("e(ast) ");
         }
@@ -99,12 +129,18 @@ public class TelnetServerHandler extends SimpleChannelUpstreamHandler {
     private void currentRoomLogic(ChannelHandlerContext ctx, MessageEvent e) {
         TelnetServerAuthState telnetServerAuthState = (TelnetServerAuthState) ctx.getAttachment();
         Player player = new Player(telnetServerAuthState.getUsername().get());
-        Optional<Room> playerCurrentRoom = roomManager.getPlayerCurrentRoom(player);
+        Optional<Room> playerCurrentRoom = gameManager.getPlayerCurrentRoom(player);
         if (!playerCurrentRoom.isPresent()) {
-            roomManager.addPlayerToLobby(roomManager.getPlayer(player));
-            playerCurrentRoom = roomManager.getPlayerCurrentRoom(player);
+            gameManager.addPlayerToLobby(gameManager.getPlayer(player));
+            playerCurrentRoom = gameManager.getPlayerCurrentRoom(player);
         }
         e.getChannel().write(playerCurrentRoom.get().getRoomDescription() + "\r\n");
+        for (Player next : playerCurrentRoom.get().getPresentPlayers()) {
+            if (next.getPlayerId().equals(new Player(telnetServerAuthState.getUsername().get()).getPlayerId())) {
+                continue;
+            }
+            e.getChannel().write(next.getPlayerName() + " is here.\r\n");
+        }
         printExits(playerCurrentRoom.get(), e.getChannel());
     }
 

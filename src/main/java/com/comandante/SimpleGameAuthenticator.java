@@ -7,16 +7,17 @@ import java.util.Map;
 
 public class SimpleGameAuthenticator implements GameAuthenticator {
 
-    RoomManager roomManager;
+    GameManager gameManager;
 
-    public SimpleGameAuthenticator(RoomManager roomManager) {
-        this.roomManager = roomManager;
+    public SimpleGameAuthenticator(GameManager gameManager) {
+        this.gameManager = gameManager;
     }
 
     private static final Map<String, String> userMap;
     static {
         userMap = new HashMap<String, String>();
         userMap.put("chris", "poop");
+        userMap.put("brian", "poop");
     }
 
     @Override
@@ -29,11 +30,11 @@ public class SimpleGameAuthenticator implements GameAuthenticator {
             return false;
         }
         Player player = new Player(userName);
-        if (roomManager.doesPlayerExist(player)) {
-            roomManager.removePlayer(player);
+        if (gameManager.doesPlayerExist(player)) {
+            gameManager.removePlayer(player);
         }
         player.setChannel(channel);
-        roomManager.addPlayer(player);
+        gameManager.addPlayer(player);
         return true;
     }
 }

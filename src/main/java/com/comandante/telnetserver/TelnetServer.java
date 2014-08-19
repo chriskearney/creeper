@@ -1,7 +1,7 @@
 package com.comandante.telnetserver;
 
 
-import com.comandante.RoomManager;
+import com.comandante.GameManager;
 import com.comandante.SimpleGameAuthenticator;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
@@ -17,10 +17,10 @@ public class TelnetServer {
         this.port = port;
     }
 
-    public void run(RoomManager roomManager) throws Exception {
+    public void run(GameManager gameManager) throws Exception {
         ServerBootstrap bootstrap = new ServerBootstrap(new NioServerSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
 
-        TelnetServerHandler handler = new TelnetServerHandler(new SimpleGameAuthenticator(roomManager), roomManager);
+        TelnetServerHandler handler = new TelnetServerHandler(new SimpleGameAuthenticator(gameManager), gameManager);
         bootstrap.setPipelineFactory(new TelnetServerPipelineFactory(handler));
         bootstrap.bind(new InetSocketAddress(8080));
 

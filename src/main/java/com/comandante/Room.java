@@ -3,10 +3,13 @@ package com.comandante;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import org.fusesource.jansi.Ansi;
 
 import java.util.Set;
 
 public class Room {
+
+    Ansi roomDescriptionText = new Ansi().fg(Ansi.Color.GREEN);
 
     public Integer roomId;
     public Optional<Integer> northId;
@@ -38,7 +41,7 @@ public class Room {
     }
 
     public String getRoomDescription() {
-        return roomDescription;
+        return new Ansi().fg(Ansi.Color.GREEN).render(roomDescription).toString() + new Ansi().reset().toString();
     }
 
     public Integer getRoomId() {
