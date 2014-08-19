@@ -1,4 +1,4 @@
-package com.comandante.server;
+package com.comandante.creeper.server;
 
 
 import org.jboss.netty.channel.ChannelHandler;

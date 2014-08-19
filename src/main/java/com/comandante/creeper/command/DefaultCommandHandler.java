@@ -1,12 +1,12 @@
-package com.comandante.command;
+package com.comandante.creeper.command;
 
 
-import com.comandante.managers.MovementManager;
-import com.comandante.model.Movement;
-import com.comandante.managers.GameManager;
-import com.comandante.model.Player;
-import com.comandante.model.Room;
-import com.comandante.server.CreeperSession;
+import com.comandante.creeper.managers.MovementManager;
+import com.comandante.creeper.model.Movement;
+import com.comandante.creeper.managers.GameManager;
+import com.comandante.creeper.model.Player;
+import com.comandante.creeper.model.Room;
+import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
 import org.jboss.netty.channel.MessageEvent;
 

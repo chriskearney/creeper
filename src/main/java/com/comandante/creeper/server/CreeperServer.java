@@ -1,7 +1,7 @@
-package com.comandante.server;
+package com.comandante.creeper.server;
 
 
-import com.comandante.managers.GameManager;
+import com.comandante.creeper.managers.GameManager;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 

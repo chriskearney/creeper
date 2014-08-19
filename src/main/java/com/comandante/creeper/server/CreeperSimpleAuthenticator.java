@@ -1,7 +1,7 @@
-package com.comandante.server;
+package com.comandante.creeper.server;
 
-import com.comandante.managers.GameManager;
-import com.comandante.model.Player;
+import com.comandante.creeper.managers.GameManager;
+import com.comandante.creeper.model.Player;
 import org.jboss.netty.channel.Channel;
 
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.comandante.model;
+package com.comandante.creeper.model;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;

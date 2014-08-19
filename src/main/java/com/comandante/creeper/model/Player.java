@@ -1,4 +1,4 @@
-package com.comandante.model;
+package com.comandante.creeper.model;
 
 
 import org.apache.commons.codec.binary.Base64;

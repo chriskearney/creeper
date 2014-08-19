@@ -1,7 +1,7 @@
-package com.comandante.managers;
+package com.comandante.creeper.managers;
 
 
-import com.comandante.model.Player;
+import com.comandante.creeper.model.Player;
 import org.apache.commons.codec.binary.Base64;
 
 import java.util.Iterator;

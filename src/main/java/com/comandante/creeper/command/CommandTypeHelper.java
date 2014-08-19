@@ -1,4 +1,4 @@
-package com.comandante.command;
+package com.comandante.creeper.command;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterators;

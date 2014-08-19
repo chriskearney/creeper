@@ -1,9 +1,9 @@
-package com.comandante.managers;
+package com.comandante.creeper.managers;
 
-import com.comandante.command.CommandType;
-import com.comandante.model.Movement;
-import com.comandante.model.Player;
-import com.comandante.model.Room;
+import com.comandante.creeper.command.CommandType;
+import com.comandante.creeper.model.Movement;
+import com.comandante.creeper.model.Player;
+import com.comandante.creeper.model.Room;
 import com.google.common.base.Optional;
 import org.jboss.netty.channel.MessageEvent;
 
@@ -35,7 +35,7 @@ public class MovementManager {
         return Optional.of(
                 new Movement(player, currentRoom.getRoomId(), currentRoom.getEastId().get(), cmdType));
     }
-    
+
     public static Optional<Movement> moveWest(CommandType cmdType, Player player, Room currentRoom, MessageEvent event) {
         if (!currentRoom.getWestId().isPresent()) {
             event.getChannel().write("There's no western exit.\r\n");

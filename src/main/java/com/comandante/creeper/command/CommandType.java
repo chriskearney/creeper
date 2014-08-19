@@ -1,4 +1,4 @@
-package com.comandante.command;
+package com.comandante.creeper.command;
 
 import java.util.Set;
 

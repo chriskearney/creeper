@@ -1,10 +1,10 @@
-package com.comandante.managers;
+package com.comandante.creeper.managers;
 
 
-import com.comandante.model.Movement;
-import com.comandante.model.Player;
-import com.comandante.model.Room;
-import com.comandante.server.CreeperSession;
+import com.comandante.creeper.model.Movement;
+import com.comandante.creeper.model.Player;
+import com.comandante.creeper.model.Room;
+import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
 import com.google.common.collect.Interners;
 import org.fusesource.jansi.Ansi;
@@ -16,6 +16,16 @@ import java.util.Map;
 import java.util.Set;
 
 public class GameManager {
+
+    public static String LOGO =
+            " ██████╗██████╗ ███████╗███████╗██████╗ ███████╗██████╗ \r\n" +
+            "██╔════╝██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔══██╗\r\n" +
+            "██║     ██████╔╝█████╗  █████╗  ██████╔╝█████╗  ██████╔╝\r\n" +
+            "██║     ██╔══██╗██╔══╝  ██╔══╝  ██╔═══╝ ██╔══╝  ██╔══██╗\r\n" +
+            "╚██████╗██║  ██║███████╗███████╗██║     ███████╗██║  ██║\r\n" +
+            " ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝";
+
+    public static String VERSION = "1.0-SNAPSHOT";
 
     private final RoomManager roomManager;
     private final PlayerManager playerManager;
@@ -107,20 +117,23 @@ public class GameManager {
     }
 
     private void printExits(Room room, Channel channel) {
-        channel.write("-exits: ");
-        if (room.getEastId().isPresent()) {
-            channel.write("e(ast) ");
-        }
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("move: ");
+        stringBuilder.append(new Ansi().fg(Ansi.Color.BLUE).toString());
         if (room.getNorthId().isPresent()) {
-            channel.write("n(orth) ");
+            stringBuilder.append("north ");
         }
         if (room.getSouthId().isPresent()) {
-            channel.write("s(outh). ");
+            stringBuilder.append("south ");
+        }
+        if (room.getEastId().isPresent()) {
+            stringBuilder.append("east ");
         }
         if (room.getWestId().isPresent()) {
-            channel.write("w(est). ");
+            stringBuilder.append("west ");
         }
-        channel.write("\r\n");
+        stringBuilder.append(new Ansi().reset().toString());
+        channel.write(stringBuilder.toString() + "\r\n");
     }
 
     public void currentRoomLogic(CreeperSession creeperSession, MessageEvent e) {

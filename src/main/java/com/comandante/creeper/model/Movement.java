@@ -1,6 +1,6 @@
-package com.comandante.model;
+package com.comandante.creeper.model;
 
-import com.comandante.command.CommandType;
+import com.comandante.creeper.command.CommandType;
 
 public class Movement {
 

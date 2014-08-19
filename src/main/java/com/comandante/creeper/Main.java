@@ -1,10 +1,10 @@
-package com.comandante;
+package com.comandante.creeper;
 
-import com.comandante.managers.GameManager;
-import com.comandante.managers.PlayerManager;
-import com.comandante.managers.RoomManager;
-import com.comandante.model.Room;
-import com.comandante.server.CreeperServer;
+import com.comandante.creeper.managers.GameManager;
+import com.comandante.creeper.managers.PlayerManager;
+import com.comandante.creeper.managers.RoomManager;
+import com.comandante.creeper.model.Room;
+import com.comandante.creeper.server.CreeperServer;
 import com.google.common.base.Optional;
 
 public class Main {

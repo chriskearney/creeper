@@ -1,6 +1,6 @@
-package com.comandante.managers;
+package com.comandante.creeper.managers;
 
-import com.comandante.model.Room;
+import com.comandante.creeper.model.Room;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
