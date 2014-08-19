@@ -58,7 +58,7 @@ public class DefaultCommandHandler {
     }
 
     private Player _player() {
-        return gameManager.getPlayerManager().getPlayer(creeperSession.getUsername().get());
+        return gameManager.getPlayerManager().getPlayerByUsername(creeperSession.getUsername().get());
     }
 
     private Room _currentRoom() {

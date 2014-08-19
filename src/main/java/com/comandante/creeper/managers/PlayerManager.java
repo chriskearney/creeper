@@ -15,12 +15,12 @@ public class PlayerManager {
         return players.putIfAbsent(player.getPlayerId(), player);
     }
 
-    public Player getPlayer(Player player) {
-        return players.get(player.getPlayerId());
+    public Player getPlayerByUsername(String username) {
+        return getPlayer(new String(Base64.encodeBase64(username.getBytes())));
     }
 
-    public Player getPlayer(String username) {
-        return players.get(new String(Base64.encodeBase64(username.getBytes())));
+    public Player getPlayer(String playerId) {
+        return players.get(playerId);
     }
 
     public Iterator<java.util.Map.Entry<String, Player>> getPlayers() {
@@ -28,14 +28,14 @@ public class PlayerManager {
     }
 
     public void removePlayer(String username) {
-        Player player = getPlayer(username);
+        Player player = getPlayerByUsername(username);
         if (player.getChannel() != null) {
             player.getChannel().disconnect();
         }
-        players.remove(player);
+        players.remove(player.getPlayerId());
     }
 
     public boolean doesPlayerExist(String username) {
-       return players.containsKey(Base64.encodeBase64(username.getBytes()));
+       return players.containsKey(new String(Base64.encodeBase64(username.getBytes())));
     }
 }

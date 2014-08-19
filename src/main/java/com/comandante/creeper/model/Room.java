@@ -1,7 +1,6 @@
 package com.comandante.creeper.model;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import org.fusesource.jansi.Ansi;
 
@@ -17,7 +16,7 @@ public class Room {
     public Optional<Integer> eastId;
     public Optional<Integer> southId;
     public String roomDescription;
-    private Set<Player> presentPlayers = Sets.<Player>newConcurrentHashSet();
+    private Set<String> presentPlayerIds = Sets.<String>newConcurrentHashSet();
 
     public Room(Integer roomId, Optional<Integer> northId, Optional<Integer> westId, Optional<Integer> eastId, Optional<Integer> southId, String roomDescription) {
         this.roomId = roomId;
@@ -28,16 +27,16 @@ public class Room {
         this.roomDescription = roomDescription;
     }
 
-    public java.util.Set<Player> getPresentPlayers()  {
-        return ImmutableSet.<Player>builder().addAll(presentPlayers.iterator()).build();
+    public java.util.Set<String> getPresentPlayerIds()  {
+        return presentPlayerIds;
     }
 
-    public void addPresentPlayer(Player player) {
-        presentPlayers.add(player);
+    public void addPresentPlayer(String playerId) {
+        presentPlayerIds.add(playerId);
     }
 
-    public void removePresentPlayer(Player player) {
-        presentPlayers.remove(player);
+    public void removePresentPlayer(String playerId) {
+        presentPlayerIds.remove(playerId);
     }
 
     public String getRoomDescription() {
