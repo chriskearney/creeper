@@ -1,0 +1,8 @@
+target
+*.swp
+*.iml
+*.ipr
+*.iws
+*.pyc
+*.bak
+.idea/
