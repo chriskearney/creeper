@@ -11,13 +11,16 @@ public class Main {
                 "This is the lobby. It's pretty empty and the paint still smells fresh.");
         Room hallway = new Room(2, Optional.of(3), Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.of(1),
                 "This is the hallway. It's long and hallway-ish with exposed wires and floorboards showing.");
-        Room bedroom = new Room(3, Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.of(2),
-                "This is the bedroom.  It's for sleeping.");
+        Room intake = new Room(3, Optional.<Integer>absent(), Optional.of(6), Optional.<Integer>absent(), Optional.of(2),
+                "This is the intake area.  People are lined up like cattle waiting to be prodded.");
+        Room janitorialCloset = new Room(6, Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.of(3), Optional.<Integer>absent(),
+                "You find yourself in the janitorial closet.  It smells like bleach.");
 
         GameManager gameManager = new GameManager();
         gameManager.addRoom(lobby);
         gameManager.addRoom(hallway);
-        gameManager.addRoom(bedroom);
+        gameManager.addRoom(intake);
+        gameManager.addRoom(janitorialCloset);
 
         Ansi ansi = new Ansi();
         ansi.fg(Ansi.Color.RED);

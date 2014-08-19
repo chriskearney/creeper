@@ -79,7 +79,7 @@ public class TelnetServerHandler extends SimpleChannelUpstreamHandler {
             }
         }
         if (command.equals("e")) {
-            if (room.getSouthId().isPresent()) {
+            if (room.getEastId().isPresent()) {
                 Movement movement = new Movement(player, room.getRoomId(), room.getEastId().get(), command);
                 gameManager.movePlayer(movement);
                 currentRoomLogic(ctx, e);
