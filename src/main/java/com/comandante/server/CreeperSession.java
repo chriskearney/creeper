@@ -2,7 +2,7 @@ package com.comandante.server;
 
 import com.google.common.base.Optional;
 
-public class CreeperSessionState {
+public class CreeperSession {
 
     private Optional<String> username = Optional.absent();
     private Optional<String> password = Optional.absent();

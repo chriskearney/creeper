@@ -1,89 +1,64 @@
 package com.comandante.command;
 
 
+import com.comandante.managers.MovementManager;
 import com.comandante.model.Movement;
 import com.comandante.managers.GameManager;
 import com.comandante.model.Player;
 import com.comandante.model.Room;
-import com.comandante.server.CreeperSessionState;
+import com.comandante.server.CreeperSession;
 import com.google.common.base.Optional;
 import org.jboss.netty.channel.MessageEvent;
 
 public class DefaultCommandHandler {
 
     GameManager gameManager;
-    CreeperSessionState creeperSessionState;
+    CreeperSession creeperSession;
     MessageEvent event;
 
-    public DefaultCommandHandler(GameManager gameManager, CreeperSessionState creeperSessionState, MessageEvent event) {
+    public DefaultCommandHandler(GameManager gameManager, CreeperSession creeperSession, MessageEvent event) {
         this.gameManager = gameManager;
-        this.creeperSessionState = creeperSessionState;
+        this.creeperSession = creeperSession;
         this.event = event;
     }
 
     public void handle(DefaultCommandType cmdType) {
         final String originalMessage = cmdType.getOriginalMessage();
         final Player player = _player();
-        Optional<Movement> movementOptional = Optional.absent();
-        Room currentRoom = null;
+        Optional<Movement> movement = Optional.absent();
 
         switch(cmdType) {
             case MOVE_NORTH:
-                currentRoom = _currentRoom();
-                if (!currentRoom.getNorthId().isPresent()) {
-                    event.getChannel().write("There's no northern exit.\r\n");
-                    break;
-                }
-                movementOptional = Optional.of(
-                        new Movement(player, currentRoom.getRoomId(), currentRoom.getNorthId().get(), cmdType));
+                movement = MovementManager.moveNorth(cmdType, player, _currentRoom(), event);
                 break;
             case MOVE_SOUTH:
-                currentRoom = _currentRoom();
-                if (!currentRoom.getSouthId().isPresent()) {
-                    event.getChannel().write("There's no southern exit.\r\n");
-                    break;
-                }
-                movementOptional = Optional.of(
-                        new Movement(player, currentRoom.getRoomId(), currentRoom.getSouthId().get(), cmdType));
+                movement = MovementManager.moveSouth(cmdType, player, _currentRoom(), event);
                 break;
             case MOVE_EAST:
-                currentRoom = _currentRoom();
-                if (!currentRoom.getEastId().isPresent()) {
-                    event.getChannel().write("There's no eastern exit.\r\n");
-                    break;
-                }
-                movementOptional = Optional.of(
-                        new Movement(player, currentRoom.getRoomId(), currentRoom.getEastId().get(), cmdType));
+                movement = MovementManager.moveEast(cmdType, player, _currentRoom(), event);
                 break;
             case MOVE_WEST:
-                currentRoom = _currentRoom();
-                if (!currentRoom.getWestId().isPresent()) {
-                    event.getChannel().write("There's no western exit.\r\n");
-                    break;
-                }
-                movementOptional = Optional.of(
-                        new Movement(player, currentRoom.getRoomId(), currentRoom.getWestId().get(), cmdType));
+                movement = MovementManager.moveWest(cmdType, player, _currentRoom(), event);
                 break;
             case SAY:
                 gameManager.say(player, originalMessage.replaceFirst("^say ", ""));
                 break;
             case GOSSIP:
-                String s = originalMessage.replaceFirst("^gossip ", "");
-                gameManager.gossip(player, s);
+                gameManager.gossip(player, originalMessage.replaceFirst("^gossip ", ""));
                 break;
             case UNKNOWN:
-                gameManager.currentRoomLogic(creeperSessionState, event);
+                gameManager.currentRoomLogic(creeperSession, event);
                 break;
         }
 
-        if (movementOptional.isPresent()) {
-            gameManager.movePlayer(movementOptional.get());
-            gameManager.currentRoomLogic(creeperSessionState, event);
+        if (movement.isPresent()) {
+            gameManager.movePlayer(movement.get());
+            gameManager.currentRoomLogic(creeperSession, event);
         }
     }
 
     private Player _player() {
-        return gameManager.getPlayerManager().getPlayer(creeperSessionState.getUsername().get());
+        return gameManager.getPlayerManager().getPlayer(creeperSession.getUsername().get());
     }
 
     private Room _currentRoom() {

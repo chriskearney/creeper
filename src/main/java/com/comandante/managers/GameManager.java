@@ -4,7 +4,7 @@ package com.comandante.managers;
 import com.comandante.model.Movement;
 import com.comandante.model.Player;
 import com.comandante.model.Room;
-import com.comandante.server.CreeperSessionState;
+import com.comandante.server.CreeperSession;
 import com.google.common.base.Optional;
 import com.google.common.collect.Interners;
 import org.fusesource.jansi.Ansi;
@@ -123,12 +123,12 @@ public class GameManager {
         channel.write("\r\n");
     }
 
-    public void currentRoomLogic(CreeperSessionState creeperSessionState, MessageEvent e) {
-        final Player player = playerManager.getPlayer(creeperSessionState.getUsername().get());
+    public void currentRoomLogic(CreeperSession creeperSession, MessageEvent e) {
+        final Player player = playerManager.getPlayer(creeperSession.getUsername().get());
         final Room playerCurrentRoom = getPlayerCurrentRoom(player).get();
         e.getChannel().write(playerCurrentRoom.getRoomDescription() + "\r\n");
         for (Player next : playerCurrentRoom.getPresentPlayers()) {
-            if (next.getPlayerId().equals(new Player(creeperSessionState.getUsername().get()).getPlayerId())) {
+            if (next.getPlayerId().equals(new Player(creeperSession.getUsername().get()).getPlayerId())) {
                 continue;
             }
             e.getChannel().write(next.getPlayerName() + " is here.\r\n");

@@ -33,21 +33,21 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
     public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         // Send greeting for a new connection.
         e.getChannel().write("username: ");
-        CreeperSessionState creeperSessionState = new CreeperSessionState();
-        creeperSessionState.setState(CreeperSessionState.State.promptedForUsername);
-        ctx.setAttachment(creeperSessionState);
+        CreeperSession creeperSession = new CreeperSession();
+        creeperSession.setState(CreeperSession.State.promptedForUsername);
+        ctx.setAttachment(creeperSession);
     }
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws InterruptedException {
-        CreeperSessionState creeperSessionState = (CreeperSessionState) ctx.getAttachment();
-        if (!creeperSessionState.isAuthed()) {
+        CreeperSession creeperSession = (CreeperSession) ctx.getAttachment();
+        if (!creeperSession.isAuthed()) {
             doAuthentication(ctx, e);
-            if (creeperSessionState.isAuthed()) {
-                gameManager.currentRoomLogic(creeperSessionState, e);
+            if (creeperSession.isAuthed()) {
+                gameManager.currentRoomLogic(creeperSession, e);
             }
         } else {
-            DefaultCommandHandler cmdHandler = new DefaultCommandHandler(gameManager, creeperSessionState, e);
+            DefaultCommandHandler cmdHandler = new DefaultCommandHandler(gameManager, creeperSession, e);
             DefaultCommandType cmdType =
                     (DefaultCommandType) DefaultCommandType.getCommandTypeFromMessage(((String) e.getMessage()));
             cmdHandler.handle(cmdType);
@@ -56,24 +56,24 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
 
     private void doAuthentication(ChannelHandlerContext ctx, MessageEvent e) {
         String message = (String) e.getMessage();
-        CreeperSessionState creeperSessionState = (CreeperSessionState) ctx.getAttachment();
-        if (creeperSessionState.getState().equals(CreeperSessionState.State.promptedForUsername)) {
-            creeperSessionState.setUsername(Optional.of(message));
-            creeperSessionState.setState(CreeperSessionState.State.promptedForPassword);
+        CreeperSession creeperSession = (CreeperSession) ctx.getAttachment();
+        if (creeperSession.getState().equals(CreeperSession.State.promptedForUsername)) {
+            creeperSession.setUsername(Optional.of(message));
+            creeperSession.setState(CreeperSession.State.promptedForPassword);
             e.getChannel().write("password: ");
             return;
         }
-        if (creeperSessionState.getState().equals(CreeperSessionState.State.promptedForPassword)) {
-            creeperSessionState.setPassword(Optional.of(message));
+        if (creeperSession.getState().equals(CreeperSession.State.promptedForPassword)) {
+            creeperSession.setPassword(Optional.of(message));
         }
-        boolean b = creeperAuthenticator.authenticateAndRegisterPlayer(creeperSessionState.getUsername().get(), creeperSessionState.getPassword().get(), e.getChannel());
+        boolean b = creeperAuthenticator.authenticateAndRegisterPlayer(creeperSession.getUsername().get(), creeperSession.getPassword().get(), e.getChannel());
         if (!b) {
             e.getChannel().write("Auth failed.\r\n");
             e.getChannel().write("username: ");
-            creeperSessionState.setState(CreeperSessionState.State.promptedForUsername);
+            creeperSession.setState(CreeperSession.State.promptedForUsername);
         } else {
-            creeperSessionState.setAuthed(true);
-            creeperSessionState.setState(CreeperSessionState.State.authed);
+            creeperSession.setAuthed(true);
+            creeperSession.setState(CreeperSession.State.authed);
             e.getChannel().write("Welcome to bertha.\r\n");
         }
     }
