@@ -46,6 +46,8 @@ public class DefaultCommandHandler {
             case GOSSIP:
                 gameManager.gossip(player, originalMessage.replaceFirst("^gossip ", ""));
                 break;
+            case WHO:
+                gameManager.who(player);
             case UNKNOWN:
                 gameManager.currentRoomLogic(creeperSession, event);
                 break;

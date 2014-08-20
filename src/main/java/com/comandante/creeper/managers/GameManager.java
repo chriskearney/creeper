@@ -70,6 +70,32 @@ public class GameManager {
         return ImmutableSet.copyOf(players);
     }
 
+    public void who(Player player) {
+        Set<Player> allPlayers = getAllPlayers();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(new Ansi().fg(Ansi.Color.CYAN).toString());
+        stringBuilder.append("User\r\n----\r\n");
+        for (Player allPlayer: allPlayers) {
+            stringBuilder.append(allPlayer.getPlayerName()).append("\r\n");
+        }
+        stringBuilder.append(new Ansi().reset().toString());
+        player.getChannel().write(stringBuilder.toString() + "\r\n");
+    }
+
+    public Set<Player> getAllPlayers() {
+        ImmutableSet.Builder<Player> builder = ImmutableSet.builder();
+        Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
+        while (rooms.hasNext()) {
+            Map.Entry<Integer, Room> next = rooms.next();
+            Room room = next.getValue();
+            Set<Player> presentPlayers = getPresentPlayers(room);
+            for (Player player: presentPlayers) {
+                builder.add(player);
+            }
+        }
+        return builder.build();
+    }
+
     public void movePlayer(Movement movement) {
         synchronized (Interners.newStrongInterner()) {
             Room sourceRoom = roomManager.getRoom(movement.getSourceRoomId());

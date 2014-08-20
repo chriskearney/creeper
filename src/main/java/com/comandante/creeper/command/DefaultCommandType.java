@@ -12,7 +12,8 @@ public enum DefaultCommandType implements CommandType {
     MOVE_WEST(new HashSet<String>(Arrays.asList("w", "West")), false, "Move west."),
     SAY(new HashSet<String>(Arrays.asList("say")), true, "Say something to the current room."),
     GOSSIP(new HashSet<String>(Arrays.asList("gossip")), true, "Gossip to the entire server."),
-    UNKNOWN(new HashSet<String>(Arrays.asList("gossip")), true, "Gossip to the entire server.");
+    WHO(new HashSet<String>(Arrays.asList("who")), true, "List who is logged into the server."),
+    UNKNOWN(new HashSet<String>(Arrays.asList("")), true, "");
 
     private Set<String> validCommandTriggers;
     private boolean caseSensitive;

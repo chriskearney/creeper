@@ -20,10 +20,7 @@ public class CreeperSimpleAuthenticator implements CreeperAuthenticator {
         userMap = new HashMap<String, String>();
         userMap.put("chris", "poop");
         userMap.put("brian", "poop");
-        userMap.put("test1", "poop");
-        userMap.put("test2", "poop");
-        userMap.put("test3", "poop");
-        userMap.put("test4", "poop");
+        userMap.put("sean", "poop");
     }
 
     @Override
