@@ -9,10 +9,13 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interners;
 import com.google.common.collect.Sets;
+import org.apache.commons.lang3.StringUtils;
 import org.fusesource.jansi.Ansi;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.MessageEvent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -74,12 +77,50 @@ public class GameManager {
         Set<Player> allPlayers = getAllPlayers();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(new Ansi().fg(Ansi.Color.CYAN).toString());
-        stringBuilder.append("User\r\n----\r\n");
+        stringBuilder.append("----------------------\r\n");
+        stringBuilder.append("|--active users------|\r\n");
+        stringBuilder.append("----------------------\r\n");
         for (Player allPlayer: allPlayers) {
             stringBuilder.append(allPlayer.getPlayerName()).append("\r\n");
         }
         stringBuilder.append(new Ansi().reset().toString());
         player.getChannel().write(stringBuilder.toString() + "\r\n");
+    }
+
+    public void tell(Player sourcePlayer, String rawMessage) {
+        ArrayList<String> parts = new ArrayList<>(Arrays.asList(rawMessage.split(" ")));
+        if (parts.size() < 3) {
+            sourcePlayer.getChannel().write(("tell failed, no message to send.\r\n"));
+            return;
+        }
+        //remove the literal 'tell'
+        parts.remove(0);
+        String destinationUsername = parts.get(0);
+        Player desintationPlayer = getPlayerManager().getPlayerByUsername(destinationUsername);
+        if (desintationPlayer == null) {
+            sourcePlayer.getChannel().write(("tell failed, unknown user.\r\n"));
+            return;
+        }
+        if (desintationPlayer.getPlayerId().equals(sourcePlayer.getPlayerId())) {
+            sourcePlayer.getChannel().write(("tell failed, you're talking to yourself.\r\n"));
+            return;
+        }
+        parts.remove(0);
+
+        String tellMessage = StringUtils.join(parts, " ");
+        privateMessage(sourcePlayer, desintationPlayer, tellMessage);
+
+    }
+
+    private void privateMessage(Player sourcePlayer, Player destinationPlayer, String message) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String sourcePlayerColor = new Ansi().fg(Ansi.Color.WHITE).toString();
+        String destinationPlayercolor = new Ansi().fg(Ansi.Color.YELLOW).toString();
+        stringBuilder.append("*").append(sourcePlayer.getPlayerName()).append("* ");
+        stringBuilder.append(message);
+        stringBuilder.append(new Ansi().reset().toString());
+        destinationPlayer.getChannel().write(destinationPlayercolor + stringBuilder.toString() + "\r\n");
+        sourcePlayer.getChannel().write(sourcePlayerColor + stringBuilder.toString() + "\r\n");
     }
 
     public Set<Player> getAllPlayers() {
@@ -89,11 +130,18 @@ public class GameManager {
             Map.Entry<Integer, Room> next = rooms.next();
             Room room = next.getValue();
             Set<Player> presentPlayers = getPresentPlayers(room);
-            for (Player player: presentPlayers) {
+            for (Player player : presentPlayers) {
                 builder.add(player);
             }
         }
         return builder.build();
+    }
+
+    public void setPlayerAfk(String username) {
+        Player playerByUsername = playerManager.getPlayerByUsername(username);
+        Optional<Room> playerCurrentRoom = getPlayerCurrentRoom(playerByUsername);
+        playerCurrentRoom.get().getPresentPlayerIds().remove(playerByUsername.getPlayerId());
+        playerCurrentRoom.get().addAfkPlayer(playerByUsername.getPlayerId());
     }
 
     public void movePlayer(Movement movement) {
@@ -112,7 +160,14 @@ public class GameManager {
     }
 
     public void placePlayerInLobby(Player player) {
-        roomManager.getRoom(LOBBY_ID).addPresentPlayer(player.getPlayerId());
+        Room room = roomManager.getRoom(LOBBY_ID);
+        room.addPresentPlayer(player.getPlayerId());
+        for (Player next : getPresentPlayers(room)) {
+            if (next.getPlayerId().equals(player.getPlayerId())) {
+                continue;
+            }
+            next.getChannel().write(player.getPlayerName() + " arrived.\r\n");
+        }
     }
 
     public void say(Player sourcePlayer, String message) {

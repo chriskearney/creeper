@@ -17,6 +17,7 @@ public class Room {
     public Optional<Integer> southId;
     public String roomDescription;
     private Set<String> presentPlayerIds = Sets.<String>newConcurrentHashSet();
+    private Set<String> afkPlayerIds = Sets.<String>newConcurrentHashSet();
 
     public Room(Integer roomId, Optional<Integer> northId, Optional<Integer> westId, Optional<Integer> eastId, Optional<Integer> southId, String roomDescription) {
         this.roomId = roomId;
@@ -31,12 +32,24 @@ public class Room {
         return presentPlayerIds;
     }
 
+    public Set<String> getAfkPlayerIds() {
+        return afkPlayerIds;
+    }
+
     public void addPresentPlayer(String playerId) {
         presentPlayerIds.add(playerId);
     }
 
     public void removePresentPlayer(String playerId) {
         presentPlayerIds.remove(playerId);
+    }
+
+    public void addAfkPlayer(String playerId) {
+        afkPlayerIds.add(playerId);
+    }
+
+    public void removeAfkPlayer(String playerId) {
+        afkPlayerIds.remove(playerId);
     }
 
     public String getRoomDescription() {

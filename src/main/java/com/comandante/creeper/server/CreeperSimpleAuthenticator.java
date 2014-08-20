@@ -37,10 +37,10 @@ public class CreeperSimpleAuthenticator implements CreeperAuthenticator {
         }
         Player player = new Player(userName);
         player.setChannel(channel);
+        gameManager.getPlayerManager().addPlayer(player);
         if (!gameManager.getPlayerCurrentRoom(player).isPresent()) {
             gameManager.placePlayerInLobby(player);
         }
-        gameManager.getPlayerManager().addPlayer(player);
         return true;
     }
 }

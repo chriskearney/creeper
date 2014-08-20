@@ -43,11 +43,18 @@ public class DefaultCommandHandler {
             case SAY:
                 gameManager.say(player, originalMessage.replaceFirst("^say ", ""));
                 break;
+            case TELL:
+                gameManager.tell(player, originalMessage);
+                break;
             case GOSSIP:
                 gameManager.gossip(player, originalMessage.replaceFirst("^gossip ", ""));
                 break;
             case WHO:
                 gameManager.who(player);
+                break;
+            case WHOAMI:
+                player.getChannel().write(player.getPlayerName() + "\r\n");
+                break;
             case UNKNOWN:
                 gameManager.currentRoomLogic(creeperSession, event);
                 break;

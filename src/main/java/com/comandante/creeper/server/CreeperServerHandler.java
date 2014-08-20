@@ -82,6 +82,9 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
     public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
         e.getCause().printStackTrace();
         e.getChannel().close();
+        CreeperSession creeperSession = (CreeperSession) ctx.getAttachment();
+        gameManager.setPlayerAfk(creeperSession.getUsername().get());
+        gameManager.getPlayerManager().removePlayer(creeperSession.getUsername().get());
     }
 
 }

@@ -3,8 +3,6 @@ package com.comandante.creeper.managers;
 
 import com.comandante.creeper.model.Player;
 import org.apache.commons.codec.binary.Base64;
-import org.mapdb.DBMaker;
-import org.mapdb.HTreeMap;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,7 +16,7 @@ public class PlayerManager {
     }
 
     public Player getPlayerByUsername(String username) {
-        HTreeMap<String, Player> objectObjectHTreeMap = DBMaker.newTempHashMap();
+   //     HTreeMap<String, Player> objectObjectHTreeMap = DBMaker.newTempHashMap();
 
         return getPlayer(new String(Base64.encodeBase64(username.getBytes())));
     }
@@ -33,7 +31,7 @@ public class PlayerManager {
 
     public void removePlayer(String username) {
         Player player = getPlayerByUsername(username);
-        if (player.getChannel() != null) {
+        if (player.getChannel() != null && player.getChannel().isConnected()) {
             player.getChannel().disconnect();
         }
         players.remove(player.getPlayerId());
