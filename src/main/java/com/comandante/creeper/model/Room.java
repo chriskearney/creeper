@@ -8,8 +8,6 @@ import java.util.Set;
 
 public class Room {
 
-    Ansi roomDescriptionText = new Ansi().fg(Ansi.Color.GREEN);
-
     public Integer roomId;
     public Optional<Integer> northId;
     public Optional<Integer> westId;
