@@ -31,7 +31,8 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
 
     @Override
     public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
-        e.getChannel().write("\r\n\r\n\r\n\r\n" + GameManager.LOGO + "\r\n" + GameManager.VERSION + "\r\n\r\n\r\n\r\n");
+//        e.getChannel().write("\r\n\r\n\r\n\r\n" + GameManager.LOGO + "\r\n" + GameManager.VERSION + "\r\n\r\n\r\n\r\n");
+        e.getChannel().write("First time here? Type \"new\".\r\n");
         e.getChannel().write("username: ");
         CreeperSession creeperSession = new CreeperSession();
         creeperSession.setState(CreeperSession.State.promptedForUsername);
@@ -42,6 +43,12 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws InterruptedException {
         CreeperSession creeperSession = (CreeperSession) ctx.getAttachment();
         if (!creeperSession.isAuthed()) {
+            if (creeperSession.state.equals(CreeperSession.State.newUserPromptedForUsername) || creeperSession.state.equals(CreeperSession.State.newUserPromptedForPassword)) {
+                gameManager.getNewUserRegistrationManager().handle(creeperSession, e);
+                if (!creeperSession.state.equals(CreeperSession.State.newUserRegCompleted)) {
+                    return;
+                }
+            }
             doAuthentication(ctx, e);
             if (creeperSession.isAuthed()) {
                 gameManager.currentRoomLogic(creeperSession, e);
@@ -59,6 +66,10 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
         CreeperSession creeperSession = (CreeperSession) ctx.getAttachment();
         if (creeperSession.getState().equals(CreeperSession.State.promptedForUsername)) {
             creeperSession.setUsername(Optional.of(message));
+            if (creeperSession.getUsername().isPresent() && creeperSession.getUsername().get().equals("new")) {
+                gameManager.getNewUserRegistrationManager().newUserRegistrationFlow(creeperSession, e);
+                return;
+            }
             creeperSession.setState(CreeperSession.State.promptedForPassword);
             e.getChannel().write("password: ");
             return;
@@ -74,7 +85,7 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
         } else {
             creeperSession.setAuthed(true);
             creeperSession.setState(CreeperSession.State.authed);
-            e.getChannel().write("Welcome back.\r\n");
+            e.getChannel().write("Welcome to creeper.\r\n");
         }
     }
 

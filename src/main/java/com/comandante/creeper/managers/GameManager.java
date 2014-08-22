@@ -34,10 +34,16 @@ public class GameManager {
 
     private final RoomManager roomManager;
     private final PlayerManager playerManager;
+    private final NewUserRegistrationManager newUserRegistrationManager;
+
+    public NewUserRegistrationManager getNewUserRegistrationManager() {
+        return newUserRegistrationManager;
+    }
 
     public GameManager(RoomManager roomManager, PlayerManager playerManager) {
         this.roomManager = roomManager;
         this.playerManager = playerManager;
+        this.newUserRegistrationManager = new NewUserRegistrationManager(playerManager);
     }
 
     public RoomManager getRoomManager() {

@@ -9,9 +9,12 @@ public class CreeperSession {
     private boolean isAuthed = false;
     State state;
 
-    enum State {
+    public enum State {
         promptedForPassword,
         promptedForUsername,
+        newUserPromptedForUsername,
+        newUserPromptedForPassword,
+        newUserRegCompleted,
         authed
     }
 
