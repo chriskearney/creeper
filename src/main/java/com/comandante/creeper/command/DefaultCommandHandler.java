@@ -12,9 +12,9 @@ import org.jboss.netty.channel.MessageEvent;
 
 public class DefaultCommandHandler {
 
-    GameManager gameManager;
-    CreeperSession creeperSession;
-    MessageEvent event;
+    private final GameManager gameManager;
+    private final CreeperSession creeperSession;
+    private final MessageEvent event;
 
     public DefaultCommandHandler(GameManager gameManager, CreeperSession creeperSession, MessageEvent event) {
         this.gameManager = gameManager;

@@ -2,10 +2,18 @@ package com.comandante.creeper;
 
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.managers.PlayerManager;
+import com.comandante.creeper.managers.PlayerManagerMapDB;
 import com.comandante.creeper.managers.RoomManager;
+import com.comandante.creeper.model.Player;
+import com.comandante.creeper.model.PlayerMetadata;
 import com.comandante.creeper.model.Room;
 import com.comandante.creeper.server.CreeperServer;
 import com.google.common.base.Optional;
+import org.apache.commons.codec.binary.Base64;
+import org.mapdb.DB;
+import org.mapdb.DBMaker;
+
+import java.io.File;
 
 public class Main {
 
@@ -24,10 +32,26 @@ public class Main {
         roomManager.addRoom(hallway);
         roomManager.addRoom(intake);
         roomManager.addRoom(janitorialCloset);
-        PlayerManager playerManager = new PlayerManager();
+
+        DB db = DBMaker.newFileDB(new File("creeperDb"))
+                .closeOnJvmShutdown()
+                .encryptionEnable("creepandicrawl")
+                .make();
+
+        PlayerManager playerManager = new PlayerManagerMapDB(db);
+        if (playerManager.getPlayerMetadata(new Player("chris").getPlayerId()) == null) {
+            System.out.println("Creating Chris User.");
+            playerManager.savePlayerMetadata(new PlayerMetadata("chris", "poop", new String(Base64.encodeBase64("chris".getBytes()))));
+        }
+
+        if (playerManager.getPlayerMetadata(new Player("brian").getPlayerId()) == null) {
+            System.out.println("Creating Brian User.");
+            playerManager.savePlayerMetadata(new PlayerMetadata("brian", "poop", new String(Base64.encodeBase64("brian".getBytes()))));
+        }
+
         GameManager gameManager = new GameManager(roomManager, playerManager);
 
-        CreeperServer creeperServer = new CreeperServer(8080);
+        CreeperServer creeperServer = new CreeperServer(8080, db);
         creeperServer.run(gameManager);
 
         System.out.println("Creeper started.");
