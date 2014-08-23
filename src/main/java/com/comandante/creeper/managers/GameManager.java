@@ -216,21 +216,21 @@ public class GameManager {
 
     private String getExits(Room room) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("exits: ");
+        stringBuilder.append("[ Exits: ");
         stringBuilder.append(new Ansi().fg(Ansi.Color.BLUE).toString());
         if (room.getNorthId().isPresent()) {
-            stringBuilder.append("north ");
+            stringBuilder.append("North ");
         }
         if (room.getSouthId().isPresent()) {
-            stringBuilder.append("south ");
+            stringBuilder.append("South ");
         }
         if (room.getEastId().isPresent()) {
-            stringBuilder.append("east ");
+            stringBuilder.append("East ");
         }
         if (room.getWestId().isPresent()) {
-            stringBuilder.append("west ");
+            stringBuilder.append("West ");
         }
-        stringBuilder.append("\r\n").append(new Ansi().reset().toString());
+        stringBuilder.append(new Ansi().reset().toString()).append("]\r\n");
         return stringBuilder.toString();
     }
 
