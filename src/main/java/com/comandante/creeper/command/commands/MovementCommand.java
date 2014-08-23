@@ -72,6 +72,8 @@ public class MovementCommand extends Command {
             movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.");
         }
         gameManager.movePlayer(movement);
-        gameManager.currentRoomLogic(movement.getPlayer().getPlayerId());
+        if (movement != null) {
+            gameManager.currentRoomLogic(movement.getPlayer().getPlayerId());
+        }
     }
 }
