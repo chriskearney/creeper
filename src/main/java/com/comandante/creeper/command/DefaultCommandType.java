@@ -6,10 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public enum DefaultCommandType implements CommandType {
-    MOVE_NORTH(new HashSet<String>(Arrays.asList("n", "North")), false, "Move north."),
-    MOVE_SOUTH(new HashSet<String>(Arrays.asList("s", "South")), false, "Move south."),
-    MOVE_EAST(new HashSet<String>(Arrays.asList("e", "East")), false, "Move east."),
-    MOVE_WEST(new HashSet<String>(Arrays.asList("w", "West")), false, "Move west."),
+    MOVE_NORTH(new HashSet<String>(Arrays.asList("n", "north")), false, "Move north."),
+    MOVE_SOUTH(new HashSet<String>(Arrays.asList("s", "south")), false, "Move south."),
+    MOVE_EAST(new HashSet<String>(Arrays.asList("e", "east")), false, "Move east."),
+    MOVE_WEST(new HashSet<String>(Arrays.asList("w", "west")), false, "Move west."),
     SAY(new HashSet<String>(Arrays.asList("say")), false, "Say something to the current room."),
     TELL(new HashSet<String>(Arrays.asList("tell", "t")), false, "Tell something to a player in private."),
     GOSSIP(new HashSet<String>(Arrays.asList("gossip")), false, "Gossip to the entire server."),

@@ -4,11 +4,15 @@ package com.comandante.creeper.managers;
 import com.comandante.creeper.model.PlayerMetadataSerializer;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
+import com.comandante.creeper.model.Room;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import org.apache.commons.codec.binary.Base64;
 import org.mapdb.DB;
 import org.mapdb.HTreeMap;
 
 import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerManagerMapDB implements PlayerManager {
@@ -24,6 +28,16 @@ public class PlayerManagerMapDB implements PlayerManager {
         } else {
             this.playerMetadataStore = db.createHashMap("playerMetadata").valueSerializer(new PlayerMetadataSerializer()).make();
         }
+    }
+
+    @Override
+    public Set<Player> getPresentPlayers(Room room) {
+        Set<String> presentPlayerIds = room.getPresentPlayerIds();
+        Set<Player> players = Sets.newHashSet();
+        for (String playerId: presentPlayerIds) {
+            players.add(getPlayer(playerId));
+        }
+        return ImmutableSet.copyOf(players);
     }
 
     @Override

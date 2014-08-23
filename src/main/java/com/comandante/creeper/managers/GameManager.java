@@ -3,16 +3,16 @@ package com.comandante.creeper.managers;
 
 import com.comandante.creeper.command.DefaultCommandType;
 import com.comandante.creeper.model.Movement;
+import com.comandante.creeper.model.Npc;
+import com.comandante.creeper.model.NpcType;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
 import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interners;
-import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
 import org.fusesource.jansi.Ansi;
-import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.MessageEvent;
 
 import java.util.ArrayList;
@@ -37,6 +37,7 @@ public class GameManager {
     private final PlayerManager playerManager;
     private final HelpManager helpManager;
     private final NewUserRegistrationManager newUserRegistrationManager;
+    private final NPCManager npcManager;
 
     public NewUserRegistrationManager getNewUserRegistrationManager() {
         return newUserRegistrationManager;
@@ -47,6 +48,11 @@ public class GameManager {
         this.playerManager = playerManager;
         this.newUserRegistrationManager = new NewUserRegistrationManager(playerManager);
         this.helpManager = new HelpManager();
+        this.npcManager = new NPCManager(roomManager, playerManager);
+    }
+
+    public NPCManager getNpcManager() {
+        return npcManager;
     }
 
     public HelpManager getHelpManager() {
@@ -77,14 +83,7 @@ public class GameManager {
         return Optional.absent();
     }
 
-    public Set<Player> getPresentPlayers(Room room) {
-        Set<String> presentPlayerIds = room.getPresentPlayerIds();
-        Set<Player> players = Sets.newHashSet();
-        for (String playerId: presentPlayerIds) {
-            players.add(playerManager.getPlayer(playerId));
-        }
-        return ImmutableSet.copyOf(players);
-    }
+
 
     public void who(Player player) {
         Set<Player> allPlayers = getAllPlayers();
@@ -142,7 +141,7 @@ public class GameManager {
         while (rooms.hasNext()) {
             Map.Entry<Integer, Room> next = rooms.next();
             Room room = next.getValue();
-            Set<Player> presentPlayers = getPresentPlayers(room);
+            Set<Player> presentPlayers = playerManager.getPresentPlayers(room);
             for (Player player : presentPlayers) {
                 builder.add(player);
             }
@@ -162,7 +161,7 @@ public class GameManager {
             Room sourceRoom = roomManager.getRoom(movement.getSourceRoomId());
             Room destinationRoom = roomManager.getRoom(movement.getDestinationRoomId());
             sourceRoom.removePresentPlayer(movement.getPlayer().getPlayerId());
-            for (Player next : getPresentPlayers(sourceRoom)) {
+            for (Player next : playerManager.getPresentPlayers(sourceRoom)) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(movement.getPlayer().getPlayerName());
                 if (movement.getOriginalMovementCommand().equals(DefaultCommandType.MOVE_NORTH)) {
@@ -179,7 +178,7 @@ public class GameManager {
                 sb.append("\r\n");
             next.getChannel().write(sb.toString());
             }
-            for (Player next : getPresentPlayers(destinationRoom)) {
+            for (Player next : playerManager.getPresentPlayers(destinationRoom)) {
                 next.getChannel().write(movement.getPlayer().getPlayerName() + " arrived.\r\n");
             }
             destinationRoom.addPresentPlayer(movement.getPlayer().getPlayerId());
@@ -189,7 +188,7 @@ public class GameManager {
     public void placePlayerInLobby(Player player) {
         Room room = roomManager.getRoom(LOBBY_ID);
         room.addPresentPlayer(player.getPlayerId());
-        for (Player next : getPresentPlayers(room)) {
+        for (Player next : playerManager.getPresentPlayers(room)) {
             if (next.getPlayerId().equals(player.getPlayerId())) {
                 continue;
             }
@@ -204,7 +203,7 @@ public class GameManager {
         }
 
         Room playerCurrentRoom = playerCurrentRoomOpt.get();
-        Set<Player> presentPlayers = getPresentPlayers(playerCurrentRoom);
+        Set<Player> presentPlayers = playerManager.getPresentPlayers(playerCurrentRoom);
 
         for (Player presentPlayer : presentPlayers) {
             StringBuilder stringBuilder = new StringBuilder();
@@ -235,7 +234,7 @@ public class GameManager {
         }
     }
 
-    private void printExits(Room room, Channel channel) {
+    private String getExits(Room room) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("exits: ");
         stringBuilder.append(new Ansi().fg(Ansi.Color.BLUE).toString());
@@ -251,22 +250,29 @@ public class GameManager {
         if (room.getWestId().isPresent()) {
             stringBuilder.append("west ");
         }
-        stringBuilder.append(new Ansi().reset().toString());
-        channel.write(stringBuilder.toString() + "\r\n");
+        stringBuilder.append("\r\n").append(new Ansi().reset().toString());
+        return stringBuilder.toString();
     }
 
     public void currentRoomLogic(CreeperSession creeperSession, MessageEvent e) {
         final Player player = playerManager.getPlayerByUsername(creeperSession.getUsername().get());
         final Room playerCurrentRoom = getPlayerCurrentRoom(player).get();
-        e.getChannel().write(playerCurrentRoom.getRoomDescription() + "\r\n");
+        StringBuilder sb = new StringBuilder();
+        sb.append(playerCurrentRoom.getRoomDescription()).append("\r\n");
         for (String searchPlayerId : playerCurrentRoom.getPresentPlayerIds()) {
             if (searchPlayerId.equals(player.getPlayerId())) {
                 continue;
             }
             Player searchPlayer = playerManager.getPlayer(searchPlayerId);
-            e.getChannel().write(searchPlayer.getPlayerName() + " is here.\r\n");
+            sb.append(searchPlayer.getPlayerName()).append(" is here.\r\n");
         }
-        printExits(playerCurrentRoom, e.getChannel());
+        for (String npcId : playerCurrentRoom.getNpcIds()) {
+            Npc npc = npcManager.getNpc(npcId);
+            NpcType npcType = npc.getNpcType();
+            sb.append("A ").append(npcType.getNpcName()).append(" is here.\r\n");
+        }
+        sb.append(getExits(playerCurrentRoom));
+        player.getChannel().write(sb.toString());
     }
 
 }

@@ -2,11 +2,16 @@ package com.comandante.creeper.managers;
 
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
+import com.comandante.creeper.model.Room;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public interface PlayerManager {
+
+    public Set<Player> getPresentPlayers(Room room);
+
     PlayerMetadata getPlayerMetadata(String playerId);
 
     void savePlayerMetadata(PlayerMetadata playerMetadata);

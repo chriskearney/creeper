@@ -10,7 +10,7 @@ public class HelpManager {
     public void printHelp(Player player, String originalMessage) {
         StringBuilder sb = new StringBuilder();
         DefaultCommandType[] values = DefaultCommandType.values();
-        sb.append(new Ansi().bg(Ansi.Color.RED).toString());
+        sb.append(new Ansi().fg(Ansi.Color.RED).toString());
         for (DefaultCommandType defaultCommandType : values) {
             if (defaultCommandType.equals(DefaultCommandType.UNKNOWN)) {
                 continue;
