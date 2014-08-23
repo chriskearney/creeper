@@ -1,12 +1,11 @@
 package com.comandante.creeper.managers;
 
 
-import com.comandante.creeper.command.DefaultCommandType;
 import com.comandante.creeper.model.Movement;
-import com.comandante.creeper.model.npc.Npc;
-import com.comandante.creeper.model.npc.NpcType;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
+import com.comandante.creeper.model.npc.Npc;
+import com.comandante.creeper.model.npc.NpcType;
 import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
@@ -25,17 +24,16 @@ public class GameManager {
 
     public static String LOGO =
             " ██████╗██████╗ ███████╗███████╗██████╗ ███████╗██████╗ \r\n" +
-            "██╔════╝██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔══██╗\r\n" +
-            "██║     ██████╔╝█████╗  █████╗  ██████╔╝█████╗  ██████╔╝\r\n" +
-            "██║     ██╔══██╗██╔══╝  ██╔══╝  ██╔═══╝ ██╔══╝  ██╔══██╗\r\n" +
-            "╚██████╗██║  ██║███████╗███████╗██║     ███████╗██║  ██║\r\n" +
-            " ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝";
+                    "██╔════╝██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔══██╗\r\n" +
+                    "██║     ██████╔╝█████╗  █████╗  ██████╔╝█████╗  ██████╔╝\r\n" +
+                    "██║     ██╔══██╗██╔══╝  ██╔══╝  ██╔═══╝ ██╔══╝  ██╔══██╗\r\n" +
+                    "╚██████╗██║  ██║███████╗███████╗██║     ███████╗██║  ██║\r\n" +
+                    " ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝";
 
     public static String VERSION = "0.1-SNAPSHOT";
 
     private final RoomManager roomManager;
     private final PlayerManager playerManager;
-    private final HelpManager helpManager;
     private final NewUserRegistrationManager newUserRegistrationManager;
     private final NPCManager npcManager;
 
@@ -47,16 +45,11 @@ public class GameManager {
         this.roomManager = roomManager;
         this.playerManager = playerManager;
         this.newUserRegistrationManager = new NewUserRegistrationManager(playerManager);
-        this.helpManager = new HelpManager();
         this.npcManager = new NPCManager(roomManager, playerManager);
     }
 
     public NPCManager getNpcManager() {
         return npcManager;
-    }
-
-    public HelpManager getHelpManager() {
-        return helpManager;
     }
 
     public RoomManager getRoomManager() {
@@ -90,7 +83,7 @@ public class GameManager {
         stringBuilder.append("----------------------\r\n");
         stringBuilder.append("|--active users------|\r\n");
         stringBuilder.append("----------------------\r\n");
-        for (Player allPlayer: allPlayers) {
+        for (Player allPlayer : allPlayers) {
             stringBuilder.append(allPlayer.getPlayerName()).append("\r\n");
         }
         stringBuilder.append(new Ansi().reset().toString());
@@ -162,19 +155,8 @@ public class GameManager {
             for (Player next : playerManager.getPresentPlayers(sourceRoom)) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(movement.getPlayer().getPlayerName());
-                if (movement.getOriginalMovementCommand().equals(DefaultCommandType.MOVE_NORTH)) {
-                    sb.append(" exited to the north.");
-                } else if (movement.getOriginalMovementCommand().equals(DefaultCommandType.MOVE_EAST)) {
-                    sb.append(" exited to the east.");
-                } else if (movement.getOriginalMovementCommand().equals(DefaultCommandType.MOVE_SOUTH)) {
-                    sb.append(" exited to the south.");
-                } else if (movement.getOriginalMovementCommand().equals(DefaultCommandType.MOVE_WEST)) {
-                    sb.append(" exited to the west.");
-                } else {
-                    sb.append(" exited.");
-                }
-                sb.append("\r\n");
-            next.getChannel().write(sb.toString());
+                sb.append(" ").append(movement.getRoomExitMessage()).append("\r\n");
+                next.getChannel().write(sb.toString());
             }
             for (Player next : playerManager.getPresentPlayers(destinationRoom)) {
                 next.getChannel().write(movement.getPlayer().getPlayerName() + " arrived.\r\n");
@@ -252,8 +234,8 @@ public class GameManager {
         return stringBuilder.toString();
     }
 
-    public void currentRoomLogic(CreeperSession creeperSession, MessageEvent e) {
-        final Player player = playerManager.getPlayerByUsername(creeperSession.getUsername().get());
+    public void currentRoomLogic(String playerId) {
+        Player player = playerManager.getPlayer(playerId);
         final Room playerCurrentRoom = getPlayerCurrentRoom(player).get();
         StringBuilder sb = new StringBuilder();
         sb.append(playerCurrentRoom.getRoomDescription()).append("\r\n");
@@ -271,6 +253,11 @@ public class GameManager {
             sb.append("A ").append(npcType.getNpcName()).append(" is here.\r\n");
         }
         player.getChannel().write(sb.toString());
+    }
+
+    public void currentRoomLogic(CreeperSession creeperSession, MessageEvent e) {
+        final String player = playerManager.getPlayerByUsername(creeperSession.getUsername().get()).getPlayerId();
+        currentRoomLogic(player);
     }
 
 }

@@ -1,80 +1,60 @@
 package com.comandante.creeper.command;
 
 
-import com.comandante.creeper.managers.MovementManager;
-import com.comandante.creeper.model.Movement;
+import com.comandante.creeper.command.commands.CommandService;
+import com.comandante.creeper.command.commands.GossipCommand;
+import com.comandante.creeper.command.commands.MovementCommand;
+import com.comandante.creeper.command.commands.SayCommand;
+import com.comandante.creeper.command.commands.TellCommand;
+import com.comandante.creeper.command.commands.UnknownCommand;
+import com.comandante.creeper.command.commands.WhoCommand;
+import com.comandante.creeper.command.commands.WhoamiCommand;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.model.Player;
-import com.comandante.creeper.model.Room;
 import com.comandante.creeper.server.CreeperSession;
-import com.google.common.base.Optional;
 import org.jboss.netty.channel.MessageEvent;
 
 public class DefaultCommandHandler {
 
     private final GameManager gameManager;
-    private final CreeperSession creeperSession;
-    private final MessageEvent event;
+    private final CommandService commandService;
 
-    public DefaultCommandHandler(GameManager gameManager, CreeperSession creeperSession, MessageEvent event) {
+    public DefaultCommandHandler(GameManager gameManager, CommandService commandService) {
         this.gameManager = gameManager;
-        this.creeperSession = creeperSession;
-        this.event = event;
+        this.commandService = commandService;
     }
 
-    public void handle(DefaultCommandType cmdType) {
-        final String originalMessage = cmdType.getOriginalMessage();
-        final Player player = _player();
-        Optional<Movement> movement = Optional.absent();
-
-        switch(cmdType) {
-            case MOVE_NORTH:
-                movement = MovementManager.moveNorth(cmdType, player, _currentRoom(), event);
-                break;
-            case MOVE_SOUTH:
-                movement = MovementManager.moveSouth(cmdType, player, _currentRoom(), event);
-                break;
-            case MOVE_EAST:
-                movement = MovementManager.moveEast(cmdType, player, _currentRoom(), event);
-                break;
-            case MOVE_WEST:
-                movement = MovementManager.moveWest(cmdType, player, _currentRoom(), event);
-                break;
-            case SAY:
-                gameManager.say(player, originalMessage.replaceFirst("^say ", ""));
-                break;
-            case TELL:
-                gameManager.tell(player, originalMessage);
-                break;
-            case GOSSIP:
-                gameManager.gossip(player, originalMessage.replaceFirst("^gossip ", ""));
-                break;
-            case WHO:
-                gameManager.who(player);
-                break;
-            case WHOAMI:
-                player.getChannel().write(player.getPlayerName() + "\r\n");
-                break;
-            case HELP:
-                gameManager.getHelpManager().printHelp(player, originalMessage);
-                break;
-            case UNKNOWN:
-                gameManager.currentRoomLogic(creeperSession, event);
-                break;
+    public void handle(MessageEvent e, CreeperSession creeperSession) {
+        String originalMessage = (String) e.getMessage();
+        String rootCommand = originalMessage.split(" ")[0].toLowerCase();
+        String playerId = new Player(creeperSession.getUsername().get()).getPlayerId();
+        if (GossipCommand.validTriggers.contains(rootCommand)){
+            GossipCommand gossipCommand = new GossipCommand(playerId, gameManager, originalMessage);
+            commandService.processCommand(gossipCommand);
         }
-
-        if (movement.isPresent()) {
-            gameManager.movePlayer(movement.get());
-            gameManager.currentRoomLogic(creeperSession, event);
+        else if (MovementCommand.validTriggers.contains(rootCommand)){
+            MovementCommand movementCommand = new MovementCommand(playerId, gameManager, originalMessage);
+            commandService.processCommand(movementCommand);
+        }
+        else if (SayCommand.validTriggers.contains(rootCommand)){
+            SayCommand sayCommand = new SayCommand(playerId, gameManager, originalMessage);
+            commandService.processCommand(sayCommand);
+        }
+        else if (TellCommand.validTriggers.contains(rootCommand)){
+            TellCommand tellCommand = new TellCommand(playerId, gameManager, originalMessage);
+            commandService.processCommand(tellCommand);
+        }
+        else if (WhoamiCommand.validTriggers.contains(rootCommand)){
+            WhoamiCommand whoamiCommand = new WhoamiCommand(playerId, gameManager, originalMessage);
+            commandService.processCommand(whoamiCommand);
+        }
+        else if (WhoCommand.validTriggers.contains(rootCommand)){
+            WhoCommand whoCommand = new WhoCommand(playerId, gameManager, originalMessage);
+            commandService.processCommand(whoCommand);
+        } else {
+            UnknownCommand unknownCommand = new UnknownCommand(playerId, gameManager, originalMessage);
+            commandService.processCommand(unknownCommand);
         }
     }
-
-    private Player _player() {
-        return gameManager.getPlayerManager().getPlayerByUsername(creeperSession.getUsername().get());
-    }
-
-    private Room _currentRoom() {
-        return gameManager.getPlayerCurrentRoom(_player()).get();
-    }
-
 }
+

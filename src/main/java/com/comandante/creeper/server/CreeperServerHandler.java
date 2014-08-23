@@ -1,7 +1,6 @@
 package com.comandante.creeper.server;
 
 import com.comandante.creeper.command.DefaultCommandHandler;
-import com.comandante.creeper.command.DefaultCommandType;
 import com.comandante.creeper.managers.GameManager;
 import com.google.common.base.Optional;
 import org.fusesource.jansi.Ansi;
@@ -14,12 +13,14 @@ import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 
 public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
 
-    CreeperAuthenticator creeperAuthenticator;
-    GameManager gameManager;
+    private final CreeperAuthenticator creeperAuthenticator;
+    private final GameManager gameManager;
+    private final DefaultCommandHandler defaultCommandHandler;
 
-    public CreeperServerHandler(CreeperAuthenticator creeperAuthenticator, GameManager gameManager) {
+    public CreeperServerHandler(CreeperAuthenticator creeperAuthenticator, GameManager gameManager, DefaultCommandHandler defaultCommandHandler) {
         this.creeperAuthenticator = creeperAuthenticator;
         this.gameManager = gameManager;
+        this.defaultCommandHandler = defaultCommandHandler;
     }
 
     @Override
@@ -61,10 +62,8 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
                 gameManager.currentRoomLogic(creeperSession, e);
             }
         } else {
-            DefaultCommandHandler cmdHandler = new DefaultCommandHandler(gameManager, creeperSession, e);
-            DefaultCommandType cmdType =
-                    (DefaultCommandType) DefaultCommandType.getCommandTypeFromMessage(((String) e.getMessage()));
-            cmdHandler.handle(cmdType);
+            defaultCommandHandler.handle(e, creeperSession);
+
         }
     }
 

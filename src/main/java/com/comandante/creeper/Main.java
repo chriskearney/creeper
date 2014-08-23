@@ -1,5 +1,7 @@
 package com.comandante.creeper;
 
+import com.comandante.creeper.command.DefaultCommandHandler;
+import com.comandante.creeper.command.commands.CommandService;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.managers.PlayerManager;
 import com.comandante.creeper.managers.PlayerManagerMapDB;
@@ -64,8 +66,11 @@ public class Main {
         gameManager.getNpcManager().saveNpc(derper3);
         roomManager.getRoom(janitorialCloset.getRoomId()).addPresentNpc(derper3.getNpcId());
 
+        CommandService commandService = new CommandService();
+        DefaultCommandHandler defaultCommandHandler = new DefaultCommandHandler(gameManager, commandService);
+
         CreeperServer creeperServer = new CreeperServer(8080, db);
-        creeperServer.run(gameManager);
+        creeperServer.run(gameManager, defaultCommandHandler);
 
         System.out.println("Creeper started.");
     }
