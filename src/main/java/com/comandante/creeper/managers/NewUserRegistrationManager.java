@@ -50,7 +50,13 @@ public class NewUserRegistrationManager {
     }
 
     private void createUser(CreeperSession session, MessageEvent e) {
-        session.setPassword(Optional.of((String) e.getMessage()));
+        String password = (String) e.getMessage();
+        if (password.length() < 8) {
+            e.getChannel().write("Passwords must be at least 8 characters.\r\n");
+            newUserRegistrationFlow(session, e);
+            return;
+        }
+        session.setPassword(Optional.of(password));
         PlayerMetadata playerMetadata = new PlayerMetadata(session.getUsername().get(), session.getPassword().get(), new Player(session.getUsername().get()).getPlayerId());
         playerManager.savePlayerMetadata(playerMetadata);
         e.getChannel().write("User created.\r\n");

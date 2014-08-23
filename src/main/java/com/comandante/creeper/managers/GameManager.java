@@ -1,6 +1,7 @@
 package com.comandante.creeper.managers;
 
 
+import com.comandante.creeper.command.DefaultCommandType;
 import com.comandante.creeper.model.Movement;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
@@ -34,6 +35,7 @@ public class GameManager {
 
     private final RoomManager roomManager;
     private final PlayerManager playerManager;
+    private final HelpManager helpManager;
     private final NewUserRegistrationManager newUserRegistrationManager;
 
     public NewUserRegistrationManager getNewUserRegistrationManager() {
@@ -44,6 +46,11 @@ public class GameManager {
         this.roomManager = roomManager;
         this.playerManager = playerManager;
         this.newUserRegistrationManager = new NewUserRegistrationManager(playerManager);
+        this.helpManager = new HelpManager();
+    }
+
+    public HelpManager getHelpManager() {
+        return helpManager;
     }
 
     public RoomManager getRoomManager() {
@@ -156,7 +163,21 @@ public class GameManager {
             Room destinationRoom = roomManager.getRoom(movement.getDestinationRoomId());
             sourceRoom.removePresentPlayer(movement.getPlayer().getPlayerId());
             for (Player next : getPresentPlayers(sourceRoom)) {
-                next.getChannel().write(movement.getPlayer().getPlayerName() + " used exit: " + movement.getOriginalMovementCommand() + ".\r\n");
+                StringBuilder sb = new StringBuilder();
+                sb.append(movement.getPlayer().getPlayerName());
+                if (movement.getOriginalMovementCommand().equals(DefaultCommandType.MOVE_NORTH)) {
+                    sb.append(" exited to the north.");
+                } else if (movement.getOriginalMovementCommand().equals(DefaultCommandType.MOVE_EAST)) {
+                    sb.append(" exited to the east.");
+                } else if (movement.getOriginalMovementCommand().equals(DefaultCommandType.MOVE_SOUTH)) {
+                    sb.append(" exited to the south.");
+                } else if (movement.getOriginalMovementCommand().equals(DefaultCommandType.MOVE_WEST)) {
+                    sb.append(" exited to the west.");
+                } else {
+                    sb.append(" exited.");
+                }
+                sb.append("\r\n");
+            next.getChannel().write(sb.toString());
             }
             for (Player next : getPresentPlayers(destinationRoom)) {
                 next.getChannel().write(movement.getPlayer().getPlayerName() + " arrived.\r\n");
@@ -216,7 +237,7 @@ public class GameManager {
 
     private void printExits(Room room, Channel channel) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("move: ");
+        stringBuilder.append("exits: ");
         stringBuilder.append(new Ansi().fg(Ansi.Color.BLUE).toString());
         if (room.getNorthId().isPresent()) {
             stringBuilder.append("north ");

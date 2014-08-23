@@ -4,6 +4,7 @@ import com.comandante.creeper.command.DefaultCommandHandler;
 import com.comandante.creeper.command.DefaultCommandType;
 import com.comandante.creeper.managers.GameManager;
 import com.google.common.base.Optional;
+import org.fusesource.jansi.Ansi;
 import org.jboss.netty.channel.ChannelEvent;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelStateEvent;
@@ -31,9 +32,15 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
 
     @Override
     public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
-//        e.getChannel().write("\r\n\r\n\r\n\r\n" + GameManager.LOGO + "\r\n" + GameManager.VERSION + "\r\n\r\n\r\n\r\n");
-        e.getChannel().write("First time here? Type \"new\".\r\n");
-        e.getChannel().write("username: ");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder
+                .append(new Ansi().bg(Ansi.Color.GREEN).toString())
+                .append(new Ansi().fg(Ansi.Color.BLACK))
+                .append("\r\n\r\n\r\n\r\n" + GameManager.LOGO + "\r\n" + GameManager.VERSION + "\r\n\r\n\r\n\r\n")
+                .append(new Ansi().reset().toString() + "\r\n")
+                .append("First time here? Type \"new\".\r\n")
+                .append("username: ");
+        e.getChannel().write(stringBuilder.toString());
         CreeperSession creeperSession = new CreeperSession();
         creeperSession.setState(CreeperSession.State.promptedForUsername);
         ctx.setAttachment(creeperSession);

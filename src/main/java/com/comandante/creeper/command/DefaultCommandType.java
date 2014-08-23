@@ -15,6 +15,7 @@ public enum DefaultCommandType implements CommandType {
     GOSSIP(new HashSet<String>(Arrays.asList("gossip")), false, "Gossip to the entire server."),
     WHO(new HashSet<String>(Arrays.asList("who")), false, "List who is logged into the server."),
     WHOAMI(new HashSet<String>(Arrays.asList("whoami")), false, "Who am I?"),
+    HELP(new HashSet<String>(Arrays.asList("help")), false, "This is the help."),
     UNKNOWN(new HashSet<String>(Arrays.asList("")), true, "");
 
     private Set<String> validCommandTriggers;

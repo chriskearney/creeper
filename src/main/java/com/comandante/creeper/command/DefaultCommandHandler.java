@@ -55,6 +55,9 @@ public class DefaultCommandHandler {
             case WHOAMI:
                 player.getChannel().write(player.getPlayerName() + "\r\n");
                 break;
+            case HELP:
+                gameManager.getHelpManager().printHelp(player, originalMessage);
+                break;
             case UNKNOWN:
                 gameManager.currentRoomLogic(creeperSession, event);
                 break;
