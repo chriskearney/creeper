@@ -1,7 +1,7 @@
 package com.comandante.creeper;
 
 import com.comandante.creeper.command.DefaultCommandHandler;
-import com.comandante.creeper.command.commands.CommandService;
+import com.comandante.creeper.command.CommandService;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.managers.PlayerManager;
 import com.comandante.creeper.managers.PlayerManagerMapDB;

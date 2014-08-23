@@ -1,7 +1,6 @@
 package com.comandante.creeper.command;
 
 
-import com.comandante.creeper.command.commands.CommandService;
 import com.comandante.creeper.command.commands.GossipCommand;
 import com.comandante.creeper.command.commands.MovementCommand;
 import com.comandante.creeper.command.commands.SayCommand;

@@ -1,4 +1,6 @@
-package com.comandante.creeper.command.commands;
+package com.comandante.creeper.command;
+
+import com.comandante.creeper.command.commands.Command;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,7 +16,5 @@ public class CommandService {
     public void processCommand(Command command) {
         executorService.submit(command);
     }
-
-
 
 }
