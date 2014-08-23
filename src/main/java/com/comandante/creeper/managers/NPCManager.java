@@ -1,7 +1,7 @@
 package com.comandante.creeper.managers;
 
-import com.comandante.creeper.model.Npc;
-import com.comandante.creeper.model.NpcType;
+import com.comandante.creeper.model.npc.Npc;
+import com.comandante.creeper.model.npc.NpcType;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
 import com.google.common.base.Optional;

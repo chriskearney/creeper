@@ -1,16 +1,13 @@
-package com.comandante.creeper.model;
+package com.comandante.creeper.model.npc;
 
 import org.fusesource.jansi.Ansi;
 
-import java.util.Arrays;
 import java.util.List;
 
 
 public enum NpcType {
 
-    DERPER(Arrays.asList(
-            "Zug zug.",
-            "Don't provoke me."), 300000, new StringBuilder().append(new Ansi().fg(Ansi.Color.RED).toString()).append("derper").append(new Ansi().reset().toString()).toString());
+    DERPER(Derper.PHRASES, 30000, new StringBuilder().append(new Ansi().fg(Ansi.Color.RED).toString()).append("derper").append(new Ansi().reset().toString()).toString());
 
     private final List<String> phrases;
     private final long phrasesIntervalMs;

@@ -4,8 +4,8 @@ import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.managers.PlayerManager;
 import com.comandante.creeper.managers.PlayerManagerMapDB;
 import com.comandante.creeper.managers.RoomManager;
-import com.comandante.creeper.model.Npc;
-import com.comandante.creeper.model.NpcType;
+import com.comandante.creeper.model.npc.Npc;
+import com.comandante.creeper.model.npc.NpcType;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
 import com.comandante.creeper.model.Room;
@@ -55,7 +55,15 @@ public class Main {
 
         Npc derper1 = new Npc(NpcType.DERPER);
         gameManager.getNpcManager().saveNpc(derper1);
-        roomManager.getRoom(1).addPresentNpc(derper1.getNpcId());
+        roomManager.getRoom(lobby.getRoomId()).addPresentNpc(derper1.getNpcId());
+        Npc derper2 = new Npc(NpcType.DERPER);
+        gameManager.getNpcManager().saveNpc(derper2);
+        roomManager.getRoom(lobby.getRoomId()).addPresentNpc(derper2.getNpcId());
+
+        Npc derper3 = new Npc(NpcType.DERPER);
+        gameManager.getNpcManager().saveNpc(derper3);
+        roomManager.getRoom(janitorialCloset.getRoomId()).addPresentNpc(derper3.getNpcId());
+
         CreeperServer creeperServer = new CreeperServer(8080, db);
         creeperServer.run(gameManager);
 

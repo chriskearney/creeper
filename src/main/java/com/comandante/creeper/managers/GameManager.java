@@ -3,8 +3,8 @@ package com.comandante.creeper.managers;
 
 import com.comandante.creeper.command.DefaultCommandType;
 import com.comandante.creeper.model.Movement;
-import com.comandante.creeper.model.Npc;
-import com.comandante.creeper.model.NpcType;
+import com.comandante.creeper.model.npc.Npc;
+import com.comandante.creeper.model.npc.NpcType;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
 import com.comandante.creeper.server.CreeperSession;
@@ -31,7 +31,7 @@ public class GameManager {
             "╚██████╗██║  ██║███████╗███████╗██║     ███████╗██║  ██║\r\n" +
             " ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝";
 
-    public static String VERSION = "1.0-SNAPSHOT";
+    public static String VERSION = "0.1-SNAPSHOT";
 
     private final RoomManager roomManager;
     private final PlayerManager playerManager;
@@ -82,8 +82,6 @@ public class GameManager {
         }
         return Optional.absent();
     }
-
-
 
     public void who(Player player) {
         Set<Player> allPlayers = getAllPlayers();
@@ -259,6 +257,7 @@ public class GameManager {
         final Room playerCurrentRoom = getPlayerCurrentRoom(player).get();
         StringBuilder sb = new StringBuilder();
         sb.append(playerCurrentRoom.getRoomDescription()).append("\r\n");
+        sb.append(getExits(playerCurrentRoom));
         for (String searchPlayerId : playerCurrentRoom.getPresentPlayerIds()) {
             if (searchPlayerId.equals(player.getPlayerId())) {
                 continue;
@@ -271,7 +270,6 @@ public class GameManager {
             NpcType npcType = npc.getNpcType();
             sb.append("A ").append(npcType.getNpcName()).append(" is here.\r\n");
         }
-        sb.append(getExits(playerCurrentRoom));
         player.getChannel().write(sb.toString());
     }
 
