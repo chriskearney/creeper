@@ -28,14 +28,17 @@ public class Main {
                 "This is the hallway. It's long and hallway-ish with exposed wires and floorboards showing.");
         Room intake = new Room(3, Optional.<Integer>absent(), Optional.of(6), Optional.<Integer>absent(), Optional.of(2),
                 "This is the intake area.  People are lined up like cattle waiting to be prodded.");
-        Room janitorialCloset = new Room(6, Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.of(3), Optional.<Integer>absent(),
+        Room janitorialCloset = new Room(6, Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.of(3), Optional.of(7),
                 "You find yourself in the janitorial closet.  It smells like bleach.");
+        Room toilet = new Room(7, Optional.of(6), Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.<Integer>absent(),
+                "You find yourself in the toilet. The smell is horrible.");
 
         RoomManager roomManager = new RoomManager();
         roomManager.addRoom(lobby);
         roomManager.addRoom(hallway);
         roomManager.addRoom(intake);
         roomManager.addRoom(janitorialCloset);
+        roomManager.addRoom(toilet);
 
         DB db = DBMaker.newFileDB(new File("creeperDb"))
                 .closeOnJvmShutdown()
