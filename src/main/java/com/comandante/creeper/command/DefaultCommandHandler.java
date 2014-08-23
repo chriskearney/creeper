@@ -44,13 +44,13 @@ public class DefaultCommandHandler {
             TellCommand tellCommand = new TellCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(tellCommand);
         }
-        else if (WhoamiCommand.validTriggers.contains(rootCommand)){
-            WhoamiCommand whoamiCommand = new WhoamiCommand(playerId, gameManager, originalMessage);
-            commandService.processCommand(whoamiCommand);
-        }
         else if (WhoCommand.validTriggers.contains(rootCommand)){
             WhoCommand whoCommand = new WhoCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(whoCommand);
+        }
+        else if (WhoamiCommand.validTriggers.contains(rootCommand)){
+            WhoamiCommand whoamiCommand = new WhoamiCommand(playerId, gameManager, originalMessage);
+            commandService.processCommand(whoamiCommand);
         } else {
             UnknownCommand unknownCommand = new UnknownCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(unknownCommand);

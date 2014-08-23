@@ -1,14 +1,13 @@
 package com.comandante.creeper.command.commands;
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.model.Player;
 import com.google.common.collect.ImmutableList;
 
 public class WhoCommand extends Command {
 
-    private final static String helpDescription = "List players currently logged in to server.";
+    private final static String helpDescription = "List who you are.";
     public final static ImmutableList validTriggers = new ImmutableList.Builder<String>().add(
-            "whoami".toLowerCase()
+            "who".toLowerCase()
     ).build();
     private final static boolean isCaseSensitiveTriggers = false;
 
@@ -18,7 +17,6 @@ public class WhoCommand extends Command {
 
     @Override
     public void run() {
-        Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId());
-        player.getChannel().write(player.getPlayerName() + "\r\n");
+        getGameManager().who(getGameManager().getPlayerManager().getPlayer(getPlayerId()));
     }
 }
