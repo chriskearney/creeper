@@ -9,6 +9,7 @@ import java.util.Set;
 public class Room {
 
     public Integer roomId;
+    public String roomTitle;
     public Optional<Integer> northId;
     public Optional<Integer> westId;
     public Optional<Integer> eastId;
@@ -18,13 +19,18 @@ public class Room {
     private Set<String> afkPlayerIds = Sets.<String>newConcurrentHashSet();
     private Set<String> npcIds = Sets.newConcurrentHashSet();
 
-    public Room(Integer roomId, Optional<Integer> northId, Optional<Integer> westId, Optional<Integer> eastId, Optional<Integer> southId, String roomDescription) {
+    public Room(Integer roomId, String roomTitle, Optional<Integer> northId, Optional<Integer> westId, Optional<Integer> eastId, Optional<Integer> southId, String roomDescription) {
         this.roomId = roomId;
+        this.roomTitle = roomTitle;
         this.northId = northId;
         this.westId = westId;
         this.eastId = eastId;
         this.southId = southId;
         this.roomDescription = roomDescription;
+    }
+
+    public String getRoomTitle() {
+        return roomTitle;
     }
 
     public void addPresentNpc(String npcId) {
