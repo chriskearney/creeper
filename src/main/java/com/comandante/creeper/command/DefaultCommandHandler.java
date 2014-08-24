@@ -1,6 +1,7 @@
 package com.comandante.creeper.command;
 
 
+import com.comandante.creeper.command.commands.DropCommand;
 import com.comandante.creeper.command.commands.GossipCommand;
 import com.comandante.creeper.command.commands.InventoryCommand;
 import com.comandante.creeper.command.commands.MovementCommand;
@@ -64,6 +65,9 @@ public class DefaultCommandHandler {
         }else if (UseCommand.validTriggers.contains(rootCommand)){
             UseCommand useCommand = new UseCommand(playerId, gameManager, originalMessage, creeperSession);
             commandService.processCommand(useCommand);
+        }else if (DropCommand.validTriggers.contains(rootCommand)){
+            DropCommand dropCommand = new DropCommand(playerId, gameManager, originalMessage, creeperSession);
+            commandService.processCommand(dropCommand);
         }else {
             UnknownCommand unknownCommand = new UnknownCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(unknownCommand);

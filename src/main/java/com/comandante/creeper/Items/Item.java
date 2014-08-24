@@ -11,14 +11,23 @@ public class Item implements Serializable {
     private String itemId;
     private Integer itemTypeId;
     private int numberOfUses;
+    private boolean isWithPlayer;
 
-    protected Item(String itemName, String itemDescription, String shortName, String itemId, Integer itemTypeId, int numberOfUses) {
+    protected Item(String itemName, String itemDescription, String shortName, String itemId, Integer itemTypeId, int numberOfUses, boolean isWithPlayer) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.shortName = shortName;
         this.itemId = itemId;
         this.itemTypeId = itemTypeId;
         this.numberOfUses = numberOfUses;
+    }
+
+    public boolean isWithPlayer() {
+        return isWithPlayer;
+    }
+
+    public void setWithPlayer(boolean isWithPlayer) {
+        this.isWithPlayer = isWithPlayer;
     }
 
     public int getNumberOfUses() {

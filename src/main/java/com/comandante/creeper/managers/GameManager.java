@@ -1,6 +1,8 @@
 package com.comandante.creeper.managers;
 
 
+import com.comandante.creeper.Items.Item;
+import com.comandante.creeper.Items.ItemDecayManager;
 import com.comandante.creeper.model.Movement;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
@@ -53,7 +55,7 @@ public class GameManager {
     private final PlayerManager playerManager;
     private final NewUserRegistrationManager newUserRegistrationManager;
     private final EntityManager entityManager;
-    //private final EntityManager entityManager;
+    private final ItemDecayManager itemDecayManager;
 
     public NewUserRegistrationManager getNewUserRegistrationManager() {
         return newUserRegistrationManager;
@@ -63,7 +65,13 @@ public class GameManager {
         this.roomManager = roomManager;
         this.playerManager = playerManager;
         this.entityManager = entityManager;
+        this.itemDecayManager = new ItemDecayManager(entityManager);
+        this.entityManager.addEntity(itemDecayManager);
         this.newUserRegistrationManager = new NewUserRegistrationManager(playerManager);
+    }
+
+    public ItemDecayManager getItemDecayManager() {
+        return itemDecayManager;
     }
 
     public EntityManager getEntityManager() {
@@ -319,6 +327,11 @@ public class GameManager {
             sb.append("A ").append(npcEntity.getColorName()).append(" is here.\r\n");
         }
         for (String itemId : playerCurrentRoom.getItemIds()) {
+            Item itemEntity = entityManager.getItemEntity(itemId);
+            if (itemEntity == null) {
+                playerCurrentRoom.remotePresentItem(itemId);
+                continue;
+            }
             sb.append(entityManager.getItemEntity(itemId).getItemName()).append( " is on the ground.\r\n");
         }
         player.getChannel().write(sb.toString());
@@ -345,6 +358,9 @@ public class GameManager {
         Room playerCurrentRoom = getPlayerCurrentRoom(player).get();
         playerCurrentRoom.getItemIds().remove(itemId);
         playerManager.addInventoryId(player.getPlayerId(), itemId);
+        Item itemEntity = entityManager.getItemEntity(itemId);
+        itemEntity.setWithPlayer(true);
+        entityManager.addItem(itemEntity);
         player.getChannel().write("You acquired " + entityManager.getItemEntity(itemId).getItemName() + "\r\n");
     }
 }

@@ -124,7 +124,6 @@ public class Main {
 
         entityManager.addEntity(new Derper(gameManager, 1));
 
-
         Item key = ItemType.KEY.create();
         entityManager.addItem(key);
         gameManager.placeItemInRoom(1, key.getItemId());
