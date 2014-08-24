@@ -52,7 +52,7 @@ public class Main {
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
-                "You are standing before the Federation Training Encampment. A huge wall surronds the base. To the north you see a two doors leading inside. Above the doors you sits the symbol of the Federation, a single red star with five points and a raised fist in the center. Sentries along the encampment walls begin to eye you suspiciously. You then remember that malingering in front of a Federation base could prove to be a fatal mistake.\r\n"));
+                "You are standing before the Federation Training Encampment. A huge wall surrounds the base. To the north you see a two doors leading inside. Above the doors you sits the symbol of the Federation, a single red star with five points and a raised fist in the center. Sentries along the encampment walls begin to eye you suspiciously. You then remember that malingering in front of a Federation base could prove to be a fatal mistake.\r\n"));
 
         entityManager.addEntity(new BasicRoom(
                 2,
@@ -74,7 +74,7 @@ public class Main {
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
-                "You are standing on the center of a massive training field. You see a large field with a track surronding it. A main pathway connects from the Port to the north to the main Federation building. Soldiers of all ranks are going about their business here.\r\n"));
+                "You are standing on the center of a massive training field. You see a large field with a track surrounding it. A main pathway connects from the Port to the north to the main Federation building. Soldiers of all ranks are going about their business here.\r\n"));
 
         entityManager.addEntity(new BasicRoom(
                 4,
@@ -85,7 +85,7 @@ public class Main {
                 Optional.of(2),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
-                "You are standing in the Federation Training Encampment armory.\r\n"));
+                "You are standing in the Federation Training Encampment armory. A counter extends from wall to wall separating you from the stock. A Lieutenant is standing behind the counter filling out paper work. You can see shelves extending to the back of the room fully stocked with Federation issued weapons. The door closes and locks behind you.\r\n"));
 
         entityManager.addEntity(new BasicRoom(
                 5,
@@ -96,7 +96,7 @@ public class Main {
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
-                "You are standing in the Federation Training Encampment firing range.\r\n"));
+                "You are standing in the Federation Training Encampment firing range. You see many rows each separated by a blaster proof divider. At the end of each row sits a target. The sounds of weapon fire fills the room. Straight ahead you see an empty row. Down Range a target is hovering, waiting to be shot.\r\n"));
 
         entityManager.addEntity(new BasicRoom(
                 6,
@@ -107,7 +107,7 @@ public class Main {
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.of(2),
-                "You are standing in the Marshal's office.\r\n"));
+                "You are standing in the Marshal's office. A beautiful wooden desk sits in the center of the room. Shelves and bookcases line the walls showing off some of the Marshals accomplishments. A floor to ceiling window in the back of the room looks over the training fields. \r\n"));
 
         entityManager.addEntity(new BasicRoom(
                 7,
