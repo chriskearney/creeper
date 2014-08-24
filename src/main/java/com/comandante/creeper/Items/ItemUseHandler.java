@@ -47,10 +47,16 @@ public class ItemUseHandler {
                 break;
             case UNKNOWN:
                 writeToPlayer("Item not found.\r\n");
-                break;
+                return;
         }
 
+        incrementUses(item);
+
         if (itemType.isDisposable()) {
+            if (item.getNumberOfUses() < itemType.getMaxUses()) {
+                gameManager.getEntityManager().addItem(item);
+                return;
+            }
             gameManager.getPlayerManager().removeInventoryId(playerId, item.getItemId());
             gameManager.getEntityManager().removeItem(item);
         }
@@ -58,5 +64,9 @@ public class ItemUseHandler {
 
     private void writeToPlayer(String message) {
         gameManager.getPlayerManager().getPlayer(playerId).getChannel().write(message);
+    }
+
+    private void incrementUses(Item item) {
+        item.setNumberOfUses(item.getNumberOfUses() + 1);
     }
 }

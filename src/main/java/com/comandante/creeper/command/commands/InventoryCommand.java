@@ -35,7 +35,7 @@ public class InventoryCommand extends Command {
         sb.append("----Inventory-----\r\n");
         for (String inventoryId: inventory) {
             Item item = getGameManager().getEntityManager().getItemEntity(inventoryId);
-            sb.append(item.getItemName()).append("\r\n");
+            sb.append(item.getItemName()).append(" ").append(item.getNumberOfUses()).append(" \r\n");
         }
         getGameManager().getPlayerManager().getPlayer(getPlayerId()).getChannel().write(sb.toString());
     }

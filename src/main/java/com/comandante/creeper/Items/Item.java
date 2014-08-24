@@ -10,6 +10,24 @@ public class Item implements Serializable {
     private String shortName;
     private String itemId;
     private Integer itemTypeId;
+    private int numberOfUses;
+
+    protected Item(String itemName, String itemDescription, String shortName, String itemId, Integer itemTypeId, int numberOfUses) {
+        this.itemName = itemName;
+        this.itemDescription = itemDescription;
+        this.shortName = shortName;
+        this.itemId = itemId;
+        this.itemTypeId = itemTypeId;
+        this.numberOfUses = numberOfUses;
+    }
+
+    public int getNumberOfUses() {
+        return numberOfUses;
+    }
+
+    public void setNumberOfUses(int numberOfUses) {
+        this.numberOfUses = numberOfUses;
+    }
 
     public String getItemId() {
         return itemId;
@@ -24,14 +42,6 @@ public class Item implements Serializable {
     }
 
     public void setItemTypeId(Integer itemTypeId) {
-        this.itemTypeId = itemTypeId;
-    }
-
-    protected Item(String itemName, String itemDescription, String shortName, String itemId, Integer itemTypeId) {
-        this.itemName = itemName;
-        this.itemDescription = itemDescription;
-        this.shortName = shortName;
-        this.itemId = itemId;
         this.itemTypeId = itemTypeId;
     }
 
