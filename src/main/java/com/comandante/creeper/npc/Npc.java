@@ -20,7 +20,7 @@ public abstract class Npc extends CreeperEntity {
 
     @Override
     public void run() {
-        System.out.println(getName() + " tick...");
+        //System.out.println(getName() + " tick...");
     }
 
     public String getColorName() {

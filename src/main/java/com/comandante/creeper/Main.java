@@ -8,6 +8,7 @@ import com.comandante.creeper.managers.PlayerManager;
 import com.comandante.creeper.managers.PlayerManagerMapDB;
 import com.comandante.creeper.managers.RoomManager;
 import com.comandante.creeper.model.BasicRoom;
+import com.comandante.creeper.model.KeyItem;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
 import com.comandante.creeper.npc.Derper;
@@ -121,6 +122,11 @@ public class Main {
                 "You are standing in the main port of the Federation Encampment.\r\n"));
 
         entityManager.addEntity(new Derper(gameManager, 1));
+
+        KeyItem keyItem = new KeyItem(gameManager);
+        entityManager.addEntity(keyItem);
+        gameManager.placeItemInRoom(1, keyItem.getEntityId());
+
         CommandService commandService = new CommandService();
         DefaultCommandHandler defaultCommandHandler = new DefaultCommandHandler(gameManager, commandService);
 

@@ -19,6 +19,7 @@ public abstract class Room extends CreeperEntity {
     private final Set<String> presentPlayerIds = Sets.<String>newConcurrentHashSet();
     private final Set<String> afkPlayerIds = Sets.<String>newConcurrentHashSet();
     private final Set<String> npcIds = Sets.newConcurrentHashSet();
+    private final Set<String> itemIds = Sets.newConcurrentHashSet();
 
     public Room(Integer roomId,
                 String roomTitle,
@@ -42,6 +43,19 @@ public abstract class Room extends CreeperEntity {
 
     public String getRoomTitle() {
         return roomTitle;
+    }
+
+    public void addPresentItem(String itemId) {
+        itemIds.add(itemId);
+    }
+
+    public Set<String> getItemIds() {
+        return itemIds;
+    }
+
+    public void remotePresentItem(String itemId) {
+        itemIds.remove(itemId);
+
     }
 
     public void addPresentNpc(String npcId) {

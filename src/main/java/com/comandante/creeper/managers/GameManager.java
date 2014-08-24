@@ -318,6 +318,9 @@ public class GameManager {
             Npc npcEntity = entityManager.getNpcEntity(npcId);
             sb.append("A ").append(npcEntity.getColorName()).append(" is here.\r\n");
         }
+        for (String itemId : playerCurrentRoom.getItemIds()) {
+            sb.append(entityManager.getItemEntity(itemId).getItemName()).append( " is on the ground.\r\n");
+        }
         player.getChannel().write(sb.toString());
     }
 
@@ -332,5 +335,9 @@ public class GameManager {
             Player player = playerManager.getPlayer(playerId);
             player.getChannel().write(message);
         }
+    }
+
+    public void placeItemInRoom(Integer roomId, String itemId) {
+        roomManager.getRoom(roomId).addPresentItem(entityManager.getItemEntity(itemId).getEntityId());
     }
 }

@@ -1,6 +1,7 @@
 package com.comandante.creeper.managers;
 
 import com.comandante.creeper.model.CreeperEntity;
+import com.comandante.creeper.model.Item;
 import com.comandante.creeper.model.Room;
 import com.comandante.creeper.npc.Npc;
 
@@ -12,6 +13,7 @@ import java.util.concurrent.Executors;
 public class EntityManager {
 
     private final ConcurrentHashMap<String, Npc> npcs = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Item> items = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, CreeperEntity> entities = new ConcurrentHashMap<>();
     private final ExecutorService tickService = Executors.newFixedThreadPool(1);
     private final ExecutorService ticketRunnerService = Executors.newFixedThreadPool(10);
@@ -31,6 +33,9 @@ public class EntityManager {
         if (creeperEntity instanceof Room) {
             roomManager.addRoom((Room) creeperEntity);
         }
+        if (creeperEntity instanceof Item) {
+            items.put(creeperEntity.getEntityId(), (Item) creeperEntity);
+        }
         entities.put(creeperEntity.getEntityId(), creeperEntity);
     }
 
@@ -43,13 +48,16 @@ public class EntityManager {
         return npcs.get(npcId);
     }
 
+    public Item getItemEntity(String itemId) {
+        return items.get(itemId);
+    }
+
     class Ticker implements Runnable {
         @Override
         public void run() {
             while (true) {
                 try {
                     Thread.sleep(10000);
-                    System.out.println("tick...");
                     for (Map.Entry<String, CreeperEntity> next : entities.entrySet()) {
                         CreeperEntity creeperEntity = next.getValue();
                         ticketRunnerService.submit(creeperEntity);

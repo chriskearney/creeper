@@ -12,11 +12,20 @@ public class PlayerMetadata implements Serializable {
     int stamina;
     int strength;
     int dexterity;
+    String[] inventory;
 
     public PlayerMetadata(String playerName, String password, String playerId) {
         this.playerName = playerName;
         this.password = password;
         this.playerId = playerId;
+    }
+
+    public String[] getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(String[] inventory) {
+        this.inventory = inventory;
     }
 
     public String getPassword() {
@@ -45,36 +54,6 @@ public class PlayerMetadata implements Serializable {
 
     public int getDexterity() {
         return dexterity;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PlayerMetadata that = (PlayerMetadata) o;
-
-        if (dexterity != that.dexterity) return false;
-        if (health != that.health) return false;
-        if (stamina != that.stamina) return false;
-        if (strength != that.strength) return false;
-        if (!password.equals(that.password)) return false;
-        if (!playerId.equals(that.playerId)) return false;
-        if (!playerName.equals(that.playerName)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = playerName.hashCode();
-        result = 31 * result + password.hashCode();
-        result = 31 * result + playerId.hashCode();
-        result = 31 * result + health;
-        result = 31 * result + stamina;
-        result = 31 * result + strength;
-        result = 31 * result + dexterity;
-        return result;
     }
 
     public void setPlayerName(String playerName) {
