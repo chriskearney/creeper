@@ -10,6 +10,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interners;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.fusesource.jansi.Ansi;
 import org.jboss.netty.channel.MessageEvent;
 
@@ -287,7 +288,7 @@ public class GameManager {
         sb.append(new Ansi().fg(Ansi.Color.GREEN).toString());
         sb.append(playerCurrentRoom.getRoomTitle()).append("\r\n\r\n");
         sb.append(new Ansi().reset().toString());
-        sb.append(playerCurrentRoom.getRoomDescription()).append("\r\n");
+        sb.append(WordUtils.wrap(playerCurrentRoom.getRoomDescription(), 70)).append("\r\n");
         sb.append(getExits(playerCurrentRoom, player));
         for (String searchPlayerId : playerCurrentRoom.getPresentPlayerIds()) {
             if (searchPlayerId.equals(player.getPlayerId())) {
