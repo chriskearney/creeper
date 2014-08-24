@@ -2,6 +2,7 @@ package com.comandante.creeper.command.commands;
 
 
 import com.comandante.creeper.Items.Item;
+import com.comandante.creeper.Items.ItemType;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
@@ -35,7 +36,12 @@ public class InventoryCommand extends Command {
         sb.append("----Inventory-----\r\n");
         for (String inventoryId: inventory) {
             Item item = getGameManager().getEntityManager().getItemEntity(inventoryId);
-            sb.append(item.getItemName()).append(" ").append(item.getNumberOfUses()).append(" \r\n");
+            sb.append(item.getItemName());
+            if (ItemType.itemTypeFromCode(item.getItemTypeId()).getMaxUses() > 0) {
+                sb.append(" - ").append(ItemType.itemTypeFromCode(item.getItemTypeId()).getMaxUses() - item.getNumberOfUses());
+                sb.append(" uses left.");
+            }
+            sb.append("\r\n");
         }
         getGameManager().getPlayerManager().getPlayer(getPlayerId()).getChannel().write(sb.toString());
     }
