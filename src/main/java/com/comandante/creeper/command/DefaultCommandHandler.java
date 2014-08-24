@@ -8,6 +8,7 @@ import com.comandante.creeper.command.commands.PickUpCommand;
 import com.comandante.creeper.command.commands.SayCommand;
 import com.comandante.creeper.command.commands.TellCommand;
 import com.comandante.creeper.command.commands.UnknownCommand;
+import com.comandante.creeper.command.commands.UseCommand;
 import com.comandante.creeper.command.commands.WhoCommand;
 import com.comandante.creeper.command.commands.WhoamiCommand;
 import com.comandante.creeper.managers.GameManager;
@@ -60,6 +61,9 @@ public class DefaultCommandHandler {
         else if (InventoryCommand.validTriggers.contains(rootCommand)){
             InventoryCommand inventoryCommand = new InventoryCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(inventoryCommand);
+        }else if (UseCommand.validTriggers.contains(rootCommand)){
+            UseCommand useCommand = new UseCommand(playerId, gameManager, originalMessage, creeperSession);
+            commandService.processCommand(useCommand);
         }else {
             UnknownCommand unknownCommand = new UnknownCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(unknownCommand);

@@ -46,6 +46,12 @@ public class PlayerManagerMapDB implements PlayerManager {
         savePlayerMetadata(playerMetadata);
     }
 
+    public void removeInventoryId(String playerId, String inventoryId) {
+        PlayerMetadata playerMetadata = playerMetadataStore.get(playerId);
+        playerMetadata.removeInventoryEntityId(inventoryId);
+        savePlayerMetadata(playerMetadata);
+    }
+
     @Override
     public PlayerMetadata getPlayerMetadata(String playerId) {
         return playerMetadataStore.get(playerId);

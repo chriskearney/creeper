@@ -12,6 +12,8 @@ public interface PlayerManager {
 
     public void addInventoryId(String playerId, String inventoryId);
 
+    public void removeInventoryId(String playerId, String inventoryId);
+
     public Set<Player> getPresentPlayers(Room room);
 
     PlayerMetadata getPlayerMetadata(String playerId);

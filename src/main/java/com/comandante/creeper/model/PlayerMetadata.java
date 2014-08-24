@@ -2,7 +2,9 @@ package com.comandante.creeper.model;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class PlayerMetadata implements Serializable {
 
@@ -36,6 +38,18 @@ public class PlayerMetadata implements Serializable {
             String[] result = Arrays.copyOf(inventory, inventory.length + 1);
             result[inventory.length] = newEntityId;
             this.inventory = result;
+    }
+
+    public void removeInventoryEntityId(String itemId) {
+        List<String> itemsIdKeep = new ArrayList<String>(Arrays.asList(inventory));
+        itemsIdKeep.remove(itemId);
+        String[] newItems = new String[itemsIdKeep.size()];
+        int i = 0;
+        for (String id: itemsIdKeep) {
+            newItems[i] = id;
+            i++;
+        }
+        this.inventory = newItems;
     }
 
     public String getPassword() {

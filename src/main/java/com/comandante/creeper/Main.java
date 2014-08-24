@@ -1,5 +1,7 @@
 package com.comandante.creeper;
 
+import com.comandante.creeper.Items.Item;
+import com.comandante.creeper.Items.ItemType;
 import com.comandante.creeper.command.CommandService;
 import com.comandante.creeper.command.DefaultCommandHandler;
 import com.comandante.creeper.managers.EntityManager;
@@ -8,7 +10,6 @@ import com.comandante.creeper.managers.PlayerManager;
 import com.comandante.creeper.managers.PlayerManagerMapDB;
 import com.comandante.creeper.managers.RoomManager;
 import com.comandante.creeper.model.BasicRoom;
-import com.comandante.creeper.Items.KeyItem;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
 import com.comandante.creeper.npc.Derper;
@@ -123,9 +124,18 @@ public class Main {
 
         entityManager.addEntity(new Derper(gameManager, 1));
 
-        KeyItem keyItem = new KeyItem();
-        entityManager.addItem(keyItem);
-        gameManager.placeItemInRoom(1, keyItem.getItemId());
+
+        Item key = ItemType.KEY.create();
+        entityManager.addItem(key);
+        gameManager.placeItemInRoom(1, key.getItemId());
+
+        Item book = ItemType.BOOK.create();
+        entityManager.addItem(book);
+        gameManager.placeItemInRoom(1, book.getItemId());
+
+        Item beer = ItemType.BEER.create();
+        entityManager.addItem(beer);
+        gameManager.placeItemInRoom(1, beer.getItemId());
 
         CommandService commandService = new CommandService();
         DefaultCommandHandler defaultCommandHandler = new DefaultCommandHandler(gameManager, commandService);
