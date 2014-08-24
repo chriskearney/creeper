@@ -1,8 +1,8 @@
 package com.comandante.creeper.managers;
 
 import com.comandante.creeper.model.CreeperEntity;
-import com.comandante.creeper.model.Item;
-import com.comandante.creeper.model.ItemSerializer;
+import com.comandante.creeper.Items.Item;
+import com.comandante.creeper.Items.ItemSerializer;
 import com.comandante.creeper.model.Room;
 import com.comandante.creeper.npc.Npc;
 import org.mapdb.DB;
@@ -48,6 +48,11 @@ public class EntityManager {
 
     public void addItem(Item item){
         items.put(item.getItemId(), item);
+        db.commit();
+    }
+
+    public void removeItem(Item item) {
+        items.remove(item.getItemId());
         db.commit();
     }
 

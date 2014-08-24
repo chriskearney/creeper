@@ -8,7 +8,7 @@ import com.comandante.creeper.managers.PlayerManager;
 import com.comandante.creeper.managers.PlayerManagerMapDB;
 import com.comandante.creeper.managers.RoomManager;
 import com.comandante.creeper.model.BasicRoom;
-import com.comandante.creeper.model.KeyItem;
+import com.comandante.creeper.Items.KeyItem;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
 import com.comandante.creeper.npc.Derper;

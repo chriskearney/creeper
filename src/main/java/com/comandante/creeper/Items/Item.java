@@ -1,4 +1,4 @@
-package com.comandante.creeper.model;
+package com.comandante.creeper.Items;
 
 
 import java.io.Serializable;
@@ -9,6 +9,7 @@ public class Item implements Serializable {
     private String itemDescription;
     private String shortName;
     private String itemId;
+    private Integer itemTypeId;
 
     public String getItemId() {
         return itemId;
@@ -18,12 +19,20 @@ public class Item implements Serializable {
         this.itemId = itemId;
     }
 
-    protected Item(String itemName, String itemDescription, String shortName, String itemId) {
+    public Integer getItemTypeId() {
+        return itemTypeId;
+    }
+
+    public void setItemTypeId(Integer itemTypeId) {
+        this.itemTypeId = itemTypeId;
+    }
+
+    protected Item(String itemName, String itemDescription, String shortName, String itemId, Integer itemTypeId) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.shortName = shortName;
         this.itemId = itemId;
-
+        this.itemTypeId = itemTypeId;
     }
 
     public String getItemName() {

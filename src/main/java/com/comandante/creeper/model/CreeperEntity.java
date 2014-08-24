@@ -10,6 +10,10 @@ public abstract class CreeperEntity implements Runnable {
         this.entityId = UUID.randomUUID().toString();
     }
 
+    protected CreeperEntity(String entityId) {
+        this.entityId = entityId;
+    }
+
     public String getEntityId() {
         return entityId;
     }

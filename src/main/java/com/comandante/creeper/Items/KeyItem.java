@@ -1,4 +1,4 @@
-package com.comandante.creeper.model;
+package com.comandante.creeper.Items;
 
 
 import org.fusesource.jansi.Ansi;
@@ -15,6 +15,6 @@ public class KeyItem extends Item {
     private final static String DESCRIPTION = "It's a freaking key man.";
 
     public KeyItem() {
-        super(NAME, DESCRIPTION, SHORTNAME, UUID.randomUUID().toString());
+        super(NAME, DESCRIPTION, SHORTNAME, UUID.randomUUID().toString(), ItemType.KEY.getItemTypeCode());
     }
 }
