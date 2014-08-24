@@ -10,7 +10,7 @@ public class RoomManager {
     private ConcurrentHashMap<Integer, Room> rooms = new ConcurrentHashMap<Integer, Room>();
 
     public void addRoom(Room room) {
-        rooms.put(room.roomId, room);
+        rooms.put(room.getRoomId(), room);
     }
 
     public Room getRoom(Integer roomId) {

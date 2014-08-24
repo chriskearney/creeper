@@ -230,6 +230,12 @@ public class GameManager {
         if (room.getWestId().isPresent()) {
             stringBuilder.append("West ");
         }
+        if (room.getUpId().isPresent()) {
+            stringBuilder.append("Up ");
+        }
+        if (room.getDownId().isPresent()) {
+            stringBuilder.append("Down ");
+        }
         stringBuilder.append(new Ansi().reset().toString()).append("]\r\n");
         return stringBuilder.toString();
     }

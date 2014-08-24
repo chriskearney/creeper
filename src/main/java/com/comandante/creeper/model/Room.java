@@ -2,30 +2,41 @@ package com.comandante.creeper.model;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
-import org.fusesource.jansi.Ansi;
 
 import java.util.Set;
 
-public class Room {
+public abstract class Room extends CreeperEntity {
 
-    public Integer roomId;
-    public String roomTitle;
-    public Optional<Integer> northId;
-    public Optional<Integer> westId;
-    public Optional<Integer> eastId;
-    public Optional<Integer> southId;
-    public String roomDescription;
-    private Set<String> presentPlayerIds = Sets.<String>newConcurrentHashSet();
-    private Set<String> afkPlayerIds = Sets.<String>newConcurrentHashSet();
-    private Set<String> npcIds = Sets.newConcurrentHashSet();
+    private final Integer roomId;
+    private final String roomTitle;
+    private final Optional<Integer> northId;
+    private final Optional<Integer> westId;
+    private final Optional<Integer> eastId;
+    private final Optional<Integer> southId;
+    private final Optional<Integer> downId;
+    private final Optional<Integer> upId;
+    private final String roomDescription;
+    private final Set<String> presentPlayerIds = Sets.<String>newConcurrentHashSet();
+    private final Set<String> afkPlayerIds = Sets.<String>newConcurrentHashSet();
+    private final Set<String> npcIds = Sets.newConcurrentHashSet();
 
-    public Room(Integer roomId, String roomTitle, Optional<Integer> northId, Optional<Integer> westId, Optional<Integer> eastId, Optional<Integer> southId, String roomDescription) {
+    public Room(Integer roomId,
+                String roomTitle,
+                Optional<Integer> northId,
+                Optional<Integer> westId,
+                Optional<Integer> eastId,
+                Optional<Integer> southId,
+                Optional<Integer> upId,
+                Optional<Integer> downId,
+                String roomDescription) {
         this.roomId = roomId;
         this.roomTitle = roomTitle;
         this.northId = northId;
         this.westId = westId;
         this.eastId = eastId;
         this.southId = southId;
+        this.upId = upId;
+        this.downId = downId;
         this.roomDescription = roomDescription;
     }
 
@@ -91,5 +102,18 @@ public class Room {
 
     public Optional<Integer> getSouthId() {
         return southId;
+    }
+
+    public Optional<Integer> getUpId() {
+        return upId;
+    }
+
+    public Optional<Integer> getDownId() {
+        return downId;
+    }
+
+    @Override
+    public void run() {
+
     }
 }

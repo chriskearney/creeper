@@ -13,6 +13,7 @@ public class EntityManager {
     private final ConcurrentHashMap<String, Npc> npcs = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, CreeperEntity> entities = new ConcurrentHashMap<>();
     private final ExecutorService tickService = Executors.newFixedThreadPool(1);
+    private final ExecutorService ticketRunnerService = Executors.newFixedThreadPool(10);
     private final RoomManager roomManager;
 
     public EntityManager(RoomManager roomManager) {
@@ -45,9 +46,9 @@ public class EntityManager {
                 try {
                     Thread.sleep(10000);
                     System.out.println("tick...");
-                    for (Map.Entry<String, Npc> next : npcs.entrySet()) {
-                        Npc npc = next.getValue();
-                        npc.run();
+                    for (Map.Entry<String, CreeperEntity> next : entities.entrySet()) {
+                        CreeperEntity creeperEntity = next.getValue();
+                        ticketRunnerService.submit(creeperEntity);
                     }
                 } catch (InterruptedException ie) {
                     throw new RuntimeException("Problem with ticker.");

@@ -17,8 +17,18 @@ public class MovementCommand extends Command {
     public final static List<String> southTriggers = Arrays.asList("s", "south".toLowerCase());
     public final static List<String> eastTriggers = Arrays.asList("e", "east".toLowerCase());
     public final static List<String> westTriggers = Arrays.asList("w", "west".toLowerCase());
+    public final static List<String> upTriggers = Arrays.asList("u", "up".toLowerCase());
+    public final static List<String> downTriggers = Arrays.asList("d", "down".toLowerCase());
+
     public final static ImmutableList validTriggers =
-            new ImmutableList.Builder<String>().addAll(northTriggers).addAll(southTriggers).addAll(eastTriggers).addAll(westTriggers).build();
+            new ImmutableList.Builder<String>()
+                    .addAll(northTriggers)
+                    .addAll(southTriggers)
+                    .addAll(eastTriggers)
+                    .addAll(westTriggers)
+                    .addAll(upTriggers)
+                    .addAll(downTriggers)
+                    .build();
     private final static boolean isCaseSensitiveTriggers = false;
 
     public MovementCommand(String playerId, GameManager gameManager, String originalMessage) {
@@ -69,6 +79,22 @@ public class MovementCommand extends Command {
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getWestId().get());
+            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.");
+        }
+        if (upTriggers.contains(command.toLowerCase())) {
+            if (!currentRoom.getUpId().isPresent()) {
+                player.getChannel().write("There's no up exit.\r\n");
+                return;
+            }
+            Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getUpId().get());
+            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.");
+        }
+        if (downTriggers.contains(command.toLowerCase())) {
+            if (!currentRoom.getDownId().isPresent()) {
+                player.getChannel().write("There's no down exit.\r\n");
+                return;
+            }
+            Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getDownId().get());
             movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.");
         }
         gameManager.movePlayer(movement);
