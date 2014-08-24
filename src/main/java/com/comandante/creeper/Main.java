@@ -22,16 +22,16 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Room lobby = new Room(1, Optional.of(2), Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.<Integer>absent(),
-                "This is the lobby. It's pretty empty and the paint still smells fresh.");
-        Room hallway = new Room(2, Optional.of(3), Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.of(1),
-                "This is the hallway. It's long and hallway-ish with exposed wires and floorboards showing.");
-        Room intake = new Room(3, Optional.<Integer>absent(), Optional.of(6), Optional.<Integer>absent(), Optional.of(2),
-                "This is the intake area.  People are lined up like cattle waiting to be prodded.");
-        Room janitorialCloset = new Room(6, Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.of(3), Optional.of(7),
-                "You find yourself in the janitorial closet.  It smells like bleach.");
-        Room toilet = new Room(7, Optional.of(6), Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.<Integer>absent(),
-                "You find yourself in the toilet. The smell is horrible.");
+        Room lobby = new Room(1, "Lobby", Optional.of(2), Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.<Integer>absent(),
+                "This is the lobby. It's pretty empty and the paint still smells fresh.\r\n");
+        Room hallway = new Room(2,"Hallway", Optional.of(3), Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.of(1),
+                "This is the hallway. It's long and hallway-ish with exposed wires and floorboards showing.\r\n");
+        Room intake = new Room(3, "Intake", Optional.<Integer>absent(), Optional.of(6), Optional.<Integer>absent(), Optional.of(2),
+                "This is the intake area.  People are lined up like cattle waiting to be prodded.\r\n");
+        Room janitorialCloset = new Room(6, "Closet", Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.of(3), Optional.of(7),
+                "You find yourself in the janitorial closet.  It smells like bleach.\r\n");
+        Room toilet = new Room(7, "Toilet", Optional.of(6), Optional.<Integer>absent(), Optional.<Integer>absent(), Optional.<Integer>absent(),
+                "You find yourself in the toilet. The smell is horrible.\r\n");
 
         RoomManager roomManager = new RoomManager();
         roomManager.addRoom(lobby);

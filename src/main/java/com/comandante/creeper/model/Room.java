@@ -70,7 +70,7 @@ public class Room {
     }
 
     public String getRoomDescription() {
-        return new Ansi().fg(Ansi.Color.GREEN).render(roomDescription).toString() + new Ansi().reset().toString();
+        return roomDescription;
     }
 
     public Integer getRoomId() {
