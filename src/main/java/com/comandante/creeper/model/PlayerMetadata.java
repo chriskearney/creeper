@@ -25,6 +25,10 @@ public class PlayerMetadata implements Serializable {
             return inventory;
     }
 
+    public void setInventory(String[] inventory) {
+        this.inventory = inventory;
+    }
+
     public void addInventoryEntityId(String newEntityId) {
             if (inventory == null) {
                 inventory = new String[0];

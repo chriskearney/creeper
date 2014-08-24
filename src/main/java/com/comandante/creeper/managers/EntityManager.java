@@ -25,12 +25,12 @@ public class EntityManager {
 
     public EntityManager(RoomManager roomManager, DB db) {
         this.roomManager = roomManager;
-        this.db = db;
-        if (db.exists("items")) {
-            this.items = db.get("items");
+        if (db.exists("itemMap")) {
+            this.items = db.get("itemMap");
         } else {
-            this.items = db.createHashMap("items").valueSerializer(new ItemSerializer()).make();
+            this.items = db.createHashMap("itemMap").valueSerializer(new ItemSerializer()).make();
         }
+        this.db = db;
         tickService.submit(new Ticker());
     }
 
@@ -43,11 +43,12 @@ public class EntityManager {
         if (creeperEntity instanceof Room) {
             roomManager.addRoom((Room) creeperEntity);
         }
-        if (creeperEntity instanceof Item) {
-            items.put(creeperEntity.getEntityId(), (Item) creeperEntity);
-            db.commit();
-        }
         entities.put(creeperEntity.getEntityId(), creeperEntity);
+    }
+
+    public void addItem(Item item){
+        items.put(item.getItemId(), item);
+        db.commit();
     }
 
     public void deleteNpcEntity(String npcId) {

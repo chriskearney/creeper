@@ -3,6 +3,8 @@ package com.comandante.creeper.model;
 
 import org.fusesource.jansi.Ansi;
 
+import java.util.UUID;
+
 public class KeyItem extends Item {
 
     private final static String NAME = new StringBuilder()
@@ -11,14 +13,8 @@ public class KeyItem extends Item {
             .append(new Ansi().reset().toString()).toString();
     private final static String SHORTNAME = "key";
     private final static String DESCRIPTION = "It's a freaking key man.";
-    private final static ItemType TYPE = ItemType.KEY;
 
     public KeyItem() {
-        super(NAME, DESCRIPTION, TYPE, SHORTNAME);
-    }
-
-    @Override
-    public void run() {
-
+        super(NAME, DESCRIPTION, SHORTNAME, UUID.randomUUID().toString());
     }
 }

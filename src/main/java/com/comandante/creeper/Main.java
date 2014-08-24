@@ -29,6 +29,8 @@ public class Main {
                 .encryptionEnable("creepandicrawl")
                 .make();
 
+        RoomManager roomManager = new RoomManager();
+        EntityManager entityManager =  new EntityManager(roomManager, db);
         PlayerManager playerManager = new PlayerManagerMapDB(db);
         if (playerManager.getPlayerMetadata(new Player("chris").getPlayerId()) == null) {
             System.out.println("Creating Chris User.");
@@ -40,8 +42,6 @@ public class Main {
             playerManager.savePlayerMetadata(new PlayerMetadata("brian", "poop", new String(Base64.encodeBase64("brian".getBytes()))));
         }
 
-        RoomManager roomManager = new RoomManager();
-        EntityManager entityManager = new EntityManager(roomManager, db);
         GameManager gameManager = new GameManager(roomManager, playerManager, entityManager);
 
         entityManager.addEntity(new BasicRoom(
@@ -124,8 +124,8 @@ public class Main {
         entityManager.addEntity(new Derper(gameManager, 1));
 
         KeyItem keyItem = new KeyItem();
-        entityManager.addEntity(keyItem);
-        gameManager.placeItemInRoom(1, keyItem.getEntityId());
+        entityManager.addItem(keyItem);
+        gameManager.placeItemInRoom(1, keyItem.getItemId());
 
         CommandService commandService = new CommandService();
         DefaultCommandHandler defaultCommandHandler = new DefaultCommandHandler(gameManager, commandService);

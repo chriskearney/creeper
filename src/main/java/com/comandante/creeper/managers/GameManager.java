@@ -338,7 +338,7 @@ public class GameManager {
     }
 
     public void placeItemInRoom(Integer roomId, String itemId) {
-        roomManager.getRoom(roomId).addPresentItem(entityManager.getItemEntity(itemId).getEntityId());
+        roomManager.getRoom(roomId).addPresentItem(entityManager.getItemEntity(itemId).getItemId());
     }
 
     public void acquireItem(Player player, String itemId) {

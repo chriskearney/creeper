@@ -1,6 +1,7 @@
 package com.comandante.creeper.command.commands;
 
 
+import com.comandante.creeper.managers.EntityManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.model.Item;
 import com.comandante.creeper.model.Player;
@@ -34,6 +35,7 @@ public class InventoryCommand extends Command {
         sb.append(new Ansi().fg(Ansi.Color.CYAN).toString());
         sb.append("----Inventory-----\r\n");
         for (String inventoryId: inventory) {
+            EntityManager entityManager = getGameManager().getEntityManager();
             Item item = getGameManager().getEntityManager().getItemEntity(inventoryId);
             sb.append(item.getItemName()).append("\r\n");
         }

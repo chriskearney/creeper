@@ -32,7 +32,7 @@ public class PickUpCommand extends Command {
         for (String next : itemIds) {
             Item itemEntity = getGameManager().getEntityManager().getItemEntity(next);
             if (itemEntity.getShortName().equalsIgnoreCase(originalMessageParts.get(1))) {
-                getGameManager().acquireItem(player, itemEntity.getEntityId());
+                getGameManager().acquireItem(player, itemEntity.getItemId());
                 return;
             }
         }

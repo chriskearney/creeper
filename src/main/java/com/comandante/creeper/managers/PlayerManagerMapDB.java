@@ -43,7 +43,7 @@ public class PlayerManagerMapDB implements PlayerManager {
     public void addInventoryId(String playerId, String inventoryId) {
         PlayerMetadata playerMetadata = playerMetadataStore.get(playerId);
         playerMetadata.addInventoryEntityId(inventoryId);
-        db.commit();
+        savePlayerMetadata(playerMetadata);
     }
 
     @Override
