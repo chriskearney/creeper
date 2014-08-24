@@ -55,7 +55,7 @@ public class MovementCommand extends Command {
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getNorthId().get());
-            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the north.");
+            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the north.", "south");
         }
         if (southTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getSouthId().isPresent()) {
@@ -63,7 +63,7 @@ public class MovementCommand extends Command {
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getSouthId().get());
-            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the south.");
+            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the south.", "north");
         }
         if (eastTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getEastId().isPresent()) {
@@ -71,7 +71,7 @@ public class MovementCommand extends Command {
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getEastId().get());
-            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the east.");
+            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the east.", "west");
         }
         if (westTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getWestId().isPresent()) {
@@ -79,7 +79,7 @@ public class MovementCommand extends Command {
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getWestId().get());
-            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.");
+            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "east");
         }
         if (upTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getUpId().isPresent()) {
@@ -87,7 +87,7 @@ public class MovementCommand extends Command {
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getUpId().get());
-            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.");
+            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "down");
         }
         if (downTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getDownId().isPresent()) {
@@ -95,10 +95,11 @@ public class MovementCommand extends Command {
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getDownId().get());
-            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.");
+            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "up");
         }
         gameManager.movePlayer(movement);
         if (movement != null) {
+            player.setReturnDirection(Optional.of(movement.getReturnDirection()));
             gameManager.currentRoomLogic(movement.getPlayer().getPlayerId());
         }
     }

@@ -214,27 +214,66 @@ public class GameManager {
         }
     }
 
-    private String getExits(Room room) {
+    private String getExits(Room room, Player player) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("[ Exits: ");
         stringBuilder.append(new Ansi().fg(Ansi.Color.GREEN).toString());
+        if (!player.getReturnDirection().isPresent()) {
+            player.setReturnDirection(Optional.of("-"));
+        }
         if (room.getNorthId().isPresent()) {
-            stringBuilder.append("North ");
+            if (player.getReturnDirection().get().equalsIgnoreCase("north")) {
+                stringBuilder.append(new Ansi().fgBright(Ansi.Color.GREEN).toString());
+                stringBuilder.append("North ");
+                stringBuilder.append(new Ansi().fg(Ansi.Color.GREEN).toString());
+            } else {
+                stringBuilder.append("North ");
+            }
         }
         if (room.getSouthId().isPresent()) {
-            stringBuilder.append("South ");
+            if (player.getReturnDirection().get().equalsIgnoreCase("south")) {
+                stringBuilder.append(new Ansi().fgBright(Ansi.Color.GREEN).toString());
+                stringBuilder.append("South ");
+                stringBuilder.append(new Ansi().fg(Ansi.Color.GREEN).toString());
+            } else {
+                stringBuilder.append("South ");
+            }
         }
         if (room.getEastId().isPresent()) {
-            stringBuilder.append("East ");
+            if (player.getReturnDirection().get().equalsIgnoreCase("east")) {
+                stringBuilder.append(new Ansi().fgBright(Ansi.Color.GREEN).toString());
+                stringBuilder.append("East ");
+                stringBuilder.append(new Ansi().fg(Ansi.Color.GREEN).toString());
+            } else {
+                stringBuilder.append("East ");
+            }
         }
         if (room.getWestId().isPresent()) {
-            stringBuilder.append("West ");
+            if (player.getReturnDirection().get().equalsIgnoreCase("west")) {
+                stringBuilder.append(new Ansi().fgBright(Ansi.Color.GREEN).toString());
+                stringBuilder.append("West ");
+                stringBuilder.append(new Ansi().fg(Ansi.Color.GREEN).toString());
+            } else {
+                stringBuilder.append("West ");
+            }
         }
         if (room.getUpId().isPresent()) {
-            stringBuilder.append("Up ");
+            if (player.getReturnDirection().get().equalsIgnoreCase("up")) {
+                stringBuilder.append(new Ansi().fgBright(Ansi.Color.GREEN).toString());
+                stringBuilder.append("Up ");
+                stringBuilder.append(new Ansi().fg(Ansi.Color.GREEN).toString());
+            } else {
+                stringBuilder.append("Up ");
+            }
         }
         if (room.getDownId().isPresent()) {
-            stringBuilder.append("Down ");
+            if (player.getReturnDirection().get().equalsIgnoreCase("down")) {
+                stringBuilder.append(new Ansi().fgBright(Ansi.Color.GREEN).toString());
+                stringBuilder.append("Down ");
+                stringBuilder.append(new Ansi().fg(Ansi.Color.GREEN).toString());
+            } else {
+                stringBuilder.append("Down ");
+            }
         }
         stringBuilder.append(new Ansi().reset().toString()).append("]\r\n");
         return stringBuilder.toString();
@@ -249,7 +288,7 @@ public class GameManager {
         sb.append(playerCurrentRoom.getRoomTitle()).append("\r\n\r\n");
         sb.append(new Ansi().reset().toString());
         sb.append(playerCurrentRoom.getRoomDescription()).append("\r\n");
-        sb.append(getExits(playerCurrentRoom));
+        sb.append(getExits(playerCurrentRoom, player));
         for (String searchPlayerId : playerCurrentRoom.getPresentPlayerIds()) {
             if (searchPlayerId.equals(player.getPlayerId())) {
                 continue;
@@ -257,7 +296,7 @@ public class GameManager {
             Player searchPlayer = playerManager.getPlayer(searchPlayerId);
             sb.append(searchPlayer.getPlayerName()).append(" is here.\r\n");
         }
-        for (String npcId: playerCurrentRoom.getNpcIds()) {
+        for (String npcId : playerCurrentRoom.getNpcIds()) {
             Npc npcEntity = entityManager.getNpcEntity(npcId);
             sb.append("A ").append(npcEntity.getColorName()).append(" is here.\r\n");
         }

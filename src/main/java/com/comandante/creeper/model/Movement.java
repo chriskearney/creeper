@@ -9,17 +9,25 @@ public class Movement {
     private final Integer destinationRoomId;
     private final MovementCommand command;
     private final String roomExitMessage;
+    private final String returnDirection;
 
     public Movement(Player player,
                     Integer sourceRoomId,
                     Integer destinationRoomId,
                     MovementCommand command,
-                    String roomExitMessage) {
+                    String roomExitMessage,
+                    String returnDirection) {
         this.player = player;
         this.sourceRoomId = sourceRoomId;
         this.destinationRoomId = destinationRoomId;
         this.command = command;
         this.roomExitMessage = roomExitMessage;
+        this.returnDirection = returnDirection;
+
+    }
+
+    public String getReturnDirection() {
+        return returnDirection;
     }
 
     public Integer getSourceRoomId() {
