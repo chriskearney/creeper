@@ -42,16 +42,84 @@ public class Main {
         RoomManager roomManager = new RoomManager();
         EntityManager entityManager = new EntityManager(roomManager);
         GameManager gameManager = new GameManager(roomManager, playerManager, entityManager);
+
         entityManager.addEntity(new BasicRoom(
                 1,
-                "Lobby",
+                "Entrance to Federation Training Encampment",
                 Optional.of(2),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
-                "This is the lobby. It's pretty empty and the paint still smells fresh.\r\n"));
+                "You are standing before the Federation Training Encampment. A huge wall surronds the base. To the north you see a two doors leading inside. Above the doors you sits the symbol of the Federation, a single red star with five points and a raised fist in the center. Sentries along the encampment walls begin to eye you suspiciously. You then remember that malingering in front of a Federation base could prove to be a fatal mistake.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                2,
+                "Quarter Deck",
+                Optional.of(3),
+                Optional.of(1),
+                Optional.of(4),
+                Optional.of(5),
+                Optional.of(6),
+                Optional.<Integer>absent(),
+                "You are standing on the quarter deck of the Training Encampment. Federation flags line the walls of this large room. A statue of the Grand Marshal of the Federation sit in the back. A Private on watch is behind a desk in the center of the room. To the west you hear the sounds of gun fire. To the east a sentry stands by a door waiting to scan the credentials of anyone looking for access to the armory. A staircase leads up stairs. You get the feeling only high ranking officers are allowed on the second floor. To the north is a door leading to the training fields.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                3,
+                "Training Field",
+                Optional.of(7),
+                Optional.of(2),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                "You are standing on the center of a massive training field. You see a large field with a track surronding it. A main pathway connects from the Port to the north to the main Federation building. Soldiers of all ranks are going about their business here.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                4,
+                "Armory",
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.of(2),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                "You are standing in the Federation Training Encampment armory.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                5,
+                "Firing Range",
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.of(2),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                "You are standing in the Federation Training Encampment firing range.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                6,
+                "Marshal's Office",
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.of(2),
+                "You are standing in the Marshal's office.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                7,
+                "Port",
+                Optional.<Integer>absent(),
+                Optional.of(3),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                "You are standing in the main port of the Federation Encampment.\r\n"));
+
         entityManager.addEntity(new Derper(gameManager, 1));
         CommandService commandService = new CommandService();
         DefaultCommandHandler defaultCommandHandler = new DefaultCommandHandler(gameManager, commandService);
