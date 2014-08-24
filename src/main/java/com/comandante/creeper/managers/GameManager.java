@@ -217,7 +217,7 @@ public class GameManager {
     private String getExits(Room room) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("[ Exits: ");
-        stringBuilder.append(new Ansi().fg(Ansi.Color.BLUE).toString());
+        stringBuilder.append(new Ansi().fg(Ansi.Color.GREEN).toString());
         if (room.getNorthId().isPresent()) {
             stringBuilder.append("North ");
         }
@@ -238,6 +238,10 @@ public class GameManager {
         Player player = playerManager.getPlayer(playerId);
         final Room playerCurrentRoom = getPlayerCurrentRoom(player).get();
         StringBuilder sb = new StringBuilder();
+        sb.append("\r\n");
+        sb.append(new Ansi().fg(Ansi.Color.GREEN).toString());
+        sb.append(playerCurrentRoom.getRoomTitle()).append("\r\n\r\n");
+        sb.append(new Ansi().reset().toString());
         sb.append(playerCurrentRoom.getRoomDescription()).append("\r\n");
         sb.append(getExits(playerCurrentRoom));
         for (String searchPlayerId : playerCurrentRoom.getPresentPlayerIds()) {
