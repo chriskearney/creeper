@@ -29,6 +29,7 @@ public class Derper extends Npc {
 
     @Override
     public void run() {
+        super.run();
         if (System.currentTimeMillis() - getLastPhraseTimestamp() > phraseIntervalMs) {
             int size = PHRASES.size();
             npcSay(getRoomId(), PHRASES.get(random.nextInt(size)));

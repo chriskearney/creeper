@@ -1,6 +1,7 @@
 package com.comandante.creeper.managers;
 
 import com.comandante.creeper.model.CreeperEntity;
+import com.comandante.creeper.model.Room;
 import com.comandante.creeper.npc.Npc;
 
 import java.util.Map;
@@ -26,6 +27,9 @@ public class EntityManager {
             Npc npc = (Npc) creeperEntity;
             roomManager.getRoom(npc.getRoomId()).addPresentNpc(npc.getEntityId());
             npcs.put(creeperEntity.getEntityId(), npc);
+        }
+        if (creeperEntity instanceof Room) {
+            roomManager.addRoom((Room) creeperEntity);
         }
         entities.put(creeperEntity.getEntityId(), creeperEntity);
     }
