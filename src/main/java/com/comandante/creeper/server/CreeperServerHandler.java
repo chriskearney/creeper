@@ -35,9 +35,8 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
     public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
-                .append(new Ansi().bg(Ansi.Color.GREEN).toString())
-                .append(new Ansi().fg(Ansi.Color.BLACK))
-                .append("\r\n\r\n\r\n\r\n" + GameManager.LOGO + "\r\n" + GameManager.VERSION + "\r\n\r\n\r\n\r\n")
+                .append(new Ansi().bg(Ansi.Color.DEFAULT).toString())
+                .append("\r\n\r\n\r\n\r\n" + GameManager.LOGO + "\r\n" + GameManager.VERSION + "\r\n")
                 .append(new Ansi().reset().toString() + "\r\n")
                 .append("First time here? Type \"new\".\r\n")
                 .append("username: ");
