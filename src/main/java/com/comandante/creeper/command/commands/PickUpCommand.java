@@ -33,9 +33,9 @@ public class PickUpCommand extends Command {
             Item itemEntity = getGameManager().getEntityManager().getItemEntity(next);
             if (itemEntity.getShortName().equalsIgnoreCase(originalMessageParts.get(1))) {
                 getGameManager().acquireItem(player, itemEntity.getItemId());
+                getGameManager().roomSay(playerCurrentRoom.getRoomId(),getGameManager().getPlayerManager().getPlayer(getPlayerId()).getPlayerName() + " picked up " + itemEntity.getItemName() + ".\r\n");
                 return;
             }
         }
-
     }
 }

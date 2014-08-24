@@ -13,7 +13,7 @@ public enum ItemType {
             "A basic key with nothing really remarkable other than its made of gold.",
             false,
             0,
-            60),
+            2),
     BOOK(2, "book", new StringBuilder()
             .append(new Ansi().fg(Ansi.Color.RED).toString())
             .append("An ancient leather bound [book]")
@@ -21,7 +21,7 @@ public enum ItemType {
             "An ancient book with mysterious engravings.",
             false,
             0,
-            60),
+            2),
     BEER(3, "beer", new StringBuilder()
             .append(new Ansi().fg(Ansi.Color.YELLOW).toString())
             .append("A cold frosty [beer]")
