@@ -5,7 +5,6 @@ import com.comandante.creeper.model.Movement;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
 import com.comandante.creeper.model.npc.Npc;
-import com.comandante.creeper.model.npc.NpcType;
 import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
@@ -35,21 +34,22 @@ public class GameManager {
     private final RoomManager roomManager;
     private final PlayerManager playerManager;
     private final NewUserRegistrationManager newUserRegistrationManager;
-    private final NPCManager npcManager;
+    private final EntityManager entityManager;
+    //private final EntityManager entityManager;
 
     public NewUserRegistrationManager getNewUserRegistrationManager() {
         return newUserRegistrationManager;
     }
 
-    public GameManager(RoomManager roomManager, PlayerManager playerManager) {
+    public GameManager(RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager) {
         this.roomManager = roomManager;
         this.playerManager = playerManager;
+        this.entityManager = entityManager;
         this.newUserRegistrationManager = new NewUserRegistrationManager(playerManager);
-        this.npcManager = new NPCManager(roomManager, playerManager);
     }
 
-    public NPCManager getNpcManager() {
-        return npcManager;
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
 
     public RoomManager getRoomManager() {
@@ -251,10 +251,9 @@ public class GameManager {
             Player searchPlayer = playerManager.getPlayer(searchPlayerId);
             sb.append(searchPlayer.getPlayerName()).append(" is here.\r\n");
         }
-        for (String npcId : playerCurrentRoom.getNpcIds()) {
-            Npc npc = npcManager.getNpc(npcId);
-            NpcType npcType = npc.getNpcType();
-            sb.append("A ").append(npcType.getNpcName()).append(" is here.\r\n");
+        for (String npcId: playerCurrentRoom.getNpcIds()) {
+            Npc npcEntity = entityManager.getNpcEntity(npcId);
+            sb.append("A ").append(npcEntity.getColorName()).append(" is here.\r\n");
         }
         player.getChannel().write(sb.toString());
     }
@@ -264,4 +263,11 @@ public class GameManager {
         currentRoomLogic(player);
     }
 
+    public void roomSay(Integer roomId, String message) {
+        Set<String> presentPlayerIds = roomManager.getRoom(roomId).getPresentPlayerIds();
+        for (String playerId : presentPlayerIds) {
+            Player player = playerManager.getPlayer(playerId);
+            player.getChannel().write(message);
+        }
+    }
 }

@@ -1,33 +1,57 @@
 package com.comandante.creeper.model.npc;
 
 
-import java.util.UUID;
+import com.comandante.creeper.managers.GameManager;
+import com.comandante.creeper.model.CreeperEntity;
+import org.fusesource.jansi.Ansi;
 
-public class Npc {
 
-    private final String npcId;
-    private final NpcType npcType;
-    private long phraseTimestamp;
+public abstract class Npc extends CreeperEntity {
 
-    public Npc(NpcType npcType) {
-        npcId = UUID.randomUUID().toString();
-        this.npcType = npcType;
-        this.phraseTimestamp = 0;
+    public void setLastPhraseTimestamp(long lastPhraseTimestamp) {
+        this.lastPhraseTimestamp = lastPhraseTimestamp;
     }
 
-    public String getNpcId() {
-        return npcId;
+    private long lastPhraseTimestamp;
+    private final GameManager gameManager;
+    private final Integer roomId;
+    private final String name;
+    private final String colorName;
+
+    public String getColorName() {
+        return colorName;
     }
 
-    public NpcType getNpcType() {
-        return npcType;
+    protected Npc(GameManager gameManager, Integer roomId, String name, String colorName, long lastPhraseTimestamp) {
+        this.gameManager = gameManager;
+        this.roomId = roomId;
+        this.name = name;
+        this.colorName = colorName;
+
+        this.lastPhraseTimestamp = lastPhraseTimestamp;
     }
 
-    public long getPhraseTimestamp() {
-        return phraseTimestamp;
+    public GameManager getGameManager() {
+        return gameManager;
     }
 
-    public void setPhraseTimestamp(long phraseTimestamp) {
-        this.phraseTimestamp = phraseTimestamp;
+    public Integer getRoomId() {
+        return roomId;
+    }
+
+    public long getLastPhraseTimestamp() {
+        return lastPhraseTimestamp;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void npcSay(Integer roomId, String message) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(new Ansi().fg(Ansi.Color.RED).toString());
+        sb.append(name).append(": ").append(message);
+        sb.append(new Ansi().reset().toString()).append("\r\n");
+        gameManager.roomSay(roomId, sb.toString());
     }
 }

@@ -1,16 +1,16 @@
 package com.comandante.creeper;
 
-import com.comandante.creeper.command.DefaultCommandHandler;
 import com.comandante.creeper.command.CommandService;
+import com.comandante.creeper.command.DefaultCommandHandler;
+import com.comandante.creeper.managers.EntityManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.managers.PlayerManager;
 import com.comandante.creeper.managers.PlayerManagerMapDB;
 import com.comandante.creeper.managers.RoomManager;
-import com.comandante.creeper.model.npc.Npc;
-import com.comandante.creeper.model.npc.NpcType;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
 import com.comandante.creeper.model.Room;
+import com.comandante.creeper.model.npc.Derper;
 import com.comandante.creeper.server.CreeperServer;
 import com.google.common.base.Optional;
 import org.apache.commons.codec.binary.Base64;
@@ -56,19 +56,11 @@ public class Main {
             playerManager.savePlayerMetadata(new PlayerMetadata("brian", "poop", new String(Base64.encodeBase64("brian".getBytes()))));
         }
 
-        GameManager gameManager = new GameManager(roomManager, playerManager);
+        EntityManager entityManager = new EntityManager(roomManager);
+        GameManager gameManager = new GameManager(roomManager, playerManager, entityManager);
 
-        Npc derper1 = new Npc(NpcType.DERPER);
-        gameManager.getNpcManager().saveNpc(derper1);
-        roomManager.getRoom(lobby.getRoomId()).addPresentNpc(derper1.getNpcId());
-        Npc derper2 = new Npc(NpcType.DERPER);
-        gameManager.getNpcManager().saveNpc(derper2);
-        roomManager.getRoom(lobby.getRoomId()).addPresentNpc(derper2.getNpcId());
-
-        Npc derper3 = new Npc(NpcType.DERPER);
-        gameManager.getNpcManager().saveNpc(derper3);
-        roomManager.getRoom(janitorialCloset.getRoomId()).addPresentNpc(derper3.getNpcId());
-
+        Derper derperJoe = new Derper(gameManager, lobby.getRoomId());
+        entityManager.addEntity(derperJoe);
         CommandService commandService = new CommandService();
         DefaultCommandHandler defaultCommandHandler = new DefaultCommandHandler(gameManager, commandService);
 
