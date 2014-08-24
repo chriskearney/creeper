@@ -9,7 +9,15 @@ public class BasicRoom extends Room {
         System.out.println(getRoomTitle() + " tick.");
     }
 
-    public BasicRoom(Integer roomId, String roomTitle, Optional<Integer> northId, Optional<Integer> westId, Optional<Integer> eastId, Optional<Integer> southId, Optional<Integer> upId, Optional<Integer> downId, String roomDescription) {
-        super(roomId, roomTitle, northId, westId, eastId, southId, upId, downId, roomDescription);
+    public BasicRoom(Integer roomId,
+                     String roomTitle,
+                     Optional<Integer> northId,
+                     Optional<Integer> southId,
+                     Optional<Integer> eastId,
+                     Optional<Integer> westId,
+                     Optional<Integer> upId,
+                     Optional<Integer> downId,
+                     String roomDescription) {
+        super(roomId, roomTitle, northId, southId, eastId, westId, upId, downId, roomDescription);
     }
 }

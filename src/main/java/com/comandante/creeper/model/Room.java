@@ -23,9 +23,9 @@ public abstract class Room extends CreeperEntity {
     public Room(Integer roomId,
                 String roomTitle,
                 Optional<Integer> northId,
-                Optional<Integer> westId,
-                Optional<Integer> eastId,
                 Optional<Integer> southId,
+                Optional<Integer> eastId,
+                Optional<Integer> westId,
                 Optional<Integer> upId,
                 Optional<Integer> downId,
                 String roomDescription) {
