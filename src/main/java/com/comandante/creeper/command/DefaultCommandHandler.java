@@ -2,7 +2,9 @@ package com.comandante.creeper.command;
 
 
 import com.comandante.creeper.command.commands.GossipCommand;
+import com.comandante.creeper.command.commands.InventoryCommand;
 import com.comandante.creeper.command.commands.MovementCommand;
+import com.comandante.creeper.command.commands.PickUpCommand;
 import com.comandante.creeper.command.commands.SayCommand;
 import com.comandante.creeper.command.commands.TellCommand;
 import com.comandante.creeper.command.commands.UnknownCommand;
@@ -50,7 +52,15 @@ public class DefaultCommandHandler {
         else if (WhoamiCommand.validTriggers.contains(rootCommand)){
             WhoamiCommand whoamiCommand = new WhoamiCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(whoamiCommand);
-        } else {
+        }
+        else if (PickUpCommand.validTriggers.contains(rootCommand)){
+            PickUpCommand pickUpCommand = new PickUpCommand(playerId, gameManager, originalMessage);
+            commandService.processCommand(pickUpCommand);
+        }
+        else if (InventoryCommand.validTriggers.contains(rootCommand)){
+            InventoryCommand inventoryCommand = new InventoryCommand(playerId, gameManager, originalMessage);
+            commandService.processCommand(inventoryCommand);
+        }else {
             UnknownCommand unknownCommand = new UnknownCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(unknownCommand);
         }

@@ -1,22 +1,18 @@
 package com.comandante.creeper.model;
 
 
-import com.comandante.creeper.managers.GameManager;
-
 public abstract class Item extends CreeperEntity {
 
-    private final GameManager gameManager;
     private final String itemName;
     private final String itemDescription;
+    private final ItemType itemType;
+    private final String shortName;
 
-    protected Item(GameManager gameManager, String itemName, String itemDescription) {
-        this.gameManager = gameManager;
+    protected Item(String itemName, String itemDescription, ItemType itemType, String shortName) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
-    }
-
-    public GameManager getGameManager() {
-        return gameManager;
+        this.itemType = itemType;
+        this.shortName = shortName;
     }
 
     public String getItemName() {
@@ -25,5 +21,13 @@ public abstract class Item extends CreeperEntity {
 
     public String getItemDescription() {
         return itemDescription;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public String getShortName() {
+        return shortName;
     }
 }

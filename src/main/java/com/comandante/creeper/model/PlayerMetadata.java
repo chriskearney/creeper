@@ -2,6 +2,7 @@ package com.comandante.creeper.model;
 
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class PlayerMetadata implements Serializable {
 
@@ -21,11 +22,16 @@ public class PlayerMetadata implements Serializable {
     }
 
     public String[] getInventory() {
-        return inventory;
+            return inventory;
     }
 
-    public void setInventory(String[] inventory) {
-        this.inventory = inventory;
+    public void addInventoryEntityId(String newEntityId) {
+            if (inventory == null) {
+                inventory = new String[0];
+            }
+            String[] result = Arrays.copyOf(inventory, inventory.length + 1);
+            result[inventory.length] = newEntityId;
+            this.inventory = result;
     }
 
     public String getPassword() {

@@ -40,6 +40,12 @@ public class PlayerManagerMapDB implements PlayerManager {
         return ImmutableSet.copyOf(players);
     }
 
+    public void addInventoryId(String playerId, String inventoryId) {
+        PlayerMetadata playerMetadata = playerMetadataStore.get(playerId);
+        playerMetadata.addInventoryEntityId(inventoryId);
+        db.commit();
+    }
+
     @Override
     public PlayerMetadata getPlayerMetadata(String playerId) {
         return playerMetadataStore.get(playerId);

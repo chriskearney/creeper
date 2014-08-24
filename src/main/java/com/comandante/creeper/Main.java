@@ -41,7 +41,7 @@ public class Main {
         }
 
         RoomManager roomManager = new RoomManager();
-        EntityManager entityManager = new EntityManager(roomManager);
+        EntityManager entityManager = new EntityManager(roomManager, db);
         GameManager gameManager = new GameManager(roomManager, playerManager, entityManager);
 
         entityManager.addEntity(new BasicRoom(
@@ -123,7 +123,7 @@ public class Main {
 
         entityManager.addEntity(new Derper(gameManager, 1));
 
-        KeyItem keyItem = new KeyItem(gameManager);
+        KeyItem keyItem = new KeyItem();
         entityManager.addEntity(keyItem);
         gameManager.placeItemInRoom(1, keyItem.getEntityId());
 

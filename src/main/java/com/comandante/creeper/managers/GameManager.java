@@ -340,4 +340,11 @@ public class GameManager {
     public void placeItemInRoom(Integer roomId, String itemId) {
         roomManager.getRoom(roomId).addPresentItem(entityManager.getItemEntity(itemId).getEntityId());
     }
+
+    public void acquireItem(Player player, String itemId) {
+        Room playerCurrentRoom = getPlayerCurrentRoom(player).get();
+        playerCurrentRoom.getItemIds().remove(itemId);
+        playerManager.addInventoryId(player.getPlayerId(), itemId);
+        player.getChannel().write("You acquired " + entityManager.getItemEntity(itemId).getItemName() + "\r\n");
+    }
 }

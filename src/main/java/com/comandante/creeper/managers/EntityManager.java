@@ -2,8 +2,11 @@ package com.comandante.creeper.managers;
 
 import com.comandante.creeper.model.CreeperEntity;
 import com.comandante.creeper.model.Item;
+import com.comandante.creeper.model.ItemSerializer;
 import com.comandante.creeper.model.Room;
 import com.comandante.creeper.npc.Npc;
+import org.mapdb.DB;
+import org.mapdb.HTreeMap;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,14 +16,21 @@ import java.util.concurrent.Executors;
 public class EntityManager {
 
     private final ConcurrentHashMap<String, Npc> npcs = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<String, Item> items = new ConcurrentHashMap<>();
+    private final HTreeMap<String, Item> items;
     private final ConcurrentHashMap<String, CreeperEntity> entities = new ConcurrentHashMap<>();
     private final ExecutorService tickService = Executors.newFixedThreadPool(1);
     private final ExecutorService ticketRunnerService = Executors.newFixedThreadPool(10);
     private final RoomManager roomManager;
+    private final DB db;
 
-    public EntityManager(RoomManager roomManager) {
+    public EntityManager(RoomManager roomManager, DB db) {
         this.roomManager = roomManager;
+        this.db = db;
+        if (db.exists("items")) {
+            this.items = db.get("items");
+        } else {
+            this.items = db.createHashMap("items").valueSerializer(new ItemSerializer()).make();
+        }
         tickService.submit(new Ticker());
     }
 
@@ -35,6 +45,7 @@ public class EntityManager {
         }
         if (creeperEntity instanceof Item) {
             items.put(creeperEntity.getEntityId(), (Item) creeperEntity);
+            db.commit();
         }
         entities.put(creeperEntity.getEntityId(), creeperEntity);
     }
