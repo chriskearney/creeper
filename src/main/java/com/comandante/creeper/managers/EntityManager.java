@@ -1,7 +1,7 @@
 package com.comandante.creeper.managers;
 
 import com.comandante.creeper.model.CreeperEntity;
-import com.comandante.creeper.model.npc.Npc;
+import com.comandante.creeper.npc.Npc;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

@@ -4,7 +4,7 @@ package com.comandante.creeper.managers;
 import com.comandante.creeper.model.Movement;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
-import com.comandante.creeper.model.npc.Npc;
+import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;

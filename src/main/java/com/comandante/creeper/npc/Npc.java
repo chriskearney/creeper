@@ -1,4 +1,4 @@
-package com.comandante.creeper.model.npc;
+package com.comandante.creeper.npc;
 
 
 import com.comandante.creeper.managers.GameManager;

@@ -10,7 +10,7 @@ import com.comandante.creeper.managers.RoomManager;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
 import com.comandante.creeper.model.Room;
-import com.comandante.creeper.model.npc.Derper;
+import com.comandante.creeper.npc.Derper;
 import com.comandante.creeper.server.CreeperServer;
 import com.google.common.base.Optional;
 import org.apache.commons.codec.binary.Base64;
@@ -59,8 +59,12 @@ public class Main {
         EntityManager entityManager = new EntityManager(roomManager);
         GameManager gameManager = new GameManager(roomManager, playerManager, entityManager);
 
-        Derper derperJoe = new Derper(gameManager, lobby.getRoomId());
-        entityManager.addEntity(derperJoe);
+        entityManager.addEntity(new Derper(gameManager, lobby.getRoomId()));
+        entityManager.addEntity(new Derper(gameManager, lobby.getRoomId()));
+
+        entityManager.addEntity(new Derper(gameManager, toilet.getRoomId()));
+        entityManager.addEntity(new Derper(gameManager, intake.getRoomId()));
+
         CommandService commandService = new CommandService();
         DefaultCommandHandler defaultCommandHandler = new DefaultCommandHandler(gameManager, commandService);
 

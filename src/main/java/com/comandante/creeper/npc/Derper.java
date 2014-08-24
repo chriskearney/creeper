@@ -1,4 +1,4 @@
-package com.comandante.creeper.model.npc;
+package com.comandante.creeper.npc;
 
 
 import com.comandante.creeper.managers.GameManager;
@@ -17,7 +17,9 @@ public class Derper extends Npc {
             .append(new Ansi().fg(Ansi.Color.RED).toString())
             .append("d")
             .append(new Ansi().fg(Ansi.Color.CYAN).toString())
-            .append("erper")
+            .append("erpe")
+            .append(new Ansi().fg(Ansi.Color.RED).toString())
+            .append("r")
             .append(new Ansi().reset().toString()).toString();
 
     public Derper(GameManager gameManager, Integer roomId) {
