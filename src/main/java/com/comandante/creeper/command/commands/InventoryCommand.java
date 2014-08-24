@@ -37,9 +37,15 @@ public class InventoryCommand extends Command {
         for (String inventoryId: inventory) {
             Item item = getGameManager().getEntityManager().getItemEntity(inventoryId);
             sb.append(item.getItemName());
-            if (ItemType.itemTypeFromCode(item.getItemTypeId()).getMaxUses() > 0) {
-                sb.append(" - ").append(ItemType.itemTypeFromCode(item.getItemTypeId()).getMaxUses() - item.getNumberOfUses());
-                sb.append(" uses left.");
+            int maxUses = ItemType.itemTypeFromCode(item.getItemTypeId()).getMaxUses();
+            if (maxUses > 0) {
+                int remainingUses = maxUses - item.getNumberOfUses();
+                sb.append(" - ").append(remainingUses);
+                if (remainingUses == 1) {
+                    sb.append(" use left.");
+                } else {
+                    sb.append(" uses left.");
+                }
             }
             sb.append("\r\n");
         }
