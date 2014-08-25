@@ -9,6 +9,8 @@ import org.fusesource.jansi.Ansi;
 import java.util.Iterator;
 import java.util.Map;
 
+import static com.comandante.creeper.model.Color.MAGENTA;
+
 public class GossipCommand extends Command {
 
     private final static String helpDescription = "Speak to the entire server.";
@@ -28,7 +30,7 @@ public class GossipCommand extends Command {
         while (players.hasNext()) {
             StringBuilder stringBuilder = new StringBuilder();
             Player player = players.next().getValue();
-            stringBuilder.append(new Ansi().fg(Ansi.Color.MAGENTA).toString());
+            stringBuilder.append(MAGENTA);
             stringBuilder.append("[").append(sourcePlayer.getPlayerName()).append("] ").append(getOriginalMessage());
             stringBuilder.append(new Ansi().reset().toString());
             if (player.getPlayerId().equals(sourcePlayer.getPlayerId())) {

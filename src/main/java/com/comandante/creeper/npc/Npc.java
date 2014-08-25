@@ -5,6 +5,8 @@ import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.model.CreeperEntity;
 import org.fusesource.jansi.Ansi;
 
+import static com.comandante.creeper.model.Color.*;
+
 
 public abstract class Npc extends CreeperEntity {
 
@@ -54,7 +56,7 @@ public abstract class Npc extends CreeperEntity {
 
     public void npcSay(Integer roomId, String message) {
         StringBuilder sb = new StringBuilder();
-        sb.append(new Ansi().fg(Ansi.Color.RED).toString());
+        sb.append(RED);
         sb.append(name).append(": ").append(message);
         sb.append(new Ansi().reset().toString());
     }

@@ -8,17 +8,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import static com.comandante.creeper.model.Color.CYAN;
+import static com.comandante.creeper.model.Color.RED;
+
 public class Derper extends Npc {
 
     private final static long phraseIntervalMs = 300000;
     private final static String NAME = "derper";
     private final Random random;
     private final static String colorName = new StringBuilder()
-            .append(new Ansi().fg(Ansi.Color.RED).toString())
+            .append(RED)
             .append("d")
-            .append(new Ansi().fg(Ansi.Color.CYAN).toString())
+            .append(CYAN)
             .append("erpe")
-            .append(new Ansi().fg(Ansi.Color.RED).toString())
+            .append(RED)
             .append("r")
             .append(new Ansi().reset().toString()).toString();
 

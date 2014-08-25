@@ -12,6 +12,8 @@ import org.fusesource.jansi.Ansi;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.comandante.creeper.model.Color.CYAN;
+
 public class InventoryCommand extends Command {
 
     private final static String helpDescription = "List your inventory.";
@@ -32,7 +34,7 @@ public class InventoryCommand extends Command {
         ArrayList<String> inventory = new ArrayList<String>(Arrays.asList(playerMetadata.getInventory()));
         Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId());
         StringBuilder sb = new StringBuilder();
-        sb.append(new Ansi().fg(Ansi.Color.CYAN).toString());
+        sb.append(CYAN);
         sb.append("----Inventory-----\r\n");
         sb.append(new Ansi().reset().toString());
         for (String inventoryId: inventory) {

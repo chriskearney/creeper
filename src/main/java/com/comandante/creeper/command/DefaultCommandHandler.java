@@ -73,6 +73,7 @@ public class DefaultCommandHandler {
             UnknownCommand unknownCommand = new UnknownCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(unknownCommand);
         }
+
     }
 }
 

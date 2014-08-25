@@ -9,6 +9,8 @@ import org.fusesource.jansi.Ansi;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.comandante.creeper.model.Color.YELLOW;
+
 public class TellCommand extends Command {
 
     private final static String helpDescription = "Speak to another player in private.";
@@ -44,7 +46,7 @@ public class TellCommand extends Command {
         parts.remove(0);
         String tellMessage = StringUtils.join(parts, " ");
         StringBuilder stringBuilder = new StringBuilder();
-        String destinationPlayercolor = new Ansi().fg(Ansi.Color.YELLOW).toString();
+        String destinationPlayercolor = YELLOW;
         stringBuilder.append("*").append(sourcePlayer.getPlayerName()).append("* ");
         stringBuilder.append(tellMessage);
         stringBuilder.append(new Ansi().reset().toString());

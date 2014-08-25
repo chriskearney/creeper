@@ -9,6 +9,8 @@ import org.fusesource.jansi.Ansi;
 
 import java.util.Set;
 
+import static com.comandante.creeper.model.Color.RED;
+
 public class SayCommand extends Command {
 
     private final static String helpDescription = "Speak to members of your current room";
@@ -33,7 +35,7 @@ public class SayCommand extends Command {
         Set<Player> presentPlayers = getGameManager().getPlayerManager().getPresentPlayers(playerCurrentRoom);
         for (Player presentPlayer : presentPlayers) {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(new Ansi().fg(Ansi.Color.RED).toString());
+            stringBuilder.append(RED);
             stringBuilder.append("<").append(sourcePlayer.getPlayerName()).append("> ").append(message);
             stringBuilder.append(new Ansi().reset().toString());
             if (presentPlayer.getPlayerId().equals(sourcePlayer.getPlayerId())) {

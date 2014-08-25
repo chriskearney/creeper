@@ -7,6 +7,8 @@ import org.fusesource.jansi.Ansi;
 
 import java.util.Set;
 
+import static com.comandante.creeper.model.Color.*;
+
 public class WhoCommand extends Command {
 
     private final static String helpDescription = "List who you are.";
@@ -23,7 +25,7 @@ public class WhoCommand extends Command {
     public void run() {
             Set<Player> allPlayers = getGameManager().getAllPlayers();
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(new Ansi().fg(Ansi.Color.CYAN).toString());
+            stringBuilder.append(CYAN);
             stringBuilder.append("----------------------\r\n");
             stringBuilder.append("|--active users------|\r\n");
             stringBuilder.append("----------------------\r\n");
