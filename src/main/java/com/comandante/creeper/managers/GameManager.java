@@ -291,7 +291,7 @@ public class GameManager {
                 stringBuilder.append("Down ");
             }
         }
-        stringBuilder.append(new Ansi().reset().toString()).append("]");
+        stringBuilder.append(new Ansi().reset().toString()).append("]\r\n");
         return stringBuilder.toString();
     }
 

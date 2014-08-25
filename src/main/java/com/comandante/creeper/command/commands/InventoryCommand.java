@@ -34,6 +34,7 @@ public class InventoryCommand extends Command {
         StringBuilder sb = new StringBuilder();
         sb.append(new Ansi().fg(Ansi.Color.CYAN).toString());
         sb.append("----Inventory-----\r\n");
+        sb.append(new Ansi().reset().toString());
         for (String inventoryId: inventory) {
             Item item = getGameManager().getEntityManager().getItemEntity(inventoryId);
             sb.append(item.getItemName());
