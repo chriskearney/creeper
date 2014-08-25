@@ -4,12 +4,12 @@ package com.comandante.creeper.command.commands;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.model.Player;
 import com.google.common.collect.ImmutableList;
-import org.fusesource.jansi.Ansi;
 
 import java.util.Iterator;
 import java.util.Map;
 
 import static com.comandante.creeper.model.Color.MAGENTA;
+import static com.comandante.creeper.model.Color.RESET;
 
 public class GossipCommand extends Command {
 
@@ -32,7 +32,7 @@ public class GossipCommand extends Command {
             Player player = players.next().getValue();
             stringBuilder.append(MAGENTA);
             stringBuilder.append("[").append(sourcePlayer.getPlayerName()).append("] ").append(getOriginalMessage());
-            stringBuilder.append(new Ansi().reset().toString());
+            stringBuilder.append(RESET);
             if (player.getPlayerId().equals(sourcePlayer.getPlayerId())) {
                 commandWrite(stringBuilder.toString());
             } else {

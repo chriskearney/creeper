@@ -7,12 +7,12 @@ import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
 import com.google.common.collect.ImmutableList;
-import org.fusesource.jansi.Ansi;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static com.comandante.creeper.model.Color.CYAN;
+import static com.comandante.creeper.model.Color.RESET;
 
 public class InventoryCommand extends Command {
 
@@ -36,7 +36,7 @@ public class InventoryCommand extends Command {
         StringBuilder sb = new StringBuilder();
         sb.append(CYAN);
         sb.append("----Inventory-----\r\n");
-        sb.append(new Ansi().reset().toString());
+        sb.append(RESET);
         for (String inventoryId: inventory) {
             Item item = getGameManager().getEntityManager().getItemEntity(inventoryId);
             sb.append(item.getItemName());

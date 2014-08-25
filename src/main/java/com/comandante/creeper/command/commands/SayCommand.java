@@ -5,11 +5,11 @@ import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
-import org.fusesource.jansi.Ansi;
 
 import java.util.Set;
 
 import static com.comandante.creeper.model.Color.RED;
+import static com.comandante.creeper.model.Color.RESET;
 
 public class SayCommand extends Command {
 
@@ -37,7 +37,7 @@ public class SayCommand extends Command {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(RED);
             stringBuilder.append("<").append(sourcePlayer.getPlayerName()).append("> ").append(message);
-            stringBuilder.append(new Ansi().reset().toString());
+            stringBuilder.append(RESET);
             if (presentPlayer.getPlayerId().equals(sourcePlayer.getPlayerId())) {
                 commandWrite(stringBuilder.toString());
             } else {

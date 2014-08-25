@@ -1,10 +1,9 @@
 package com.comandante.creeper.Items;
 
-import org.fusesource.jansi.Ansi;
-
 import java.util.UUID;
 
 import static com.comandante.creeper.model.Color.RED;
+import static com.comandante.creeper.model.Color.RESET;
 import static com.comandante.creeper.model.Color.YELLOW;
 
 public enum ItemType {
@@ -12,7 +11,7 @@ public enum ItemType {
     KEY(1, "key", new StringBuilder()
             .append(YELLOW)
             .append("A shiny gold [key]")
-            .append(new Ansi().reset().toString()).toString(),
+            .append(RESET).toString(),
             "A basic key with nothing really remarkable other than its made of gold.",
             false,
             0,
@@ -20,7 +19,7 @@ public enum ItemType {
     BOOK(2, "book", new StringBuilder()
             .append(RED)
             .append("An ancient leather bound [book]")
-            .append(new Ansi().reset().toString()).toString(),
+            .append(RESET).toString(),
             "An ancient book with mysterious engravings.",
             false,
             0,
@@ -28,7 +27,7 @@ public enum ItemType {
     BEER(3, "beer", new StringBuilder()
             .append(YELLOW)
             .append("A cold frosty [beer]")
-            .append(new Ansi().reset().toString()).toString(),
+            .append(RESET).toString(),
             "A coors light.",
             true,
             2,

@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static com.comandante.creeper.model.Color.GREEN;
+import static com.comandante.creeper.model.Color.RESET;
 
 public class GameManager {
 
@@ -154,7 +155,7 @@ public class GameManager {
         }
         if (room.getNorthId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("north")) {
-                stringBuilder.append(new Ansi().fgBright(Ansi.Color.GREEN).toString());
+                stringBuilder.append(com.comandante.creeper.model.Color.BRIGHT_GREEN);
                 stringBuilder.append("North ");
                 stringBuilder.append(GREEN);
             } else {
@@ -163,7 +164,7 @@ public class GameManager {
         }
         if (room.getSouthId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("south")) {
-                stringBuilder.append(new Ansi().fgBright(Ansi.Color.GREEN).toString());
+                stringBuilder.append(com.comandante.creeper.model.Color.BRIGHT_GREEN);
                 stringBuilder.append("South ");
                 stringBuilder.append(GREEN);
             } else {
@@ -172,7 +173,7 @@ public class GameManager {
         }
         if (room.getEastId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("east")) {
-                stringBuilder.append(new Ansi().fgBright(Ansi.Color.GREEN).toString());
+                stringBuilder.append(com.comandante.creeper.model.Color.BRIGHT_GREEN);
                 stringBuilder.append("East ");
                 stringBuilder.append(GREEN);
             } else {
@@ -181,7 +182,7 @@ public class GameManager {
         }
         if (room.getWestId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("west")) {
-                stringBuilder.append(new Ansi().fgBright(Ansi.Color.GREEN).toString());
+                stringBuilder.append(com.comandante.creeper.model.Color.BRIGHT_GREEN);
                 stringBuilder.append("West ");
                 stringBuilder.append(GREEN);
             } else {
@@ -190,7 +191,7 @@ public class GameManager {
         }
         if (room.getUpId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("up")) {
-                stringBuilder.append(new Ansi().fgBright(Ansi.Color.GREEN).toString());
+                stringBuilder.append(com.comandante.creeper.model.Color.BRIGHT_GREEN);
                 stringBuilder.append("Up ");
                 stringBuilder.append(GREEN);
             } else {
@@ -199,14 +200,14 @@ public class GameManager {
         }
         if (room.getDownId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("down")) {
-                stringBuilder.append(new Ansi().fgBright(Ansi.Color.GREEN).toString());
+                stringBuilder.append(com.comandante.creeper.model.Color.BRIGHT_GREEN);
                 stringBuilder.append("Down ");
                 stringBuilder.append(GREEN);
             } else {
                 stringBuilder.append("Down ");
             }
         }
-        stringBuilder.append(new Ansi().reset().toString()).append("]\r\n");
+        stringBuilder.append(RESET).append("]\r\n");
         return stringBuilder.toString();
     }
 
@@ -216,7 +217,7 @@ public class GameManager {
         StringBuilder sb = new StringBuilder();
         sb.append(GREEN);
         sb.append(playerCurrentRoom.getRoomTitle()).append("\r\n\r\n");
-        sb.append(new Ansi().reset().toString());
+        sb.append(RESET);
         sb.append(WordUtils.wrap(playerCurrentRoom.getRoomDescription(), 70)).append("\r\n");
         sb.append(getExits(playerCurrentRoom, player));
         for (String searchPlayerId : playerCurrentRoom.getPresentPlayerIds()) {

@@ -4,11 +4,11 @@ import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.model.Player;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.StringUtils;
-import org.fusesource.jansi.Ansi;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.comandante.creeper.model.Color.RESET;
 import static com.comandante.creeper.model.Color.YELLOW;
 
 public class TellCommand extends Command {
@@ -49,7 +49,7 @@ public class TellCommand extends Command {
         String destinationPlayercolor = YELLOW;
         stringBuilder.append("*").append(sourcePlayer.getPlayerName()).append("* ");
         stringBuilder.append(tellMessage);
-        stringBuilder.append(new Ansi().reset().toString());
+        stringBuilder.append(RESET);
         getGameManager().getChannelUtils().writeNoPrompt(desintationPlayer.getPlayerId(), destinationPlayercolor + stringBuilder.toString());
         commandWrite(stringBuilder.toString());
     }

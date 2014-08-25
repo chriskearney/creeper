@@ -3,13 +3,14 @@ package com.comandante.creeper.server;
 import com.comandante.creeper.command.DefaultCommandHandler;
 import com.comandante.creeper.managers.GameManager;
 import com.google.common.base.Optional;
-import org.fusesource.jansi.Ansi;
 import org.jboss.netty.channel.ChannelEvent;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
+
+import static com.comandante.creeper.model.Color.RESET;
 
 public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
 
@@ -35,9 +36,8 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
     public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
-                .append(new Ansi().bg(Ansi.Color.DEFAULT).toString())
                 .append("\r\n\r\n\r\n\r\n" + GameManager.LOGO + "\r\n" + GameManager.VERSION + "\r\n")
-                .append(new Ansi().reset().toString() + "\r\n")
+                .append(RESET + "\r\n")
                 .append("First time here? Type \"new\".\r\n")
                 .append("username: ");
         e.getChannel().write(stringBuilder.toString());

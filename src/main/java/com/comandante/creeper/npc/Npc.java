@@ -3,9 +3,9 @@ package com.comandante.creeper.npc;
 
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.model.CreeperEntity;
-import org.fusesource.jansi.Ansi;
 
-import static com.comandante.creeper.model.Color.*;
+import static com.comandante.creeper.model.Color.RED;
+import static com.comandante.creeper.model.Color.RESET;
 
 
 public abstract class Npc extends CreeperEntity {
@@ -58,6 +58,6 @@ public abstract class Npc extends CreeperEntity {
         StringBuilder sb = new StringBuilder();
         sb.append(RED);
         sb.append(name).append(": ").append(message);
-        sb.append(new Ansi().reset().toString());
+        sb.append(RESET);
     }
 }

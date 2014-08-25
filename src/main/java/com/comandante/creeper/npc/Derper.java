@@ -2,7 +2,6 @@ package com.comandante.creeper.npc;
 
 
 import com.comandante.creeper.managers.GameManager;
-import org.fusesource.jansi.Ansi;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.Random;
 
 import static com.comandante.creeper.model.Color.CYAN;
 import static com.comandante.creeper.model.Color.RED;
+import static com.comandante.creeper.model.Color.RESET;
 
 public class Derper extends Npc {
 
@@ -23,7 +23,7 @@ public class Derper extends Npc {
             .append("erpe")
             .append(RED)
             .append("r")
-            .append(new Ansi().reset().toString()).toString();
+            .append(RESET).toString();
 
     public Derper(GameManager gameManager, Integer roomId) {
         super(gameManager, roomId, NAME, colorName, 0);
