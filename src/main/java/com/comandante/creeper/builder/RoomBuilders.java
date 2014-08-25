@@ -2,6 +2,7 @@ package com.comandante.creeper.builder;
 
 import com.comandante.creeper.managers.EntityManager;
 import com.comandante.creeper.model.BasicRoom;
+import com.comandante.creeper.model.Color;
 import com.google.common.base.Optional;
 
 /**
@@ -104,7 +105,7 @@ public class RoomBuilders {
                 "Start of New Portland area.\r\n"));
     }
 
-    public static void buildOldtown(EntityManager entityManager){
+    public static void buildOldTown(EntityManager entityManager){
 
         entityManager.addEntity(new BasicRoom(
                 300,
@@ -122,18 +123,18 @@ public class RoomBuilders {
 
         entityManager.addEntity(new BasicRoom(
                 100,
-                "Tacoma Space Port",
+                "Entrance of Tacoma Space Port",
                 Optional.of(101),
                 Optional.of(7),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
-                "Start of Space Port area.\r\n"));
+                "Entrance of Space Port area.\r\n"));
 
         entityManager.addEntity(new BasicRoom(
                 101,
-                "Tacoma Space Port",
+                "Arrival Check In",
                 Optional.of(102),
                 Optional.of(100),
                 Optional.<Integer>absent(),
@@ -144,7 +145,7 @@ public class RoomBuilders {
 
         entityManager.addEntity(new BasicRoom(
                 102,
-                "Tacoma Space Port",
+                "Line For Security Check",
                 Optional.of(103),
                 Optional.of(101),
                 Optional.<Integer>absent(),
@@ -155,18 +156,18 @@ public class RoomBuilders {
 
         entityManager.addEntity(new BasicRoom(
                 103,
-                "Tacoma Space Port 3",
+                "Space Station Security Check",
                 Optional.<Integer>absent(),
                 Optional.of(102),
-                Optional.<Integer>absent(),
+                Optional.of(107),
                 Optional.of(104),
+                Optional.of(110),
                 Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Space Port area.\r\n"));
+                "Security Check Intersection\r\n"));
 
         entityManager.addEntity(new BasicRoom(
                 104,
-                "Space Port Terminal 1",
+                "Walkway of Terminal 1",
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.of(103),
@@ -177,7 +178,7 @@ public class RoomBuilders {
 
         entityManager.addEntity(new BasicRoom(
                 105,
-                "Space Port Terminal 1",
+                "Busy Walkway of Terminal 1",
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.of(104),
@@ -188,14 +189,125 @@ public class RoomBuilders {
 
         entityManager.addEntity(new BasicRoom(
                 106,
-                "Space Port Terminal 1",
+                "Dead End of Terminal 1",
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.of(105),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
-                "Terminal 1 of the Tacoma Space Port.\r\n"));
+                "Terminal 1 of the Tacoma Space Port END.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                107,
+                "Walkway of Terminal 2",
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.of(108),
+                Optional.of(103),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                "Terminal 2 of the Tacoma Space Port.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                108,
+                "Busy Walkway Terminal 2",
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.of(109),
+                Optional.of(107),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                "Terminal 2 of the Tacoma Space Port.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                109,
+                "Dead End of Terminal 2",
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.of(108),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                "Terminal 2 of the Tacoma Space Port END.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                110,
+                "Space Port Lobby",
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.of(111),
+                Optional.of(114),
+                Optional.<Integer>absent(),
+                Optional.of(103),
+                "Tacoma Space Port food court and shopping.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                111,
+                "Walkway of Terminal 3",
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.of(112),
+                Optional.of(110),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                "Tacoma Space Port terminal 3.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                112,
+                "Busy Walkway of Terminal 3",
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.of(113),
+                Optional.of(111),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                "Tacoma Space Port terminal 3.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                113,
+                "Dead End",
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.of(112),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                "Tacoma Space Port terminal 3 END.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                114,
+                "Walkway of Terminal 4",
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.of(110),
+                Optional.of(115),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                "Tacoma Space Port terminal 4.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                115,
+                "Busy Walkway of Terminal 4",
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.of(114),
+                Optional.of(116),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                "Tacoma Space Port terminal 4.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                116,
+                "Dead End of Terminal 4",
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.of(115),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                "You arrive to the end of Terminal 4.\r\n"));
 
     }
+
 }
