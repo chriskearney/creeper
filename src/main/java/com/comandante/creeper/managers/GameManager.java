@@ -13,15 +13,13 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interners;
 import org.apache.commons.lang3.text.WordUtils;
-import org.fusesource.jansi.Ansi;
 import org.jboss.netty.channel.MessageEvent;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import static com.comandante.creeper.model.Color.GREEN;
-import static com.comandante.creeper.model.Color.RESET;
+import static com.comandante.creeper.model.Color.*;
 
 public class GameManager {
 
@@ -149,60 +147,60 @@ public class GameManager {
     private String getExits(Room room, Player player) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("[ Exits: ");
-        stringBuilder.append(GREEN);
+        stringBuilder.append(BRIGHT_GREEN);
         if (!player.getReturnDirection().isPresent()) {
             player.setReturnDirection(Optional.of("-"));
         }
         if (room.getNorthId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("north")) {
-                stringBuilder.append(com.comandante.creeper.model.Color.BRIGHT_GREEN);
-                stringBuilder.append("North ");
                 stringBuilder.append(GREEN);
+                stringBuilder.append("North ");
+                stringBuilder.append(BRIGHT_GREEN);
             } else {
                 stringBuilder.append("North ");
             }
         }
         if (room.getSouthId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("south")) {
-                stringBuilder.append(com.comandante.creeper.model.Color.BRIGHT_GREEN);
-                stringBuilder.append("South ");
                 stringBuilder.append(GREEN);
+                stringBuilder.append("South ");
+                stringBuilder.append(BRIGHT_GREEN);
             } else {
                 stringBuilder.append("South ");
             }
         }
         if (room.getEastId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("east")) {
-                stringBuilder.append(com.comandante.creeper.model.Color.BRIGHT_GREEN);
-                stringBuilder.append("East ");
                 stringBuilder.append(GREEN);
+                stringBuilder.append("East ");
+                stringBuilder.append(BRIGHT_GREEN);
             } else {
                 stringBuilder.append("East ");
             }
         }
         if (room.getWestId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("west")) {
-                stringBuilder.append(com.comandante.creeper.model.Color.BRIGHT_GREEN);
-                stringBuilder.append("West ");
                 stringBuilder.append(GREEN);
+                stringBuilder.append("West ");
+                stringBuilder.append(BRIGHT_GREEN);
             } else {
                 stringBuilder.append("West ");
             }
         }
         if (room.getUpId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("up")) {
-                stringBuilder.append(com.comandante.creeper.model.Color.BRIGHT_GREEN);
-                stringBuilder.append("Up ");
                 stringBuilder.append(GREEN);
+                stringBuilder.append("Up ");
+                stringBuilder.append(BRIGHT_GREEN);
             } else {
                 stringBuilder.append("Up ");
             }
         }
         if (room.getDownId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("down")) {
-                stringBuilder.append(com.comandante.creeper.model.Color.BRIGHT_GREEN);
-                stringBuilder.append("Down ");
                 stringBuilder.append(GREEN);
+                stringBuilder.append("Down ");
+                stringBuilder.append(BRIGHT_GREEN);
             } else {
                 stringBuilder.append("Down ");
             }
@@ -215,7 +213,7 @@ public class GameManager {
         Player player = playerManager.getPlayer(playerId);
         final Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
         StringBuilder sb = new StringBuilder();
-        sb.append(GREEN);
+        sb.append(BRIGHT_GREEN);
         sb.append(playerCurrentRoom.getRoomTitle()).append("\r\n\r\n");
         sb.append(RESET);
         sb.append(WordUtils.wrap(playerCurrentRoom.getRoomDescription(), 70)).append("\r\n");
