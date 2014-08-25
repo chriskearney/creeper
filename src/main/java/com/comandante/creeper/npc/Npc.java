@@ -57,6 +57,5 @@ public abstract class Npc extends CreeperEntity {
         sb.append(new Ansi().fg(Ansi.Color.RED).toString());
         sb.append(name).append(": ").append(message);
         sb.append(new Ansi().reset().toString());
-        gameManager.roomSay(roomId, sb.toString());
     }
 }

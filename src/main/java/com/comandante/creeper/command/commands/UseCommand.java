@@ -28,7 +28,7 @@ public class UseCommand extends Command {
     public void run() {
         ArrayList<String> originalMessageParts = getOriginalMessageParts();
         if (originalMessageParts.size() == 1) {
-            getGameManager().getChannelUtils().write(getPlayerId(), "No item specified.");
+            commandWrite("No item specified.");
             return;
         }
         String itemTarget = originalMessageParts.get(1);

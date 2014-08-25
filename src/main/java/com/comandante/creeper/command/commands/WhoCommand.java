@@ -1,7 +1,11 @@
 package com.comandante.creeper.command.commands;
 
 import com.comandante.creeper.managers.GameManager;
+import com.comandante.creeper.model.Player;
 import com.google.common.collect.ImmutableList;
+import org.fusesource.jansi.Ansi;
+
+import java.util.Set;
 
 public class WhoCommand extends Command {
 
@@ -17,6 +21,17 @@ public class WhoCommand extends Command {
 
     @Override
     public void run() {
-        getGameManager().who(getGameManager().getPlayerManager().getPlayer(getPlayerId()));
-    }
+            Set<Player> allPlayers = getGameManager().getAllPlayers();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(new Ansi().fg(Ansi.Color.CYAN).toString());
+            stringBuilder.append("----------------------\r\n");
+            stringBuilder.append("|--active users------|\r\n");
+            stringBuilder.append("----------------------\r\n");
+            for (Player allPlayer : allPlayers) {
+                stringBuilder.append(allPlayer.getPlayerName());
+                stringBuilder.append("\r\n");
+            }
+            stringBuilder.append(new Ansi().reset().toString());
+            commandWrite(stringBuilder.toString());
+        }
 }

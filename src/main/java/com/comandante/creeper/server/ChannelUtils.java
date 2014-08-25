@@ -15,14 +15,24 @@ public class ChannelUtils {
         this.roomManager = roomManager;
     }
 
+    public void writeNoPrompt(String playerId, String message) {
+         write(playerId, message, false);
+    }
+
     public void write(String playerId, String message) {
+        write(playerId, message, true);
+    }
+
+    public void write(String playerId, String message, boolean isPrompt) {
         Player player = playerManager.getPlayer(playerId);
         Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
         StringBuilder sb = new StringBuilder();
         sb.append("\r\n");
         sb.append(sanitze(message));
         sb.append(("\r\n"));
-        sb.append(playerManager.getPrompt(playerId, playerCurrentRoom.getRoomId()));
+        if (isPrompt) {
+            sb.append(playerManager.getPrompt(playerId, playerCurrentRoom.getRoomId()));
+        }
         player.getChannel().write(sb.toString());
     }
 

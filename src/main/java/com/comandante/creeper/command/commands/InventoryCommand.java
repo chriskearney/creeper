@@ -50,6 +50,6 @@ public class InventoryCommand extends Command {
             }
             sb.append("\r\n");
         }
-        getGameManager().getChannelUtils().write(getPlayerId(), sb.toString());
+        commandWrite(sb.toString());
     }
 }

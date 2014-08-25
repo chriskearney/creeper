@@ -53,7 +53,7 @@ public class MovementCommand extends Command {
         }
         if (northTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getNorthId().isPresent()) {
-                channelUtils.write(player.getPlayerId(), "There's no northern exit.");
+                commandWrite("There's no northern exit.");
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getNorthId().get());
@@ -61,7 +61,7 @@ public class MovementCommand extends Command {
         }
         if (southTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getSouthId().isPresent()) {
-                channelUtils.write(player.getPlayerId(), "There's no southern exit.");
+                commandWrite("There's no southern exit.");
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getSouthId().get());
@@ -69,7 +69,7 @@ public class MovementCommand extends Command {
         }
         if (eastTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getEastId().isPresent()) {
-                channelUtils.write(player.getPlayerId(), "There's no eastern exit.");
+                commandWrite("There's no eastern exit.");
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getEastId().get());
@@ -77,7 +77,7 @@ public class MovementCommand extends Command {
         }
         if (westTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getWestId().isPresent()) {
-                channelUtils.write(player.getPlayerId(), "There's no western exit.");
+                commandWrite("There's no western exit.");
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getWestId().get());
@@ -85,7 +85,7 @@ public class MovementCommand extends Command {
         }
         if (upTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getUpId().isPresent()) {
-                channelUtils.write(player.getPlayerId(), "There's no up exit.");
+                commandWrite("There's no up exit.");
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getUpId().get());
@@ -93,7 +93,7 @@ public class MovementCommand extends Command {
         }
         if (downTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getDownId().isPresent()) {
-                channelUtils.write(player.getPlayerId(), "There's no down exit.");
+                commandWrite("There's no down exit.");
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getDownId().get());

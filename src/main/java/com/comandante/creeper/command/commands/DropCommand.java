@@ -27,7 +27,7 @@ public class DropCommand extends Command {
     public void run() {
         ArrayList<String> originalMessageParts = getOriginalMessageParts();
         if (originalMessageParts.size() == 1) {
-            getGameManager().getChannelUtils().write(getPlayerId(), "No item specified.");
+            commandWrite("No item specified.");
             return;
         }
         String itemTarget = originalMessageParts.get(1);
@@ -42,7 +42,7 @@ public class DropCommand extends Command {
                 getGameManager().getPlayerManager().savePlayerMetadata(playerMetadata);
                 getGameManager().getItemDecayManager().addItem(itemEntity);
                 getGameManager().getEntityManager().addItem(itemEntity);
-                getGameManager().roomSay(playerCurrentRoom.getRoomId(),getGameManager().getPlayerManager().getPlayer(getPlayerId()).getPlayerName() + " dropped " + itemEntity.getItemName());
+                roomSay(playerCurrentRoom.getRoomId(),getGameManager().getPlayerManager().getPlayer(getPlayerId()).getPlayerName() + " dropped " + itemEntity.getItemName());
                 return;
             }
         }

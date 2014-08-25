@@ -12,13 +12,10 @@ import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interners;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.fusesource.jansi.Ansi;
 import org.jboss.netty.channel.MessageEvent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -96,56 +93,6 @@ public class GameManager {
 
     private static final Integer LOBBY_ID = 1;
 
-    public void who(Player player) {
-        Set<Player> allPlayers = getAllPlayers();
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(new Ansi().fg(Ansi.Color.CYAN).toString());
-        stringBuilder.append("----------------------\r\n");
-        stringBuilder.append("|--active users------|\r\n");
-        stringBuilder.append("----------------------\r\n");
-        for (Player allPlayer : allPlayers) {
-            stringBuilder.append(allPlayer.getPlayerName());
-        }
-        stringBuilder.append(new Ansi().reset().toString());
-        channelUtils.write(player.getPlayerId(), stringBuilder.toString());
-    }
-
-    public void tell(Player sourcePlayer, String rawMessage) {
-        ArrayList<String> parts = new ArrayList<>(Arrays.asList(rawMessage.split(" ")));
-        if (parts.size() < 3) {
-            channelUtils.write(sourcePlayer.getPlayerId(), "tell failed, no message to send.");
-            return;
-        }
-        //remove the literal 'tell'
-        parts.remove(0);
-        String destinationUsername = parts.get(0);
-        Player desintationPlayer = getPlayerManager().getPlayerByUsername(destinationUsername);
-        if (desintationPlayer == null) {
-            channelUtils.write(sourcePlayer.getPlayerId(), "tell failed, unknown user.");
-            return;
-        }
-        if (desintationPlayer.getPlayerId().equals(sourcePlayer.getPlayerId())) {
-            channelUtils.write(sourcePlayer.getPlayerId(), "tell failed, you're talking to yourself.");
-            return;
-        }
-        parts.remove(0);
-
-        String tellMessage = StringUtils.join(parts, " ");
-        privateMessage(sourcePlayer, desintationPlayer, tellMessage);
-
-    }
-
-    private void privateMessage(Player sourcePlayer, Player destinationPlayer, String message) {
-        StringBuilder stringBuilder = new StringBuilder();
-        String sourcePlayerColor = new Ansi().fg(Ansi.Color.WHITE).toString();
-        String destinationPlayercolor = new Ansi().fg(Ansi.Color.YELLOW).toString();
-        stringBuilder.append("*").append(sourcePlayer.getPlayerName()).append("* ");
-        stringBuilder.append(message);
-        stringBuilder.append(new Ansi().reset().toString());
-        channelUtils.write(destinationPlayer.getPlayerId(), destinationPlayercolor + stringBuilder.toString());
-        channelUtils.write(sourcePlayer.getPlayerId(), sourcePlayerColor + stringBuilder.toString());
-    }
-
     public Set<Player> getAllPlayers() {
         ImmutableSet.Builder<Player> builder = ImmutableSet.builder();
         Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
@@ -176,10 +123,10 @@ public class GameManager {
                 StringBuilder sb = new StringBuilder();
                 sb.append(movement.getPlayer().getPlayerName());
                 sb.append(" ").append(movement.getRoomExitMessage());
-                channelUtils.write(next.getPlayerId(), sb.toString());
+                channelUtils.writeNoPrompt(next.getPlayerId(), sb.toString());
             }
             for (Player next : playerManager.getPresentPlayers(destinationRoom)) {
-                channelUtils.write(next.getPlayerId(), movement.getPlayer().getPlayerName() + " arrived.");
+                channelUtils.writeNoPrompt(next.getPlayerId(), movement.getPlayer().getPlayerName() + " arrived.");
             }
             destinationRoom.addPresentPlayer(movement.getPlayer().getPlayerId());
         }
@@ -193,40 +140,6 @@ public class GameManager {
                 continue;
             }
             channelUtils.write(next.getPlayerId(), player.getPlayerName() + " arrived.");
-        }
-    }
-
-    public void say(Player sourcePlayer, String message) {
-        Optional<Room> playerCurrentRoomOpt = roomManager.getPlayerCurrentRoom(sourcePlayer);
-        if (!playerCurrentRoomOpt.isPresent()) {
-            throw new RuntimeException("playerCurrentRoom is missing!");
-        }
-
-        Room playerCurrentRoom = playerCurrentRoomOpt.get();
-        Set<Player> presentPlayers = playerManager.getPresentPlayers(playerCurrentRoom);
-
-        for (Player presentPlayer : presentPlayers) {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(new Ansi().fg(Ansi.Color.RED).toString());
-            stringBuilder.append("<").append(sourcePlayer.getPlayerName()).append("> ").append(message);
-            stringBuilder.append(new Ansi().reset().toString());
-            channelUtils.write(presentPlayer.getPlayerId(), stringBuilder.toString());
-        }
-    }
-
-    public void gossip(Player sourcePlayer, String message) {
-        Iterator<Map.Entry<String, Player>> players = playerManager.getPlayers();
-        while (players.hasNext()) {
-            StringBuilder stringBuilder = new StringBuilder();
-            Player player = players.next().getValue();
-            if (player.getPlayerId().equals(sourcePlayer.getPlayerId())) {
-                stringBuilder.append(new Ansi().fg(Ansi.Color.WHITE).toString());
-            } else {
-                stringBuilder.append(new Ansi().fg(Ansi.Color.MAGENTA).toString());
-            }
-            stringBuilder.append("[").append(sourcePlayer.getPlayerName()).append("] ").append(message);
-            stringBuilder.append(new Ansi().reset().toString());
-            channelUtils.write(player.getPlayerId(), stringBuilder.toString());
         }
     }
 
@@ -329,14 +242,6 @@ public class GameManager {
     public void currentRoomLogic(CreeperSession creeperSession, MessageEvent e) {
         final String player = playerManager.getPlayerByUsername(creeperSession.getUsername().get()).getPlayerId();
         currentRoomLogic(player);
-    }
-
-    public void roomSay(Integer roomId, String message) {
-        Set<String> presentPlayerIds = roomManager.getRoom(roomId).getPresentPlayerIds();
-        for (String playerId : presentPlayerIds) {
-            Player player = playerManager.getPlayer(playerId);
-            channelUtils.write(player.getPlayerId(), message);
-        }
     }
 
     public void placeItemInRoom(Integer roomId, String itemId) {
