@@ -41,7 +41,6 @@ public class ItemDecayManager extends CreeperEntity {
                 itemsToRemoveFromDecay.add(item.getItemId());
                 continue;
             }
-
             decayProgress.incTick();
             if (decayProgress.getCurrentTicks() >= decayProgress.getNumberOfTicks()) {
                 itemsToDestroy.add(item.getItemId());

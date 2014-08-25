@@ -27,7 +27,7 @@ public class DropCommand extends Command {
     public void run() {
         ArrayList<String> originalMessageParts = getOriginalMessageParts();
         if (originalMessageParts.size() == 1) {
-            getGameManager().getPlayerManager().getPlayer(getPlayerId()).getChannel().write(("No item specified.\r\n"));
+            getGameManager().getChannelUtils().write(getPlayerId(), "No item specified.");
             return;
         }
         String itemTarget = originalMessageParts.get(1);
@@ -35,7 +35,7 @@ public class DropCommand extends Command {
             Item itemEntity = getGameManager().getEntityManager().getItemEntity(inventoryId);
             if (itemEntity.getShortName().equals(itemTarget)) {
                 itemEntity.setWithPlayer(false);
-                Room playerCurrentRoom = getGameManager().getPlayerCurrentRoom(getGameManager().getPlayerManager().getPlayer(getPlayerId())).get();
+                Room playerCurrentRoom = getGameManager().getRoomManager().getPlayerCurrentRoom(getGameManager().getPlayerManager().getPlayer(getPlayerId())).get();
                 getGameManager().placeItemInRoom(playerCurrentRoom.getRoomId(), itemEntity.getItemId());
                 PlayerMetadata playerMetadata = getGameManager().getPlayerManager().getPlayerMetadata(getPlayerId());
                 playerMetadata.removeInventoryEntityId(itemEntity.getItemId());

@@ -29,6 +29,7 @@ public class DefaultCommandHandler {
 
     public void handle(MessageEvent e, CreeperSession creeperSession) {
         String originalMessage = (String) e.getMessage();
+        e.getChannel();
         String rootCommand = originalMessage.split(" ")[0].toLowerCase();
         String playerId = new Player(creeperSession.getUsername().get()).getPlayerId();
         if (GossipCommand.validTriggers.contains(rootCommand)){

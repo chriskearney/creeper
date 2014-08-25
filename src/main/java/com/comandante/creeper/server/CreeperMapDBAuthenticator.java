@@ -28,7 +28,7 @@ public class CreeperMapDBAuthenticator implements CreeperAuthenticator {
         Player player = new Player(username);
         player.setChannel(channel);
         gameManager.getPlayerManager().addPlayer(player);
-        if (!gameManager.getPlayerCurrentRoom(player).isPresent()) {
+        if (!gameManager.getRoomManager().getPlayerCurrentRoom(player).isPresent()) {
             gameManager.placePlayerInLobby(player);
         }
         return true;

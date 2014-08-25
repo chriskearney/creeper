@@ -7,6 +7,7 @@ import com.comandante.creeper.model.Movement;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
 import com.comandante.creeper.npc.Npc;
+import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
@@ -53,13 +54,10 @@ public class GameManager {
 
     private final RoomManager roomManager;
     private final PlayerManager playerManager;
+    private final ChannelUtils channelUtils;
     private final NewUserRegistrationManager newUserRegistrationManager;
     private final EntityManager entityManager;
     private final ItemDecayManager itemDecayManager;
-
-    public NewUserRegistrationManager getNewUserRegistrationManager() {
-        return newUserRegistrationManager;
-    }
 
     public GameManager(RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager) {
         this.roomManager = roomManager;
@@ -68,6 +66,16 @@ public class GameManager {
         this.itemDecayManager = new ItemDecayManager(entityManager);
         this.entityManager.addEntity(itemDecayManager);
         this.newUserRegistrationManager = new NewUserRegistrationManager(playerManager);
+        this.channelUtils = new ChannelUtils(getPlayerManager(), getRoomManager());
+
+    }
+
+    public NewUserRegistrationManager getNewUserRegistrationManager() {
+        return newUserRegistrationManager;
+    }
+
+    public ChannelUtils getChannelUtils() {
+        return channelUtils;
     }
 
     public ItemDecayManager getItemDecayManager() {
@@ -88,20 +96,6 @@ public class GameManager {
 
     private static final Integer LOBBY_ID = 1;
 
-    public Optional<Room> getPlayerCurrentRoom(Player player) {
-        Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
-        while (rooms.hasNext()) {
-            Map.Entry<Integer, Room> next = rooms.next();
-            Room room = next.getValue();
-            for (String searchPlayerId : room.getPresentPlayerIds()) {
-                if (searchPlayerId.equals(player.getPlayerId())) {
-                    return Optional.of(room);
-                }
-            }
-        }
-        return Optional.absent();
-    }
-
     public void who(Player player) {
         Set<Player> allPlayers = getAllPlayers();
         StringBuilder stringBuilder = new StringBuilder();
@@ -110,16 +104,16 @@ public class GameManager {
         stringBuilder.append("|--active users------|\r\n");
         stringBuilder.append("----------------------\r\n");
         for (Player allPlayer : allPlayers) {
-            stringBuilder.append(allPlayer.getPlayerName()).append("\r\n");
+            stringBuilder.append(allPlayer.getPlayerName());
         }
         stringBuilder.append(new Ansi().reset().toString());
-        player.getChannel().write(stringBuilder.toString() + "\r\n");
+        channelUtils.write(player.getPlayerId(), stringBuilder.toString());
     }
 
     public void tell(Player sourcePlayer, String rawMessage) {
         ArrayList<String> parts = new ArrayList<>(Arrays.asList(rawMessage.split(" ")));
         if (parts.size() < 3) {
-            sourcePlayer.getChannel().write(("tell failed, no message to send.\r\n"));
+            channelUtils.write(sourcePlayer.getPlayerId(), "tell failed, no message to send.");
             return;
         }
         //remove the literal 'tell'
@@ -127,11 +121,11 @@ public class GameManager {
         String destinationUsername = parts.get(0);
         Player desintationPlayer = getPlayerManager().getPlayerByUsername(destinationUsername);
         if (desintationPlayer == null) {
-            sourcePlayer.getChannel().write(("tell failed, unknown user.\r\n"));
+            channelUtils.write(sourcePlayer.getPlayerId(), "tell failed, unknown user.");
             return;
         }
         if (desintationPlayer.getPlayerId().equals(sourcePlayer.getPlayerId())) {
-            sourcePlayer.getChannel().write(("tell failed, you're talking to yourself.\r\n"));
+            channelUtils.write(sourcePlayer.getPlayerId(), "tell failed, you're talking to yourself.");
             return;
         }
         parts.remove(0);
@@ -143,13 +137,14 @@ public class GameManager {
 
     private void privateMessage(Player sourcePlayer, Player destinationPlayer, String message) {
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("\r\n");
         String sourcePlayerColor = new Ansi().fg(Ansi.Color.WHITE).toString();
         String destinationPlayercolor = new Ansi().fg(Ansi.Color.YELLOW).toString();
         stringBuilder.append("*").append(sourcePlayer.getPlayerName()).append("* ");
         stringBuilder.append(message);
         stringBuilder.append(new Ansi().reset().toString());
-        destinationPlayer.getChannel().write(destinationPlayercolor + stringBuilder.toString() + "\r\n");
-        sourcePlayer.getChannel().write(sourcePlayerColor + stringBuilder.toString() + "\r\n");
+        channelUtils.write(destinationPlayer.getPlayerId(), destinationPlayercolor + stringBuilder.toString() + "\r\n");
+        channelUtils.write(sourcePlayer.getPlayerId(), sourcePlayerColor + stringBuilder.toString() + "\r\n");
     }
 
     public Set<Player> getAllPlayers() {
@@ -168,7 +163,7 @@ public class GameManager {
 
     public void setPlayerAfk(String username) {
         Player playerByUsername = playerManager.getPlayerByUsername(username);
-        Optional<Room> playerCurrentRoom = getPlayerCurrentRoom(playerByUsername);
+        Optional<Room> playerCurrentRoom = roomManager.getPlayerCurrentRoom(playerByUsername);
         playerCurrentRoom.get().getPresentPlayerIds().remove(playerByUsername.getPlayerId());
         playerCurrentRoom.get().addAfkPlayer(playerByUsername.getPlayerId());
     }
@@ -181,11 +176,11 @@ public class GameManager {
             for (Player next : playerManager.getPresentPlayers(sourceRoom)) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(movement.getPlayer().getPlayerName());
-                sb.append(" ").append(movement.getRoomExitMessage()).append("\r\n");
-                next.getChannel().write(sb.toString());
+                sb.append(" ").append(movement.getRoomExitMessage());
+                channelUtils.write(next.getPlayerId(), sb.toString());
             }
             for (Player next : playerManager.getPresentPlayers(destinationRoom)) {
-                next.getChannel().write(movement.getPlayer().getPlayerName() + " arrived.\r\n");
+                channelUtils.write(next.getPlayerId(), movement.getPlayer().getPlayerName() + " arrived.");
             }
             destinationRoom.addPresentPlayer(movement.getPlayer().getPlayerId());
         }
@@ -198,12 +193,12 @@ public class GameManager {
             if (next.getPlayerId().equals(player.getPlayerId())) {
                 continue;
             }
-            next.getChannel().write(player.getPlayerName() + " arrived.\r\n");
+            channelUtils.write(next.getPlayerId(), player.getPlayerName() + " arrived.");
         }
     }
 
     public void say(Player sourcePlayer, String message) {
-        Optional<Room> playerCurrentRoomOpt = getPlayerCurrentRoom(sourcePlayer);
+        Optional<Room> playerCurrentRoomOpt = roomManager.getPlayerCurrentRoom(sourcePlayer);
         if (!playerCurrentRoomOpt.isPresent()) {
             throw new RuntimeException("playerCurrentRoom is missing!");
         }
@@ -213,14 +208,15 @@ public class GameManager {
 
         for (Player presentPlayer : presentPlayers) {
             StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("\r\n");
             if (presentPlayer.getPlayerId().equals(sourcePlayer.getPlayerId())) {
                 stringBuilder.append(new Ansi().fg(Ansi.Color.WHITE).toString());
             } else {
                 stringBuilder.append(new Ansi().fg(Ansi.Color.RED).toString());
             }
-            stringBuilder.append("<").append(sourcePlayer.getPlayerName()).append("> ").append(message).append("\r\n");
+            stringBuilder.append("<").append(sourcePlayer.getPlayerName()).append("> ").append(message);
             stringBuilder.append(new Ansi().reset().toString());
-            presentPlayer.getChannel().write(stringBuilder.toString());
+            channelUtils.write(presentPlayer.getPlayerId(), stringBuilder.toString());
         }
     }
 
@@ -234,9 +230,9 @@ public class GameManager {
             } else {
                 stringBuilder.append(new Ansi().fg(Ansi.Color.MAGENTA).toString());
             }
-            stringBuilder.append("[").append(sourcePlayer.getPlayerName()).append("] ").append(message).append("\r\n");
+            stringBuilder.append("\r\n[").append(sourcePlayer.getPlayerName()).append("] ").append(message);
             stringBuilder.append(new Ansi().reset().toString());
-            player.getChannel().write(stringBuilder.toString());
+            channelUtils.write(player.getPlayerId(), stringBuilder.toString());
         }
     }
 
@@ -307,7 +303,7 @@ public class GameManager {
 
     public void currentRoomLogic(String playerId) {
         Player player = playerManager.getPlayer(playerId);
-        final Room playerCurrentRoom = getPlayerCurrentRoom(player).get();
+        final Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
         StringBuilder sb = new StringBuilder();
         sb.append("\r\n");
         sb.append(new Ansi().fg(Ansi.Color.GREEN).toString());
@@ -334,7 +330,7 @@ public class GameManager {
             }
             sb.append(entityManager.getItemEntity(itemId).getItemName()).append( " is on the ground.\r\n");
         }
-        player.getChannel().write(sb.toString());
+        channelUtils.write(player.getPlayerId(), sb.toString());
     }
 
     public void currentRoomLogic(CreeperSession creeperSession, MessageEvent e) {
@@ -346,7 +342,7 @@ public class GameManager {
         Set<String> presentPlayerIds = roomManager.getRoom(roomId).getPresentPlayerIds();
         for (String playerId : presentPlayerIds) {
             Player player = playerManager.getPlayer(playerId);
-            player.getChannel().write(message);
+            channelUtils.write(player.getPlayerId(), message);
         }
     }
 
@@ -355,12 +351,12 @@ public class GameManager {
     }
 
     public void acquireItem(Player player, String itemId) {
-        Room playerCurrentRoom = getPlayerCurrentRoom(player).get();
+        Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
         playerCurrentRoom.getItemIds().remove(itemId);
         playerManager.addInventoryId(player.getPlayerId(), itemId);
         Item itemEntity = entityManager.getItemEntity(itemId);
         itemEntity.setWithPlayer(true);
         entityManager.addItem(itemEntity);
-        player.getChannel().write("You acquired " + entityManager.getItemEntity(itemId).getItemName() + "\r\n");
+        channelUtils.write(player.getPlayerId(), "You acquired " + entityManager.getItemEntity(itemId).getItemName());
     }
 }

@@ -4,6 +4,7 @@ import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.model.Movement;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
+import com.comandante.creeper.server.ChannelUtils;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
@@ -39,7 +40,8 @@ public class MovementCommand extends Command {
     public void run() {
         final GameManager gameManager = getGameManager();
         Player player = gameManager.getPlayerManager().getPlayer(getPlayerId());
-        Optional<Room> roomOptional = gameManager.getPlayerCurrentRoom(player);
+        Optional<Room> roomOptional = gameManager.getRoomManager().getPlayerCurrentRoom(player);
+        ChannelUtils channelUtils = gameManager.getChannelUtils();
         if (!roomOptional.isPresent()) {
             throw new RuntimeException("Player is not in a room, movement failed!");
         }
@@ -51,7 +53,7 @@ public class MovementCommand extends Command {
         }
         if (northTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getNorthId().isPresent()) {
-                player.getChannel().write("There's no northern exit.\r\n");
+                channelUtils.write(player.getPlayerId(), "There's no northern exit.");
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getNorthId().get());
@@ -59,7 +61,7 @@ public class MovementCommand extends Command {
         }
         if (southTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getSouthId().isPresent()) {
-                player.getChannel().write("There's no southern exit.\r\n");
+                channelUtils.write(player.getPlayerId(), "There's no southern exit.");
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getSouthId().get());
@@ -67,7 +69,7 @@ public class MovementCommand extends Command {
         }
         if (eastTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getEastId().isPresent()) {
-                player.getChannel().write("There's no eastern exit.\r\n");
+                channelUtils.write(player.getPlayerId(), "There's no eastern exit.");
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getEastId().get());
@@ -75,7 +77,7 @@ public class MovementCommand extends Command {
         }
         if (westTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getWestId().isPresent()) {
-                player.getChannel().write("There's no eastern exit.\r\n");
+                channelUtils.write(player.getPlayerId(), "There's no western exit.");
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getWestId().get());
@@ -83,7 +85,7 @@ public class MovementCommand extends Command {
         }
         if (upTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getUpId().isPresent()) {
-                player.getChannel().write("There's no up exit.\r\n");
+                channelUtils.write(player.getPlayerId(), "There's no up exit.");
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getUpId().get());
@@ -91,7 +93,7 @@ public class MovementCommand extends Command {
         }
         if (downTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getDownId().isPresent()) {
-                player.getChannel().write("There's no down exit.\r\n");
+                channelUtils.write(player.getPlayerId(), "There's no down exit.");
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getDownId().get());

@@ -27,13 +27,13 @@ public class PickUpCommand extends Command {
     public void run() {
         ArrayList<String> originalMessageParts = getOriginalMessageParts();
         Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId());
-        Room playerCurrentRoom = getGameManager().getPlayerCurrentRoom(player).get();
+        Room playerCurrentRoom = getGameManager().getRoomManager().getPlayerCurrentRoom(player).get();
         Set<String> itemIds = playerCurrentRoom.getItemIds();
         for (String next : itemIds) {
             Item itemEntity = getGameManager().getEntityManager().getItemEntity(next);
             if (itemEntity.getShortName().equalsIgnoreCase(originalMessageParts.get(1))) {
                 getGameManager().acquireItem(player, itemEntity.getItemId());
-                getGameManager().roomSay(playerCurrentRoom.getRoomId(),getGameManager().getPlayerManager().getPlayer(getPlayerId()).getPlayerName() + " picked up " + itemEntity.getItemName() + ".\r\n");
+                getGameManager().roomSay(playerCurrentRoom.getRoomId(),getGameManager().getPlayerManager().getPlayer(getPlayerId()).getPlayerName() + " picked up " + itemEntity.getItemName());
                 return;
             }
         }

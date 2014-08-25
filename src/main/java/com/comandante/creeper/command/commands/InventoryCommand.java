@@ -49,6 +49,6 @@ public class InventoryCommand extends Command {
             }
             sb.append("\r\n");
         }
-        getGameManager().getPlayerManager().getPlayer(getPlayerId()).getChannel().write(sb.toString());
+        getGameManager().getChannelUtils().write(getPlayerId(), sb.toString());
     }
 }

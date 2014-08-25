@@ -10,6 +10,10 @@ import java.util.Set;
 
 public interface PlayerManager {
 
+    public int getNumberOfLoggedInUsers();
+
+    public String getPrompt(String playerId, Integer roomId);
+
     public void addInventoryId(String playerId, String inventoryId);
 
     public void removeInventoryId(String playerId, String inventoryId);

@@ -19,6 +19,6 @@ public class WhoamiCommand extends Command {
     @Override
     public void run() {
         Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId());
-        player.getChannel().write(player.getPlayerName() + "\r\n");
+        getGameManager().getChannelUtils().write(getPlayerId(), player.getPlayerName());
     }
 }

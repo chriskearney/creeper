@@ -12,6 +12,7 @@ import org.mapdb.DB;
 import org.mapdb.HTreeMap;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -38,6 +39,30 @@ public class PlayerManagerMapDB implements PlayerManager {
             players.add(getPlayer(playerId));
         }
         return ImmutableSet.copyOf(players);
+    }
+
+    @Override
+    public int getNumberOfLoggedInUsers() {
+        int cnt = 0;
+        Iterator<Map.Entry<String, Player>> players = getPlayers();
+        while (players.hasNext()) {
+            Map.Entry<String, Player> next = players.next();
+            cnt++;
+        }
+        return cnt;
+    }
+
+    @Override
+    public String getPrompt(String playerId, Integer roomId) {
+        StringBuilder sb = new StringBuilder()
+                .append("\r\n[")
+                .append(getPlayer(playerId).getPlayerName())
+                .append(" roomId:")
+                .append(roomId)
+                .append((" users:"))
+                .append(getNumberOfLoggedInUsers())
+                .append("] ");
+        return sb.toString();
     }
 
     public void addInventoryId(String playerId, String inventoryId) {

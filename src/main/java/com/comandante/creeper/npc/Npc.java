@@ -54,6 +54,7 @@ public abstract class Npc extends CreeperEntity {
 
     public void npcSay(Integer roomId, String message) {
         StringBuilder sb = new StringBuilder();
+        sb.append("\r\n");
         sb.append(new Ansi().fg(Ansi.Color.RED).toString());
         sb.append(name).append(": ").append(message);
         sb.append(new Ansi().reset().toString()).append("\r\n");

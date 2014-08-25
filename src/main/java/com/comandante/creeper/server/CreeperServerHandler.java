@@ -62,7 +62,6 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
             }
         } else {
             defaultCommandHandler.handle(e, creeperSession);
-
         }
     }
 
