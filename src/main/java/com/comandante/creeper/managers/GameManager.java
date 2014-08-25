@@ -216,7 +216,50 @@ public class GameManager {
         sb.append(BRIGHT_GREEN);
         sb.append(playerCurrentRoom.getRoomTitle()).append("\r\n\r\n");
         sb.append(RESET);
-        sb.append(WordUtils.wrap(playerCurrentRoom.getRoomDescription(), 70)).append("\r\n");
+        sb.append(WordUtils.wrap(playerCurrentRoom.getRoomDescription(), 80)).append("\r\n");
+
+        if (playerCurrentRoom.getNorthId().isPresent()) {
+            Room room = roomManager.getRoom(playerCurrentRoom.getNorthId().get());
+            sb.append("North - ");
+            if (room != null) {
+                sb.append(room.getRoomTitle()).append("\r\n");
+            }
+        }
+        if (playerCurrentRoom.getSouthId().isPresent()) {
+            Room room = roomManager.getRoom(playerCurrentRoom.getSouthId().get());
+            sb.append("South - ");
+            if (room != null) {
+                sb.append(room.getRoomTitle()).append("\r\n");
+            }
+        }
+        if (playerCurrentRoom.getEastId().isPresent()) {
+            Room room = roomManager.getRoom(playerCurrentRoom.getEastId().get());
+            sb.append("East - ");
+            if (room != null) {
+                sb.append(room.getRoomTitle()).append("\r\n");
+            }
+        }
+        if (playerCurrentRoom.getWestId().isPresent()) {
+            Room room = roomManager.getRoom(playerCurrentRoom.getWestId().get());
+            sb.append("West - ");
+            if (room != null) {
+                sb.append(room.getRoomTitle()).append("\r\n");
+            }
+        }
+        if (playerCurrentRoom.getUpId().isPresent()) {
+            Room room = roomManager.getRoom(playerCurrentRoom.getUpId().get());
+            sb.append("Up - ");
+            if (room != null) {
+                sb.append(room.getRoomTitle()).append("\r\n");
+            }
+        }
+        if (playerCurrentRoom.getDownId().isPresent()) {
+            Room room = roomManager.getRoom(playerCurrentRoom.getDownId().get());
+            sb.append("Down - ");
+            if (room != null) {
+                sb.append(room.getRoomTitle()).append("\r\n");
+            }
+        }
         sb.append(getExits(playerCurrentRoom, player));
         for (String searchPlayerId : playerCurrentRoom.getPresentPlayerIds()) {
             if (searchPlayerId.equals(player.getPlayerId())) {
@@ -237,6 +280,7 @@ public class GameManager {
             }
             sb.append(entityManager.getItemEntity(itemId).getItemName()).append(" is on the ground.\r\n");
         }
+        sb.append("\r\n");
         channelUtils.write(player.getPlayerId(), sb.toString());
     }
 
