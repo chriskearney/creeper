@@ -146,7 +146,7 @@ public class GameManager {
 
     private String getExits(Room room, Player player) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("[ Exits: ");
+        stringBuilder.append("[ ");
         stringBuilder.append(BRIGHT_GREEN);
         if (!player.getReturnDirection().isPresent()) {
             player.setReturnDirection(Optional.of("-"));
