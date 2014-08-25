@@ -54,7 +54,7 @@ public class Main {
 
         RoomBuilders.buildNeoPortland(entityManager);
 
-        RoomBuilders.buildOldtown(entityManager);
+        RoomBuilders.buildOldTown(entityManager);
 
         // zones end
 
