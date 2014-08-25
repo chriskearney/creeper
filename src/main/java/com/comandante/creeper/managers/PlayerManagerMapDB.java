@@ -55,7 +55,7 @@ public class PlayerManagerMapDB implements PlayerManager {
     @Override
     public String getPrompt(String playerId, Integer roomId) {
         StringBuilder sb = new StringBuilder()
-                .append("\r\n[")
+                .append("[")
                 .append(getPlayer(playerId).getPlayerName())
                 .append(" roomId:")
                 .append(roomId)

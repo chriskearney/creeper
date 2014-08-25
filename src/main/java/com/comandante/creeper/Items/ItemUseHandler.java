@@ -23,15 +23,15 @@ public class ItemUseHandler {
 
     private void processKey() {
         //If no doors
-        writeToPlayer("There's no doors here to use this [key] on.\r\n");
+        writeToPlayer("There's no doors here to use this [key] on.");
     }
 
     private void processBeer() {
-        writeToPlayer("You drink a cold [coors light] and feel better because of it.\r\n");
+        writeToPlayer("You drink a cold [coors light] and feel better because of it.");
     }
 
     private void processBook() {
-        writeToPlayer("You crack open the [book] and immediately realize that you aren't familiar with it's written language.\r\n");
+        writeToPlayer("You crack open the [book] and immediately realize that you aren't familiar with it's written language.");
     }
 
     public void handle() {
@@ -46,7 +46,7 @@ public class ItemUseHandler {
                 processBeer();
                 break;
             case UNKNOWN:
-                writeToPlayer("Item not found.\r\n");
+                writeToPlayer("Item not found.");
                 return;
         }
 
@@ -63,7 +63,7 @@ public class ItemUseHandler {
     }
 
     private void writeToPlayer(String message) {
-        gameManager.getPlayerManager().getPlayer(playerId).getChannel().write(message);
+        gameManager.getChannelUtils().write(playerId, message);
     }
 
     private void incrementUses(Item item) {

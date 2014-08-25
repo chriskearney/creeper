@@ -20,6 +20,6 @@ public class SayCommand extends Command {
     public void run() {
         GameManager gameManager = getGameManager();
         Player player = gameManager.getPlayerManager().getPlayer(getPlayerId());
-        getGameManager().say(player, getOriginalMessage().replaceFirst("^say ", ""));
+        getGameManager().say(player, getOriginalMessage().trim().replaceFirst("^say ", ""));
     }
 }

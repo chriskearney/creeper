@@ -137,14 +137,13 @@ public class GameManager {
 
     private void privateMessage(Player sourcePlayer, Player destinationPlayer, String message) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\r\n");
         String sourcePlayerColor = new Ansi().fg(Ansi.Color.WHITE).toString();
         String destinationPlayercolor = new Ansi().fg(Ansi.Color.YELLOW).toString();
         stringBuilder.append("*").append(sourcePlayer.getPlayerName()).append("* ");
         stringBuilder.append(message);
         stringBuilder.append(new Ansi().reset().toString());
-        channelUtils.write(destinationPlayer.getPlayerId(), destinationPlayercolor + stringBuilder.toString() + "\r\n");
-        channelUtils.write(sourcePlayer.getPlayerId(), sourcePlayerColor + stringBuilder.toString() + "\r\n");
+        channelUtils.write(destinationPlayer.getPlayerId(), destinationPlayercolor + stringBuilder.toString());
+        channelUtils.write(sourcePlayer.getPlayerId(), sourcePlayerColor + stringBuilder.toString());
     }
 
     public Set<Player> getAllPlayers() {
@@ -208,12 +207,7 @@ public class GameManager {
 
         for (Player presentPlayer : presentPlayers) {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("\r\n");
-            if (presentPlayer.getPlayerId().equals(sourcePlayer.getPlayerId())) {
-                stringBuilder.append(new Ansi().fg(Ansi.Color.WHITE).toString());
-            } else {
-                stringBuilder.append(new Ansi().fg(Ansi.Color.RED).toString());
-            }
+            stringBuilder.append(new Ansi().fg(Ansi.Color.RED).toString());
             stringBuilder.append("<").append(sourcePlayer.getPlayerName()).append("> ").append(message);
             stringBuilder.append(new Ansi().reset().toString());
             channelUtils.write(presentPlayer.getPlayerId(), stringBuilder.toString());
@@ -230,7 +224,7 @@ public class GameManager {
             } else {
                 stringBuilder.append(new Ansi().fg(Ansi.Color.MAGENTA).toString());
             }
-            stringBuilder.append("\r\n[").append(sourcePlayer.getPlayerName()).append("] ").append(message);
+            stringBuilder.append("[").append(sourcePlayer.getPlayerName()).append("] ").append(message);
             stringBuilder.append(new Ansi().reset().toString());
             channelUtils.write(player.getPlayerId(), stringBuilder.toString());
         }
@@ -297,7 +291,7 @@ public class GameManager {
                 stringBuilder.append("Down ");
             }
         }
-        stringBuilder.append(new Ansi().reset().toString()).append("]\r\n");
+        stringBuilder.append(new Ansi().reset().toString()).append("]");
         return stringBuilder.toString();
     }
 
@@ -305,7 +299,6 @@ public class GameManager {
         Player player = playerManager.getPlayer(playerId);
         final Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
         StringBuilder sb = new StringBuilder();
-        sb.append("\r\n");
         sb.append(new Ansi().fg(Ansi.Color.GREEN).toString());
         sb.append(playerCurrentRoom.getRoomTitle()).append("\r\n\r\n");
         sb.append(new Ansi().reset().toString());
@@ -328,7 +321,7 @@ public class GameManager {
                 playerCurrentRoom.remotePresentItem(itemId);
                 continue;
             }
-            sb.append(entityManager.getItemEntity(itemId).getItemName()).append( " is on the ground.\r\n");
+            sb.append(entityManager.getItemEntity(itemId).getItemName()).append(" is on the ground.\r\n");
         }
         channelUtils.write(player.getPlayerId(), sb.toString());
     }

@@ -42,7 +42,7 @@ public class DropCommand extends Command {
                 getGameManager().getPlayerManager().savePlayerMetadata(playerMetadata);
                 getGameManager().getItemDecayManager().addItem(itemEntity);
                 getGameManager().getEntityManager().addItem(itemEntity);
-                getGameManager().roomSay(playerCurrentRoom.getRoomId(),getGameManager().getPlayerManager().getPlayer(getPlayerId()).getPlayerName() + " dropped " + itemEntity.getItemName() + ".\r\n");
+                getGameManager().roomSay(playerCurrentRoom.getRoomId(),getGameManager().getPlayerManager().getPlayer(getPlayerId()).getPlayerName() + " dropped " + itemEntity.getItemName());
                 return;
             }
         }
