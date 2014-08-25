@@ -12,4 +12,5 @@ public final class Color {
     public static final String BLUE = new Ansi().fg(Ansi.Color.BLUE).toString();
     public static final String MAGENTA = new Ansi().fg(Ansi.Color.MAGENTA).toString();
     public static final String RED = new Ansi().fg(Ansi.Color.RED).toString();
+    public static final String RESET = new Ansi().reset().toString();
 }
