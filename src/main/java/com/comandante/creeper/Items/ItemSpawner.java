@@ -21,7 +21,7 @@ public class ItemSpawner extends CreeperEntity {
         this.gameManager = gameManager;
     }
 
-    public void incTicks(){
+    public void incTicks() {
         noTicks++;
     }
 
@@ -32,33 +32,49 @@ public class ItemSpawner extends CreeperEntity {
     @Override
     public void run() {
         incTicks();
-        int numberCurrentlyInRoom = 0;
         if (noTicks >= itemSpawnRule.getSpawnIntervalTicks()) {
-            Set<String> itemIds = gameManager.getRoomManager().getRoom(roomId).getItemIds();
-            for (String i: itemIds) {
-                Item currentItem = gameManager.getEntityManager().getItemEntity(i);
-                ItemType currentItemType = ItemType.itemTypeFromCode(currentItem.getItemTypeId());
-                if (currentItemType.equals(spawnItemType)) {
-                    numberCurrentlyInRoom++;
-                }
-            }
-            while (numberCurrentlyInRoom < itemSpawnRule.getMaxPerRoom()) {
-                if (itemSpawnRule.getRandomChance().isPresent()) {
-                     if (random.nextInt(100) < itemSpawnRule.getRandomChance().get()) {
-                         Item item = spawnItemType.create();
-                         gameManager.getEntityManager().addItem(item);
-                         gameManager.placeItemInRoom(roomId, item.getItemId());
-                         numberCurrentlyInRoom++;
-                         continue;
-                     }
-                    Item item = spawnItemType.create();
-                    gameManager.getEntityManager().addItem(item);
-                    gameManager.placeItemInRoom(roomId, item.getItemId());
-                    numberCurrentlyInRoom++;
-                }
+            if (itemSpawnRule.getRandomChance().isPresent()) {
+                processRandom();
+            } else {
+                processNormal();
             }
         }
     }
 
+    private void processRandom() {
+        int randomPercentage = itemSpawnRule.getRandomChance().get();
+        int numberOfAttempts = itemSpawnRule.getMaxPerRoom() - countNumberInRoom();
+        for (int i = 0; i < numberOfAttempts; i++) {
+            if (random.nextInt(100) < randomPercentage) {
+                createAndAddItem();
+            }
+        }
+    }
+
+    private void processNormal() {
+        int numberToCreate = itemSpawnRule.getMaxPerRoom() - countNumberInRoom();
+        for (int i = 0; i < numberToCreate; i++) {
+            createAndAddItem();
+        }
+    }
+
+    private int countNumberInRoom() {
+        int numberCurrentlyInRoom = 0;
+        Set<String> itemIds = gameManager.getRoomManager().getRoom(roomId).getItemIds();
+        for (String i : itemIds) {
+            Item currentItem = gameManager.getEntityManager().getItemEntity(i);
+            ItemType currentItemType = ItemType.itemTypeFromCode(currentItem.getItemTypeId());
+            if (currentItemType.equals(spawnItemType)) {
+                numberCurrentlyInRoom++;
+            }
+        }
+        return numberCurrentlyInRoom;
+    }
+
+    private void createAndAddItem() {
+        Item item = spawnItemType.create();
+        gameManager.getEntityManager().addItem(item);
+        gameManager.placeItemInRoom(roomId, item.getItemId());
+    }
 
 }
