@@ -60,6 +60,3 @@ public class ItemSpawner extends CreeperEntity {
         }
     }
 }
-
-
-}
