@@ -27,7 +27,7 @@ public class ItemUseHandler {
     }
 
     private void processBeer() {
-        writeToPlayer("You drink a cold [coors light] and feel better because of it.");
+        writeToPlayer("Y");
     }
 
     private void processBook() {

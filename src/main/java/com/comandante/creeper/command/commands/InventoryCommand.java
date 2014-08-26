@@ -34,8 +34,7 @@ public class InventoryCommand extends Command {
         ArrayList<String> inventory = new ArrayList<String>(Arrays.asList(playerMetadata.getInventory()));
         Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId());
         StringBuilder sb = new StringBuilder();
-        sb.append(CYAN);
-        sb.append("----Inventory-----\r\n");
+        sb.append("You are carrying:\r\n");
         sb.append(RESET);
         for (String inventoryId: inventory) {
             Item item = getGameManager().getEntityManager().getItemEntity(inventoryId);
@@ -52,6 +51,7 @@ public class InventoryCommand extends Command {
             }
             sb.append("\r\n");
         }
+        sb.append("\r\n");
         commandWrite(sb.toString());
     }
 }

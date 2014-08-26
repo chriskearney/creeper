@@ -14,19 +14,19 @@ public enum ItemType {
             0,
             60),
     BEER(2, "beer",
-            "a dented can of" + CYAN + " beer" + RESET + ".",
-            "a" + CYAN + " beer" + RESET + " lies on the ground.",
+            "a dented can of" + CYAN + " beer" + RESET,
+            "a" + CYAN + " cold beer" + RESET + " is here, waiting to be drank.",
             "This beer looks sketch but you'll probably drink it anyways.",
             false,
             0,
             60),
-    BOOK(3, "beer",
-            "a" + MAGENTA + " leather book" + RESET + ".",
-            "a" + MAGENTA + " well used book" + RESET + " with what looks like a leather back rests here.",
-            "A book written in a foreign language. Doesn't matter as you can't read.",
-            false,
-            0,
-            60);
+    BOOK(3, "beer", // FLAGS
+            "a" + MAGENTA + " leather book" + RESET + ".", //SHORT
+            "a" + MAGENTA + " well used book" + RESET + " with what looks like a leather back rests here.", // RESTING
+            "A book written in a foreign language. Doesn't matter as you can't read.", // INSPECT
+            false, // DISPOSABLE
+            0, // USES
+            60); // TICK
 
     private final Integer itemTypeCode;
     private final String itemShortName;
