@@ -45,13 +45,13 @@ public class RoomBuilders {
         entityManager.addEntity(new BasicRoom(
                 3,
                 "Training Field",
-                Optional.of(7),
+                Optional.of(8),
                 Optional.of(2),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
-                "You are standing on the center of a massive training field. You see a large field with a track surrounding it. A main pathway connects from the Port to the north to the main Federation building. Soldiers of all ranks are going about their business here.\r\n"));
+                "You are standing on the center of a massive training field. You see a large field with a track surrounding it. A main pathway connects from back gate to the north to the main Federation building. Soldiers of all ranks are going about their business here.\r\n"));
 
         entityManager.addEntity(new BasicRoom(
                 4,
@@ -88,14 +88,25 @@ public class RoomBuilders {
 
         entityManager.addEntity(new BasicRoom(
                 7,
-                "Port",
+                "Train Station",
                 Optional.of(100),
-                Optional.of(3),
+                Optional.of(8),
                 Optional.of(200),
                 Optional.of(300),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 "You are standing in the main port of the Federation Encampment.\r\n"));
+
+        entityManager.addEntity(new BasicRoom(
+                8,
+                "Federation Encampment Back Gate",
+                Optional.of(7),
+                Optional.of(3),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                Optional.<Integer>absent(),
+                "You are standing outside of the Federation Training Encampment. To the North is the Seattle train station.\r\n"));
 
     }
 
