@@ -38,6 +38,7 @@ public class ItemSpawner extends CreeperEntity {
             } else {
                 processNormal();
             }
+            noTicks = 0;
         }
     }
 
