@@ -11,19 +11,22 @@ public class ItemSpawner extends CreeperEntity {
     private final ItemType spawnItemType;
     private final ItemSpawnRule itemSpawnRule;
     private final GameManager gameManager;
-    private final Integer roomId;
+    private Integer roomId;
     private int noTicks = 0;
     private final Random random = new Random();
 
-    public ItemSpawner(ItemType spawnItemType, ItemSpawnRule itemSpawnRule, GameManager gameManager, Integer roomId) {
+    public ItemSpawner(ItemType spawnItemType, ItemSpawnRule itemSpawnRule, GameManager gameManager) {
         this.spawnItemType = spawnItemType;
         this.itemSpawnRule = itemSpawnRule;
         this.gameManager = gameManager;
-        this.roomId = roomId;
     }
 
     public void incTicks(){
         noTicks++;
+    }
+
+    public void setRoomId(Integer roomId) {
+        this.roomId = roomId;
     }
 
     @Override
