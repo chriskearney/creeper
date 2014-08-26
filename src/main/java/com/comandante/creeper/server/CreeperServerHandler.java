@@ -69,7 +69,7 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
         String message = (String) e.getMessage();
         CreeperSession creeperSession = (CreeperSession) ctx.getAttachment();
         if (creeperSession.getState().equals(CreeperSession.State.promptedForUsername)) {
-            creeperSession.setUsername(Optional.of(message));
+            creeperSession.setUsername(Optional.of(message.replaceAll("[^a-zA-Z0-9]", "")));
             if (creeperSession.getUsername().isPresent() && creeperSession.getUsername().get().equals("new")) {
                 gameManager.getNewUserRegistrationManager().newUserRegistrationFlow(creeperSession, e);
                 return;
