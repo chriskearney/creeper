@@ -1,26 +1,28 @@
 package com.comandante.creeper.Items;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import static com.comandante.creeper.model.Color.*;
 
 public enum ItemType {
-    UNKNOWN(0, "", "", "", "", false, 0, 0),
-    KEY(1, "key",
+    UNKNOWN(0, Arrays.asList(""), "", "", "", false, 0, 0),
+    KEY(1, Arrays.asList("key", "gold key", "shiny gold key"),
             YELLOW + "a shiny gold key" + RESET,
             YELLOW + "a shiny gold key" + RESET + " catches your eye.",
             "A basic key with nothing really remarkable other than its made of gold.",
             false,
             0,
             60),
-    BEER(2, "beer",
+    BEER(2, Arrays.asList("beer", "can of beer"),
             CYAN + "a dented can of beer" + RESET,
             CYAN + "a beer" + RESET + " lies on the ground, unopened",
             "This beer looks sketch but you'll probably drink it anyways.",
             false,
             0,
             60),
-    BOOK(3, "beer",
+    BOOK(3, Arrays.asList("book", "used book"),
             MAGENTA + "a leather book" + RESET,
             MAGENTA + "a well used book" + RESET + " with what looks like a leather back rests here.",
             "A book written in a foreign language. Doesn't matter as you can't read.",
@@ -29,7 +31,7 @@ public enum ItemType {
             60);
 
     private final Integer itemTypeCode;
-    private final String itemShortName;
+    private final List<String> itemTriggers;
     private final String restingName;
     private final String itemName;
     private final String itemDescription;
@@ -37,9 +39,9 @@ public enum ItemType {
     private final int maxUses;
     private final int itemHalfLifeTicks;
 
-    ItemType(Integer itemTypeCode, String itemShortName, String itemName, String restingName, String itemDescription, boolean isDisposable, int maxUses, int itemHalfLifeTicks) {
+    ItemType(Integer itemTypeCode, List<String> itemTriggers, String itemName, String restingName, String itemDescription, boolean isDisposable, int maxUses, int itemHalfLifeTicks) {
         this.itemTypeCode = itemTypeCode;
-        this.itemShortName = itemShortName;
+        this.itemTriggers = itemTriggers;
         this.itemName = itemName;
         this.restingName = restingName;
         this.itemDescription = itemDescription;
@@ -53,7 +55,7 @@ public enum ItemType {
     }
 
     public Item create() {
-        return new Item(getItemName(), getItemDescription(), getItemShortName(), getRestingName(), UUID.randomUUID().toString(), getItemTypeCode(), 0, false);
+        return new Item(getItemName(), getItemDescription(), getItemTriggers(), getRestingName(), UUID.randomUUID().toString(), getItemTypeCode(), 0, false);
     }
 
 
@@ -65,8 +67,8 @@ public enum ItemType {
         return itemTypeCode;
     }
 
-    public String getItemShortName() {
-        return itemShortName;
+    public List<String> getItemTriggers() {
+        return itemTriggers;
     }
 
     public String getItemName() {

@@ -2,22 +2,23 @@ package com.comandante.creeper.Items;
 
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Item implements Serializable {
 
     private String itemName;
     private String itemDescription;
-    private String shortName;
+    private List<String> itemTriggers;
     private String restingName;
     private String itemId;
     private Integer itemTypeId;
     private int numberOfUses;
     private boolean isWithPlayer;
 
-    protected Item(String itemName, String itemDescription, String shortName, String restingName, String itemId, Integer itemTypeId, int numberOfUses, boolean isWithPlayer) {
+    protected Item(String itemName, String itemDescription, List<String> itemTriggers, String restingName, String itemId, Integer itemTypeId, int numberOfUses, boolean isWithPlayer) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
-        this.shortName = shortName;
+        this.itemTriggers = itemTriggers;
         this.restingName = restingName;
         this.itemId = itemId;
         this.itemTypeId = itemTypeId;
@@ -64,8 +65,8 @@ public class Item implements Serializable {
         return itemDescription;
     }
 
-    public String getShortName() {
-        return shortName;
+    public List<String> getItemTriggers() {
+        return itemTriggers;
     }
 
     public void setItemName(String itemName) {
@@ -76,8 +77,8 @@ public class Item implements Serializable {
         this.itemDescription = itemDescription;
     }
 
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
+    public void setItemTriggers(List<String> itemTriggers) {
+        this.itemTriggers = itemTriggers;
     }
 
     public String getRestingName() {
