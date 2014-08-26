@@ -12,7 +12,6 @@ public class PlayerMetadataSerializer implements Serializer<PlayerMetadata>, Ser
 
     @Override
     public void serialize(DataOutput out, PlayerMetadata value) throws IOException {
-        System.out.println(new GsonBuilder().create().toJson(value, PlayerMetadata.class));
         out.writeUTF(new GsonBuilder().create().toJson(value, PlayerMetadata.class));
     }
 

@@ -71,6 +71,7 @@ public abstract class Command implements Runnable {
             Player player = getGameManager().getPlayerManager().getPlayer(playerId);
             if (player.getPlayerId().equals(getPlayerId())) {
                 commandWrite(message);
+                return;
             }
             getGameManager().getChannelUtils().writeNoPrompt(player.getPlayerId(), message);
         }

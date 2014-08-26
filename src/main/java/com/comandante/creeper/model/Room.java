@@ -1,8 +1,12 @@
 package com.comandante.creeper.model;
 
+import com.comandante.creeper.Items.ItemSpawner;
 import com.google.common.base.Optional;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 public abstract class Room extends CreeperEntity {
@@ -20,6 +24,7 @@ public abstract class Room extends CreeperEntity {
     private final Set<String> afkPlayerIds = Sets.<String>newConcurrentHashSet();
     private final Set<String> npcIds = Sets.newConcurrentHashSet();
     private final Set<String> itemIds = Sets.newConcurrentHashSet();
+    private List<ItemSpawner> itemSpawners = Lists.newArrayList();
 
     public Room(Integer roomId,
                 String roomTitle,
@@ -126,8 +131,17 @@ public abstract class Room extends CreeperEntity {
         return downId;
     }
 
+    public void addItemSpawner(ItemSpawner itemSpawner) {
+        itemSpawners.add(itemSpawner);
+    }
+
     @Override
     public void run() {
+        Iterator<ItemSpawner> iterator = itemSpawners.iterator();
+        while (iterator.hasNext()) {
+            ItemSpawner next = iterator.next();
+            next.run();
+        }
 
     }
 }

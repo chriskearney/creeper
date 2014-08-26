@@ -1,8 +1,11 @@
 package com.comandante.creeper.builder;
 
+import com.comandante.creeper.Items.ItemSpawnRule;
+import com.comandante.creeper.Items.ItemSpawner;
+import com.comandante.creeper.Items.ItemType;
 import com.comandante.creeper.managers.EntityManager;
+import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.model.BasicRoom;
-import com.comandante.creeper.model.Color;
 import com.google.common.base.Optional;
 
 /**
@@ -10,9 +13,10 @@ import com.google.common.base.Optional;
  */
 public class RoomBuilders {
 
-    public static void buildFedTraining(EntityManager entityManager){
+    public static void buildFedTraining(GameManager gameManager){
+        EntityManager entityManager = gameManager.getEntityManager();
 
-        entityManager.addEntity(new BasicRoom(
+        BasicRoom basicRoom = new BasicRoom(
                 1,
                 "Entrance to Federation Training Encampment",
                 Optional.of(2),
@@ -21,7 +25,11 @@ public class RoomBuilders {
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
-                "You are standing before the Federation Training Encampment. A huge wall surrounds the base. To the north you see a two doors leading inside. Above the doors you sits the symbol of the Federation, a single red star with five points and a raised fist in the center. Sentries along the encampment walls begin to eye you suspiciously. You then remember that malingering in front of a Federation base could prove to be a fatal mistake.\r\n"));
+                "You are standing before the Federation Training Encampment. A huge wall surrounds the base. To the north you see a two doors leading inside. Above the doors you sits the symbol of the Federation, a single red star with five points and a raised fist in the center. Sentries along the encampment walls begin to eye you suspiciously. You then remember that malingering in front of a Federation base could prove to be a fatal mistake.\r\n");
+
+        ItemSpawner itemSpawner = new ItemSpawner(ItemType.BEER, new ItemSpawnRule(10, 3), gameManager, basicRoom.getRoomId());
+        basicRoom.addItemSpawner(itemSpawner);
+        entityManager.addEntity(basicRoom);
 
         entityManager.addEntity(new BasicRoom(
                 2,

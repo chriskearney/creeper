@@ -1,38 +1,114 @@
 package com.comandante.creeper.managers;
 
+
+import com.comandante.creeper.model.PlayerMetadataSerializer;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
 import com.comandante.creeper.model.Room;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
+import org.apache.commons.codec.binary.Base64;
+import org.mapdb.DB;
+import org.mapdb.HTreeMap;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
-public interface PlayerManager {
+public class PlayerManager {
 
-    public int getNumberOfLoggedInUsers();
+    private ConcurrentHashMap<String, Player> players = new ConcurrentHashMap<String, Player>();
+    private HTreeMap<String, PlayerMetadata> playerMetadataStore;
+    private final DB db;
 
-    public String getPrompt(String playerId, Integer roomId);
+    public PlayerManager(DB db) {
+        this.db = db;
+        if (db.exists("playerMetadata")) {
+            this.playerMetadataStore = db.get("playerMetadata");
+        } else {
+            this.playerMetadataStore = db.createHashMap("playerMetadata").valueSerializer(new PlayerMetadataSerializer()).make();
+        }
+    }
 
-    public void addInventoryId(String playerId, String inventoryId);
+    public Set<Player> getPresentPlayers(Room room) {
+        Set<String> presentPlayerIds = room.getPresentPlayerIds();
+        Set<Player> players = Sets.newHashSet();
+        for (String playerId: presentPlayerIds) {
+            players.add(getPlayer(playerId));
+        }
+        return ImmutableSet.copyOf(players);
+    }
 
-    public void removeInventoryId(String playerId, String inventoryId);
+    public int getNumberOfLoggedInUsers() {
+        int cnt = 0;
+        Iterator<Map.Entry<String, Player>> players = getPlayers();
+        while (players.hasNext()) {
+            Map.Entry<String, Player> next = players.next();
+            cnt++;
+        }
+        return cnt;
+    }
 
-    public Set<Player> getPresentPlayers(Room room);
+    public String getPrompt(String playerId, Integer roomId) {
+        StringBuilder sb = new StringBuilder()
+                .append("[")
+                .append(getPlayer(playerId).getPlayerName())
+                .append(" roomId:")
+                .append(roomId)
+                .append((" users:"))
+                .append(getNumberOfLoggedInUsers())
+                .append("] ");
+        return sb.toString();
+    }
 
-    PlayerMetadata getPlayerMetadata(String playerId);
+    public void addInventoryId(String playerId, String inventoryId) {
+        PlayerMetadata playerMetadata = playerMetadataStore.get(playerId);
+        playerMetadata.addInventoryEntityId(inventoryId);
+        savePlayerMetadata(playerMetadata);
+    }
 
-    void savePlayerMetadata(PlayerMetadata playerMetadata);
+    public void removeInventoryId(String playerId, String inventoryId) {
+        PlayerMetadata playerMetadata = playerMetadataStore.get(playerId);
+        playerMetadata.removeInventoryEntityId(inventoryId);
+        savePlayerMetadata(playerMetadata);
+    }
 
-    Player addPlayer(Player player);
+    public PlayerMetadata getPlayerMetadata(String playerId) {
+        return playerMetadataStore.get(playerId);
+    }
 
-    Player getPlayerByUsername(String username);
+    public void savePlayerMetadata(PlayerMetadata playerMetadata) {
+        playerMetadataStore.put(playerMetadata.getPlayerId(), playerMetadata);
+        db.commit();
+    }
 
-    Player getPlayer(String playerId);
+    public Player addPlayer(Player player) {
+        return players.putIfAbsent(player.getPlayerId(), player);
+    }
 
-    Iterator<Map.Entry<String, Player>> getPlayers();
+    public Player getPlayerByUsername(String username) {
+        return getPlayer(new String(Base64.encodeBase64(username.getBytes())));
+    }
 
-    void removePlayer(String username);
+    public Player getPlayer(String playerId) {
+        return players.get(playerId);
+    }
 
-    boolean doesPlayerExist(String username);
+    public Iterator<java.util.Map.Entry<String, Player>> getPlayers() {
+        return players.entrySet().iterator();
+    }
+
+    public void removePlayer(String username) {
+        Player player = getPlayerByUsername(username);
+        if (player.getChannel() != null && player.getChannel().isConnected()) {
+            player.getChannel().disconnect();
+        }
+        players.remove(player.getPlayerId());
+    }
+
+    public boolean doesPlayerExist(String username) {
+        return players.containsKey(new String(Base64.encodeBase64(username.getBytes())));
+    }
+
 }

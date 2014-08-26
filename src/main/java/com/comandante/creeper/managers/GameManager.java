@@ -300,6 +300,6 @@ public class GameManager {
         Item itemEntity = entityManager.getItemEntity(itemId);
         itemEntity.setWithPlayer(true);
         entityManager.addItem(itemEntity);
-        channelUtils.write(player.getPlayerId(), "You acquired " + entityManager.getItemEntity(itemId).getItemName());
     }
+
 }
