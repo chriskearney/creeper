@@ -49,9 +49,7 @@ public class ItemSpawner extends CreeperEntity {
                         gameManager.getEntityManager().addItem(item);
                         gameManager.placeItemInRoom(roomId, item.getItemId());
                         numberCurrentlyInRoom++;
-                        continue;
                     }
-                } else {
                     continue;
                 }
                 Item item = spawnItemType.create();
@@ -61,6 +59,7 @@ public class ItemSpawner extends CreeperEntity {
             }
         }
     }
+}
 
 
 }
