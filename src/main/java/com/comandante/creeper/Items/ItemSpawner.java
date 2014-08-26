@@ -3,6 +3,7 @@ package com.comandante.creeper.Items;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.model.CreeperEntity;
 
+import java.util.Random;
 import java.util.Set;
 
 public class ItemSpawner extends CreeperEntity {
@@ -12,6 +13,7 @@ public class ItemSpawner extends CreeperEntity {
     private final GameManager gameManager;
     private final Integer roomId;
     private int noTicks = 0;
+    private final Random random = new Random();
 
     public ItemSpawner(ItemType spawnItemType, ItemSpawnRule itemSpawnRule, GameManager gameManager, Integer roomId) {
         this.spawnItemType = spawnItemType;
@@ -38,9 +40,12 @@ public class ItemSpawner extends CreeperEntity {
                 }
             }
             if (numberCurrentlyInRoom < itemSpawnRule.getMaxPerRoom()) {
-                Item item = spawnItemType.create();
-                gameManager.getEntityManager().addItem(item);
-                gameManager.placeItemInRoom(roomId, item.getItemId());
+                if (itemSpawnRule.getRandomChance().isPresent()
+                        && random.nextInt(100) < itemSpawnRule.getRandomChance().get()) {
+                    Item item = spawnItemType.create();
+                    gameManager.getEntityManager().addItem(item);
+                    gameManager.placeItemInRoom(roomId, item.getItemId());
+                }
             }
         }
     }

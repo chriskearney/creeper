@@ -4,7 +4,7 @@ import com.google.common.base.Optional;
 
 public class ItemSpawnRule {
 
-    private Optional<Float> randomChance = Optional.absent();
+    private Optional<Integer> randomChance = Optional.absent();
     private final int spawnIntervalTicks;
     private final int maxPerRoom;
 
@@ -13,7 +13,13 @@ public class ItemSpawnRule {
         this.maxPerRoom = maxPerRoom;
     }
 
-    public Optional<Float> getRandomChance() {
+    public ItemSpawnRule(int spawnIntervalTicks, int maxPerRoom, int randomPercent) {
+        this.spawnIntervalTicks = spawnIntervalTicks;
+        this.maxPerRoom = maxPerRoom;
+        this.randomChance = Optional.of(randomPercent);
+    }
+
+    public Optional<Integer> getRandomChance() {
         return randomChance;
     }
 
