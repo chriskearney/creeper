@@ -2,49 +2,46 @@ package com.comandante.creeper.Items;
 
 import java.util.UUID;
 
-import static com.comandante.creeper.model.Color.RED;
-import static com.comandante.creeper.model.Color.RESET;
-import static com.comandante.creeper.model.Color.YELLOW;
+import static com.comandante.creeper.model.Color.*;
 
 public enum ItemType {
-    UNKNOWN(0, "", "", "", false, 0, 0),
-    KEY(1, "key", new StringBuilder()
-            .append(YELLOW)
-            .append("A shiny gold [key]")
-            .append(RESET).toString(),
+    UNKNOWN(0, "", "", "", "", false, 0, 0),
+    KEY(1, "key",
+            YELLOW + "a shiny gold key" + RESET,
+            YELLOW + "a shiny gold key" + RESET + " catches your eye.",
             "A basic key with nothing really remarkable other than its made of gold.",
             false,
             0,
-            2),
-    BOOK(2, "book", new StringBuilder()
-            .append(RED)
-            .append("An ancient leather bound [book]")
-            .append(RESET).toString(),
-            "An ancient book with mysterious engravings.",
+            60),
+    BEER(2, "beer",
+            CYAN + "a dented can of beer" + RESET,
+            CYAN + "a beer" + RESET + " lies on the ground, unopened",
+            "This beer looks sketch but you'll probably drink it anyways.",
             false,
             0,
-            2),
-    BEER(3, "beer", new StringBuilder()
-            .append(YELLOW)
-            .append("A cold frosty [beer]")
-            .append(RESET).toString(),
-            "A coors light.",
-            true,
-            2,
-            2);
+            60),
+    BOOK(3, "beer",
+            MAGENTA + "a leather book" + RESET,
+            MAGENTA + "a well used book" + RESET + " with what looks like a leather back rests here.",
+            "A book written in a foreign language. Doesn't matter as you can't read.",
+            false,
+            0,
+            60);
 
     private final Integer itemTypeCode;
     private final String itemShortName;
+    private final String restingName;
     private final String itemName;
     private final String itemDescription;
     private final boolean isDisposable;
     private final int maxUses;
     private final int itemHalfLifeTicks;
 
-    ItemType(Integer itemTypeCode, String itemShortName, String itemName, String itemDescription, boolean isDisposable, int maxUses, int itemHalfLifeTicks) {
+    ItemType(Integer itemTypeCode, String itemShortName, String itemName, String restingName, String itemDescription, boolean isDisposable, int maxUses, int itemHalfLifeTicks) {
         this.itemTypeCode = itemTypeCode;
         this.itemShortName = itemShortName;
         this.itemName = itemName;
+        this.restingName = restingName;
         this.itemDescription = itemDescription;
         this.maxUses = maxUses;
         if (maxUses > 0) {
@@ -56,7 +53,12 @@ public enum ItemType {
     }
 
     public Item create() {
-        return new Item(getItemName(), getItemDescription(), getItemShortName(), UUID.randomUUID().toString(), getItemTypeCode(), 0, false);
+        return new Item(getItemName(), getItemDescription(), getItemShortName(), getRestingName(), UUID.randomUUID().toString(), getItemTypeCode(), 0, false);
+    }
+
+
+    public String getRestingName() {
+        return restingName;
     }
 
     public Integer getItemTypeCode() {

@@ -8,15 +8,17 @@ public class Item implements Serializable {
     private String itemName;
     private String itemDescription;
     private String shortName;
+    private String restingName;
     private String itemId;
     private Integer itemTypeId;
     private int numberOfUses;
     private boolean isWithPlayer;
 
-    protected Item(String itemName, String itemDescription, String shortName, String itemId, Integer itemTypeId, int numberOfUses, boolean isWithPlayer) {
+    protected Item(String itemName, String itemDescription, String shortName, String restingName, String itemId, Integer itemTypeId, int numberOfUses, boolean isWithPlayer) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.shortName = shortName;
+        this.restingName = restingName;
         this.itemId = itemId;
         this.itemTypeId = itemTypeId;
         this.numberOfUses = numberOfUses;
@@ -76,5 +78,13 @@ public class Item implements Serializable {
 
     public void setShortName(String shortName) {
         this.shortName = shortName;
+    }
+
+    public String getRestingName() {
+        return restingName;
+    }
+
+    public void setRestingName(String restingName) {
+        this.restingName = restingName;
     }
 }
