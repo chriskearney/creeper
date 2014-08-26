@@ -10,7 +10,7 @@ public enum ItemType {
     UNKNOWN(0, "", "", "", false, 0, 0),
     KEY(1, "key", new StringBuilder()
             .append(YELLOW)
-            .append("    a shiny gold key")
+            .append("a shiny gold key")
             .append(RESET).toString(),
             "A basic key with nothing really remarkable other than its made of gold.",
             false,
@@ -18,7 +18,7 @@ public enum ItemType {
             2),
     BOOK(2, "book", new StringBuilder()
             .append(RED)
-            .append("    an ancient leather bound book")
+            .append("an ancient leather bound book")
             .append(RESET).toString(),
             "An ancient book with mysterious engravings.",
             false,
@@ -26,7 +26,7 @@ public enum ItemType {
             2),
     BEER(3, "beer", new StringBuilder()
             .append(YELLOW)
-            .append("    a cold frosty beer")
+            .append("a cold frosty beer")
             .append(RESET).toString(),
             "A coors light.",
             true,
