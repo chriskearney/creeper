@@ -6,6 +6,7 @@ import com.comandante.creeper.Items.ItemType;
 import com.comandante.creeper.Items.ItemUseHandler;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.server.CreeperSession;
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -31,10 +32,11 @@ public class UseCommand extends Command {
             commandWrite("No item specified.");
             return;
         }
-        String itemTarget = originalMessageParts.get(1);
+        originalMessageParts.remove(0);
+        String itemTarget = Joiner.on(" ").join(originalMessageParts);
         for (String inventoryId : getGameManager().getPlayerManager().getPlayerMetadata(getPlayerId()).getInventory()) {
             Item itemEntity = getGameManager().getEntityManager().getItemEntity(inventoryId);
-            if (itemEntity.getShortName().equals(itemTarget)) {
+            if (itemEntity.getItemTriggers().contains(itemTarget)) {
                 new ItemUseHandler(itemEntity, creeperSession, getGameManager(), getPlayerId()).handle();
                 return;
             }

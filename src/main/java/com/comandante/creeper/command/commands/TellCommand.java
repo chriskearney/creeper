@@ -2,8 +2,8 @@ package com.comandante.creeper.command.commands;
 
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.model.Player;
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public class TellCommand extends Command {
             return;
         }
         parts.remove(0);
-        String tellMessage = StringUtils.join(parts, " ");
+        String tellMessage = Joiner.on(" ").join(parts);
         StringBuilder stringBuilder = new StringBuilder();
         String destinationPlayercolor = YELLOW;
         stringBuilder.append("*").append(sourcePlayer.getPlayerName()).append("* ");

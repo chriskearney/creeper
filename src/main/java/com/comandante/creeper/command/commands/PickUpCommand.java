@@ -4,6 +4,7 @@ import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -31,7 +32,9 @@ public class PickUpCommand extends Command {
         Set<String> itemIds = playerCurrentRoom.getItemIds();
         for (String next : itemIds) {
             Item itemEntity = getGameManager().getEntityManager().getItemEntity(next);
-            if (itemEntity.getShortName().equalsIgnoreCase(originalMessageParts.get(1))) {
+            originalMessageParts.remove(0);
+            String desiredPickUpItem = Joiner.on(" ").join(originalMessageParts);
+            if (itemEntity.getItemTriggers().contains(desiredPickUpItem)) {
                 getGameManager().acquireItem(player, itemEntity.getItemId());
                 roomSay(playerCurrentRoom.getRoomId(), getGameManager().getPlayerManager().getPlayer(getPlayerId()).getPlayerName() + " picked up " + itemEntity.getItemName());
                 return;
