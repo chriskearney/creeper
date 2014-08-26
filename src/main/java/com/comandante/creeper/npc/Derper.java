@@ -7,9 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import static com.comandante.creeper.model.Color.CYAN;
-import static com.comandante.creeper.model.Color.RED;
-import static com.comandante.creeper.model.Color.RESET;
+import static com.comandante.creeper.model.Color.*;
 
 public class Derper extends Npc {
 
@@ -17,12 +15,8 @@ public class Derper extends Npc {
     private final static String NAME = "derper";
     private final Random random;
     private final static String colorName = new StringBuilder()
-            .append(RED)
-            .append("d")
-            .append(CYAN)
-            .append("erpe")
-            .append(RED)
-            .append("r")
+            .append(GREEN)
+            .append("Federation Sentry")
             .append(RESET).toString();
 
     public Derper(GameManager gameManager, Integer roomId) {
