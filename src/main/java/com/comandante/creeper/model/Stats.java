@@ -121,7 +121,9 @@ public class Stats implements Serializable {
         int totalChallengerWin = 0;
         int totalVictimWin = 0;
         for (int i = 0; i < 30000; i++) {
-            boolean results = fight(new Stats(2, 2, 2, 2, 2, 2, 100, 1, 5, 1), new Stats(1, 1, 1, 1, 1, 1, 100, 1, 2, 1));
+            boolean results = fight(new Stats(10, 2, 2, 2, 2, 10, 100, 10, 20, 1), new Stats(5, 1, 1, 1, 5, 1, 100, 5, 10, 1));
+
+            //strength, willpower, aim, agile, armorRating, meleSkill, health, weaponRatingMin, weaponRatingMax, numberweaponOfRolls
             if (results) {
                 totalChallengerWin++;
             } else {
@@ -161,7 +163,7 @@ public class Stats implements Serializable {
             }
             NO_TURNS++;
             damageToVictim = getAttack(challenger, victim);
-            chanceToHitVictim = challenger.getStrength() + (challenger.getMeleSkill() * 5) - (victim.getAgile() * 5);
+            chanceToHitVictim = (challenger.getStrength() + challenger.getMeleSkill()) * 5 - victim.getAgile() * 5;
             if (randInt(0, 100) < chanceToHitVictim) {
            //     System.out.println("Attack landed on victim for : " + damageToVictim + " damage.");
                 victim.setHealth(victim.getHealth() - damageToVictim);
@@ -172,7 +174,7 @@ public class Stats implements Serializable {
                 NO_MISSES_CHALLENGER++;
             }
             damageToChallenger = getAttack(victim, challenger);
-            chanceToHitChallenger = victim.getStrength() + (victim.getMeleSkill() * 5) - (challenger.getAgile() * 5);
+            chanceToHitChallenger = (victim.getStrength() + victim.getMeleSkill()) * 5 - (challenger.getAgile() * 5);
 
             if (randInt(0, 100) < chanceToHitChallenger) {
              //   System.out.println("Attack landed on challenger for : " + damageToChallenger + " damage.");
