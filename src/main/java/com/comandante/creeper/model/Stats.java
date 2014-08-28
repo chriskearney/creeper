@@ -20,6 +20,8 @@ public class Stats implements Serializable {
     public static int NO_HITS_VICTIM = 0;
     public static int NO_MISSES_CHALLENGER = 0;
     public static int NO_MISSES_VICTIM = 0;
+    public static int TOTAL_DAMAGE_CHALLENGER = 0;
+    public static int TOTAL_DAMAGE_VICTIM = 0;
 
     public Stats(int strength, int willpower, int aim, int agile, int armorRating, int meleSkill, int health, int weaponRatingMin, int weaponRatingMax, int numberweaponOfRolls) {
         this.strength = strength;
@@ -120,9 +122,9 @@ public class Stats implements Serializable {
     public static void main(String[] args) throws InterruptedException {
         int totalChallengerWin = 0;
         int totalVictimWin = 0;
-        for (int i = 0; i < 30000; i++) {
+        int NUM_EXECUTION = 30000;
+        for (int i = 0; i < NUM_EXECUTION; i++) {
             boolean results = fight(new Stats(10, 2, 2, 2, 2, 10, 100, 10, 20, 1), new Stats(5, 1, 1, 1, 5, 1, 100, 5, 10, 1));
-
             //strength, willpower, aim, agile, armorRating, meleSkill, health, weaponRatingMin, weaponRatingMax, numberweaponOfRolls
             if (results) {
                 totalChallengerWin++;
@@ -130,20 +132,15 @@ public class Stats implements Serializable {
                 totalVictimWin++;
             }
         }
-
         System.out.println("Challenger: " + totalChallengerWin + " wins.");
         System.out.println("Victim: " + totalVictimWin + " wins.");
-        System.out.println("AVERAGE TURNS: " + NO_TURNS / 30000);
-        System.out.println("AVERAGE HITS CHALLENGER: " + NO_HITS_CHALLENGER / 30000);
-
-        System.out.println("AVERAGE MISSES CHALLENGER: " + NO_MISSES_CHALLENGER / 30000);
-
-        System.out.println("AVERAGE HITS VICTIM: " + NO_HITS_VICTIM / 30000);
-
-        System.out.println("AVERAGE MISSES VICTIM: " + NO_MISSES_VICTIM / 30000);
-
-
-
+        System.out.println("AVERAGE TURNS: " + NO_TURNS / NUM_EXECUTION);
+        System.out.println("AVERAGE HITS CHALLENGER: " + NO_HITS_CHALLENGER / NUM_EXECUTION);
+        System.out.println("AVERAGE MISSES CHALLENGER: " + NO_MISSES_CHALLENGER / NUM_EXECUTION);
+        System.out.println("AVERAGE DAMAGE CHALLENGER: " + TOTAL_DAMAGE_CHALLENGER / NUM_EXECUTION);
+        System.out.println("AVERAGE HITS VICTIM: " + NO_HITS_VICTIM / NUM_EXECUTION);
+        System.out.println("AVERAGE MISSES VICTIM: " + NO_MISSES_VICTIM / NUM_EXECUTION);
+        System.out.println("AVERAGE DAMAGE VICTIM: " + TOTAL_DAMAGE_VICTIM / NUM_EXECUTION);
 
     }
 
@@ -167,6 +164,7 @@ public class Stats implements Serializable {
             if (randInt(0, 100) < chanceToHitVictim) {
            //     System.out.println("Attack landed on victim for : " + damageToVictim + " damage.");
                 victim.setHealth(victim.getHealth() - damageToVictim);
+                TOTAL_DAMAGE_CHALLENGER = TOTAL_DAMAGE_CHALLENGER + damageToVictim;
            //     System.out.println("Victim has: " + victim.getHealth() + " health left.");
                 NO_HITS_CHALLENGER++;
             } else {
@@ -179,6 +177,7 @@ public class Stats implements Serializable {
             if (randInt(0, 100) < chanceToHitChallenger) {
              //   System.out.println("Attack landed on challenger for : " + damageToChallenger + " damage.");
                 challenger.setHealth(challenger.getHealth() - damageToChallenger);
+                TOTAL_DAMAGE_VICTIM = TOTAL_DAMAGE_VICTIM + damageToVictim;
                 NO_HITS_VICTIM++;
                // System.out.println("Challenger has: " + challenger.getHealth() + " health left.");
             } else {
