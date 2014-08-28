@@ -22,7 +22,7 @@ public class Derper extends Npc {
             .append(RESET).toString();
 
     public Derper(GameManager gameManager, Integer roomId) {
-        super(gameManager, roomId, NAME, colorName, 0, new Stats(0.5f, .2f, .6f, .7f, .8f));
+        super(gameManager, roomId, NAME, colorName, 0, new Stats(7, 8, 6, 5, 4, 10));
         this.random = new Random();
     }
 
