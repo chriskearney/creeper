@@ -14,6 +14,8 @@ public class Stats implements Serializable {
     int weaponRating;
     int numberweaponOfRolls;
 
+    public static int NO_TURNS = 0;
+
     public Stats(int strength, int willpower, int aim, int agile, int armorRating, int meleSkill, int health, int weaponRating, int numberweaponOfRolls) {
         this.strength = strength;
         this.willpower = willpower;
@@ -109,7 +111,7 @@ public class Stats implements Serializable {
         int totalChallengerWin = 0;
         int totalVictimWin = 0;
         for (int i = 0; i < 30000; i++) {
-            boolean results = fight(new Stats(7, 8, 6, 5, 4, 10, 100, 20, 1), new Stats(7, 8, 6, 5, 4, 10, 200, 10, 1));
+            boolean results = fight(new Stats(5, 1, 1, 5, 5, 5, 100, 3, 1), new Stats(2, 1, 2, 2, 2, 2, 100, 10, 1));
             if (results) {
                 totalChallengerWin++;
             } else {
@@ -119,6 +121,7 @@ public class Stats implements Serializable {
 
         System.out.println("\n\n\n\nChallenger: " + totalChallengerWin + " wins.");
         System.out.println("Victim: " + totalVictimWin + " wins.");
+        System.out.println("AVERAGE TURNS: " + NO_TURNS / 30000);
 
 
 
@@ -138,7 +141,7 @@ public class Stats implements Serializable {
             if (challenger.getHealth() <= 0 || victim.getHealth() <= 0) {
                 break;
             }
-            turns++;
+            NO_TURNS++;
             damageToVictim = getAttack(challenger, victim);
             chanceToHitVictim = challenger.getStrength() + (challenger.getMeleSkill() * 5) - (victim.getAgile() * 5);
             if (randInt(0, 100) < chanceToHitVictim) {
