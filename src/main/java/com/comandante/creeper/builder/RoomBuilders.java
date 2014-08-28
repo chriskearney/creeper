@@ -27,7 +27,7 @@ public class RoomBuilders {
                 Optional.<Integer>absent(),
                 "You are standing before the Federation Training Encampment. A huge wall surrounds the base. To the north you see a two doors leading inside. Above the doors you sits the symbol of the Federation, a single red star with five points and a raised fist in the center. Sentries along the encampment walls begin to eye you suspiciously. You then remember that malingering in front of a Federation base could prove to be a fatal mistake.\r\n");
 
-        basicRoom.addItemSpawner(new ItemSpawner(ItemType.BEER, new ItemSpawnRule(60, 3), gameManager));
+        basicRoom.addItemSpawner(new ItemSpawner(ItemType.BEER, new ItemSpawnRule(20, 3), gameManager));
         basicRoom.addItemSpawner(new ItemSpawner(ItemType.KEY, new ItemSpawnRule(30, 1, 10), gameManager));
         entityManager.addEntity(basicRoom);
 

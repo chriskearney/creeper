@@ -229,7 +229,7 @@ public class GameManager {
                 continue;
             }
             Player searchPlayer = playerManager.getPlayer(searchPlayerId);
-            sb.append(searchPlayer.getPlayerName()).append(" is here.\r\n");
+            sb.append(searchPlayer.getPlayerName()).append(" is here.\r\n").append(RESET);
         }
 
         for (String itemId : playerCurrentRoom.getItemIds()) {
