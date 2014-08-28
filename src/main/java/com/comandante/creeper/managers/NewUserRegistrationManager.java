@@ -58,7 +58,7 @@ public class NewUserRegistrationManager {
             return;
         }
         session.setPassword(Optional.of(password));
-        PlayerMetadata playerMetadata = new PlayerMetadata(session.getUsername().get(), session.getPassword().get(), new Player(session.getUsername().get()).getPlayerId(), new Stats(7, 8, 6, 5, 4, 10));
+        PlayerMetadata playerMetadata = new PlayerMetadata(session.getUsername().get(), session.getPassword().get(), new Player(session.getUsername().get()).getPlayerId(), new Stats(7, 8, 6, 5, 4, 10, 100));
         playerManager.savePlayerMetadata(playerMetadata);
         e.getChannel().write("User created.\r\n");
         session.setState(CreeperSession.State.newUserRegCompleted);
