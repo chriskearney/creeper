@@ -16,6 +16,10 @@ public class Stats implements Serializable {
     int numberweaponOfRolls;
 
     public static int NO_TURNS = 0;
+    public static int NO_HITS_CHALLENGER = 0;
+    public static int NO_HITS_VICTIM = 0;
+    public static int NO_MISSES_CHALLENGER = 0;
+    public static int NO_MISSES_VICTIM = 0;
 
     public Stats(int strength, int willpower, int aim, int agile, int armorRating, int meleSkill, int health, int weaponRatingMin, int weaponRatingMax, int numberweaponOfRolls) {
         this.strength = strength;
@@ -117,7 +121,7 @@ public class Stats implements Serializable {
         int totalChallengerWin = 0;
         int totalVictimWin = 0;
         for (int i = 0; i < 30000; i++) {
-            boolean results = fight(new Stats(5, 1, 1, 5, 5, 5, 100, 10, 20, 1), new Stats(5, 1, 1, 5, 5, 5, 100, 1, 5, 1));
+            boolean results = fight(new Stats(2, 2, 2, 2, 2, 2, 100, 1, 5, 1), new Stats(1, 1, 1, 1, 1, 1, 100, 1, 2, 1));
             if (results) {
                 totalChallengerWin++;
             } else {
@@ -125,9 +129,17 @@ public class Stats implements Serializable {
             }
         }
 
-        System.out.println("\n\n\n\nChallenger: " + totalChallengerWin + " wins.");
+        System.out.println("Challenger: " + totalChallengerWin + " wins.");
         System.out.println("Victim: " + totalVictimWin + " wins.");
         System.out.println("AVERAGE TURNS: " + NO_TURNS / 30000);
+        System.out.println("AVERAGE HITS CHALLENGER: " + NO_HITS_CHALLENGER / 30000);
+
+        System.out.println("AVERAGE MISSES CHALLENGER: " + NO_MISSES_CHALLENGER / 30000);
+
+        System.out.println("AVERAGE HITS VICTIM: " + NO_HITS_VICTIM / 30000);
+
+        System.out.println("AVERAGE MISSES VICTIM: " + NO_MISSES_VICTIM / 30000);
+
 
 
 
@@ -151,29 +163,33 @@ public class Stats implements Serializable {
             damageToVictim = getAttack(challenger, victim);
             chanceToHitVictim = challenger.getStrength() + (challenger.getMeleSkill() * 5) - (victim.getAgile() * 5);
             if (randInt(0, 100) < chanceToHitVictim) {
-                System.out.println("Attack landed on victim for : " + damageToVictim + " damage.");
+           //     System.out.println("Attack landed on victim for : " + damageToVictim + " damage.");
                 victim.setHealth(victim.getHealth() - damageToVictim);
-                System.out.println("Victim has: " + victim.getHealth() + " health left.");
+           //     System.out.println("Victim has: " + victim.getHealth() + " health left.");
+                NO_HITS_CHALLENGER++;
             } else {
-                System.out.println("Miss!");
+               // System.out.println("Miss!");
+                NO_MISSES_CHALLENGER++;
             }
             damageToChallenger = getAttack(victim, challenger);
             chanceToHitChallenger = victim.getStrength() + (victim.getMeleSkill() * 5) - (challenger.getAgile() * 5);
 
             if (randInt(0, 100) < chanceToHitChallenger) {
-                System.out.println("Attack landed on challenger for : " + damageToChallenger + " damage.");
+             //   System.out.println("Attack landed on challenger for : " + damageToChallenger + " damage.");
                 challenger.setHealth(challenger.getHealth() - damageToChallenger);
-                System.out.println("Challenger has: " + challenger.getHealth() + " health left.");
+                NO_HITS_VICTIM++;
+               // System.out.println("Challenger has: " + challenger.getHealth() + " health left.");
             } else {
-                System.out.println("Miss!");
+                //System.out.println("Miss!");
+                NO_MISSES_VICTIM++;
             }
         }
 
         if (challenger.getHealth() > victim.getHealth()) {
-            System.out.println("CHALLENGER WINS!");
+            //System.out.println("CHALLENGER WINS!");
             return true;
         } else {
-            System.out.println("VICTIM WINS!");
+          //  System.out.println("VICTIM WINS!");
             return false;
 
         }
