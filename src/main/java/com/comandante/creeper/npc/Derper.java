@@ -2,7 +2,7 @@ package com.comandante.creeper.npc;
 
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.model.Stats;
+import com.comandante.creeper.model.StatsBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +22,7 @@ public class Derper extends Npc {
             .append(RESET).toString();
 
     public Derper(GameManager gameManager, Integer roomId) {
-        super(gameManager, roomId, NAME, colorName, 0, new Stats(7, 8, 6, 5, 4, 10, 100,10, 20, 1));
+        super(gameManager, roomId, NAME, colorName, 0, new StatsBuilder().setStrength(7).setWillpower(8).setAim(6).setAgile(5).setArmorRating(4).setMeleSkill(10).setHealth(100).setWeaponRatingMin(10).setWeaponRatingMax(20).setNumberweaponOfRolls(1).createStats());
         this.random = new Random();
     }
 

@@ -10,6 +10,7 @@ import com.comandante.creeper.managers.RoomManager;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
 import com.comandante.creeper.model.Stats;
+import com.comandante.creeper.model.StatsBuilder;
 import com.comandante.creeper.npc.Derper;
 import com.comandante.creeper.server.CreeperServer;
 import org.apache.commons.codec.binary.Base64;
@@ -31,7 +32,7 @@ public class Main {
         EntityManager entityManager =  new EntityManager(roomManager, db);
         PlayerManager playerManager = new PlayerManager(db);
 
-        Stats chrisBrianStats = new Stats(7, 8, 6, 5, 4, 10, 100,10, 20, 1);
+        Stats chrisBrianStats = new StatsBuilder().setStrength(7).setWillpower(8).setAim(6).setAgile(5).setArmorRating(4).setMeleSkill(10).setHealth(100).setWeaponRatingMin(10).setWeaponRatingMax(20).setNumberweaponOfRolls(1).createStats();
         if (playerManager.getPlayerMetadata(new Player("chris").getPlayerId()) == null) {
             System.out.println("Creating Chris User.");
             playerManager.savePlayerMetadata(new PlayerMetadata("chris", "poop", new String(Base64.encodeBase64("chris".getBytes())), chrisBrianStats));
