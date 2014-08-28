@@ -235,10 +235,10 @@ public class GameManager {
         for (String itemId : playerCurrentRoom.getItemIds()) {
             Item itemEntity = entityManager.getItemEntity(itemId);
             if (itemEntity == null) {
-                playerCurrentRoom.remotePresentItem(itemId);
+                playerCurrentRoom.removePresentItem(itemId);
                 continue;
             }
-            sb.append("   ").append(entityManager.getItemEntity(itemId).getItemName()).append(" is on the ground.\r\n");
+            sb.append("   ").append(entityManager.getItemEntity(itemId).getRestingName()).append("\r\n");
         }
 
         for (String npcId : playerCurrentRoom.getNpcIds()) {

@@ -23,15 +23,15 @@ public class ItemUseHandler {
 
     private void processKey() {
         //If no doors
-        writeToPlayer("There's no doors here to use this [key] on.");
+        writeToPlayer("There's no doors here to use this key on.");
     }
 
     private void processBeer() {
-        writeToPlayer("You drink a cold [coors light] and feel better because of it.");
+        writeToPlayer("You open the beer and take a sip, Ahh, refreshing.");
     }
 
     private void processBook() {
-        writeToPlayer("You crack open the [book] and immediately realize that you aren't familiar with it's written language.");
+        writeToPlayer("You crack open the book and immediately realize that you aren't familiar with it's written language.");
     }
 
     public void handle() {
