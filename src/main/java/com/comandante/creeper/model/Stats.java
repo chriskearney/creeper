@@ -105,6 +105,26 @@ public class Stats implements Serializable {
         Stats challenger = new Stats(7, 8, 6, 5, 4, 10, 100, 20, 1);
         Stats victim = new Stats(7, 8, 6, 5, 4, 10, 100, 10, 1);
 
+
+        int totalChallengerWin = 0;
+        int totalVictimWin = 0;
+        for (int i = 0; i < 30000; i++) {
+            boolean results = fight(new Stats(7, 8, 6, 5, 4, 10, 100, 20, 1), new Stats(7, 8, 6, 5, 4, 10, 100, 10, 1));
+            if (results) {
+                totalChallengerWin++;
+            } else {
+                totalVictimWin++;
+            }
+        }
+
+        System.out.println("\n\n\n\nChallenger: " + totalChallengerWin + " wins.");
+        System.out.println("Victim: " + totalVictimWin + " wins.");
+
+
+
+    }
+
+    public static boolean fight(Stats challenger, Stats victim) {
         int damageToVictim = 0;
         int chanceToHitVictim = 0;
 
@@ -125,7 +145,7 @@ public class Stats implements Serializable {
                 System.out.println("Attack landed on victim for : " + damageToVictim + " damage.");
                 victim.setHealth(victim.getHealth() - damageToVictim);
                 System.out.println("Victim has: " + victim.getHealth() + " health left.");
-            }  else {
+            } else {
                 System.out.println("Miss!");
             }
             damageToChallenger = getAttack(challenger, victim);
@@ -135,23 +155,22 @@ public class Stats implements Serializable {
                 System.out.println("Attack landed on challenger for : " + damageToChallenger + " damage.");
                 challenger.setHealth(challenger.getHealth() - damageToChallenger);
                 System.out.println("Challenger has: " + challenger.getHealth() + " health left.");
-            }  else {
+            } else {
                 System.out.println("Miss!");
             }
         }
 
         if (challenger.getHealth() > victim.getHealth()) {
-            System.out.print("CHALLENGER WINS!");
-        }  else {
-            System.out.print("VICTIM WINS!");
+            System.out.println("CHALLENGER WINS!");
+            return true;
+        } else {
+            System.out.println("VICTIM WINS!");
+            return false;
 
         }
-        System.out.println(" IN " + turns + " TURNS.");
-        System.out.println("CHALLENGER: " + challenger.getHealth());
-        System.out.println("VICTIM:" + victim.getHealth());
     }
 
-    private static int getAttack(Stats challenger, Stats victim)  {
+    private static int getAttack(Stats challenger, Stats victim) {
         int rolls = 0;
         int totDamage = 0;
         while (rolls <= challenger.getNumberweaponOfRolls()) {
