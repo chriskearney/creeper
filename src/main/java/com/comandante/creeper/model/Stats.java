@@ -152,7 +152,13 @@ public class Stats implements Serializable {
     }
 
     private static int getAttack(Stats challenger, Stats victim)  {
-        return challenger.getStrength() + (randInt(1, challenger.getWeaponRating())) * challenger.getNumberweaponOfRolls() - victim.getArmorRating();
+        int rolls = 0;
+        int totDamage = 0;
+        while (rolls <= challenger.getNumberweaponOfRolls()) {
+            rolls++;
+            totDamage = totDamage + randInt(1, challenger.getWeaponRating());
+        }
+        return challenger.getStrength() + totDamage - victim.getArmorRating();
     }
 
     public static int randInt(int min, int max) {
