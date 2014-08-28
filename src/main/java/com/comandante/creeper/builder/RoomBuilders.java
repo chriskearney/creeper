@@ -88,14 +88,14 @@ public class RoomBuilders {
 
         entityManager.addEntity(new BasicRoom(
                 7,
-                "Train Station",
+                "Emerald City Bullet Station",
                 Optional.of(100),
                 Optional.of(8),
                 Optional.of(200),
                 Optional.of(300),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
-                "You are standing in the main port of the Federation Encampment.\r\n"));
+                "You are standing in the Emerald City bullet train station. A sign points to the north for the train to Tacoma Space Port, to the west New Portland and the east Shanty town. \r\n"));
 
         entityManager.addEntity(new BasicRoom(
                 8,
