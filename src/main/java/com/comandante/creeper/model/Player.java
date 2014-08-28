@@ -5,7 +5,7 @@ import com.google.common.base.Optional;
 import org.apache.commons.codec.binary.Base64;
 import org.jboss.netty.channel.Channel;
 
-public class Player extends CreeperEntity{
+public class Player extends CreeperEntity {
 
     private String playerName;
     private Channel channel;

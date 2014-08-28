@@ -16,7 +16,7 @@ public class ChannelUtils {
     }
 
     public void writeNoPrompt(String playerId, String message) {
-         write(playerId, message, false);
+        write(playerId, message, false);
     }
 
     public void write(String playerId, String message) {
@@ -43,15 +43,15 @@ public class ChannelUtils {
 
         for (int i = 0; i < data.length; i++) {
             switch (data[i]) {
-                case (byte) '\n' :
-                    if (i == 0 || i == 1 ) {
+                case (byte) '\n':
+                    if (i == 0 || i == 1) {
                         break;
                     }
-                    if (i == data.length - 1 || i == data.length - 2 ) {
+                    if (i == data.length - 1 || i == data.length - 2) {
                         break;
                     }
-                case (byte) '\r' :
-                    if (i == 0 || i == 1 ) {
+                case (byte) '\r':
+                    if (i == 0 || i == 1) {
                         break;
                     }
                     if (i == data.length - 1 || i == data.length - 2) {

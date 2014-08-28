@@ -75,7 +75,7 @@ public abstract class Room extends CreeperEntity {
         return npcIds;
     }
 
-    public java.util.Set<String> getPresentPlayerIds()  {
+    public java.util.Set<String> getPresentPlayerIds() {
         return presentPlayerIds;
     }
 

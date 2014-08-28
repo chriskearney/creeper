@@ -36,7 +36,7 @@ public class InventoryCommand extends Command {
         StringBuilder sb = new StringBuilder();
         sb.append("You are carrying:\r\n");
         sb.append(RESET);
-        for (String inventoryId: inventory) {
+        for (String inventoryId : inventory) {
             Item item = getGameManager().getEntityManager().getItemEntity(inventoryId);
             sb.append(item.getItemName());
             int maxUses = ItemType.itemTypeFromCode(item.getItemTypeId()).getMaxUses();

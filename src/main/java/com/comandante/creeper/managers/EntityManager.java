@@ -47,7 +47,7 @@ public class EntityManager {
         entities.put(creeperEntity.getEntityId(), creeperEntity);
     }
 
-    public void addItem(Item item){
+    public void addItem(Item item) {
         items.put(item.getItemId(), item);
         db.commit();
     }

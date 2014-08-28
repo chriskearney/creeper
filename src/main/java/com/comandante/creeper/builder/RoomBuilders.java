@@ -13,7 +13,7 @@ import com.google.common.base.Optional;
  */
 public class RoomBuilders {
 
-    public static void buildFedTraining(GameManager gameManager){
+    public static void buildFedTraining(GameManager gameManager) {
         EntityManager entityManager = gameManager.getEntityManager();
 
         BasicRoom basicRoom = new BasicRoom(
@@ -110,7 +110,7 @@ public class RoomBuilders {
 
     }
 
-    public static void buildNeoPortland(EntityManager entityManager){
+    public static void buildNeoPortland(EntityManager entityManager) {
 
         entityManager.addEntity(new BasicRoom(
                 200,
@@ -124,7 +124,7 @@ public class RoomBuilders {
                 "Start of New Portland area.\r\n"));
     }
 
-    public static void buildOldTown(EntityManager entityManager){
+    public static void buildOldTown(EntityManager entityManager) {
 
         entityManager.addEntity(new BasicRoom(
                 300,

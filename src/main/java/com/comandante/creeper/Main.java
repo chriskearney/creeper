@@ -29,7 +29,7 @@ public class Main {
                 .make();
 
         RoomManager roomManager = new RoomManager();
-        EntityManager entityManager =  new EntityManager(roomManager, db);
+        EntityManager entityManager = new EntityManager(roomManager, db);
         PlayerManager playerManager = new PlayerManager(db);
 
         Stats chrisBrianStats = new StatsBuilder().setStrength(7).setWillpower(8).setAim(6).setAgile(5).setArmorRating(4).setMeleSkill(10).setHealth(100).setWeaponRatingMin(10).setWeaponRatingMax(20).setNumberweaponOfRolls(1).createStats();

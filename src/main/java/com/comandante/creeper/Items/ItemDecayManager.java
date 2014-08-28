@@ -46,11 +46,11 @@ public class ItemDecayManager extends CreeperEntity {
                 itemsToDestroy.add(item.getItemId());
             }
         }
-        for (String itemId: itemsToRemoveFromDecay) {
+        for (String itemId : itemsToRemoveFromDecay) {
             Item itemEntity = entityManager.getItemEntity(itemId);
             removeItem(itemEntity);
         }
-        for (String itemId: itemsToDestroy) {
+        for (String itemId : itemsToDestroy) {
             Item itemEntity = entityManager.getItemEntity(itemId);
             removeItem(itemEntity);
             entityManager.removeItem(itemEntity);
@@ -65,7 +65,7 @@ public class ItemDecayManager extends CreeperEntity {
             this.numberOfTicks = numberOfTicks;
         }
 
-        public void incTick(){
+        public void incTick() {
             this.currentTicks++;
         }
 

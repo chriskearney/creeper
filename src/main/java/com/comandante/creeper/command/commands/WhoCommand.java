@@ -23,17 +23,17 @@ public class WhoCommand extends Command {
 
     @Override
     public void run() {
-            Set<Player> allPlayers = getGameManager().getAllPlayers();
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(CYAN);
-            stringBuilder.append("----------------------\r\n");
-            stringBuilder.append("|--active users------|\r\n");
-            stringBuilder.append("----------------------\r\n");
-            for (Player allPlayer : allPlayers) {
-                stringBuilder.append(allPlayer.getPlayerName());
-                stringBuilder.append("\r\n");
-            }
-            stringBuilder.append(RESET);
-            commandWrite(stringBuilder.toString());
+        Set<Player> allPlayers = getGameManager().getAllPlayers();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(CYAN);
+        stringBuilder.append("----------------------\r\n");
+        stringBuilder.append("|--active users------|\r\n");
+        stringBuilder.append("----------------------\r\n");
+        for (Player allPlayer : allPlayers) {
+            stringBuilder.append(allPlayer.getPlayerName());
+            stringBuilder.append("\r\n");
         }
+        stringBuilder.append(RESET);
+        commandWrite(stringBuilder.toString());
+    }
 }

@@ -32,44 +32,37 @@ public class DefaultCommandHandler {
         e.getChannel();
         String rootCommand = originalMessage.split(" ")[0].toLowerCase();
         String playerId = new Player(creeperSession.getUsername().get()).getPlayerId();
-        if (GossipCommand.validTriggers.contains(rootCommand)){
+        if (GossipCommand.validTriggers.contains(rootCommand)) {
             GossipCommand gossipCommand = new GossipCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(gossipCommand);
-        }
-        else if (MovementCommand.validTriggers.contains(rootCommand)){
+        } else if (MovementCommand.validTriggers.contains(rootCommand)) {
             MovementCommand movementCommand = new MovementCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(movementCommand);
-        }
-        else if (SayCommand.validTriggers.contains(rootCommand)){
+        } else if (SayCommand.validTriggers.contains(rootCommand)) {
             SayCommand sayCommand = new SayCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(sayCommand);
-        }
-        else if (TellCommand.validTriggers.contains(rootCommand)){
+        } else if (TellCommand.validTriggers.contains(rootCommand)) {
             TellCommand tellCommand = new TellCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(tellCommand);
-        }
-        else if (WhoCommand.validTriggers.contains(rootCommand)){
+        } else if (WhoCommand.validTriggers.contains(rootCommand)) {
             WhoCommand whoCommand = new WhoCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(whoCommand);
-        }
-        else if (WhoamiCommand.validTriggers.contains(rootCommand)){
+        } else if (WhoamiCommand.validTriggers.contains(rootCommand)) {
             WhoamiCommand whoamiCommand = new WhoamiCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(whoamiCommand);
-        }
-        else if (PickUpCommand.validTriggers.contains(rootCommand)){
+        } else if (PickUpCommand.validTriggers.contains(rootCommand)) {
             PickUpCommand pickUpCommand = new PickUpCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(pickUpCommand);
-        }
-        else if (InventoryCommand.validTriggers.contains(rootCommand)){
+        } else if (InventoryCommand.validTriggers.contains(rootCommand)) {
             InventoryCommand inventoryCommand = new InventoryCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(inventoryCommand);
-        }else if (UseCommand.validTriggers.contains(rootCommand)){
+        } else if (UseCommand.validTriggers.contains(rootCommand)) {
             UseCommand useCommand = new UseCommand(playerId, gameManager, originalMessage, creeperSession);
             commandService.processCommand(useCommand);
-        }else if (DropCommand.validTriggers.contains(rootCommand)){
+        } else if (DropCommand.validTriggers.contains(rootCommand)) {
             DropCommand dropCommand = new DropCommand(playerId, gameManager, originalMessage, creeperSession);
             commandService.processCommand(dropCommand);
-        }else {
+        } else {
             UnknownCommand unknownCommand = new UnknownCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(unknownCommand);
         }

@@ -36,7 +36,7 @@ AGILE - CRITICAL CHANCE INCREASE
     }
 
     public String[] getInventory() {
-            return inventory;
+        return inventory;
     }
 
     public void setInventory(String[] inventory) {
@@ -44,12 +44,12 @@ AGILE - CRITICAL CHANCE INCREASE
     }
 
     public void addInventoryEntityId(String newEntityId) {
-            if (inventory == null) {
-                inventory = new String[0];
-            }
-            String[] result = Arrays.copyOf(inventory, inventory.length + 1);
-            result[inventory.length] = newEntityId;
-            this.inventory = result;
+        if (inventory == null) {
+            inventory = new String[0];
+        }
+        String[] result = Arrays.copyOf(inventory, inventory.length + 1);
+        result[inventory.length] = newEntityId;
+        this.inventory = result;
     }
 
     public void removeInventoryEntityId(String itemId) {
@@ -57,7 +57,7 @@ AGILE - CRITICAL CHANCE INCREASE
         itemsIdKeep.remove(itemId);
         String[] newItems = new String[itemsIdKeep.size()];
         int i = 0;
-        for (String id: itemsIdKeep) {
+        for (String id : itemsIdKeep) {
             newItems[i] = id;
             i++;
         }

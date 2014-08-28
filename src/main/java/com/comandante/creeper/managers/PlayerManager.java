@@ -34,7 +34,7 @@ public class PlayerManager {
     public Set<Player> getPresentPlayers(Room room) {
         Set<String> presentPlayerIds = room.getPresentPlayerIds();
         Set<Player> players = Sets.newHashSet();
-        for (String playerId: presentPlayerIds) {
+        for (String playerId : presentPlayerIds) {
             players.add(getPlayer(playerId));
         }
         return ImmutableSet.copyOf(players);
