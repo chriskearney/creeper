@@ -8,25 +8,11 @@ import java.util.List;
 
 public class PlayerMetadata implements Serializable {
 
-    String playerName;
-    String password;
-    String playerId;
+    private String playerName;
+    private String password;
+    private String playerId;
     Stats stats;
     String[] inventory;
-
-    /*STRENGTH -
-WILLPOWER - HEALTH REGENATION HOW EFFECTIVE HEALING DEVICES ARE
-                - INCREASES CHANCE OF CRITICAL
-ENDURANCE - INCREASE TOTAL HEALTH
-        -RATE AT WHICH NATURAL TICK HEALTH REGENATION WORKS
-        - RATE OF MOVEMENT
-AIM - CHANCE TO HIT
-        AND DAMAGE PER HIT INCREASE
-AGILE - CRITICAL CHANCE INCREASE
-        - FLEE INCREASE
-        - DODGE/PARRY INCREASE
-
-*/
 
     public PlayerMetadata(String playerName, String password, String playerId, Stats stats) {
         this.playerName = playerName;
@@ -86,5 +72,9 @@ AGILE - CRITICAL CHANCE INCREASE
 
     public void setPlayerId(String playerId) {
         this.playerId = playerId;
+    }
+
+    public Stats getStats() {
+        return stats;
     }
 }

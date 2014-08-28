@@ -40,6 +40,10 @@ public abstract class Npc extends CreeperEntity {
         this.stats = stats;
     }
 
+    public Stats getStats() {
+        return stats;
+    }
+
     public GameManager getGameManager() {
         return gameManager;
     }

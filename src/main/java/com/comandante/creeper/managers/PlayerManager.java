@@ -1,10 +1,11 @@
 package com.comandante.creeper.managers;
 
 
-import com.comandante.creeper.model.PlayerMetadataSerializer;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
+import com.comandante.creeper.model.PlayerMetadataSerializer;
 import com.comandante.creeper.model.Room;
+import com.comandante.creeper.model.Stats;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import org.apache.commons.codec.binary.Base64;
@@ -109,6 +110,12 @@ public class PlayerManager {
 
     public boolean doesPlayerExist(String username) {
         return players.containsKey(new String(Base64.encodeBase64(username.getBytes())));
+    }
+
+    public String getLookString(Player player) {
+        PlayerMetadata playerMetadata = getPlayerMetadata(player.getPlayerId());
+        Stats playerStats = playerMetadata.getStats();
+        return playerStats.toString();
     }
 
 }

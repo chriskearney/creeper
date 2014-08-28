@@ -3,6 +3,7 @@ package com.comandante.creeper.managers;
 
 import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.Items.ItemDecayManager;
+import com.comandante.creeper.model.FightManager;
 import com.comandante.creeper.model.Movement;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
@@ -19,7 +20,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import static com.comandante.creeper.model.Color.*;
+import static com.comandante.creeper.model.Color.BRIGHT_GREEN;
+import static com.comandante.creeper.model.Color.GREEN;
+import static com.comandante.creeper.model.Color.RESET;
 
 public class GameManager {
 
@@ -61,6 +64,7 @@ public class GameManager {
     private final NewUserRegistrationManager newUserRegistrationManager;
     private final EntityManager entityManager;
     private final ItemDecayManager itemDecayManager;
+    private final FightManager fightManager;
 
     public GameManager(RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager) {
         this.roomManager = roomManager;
@@ -70,7 +74,11 @@ public class GameManager {
         this.entityManager.addEntity(itemDecayManager);
         this.newUserRegistrationManager = new NewUserRegistrationManager(playerManager);
         this.channelUtils = new ChannelUtils(getPlayerManager(), getRoomManager());
+        this.fightManager = new FightManager(channelUtils, entityManager, roomManager, playerManager);
+    }
 
+    public FightManager getFightManager() {
+        return fightManager;
     }
 
     public NewUserRegistrationManager getNewUserRegistrationManager() {

@@ -19,6 +19,12 @@ public class ChannelUtils {
         write(playerId, message, false);
     }
 
+    public void writeOnlyPrompt(String playerId) {
+        Player player = playerManager.getPlayer(playerId);
+        Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
+        player.getChannel().write(playerManager.getPrompt(playerId, playerCurrentRoom.getRoomId()));
+    }
+
     public void write(String playerId, String message) {
         write(playerId, message, true);
     }

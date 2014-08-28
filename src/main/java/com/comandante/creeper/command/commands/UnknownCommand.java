@@ -16,6 +16,6 @@ public class UnknownCommand extends Command {
 
     @Override
     public void run() {
-        getGameManager().currentRoomLogic(getPlayerId());
+        getGameManager().getChannelUtils().writeOnlyPrompt(getPlayerId());
     }
 }

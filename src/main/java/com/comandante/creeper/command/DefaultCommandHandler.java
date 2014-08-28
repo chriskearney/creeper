@@ -4,6 +4,8 @@ package com.comandante.creeper.command;
 import com.comandante.creeper.command.commands.DropCommand;
 import com.comandante.creeper.command.commands.GossipCommand;
 import com.comandante.creeper.command.commands.InventoryCommand;
+import com.comandante.creeper.command.commands.KillCommand;
+import com.comandante.creeper.command.commands.LookCommand;
 import com.comandante.creeper.command.commands.MovementCommand;
 import com.comandante.creeper.command.commands.PickUpCommand;
 import com.comandante.creeper.command.commands.SayCommand;
@@ -62,11 +64,16 @@ public class DefaultCommandHandler {
         } else if (DropCommand.validTriggers.contains(rootCommand)) {
             DropCommand dropCommand = new DropCommand(playerId, gameManager, originalMessage, creeperSession);
             commandService.processCommand(dropCommand);
+        } else if (LookCommand.validTriggers.contains(rootCommand)) {
+            LookCommand lookCommand = new LookCommand(playerId, gameManager, originalMessage);
+            commandService.processCommand(lookCommand);
+        } else if (KillCommand.validTriggers.contains(rootCommand)) {
+            KillCommand killCommand = new KillCommand(playerId, gameManager, originalMessage, gameManager.getFightManager());
+            commandService.processCommand(killCommand);
         } else {
             UnknownCommand unknownCommand = new UnknownCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(unknownCommand);
         }
-
     }
 }
 

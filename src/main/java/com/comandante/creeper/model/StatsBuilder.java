@@ -8,8 +8,8 @@ public class StatsBuilder {
     private int armorRating;
     private int meleSkill;
     private int health;
-    private int weaponRatingMin;
     private int weaponRatingMax;
+    private int weaponRatingMin;
     private int numberweaponOfRolls;
 
     public StatsBuilder setStrength(int strength) {
@@ -47,13 +47,13 @@ public class StatsBuilder {
         return this;
     }
 
-    public StatsBuilder setWeaponRatingMin(int weaponRatingMin) {
-        this.weaponRatingMin = weaponRatingMin;
+    public StatsBuilder setWeaponRatingMax(int weaponRatingMax) {
+        this.weaponRatingMax = weaponRatingMax;
         return this;
     }
 
-    public StatsBuilder setWeaponRatingMax(int weaponRatingMax) {
-        this.weaponRatingMax = weaponRatingMax;
+    public StatsBuilder setWeaponRatingMin(int weaponRatingMin) {
+        this.weaponRatingMin = weaponRatingMin;
         return this;
     }
 
@@ -63,6 +63,6 @@ public class StatsBuilder {
     }
 
     public Stats createStats() {
-        return new Stats(strength, willpower, aim, agile, armorRating, meleSkill, health, weaponRatingMin, weaponRatingMax, numberweaponOfRolls);
+        return new Stats(strength, willpower, aim, agile, armorRating, meleSkill, health, weaponRatingMax, weaponRatingMin, numberweaponOfRolls);
     }
 }
