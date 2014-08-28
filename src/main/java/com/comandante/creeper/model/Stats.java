@@ -11,12 +11,13 @@ public class Stats implements Serializable {
     int armorRating;
     int meleSkill;
     int health;
-    int weaponRating;
+    int weaponRatingMax;
+    int weaponRatingMin;
     int numberweaponOfRolls;
 
     public static int NO_TURNS = 0;
 
-    public Stats(int strength, int willpower, int aim, int agile, int armorRating, int meleSkill, int health, int weaponRating, int numberweaponOfRolls) {
+    public Stats(int strength, int willpower, int aim, int agile, int armorRating, int meleSkill, int health, int weaponRatingMin, int weaponRatingMax, int numberweaponOfRolls) {
         this.strength = strength;
         this.willpower = willpower;
         this.aim = aim;
@@ -24,7 +25,8 @@ public class Stats implements Serializable {
         this.armorRating = armorRating;
         this.meleSkill = meleSkill;
         this.health = health;
-        this.weaponRating = weaponRating;
+        this.weaponRatingMax = weaponRatingMax;
+        this.weaponRatingMin = weaponRatingMin;
         this.numberweaponOfRolls = numberweaponOfRolls;
     }
 
@@ -87,12 +89,20 @@ public class Stats implements Serializable {
         this.health = health;
     }
 
-    public int getWeaponRating() {
-        return weaponRating;
+    public int getWeaponRatingMax() {
+        return weaponRatingMax;
     }
 
-    public void setWeaponRating(int weaponRating) {
-        this.weaponRating = weaponRating;
+    public void setWeaponRatingMax(int weaponRatingMax) {
+        this.weaponRatingMax = weaponRatingMax;
+    }
+
+    public int getWeaponRatingMin() {
+        return weaponRatingMin;
+    }
+
+    public void setWeaponRatingMin(int weaponRatingMin) {
+        this.weaponRatingMin = weaponRatingMin;
     }
 
     public int getNumberweaponOfRolls() {
@@ -104,14 +114,10 @@ public class Stats implements Serializable {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        Stats challenger = new Stats(7, 8, 6, 5, 4, 10, 100, 20, 1);
-        Stats victim = new Stats(7, 8, 6, 5, 4, 10, 100, 10, 1);
-
-
         int totalChallengerWin = 0;
         int totalVictimWin = 0;
         for (int i = 0; i < 30000; i++) {
-            boolean results = fight(new Stats(5, 1, 1, 5, 5, 5, 100, 3, 1), new Stats(2, 1, 2, 2, 2, 2, 100, 10, 1));
+            boolean results = fight(new Stats(5, 1, 1, 5, 5, 5, 100, 10, 20, 1), new Stats(5, 1, 1, 5, 5, 5, 100, 1, 5, 1));
             if (results) {
                 totalChallengerWin++;
             } else {
@@ -178,7 +184,7 @@ public class Stats implements Serializable {
         int totDamage = 0;
         while (rolls <= challenger.getNumberweaponOfRolls()) {
             rolls++;
-            totDamage = totDamage + randInt(1, challenger.getWeaponRating());
+            totDamage = totDamage + randInt(challenger.getWeaponRatingMin(), challenger.getWeaponRatingMax());
         }
         return challenger.getStrength() + totDamage - victim.getArmorRating();
     }
