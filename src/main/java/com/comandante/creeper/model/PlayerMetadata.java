@@ -11,11 +11,7 @@ public class PlayerMetadata implements Serializable {
     String playerName;
     String password;
     String playerId;
-    float strength;
-    float willpower;
-    float endurance;
-    float aim;
-    int
+    Stats stats;
     String[] inventory;
 
     /*STRENGTH -
@@ -32,10 +28,11 @@ AGILE - CRITICAL CHANCE INCREASE
 
 */
 
-    public PlayerMetadata(String playerName, String password, String playerId) {
+    public PlayerMetadata(String playerName, String password, String playerId, Stats stats) {
         this.playerName = playerName;
         this.password = password;
         this.playerId = playerId;
+        this.stats = stats;
     }
 
     public String[] getInventory() {
@@ -67,60 +64,27 @@ AGILE - CRITICAL CHANCE INCREASE
         this.inventory = newItems;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public String getPlayerId() {
-        return playerId;
-    }
-
     public String getPlayerName() {
         return playerName;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public int getStamina() {
-        return stamina;
-    }
-
-    public int getStrength() {
-        return strength;
-    }
-
-    public int getDexterity() {
-        return dexterity;
     }
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPlayerId() {
+        return playerId;
     }
 
     public void setPlayerId(String playerId) {
         this.playerId = playerId;
     }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public void setStamina(int stamina) {
-        this.stamina = stamina;
-    }
-
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
-
-    public void setDexterity(int dexterity) {
-        this.dexterity = dexterity;
-    }
-
 }

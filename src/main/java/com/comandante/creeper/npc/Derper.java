@@ -2,12 +2,14 @@ package com.comandante.creeper.npc;
 
 
 import com.comandante.creeper.managers.GameManager;
+import com.comandante.creeper.model.Stats;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import static com.comandante.creeper.model.Color.*;
+import static com.comandante.creeper.model.Color.GREEN;
+import static com.comandante.creeper.model.Color.RESET;
 
 public class Derper extends Npc {
 
@@ -20,7 +22,7 @@ public class Derper extends Npc {
             .append(RESET).toString();
 
     public Derper(GameManager gameManager, Integer roomId) {
-        super(gameManager, roomId, NAME, colorName, 0);
+        super(gameManager, roomId, NAME, colorName, 0, new Stats(0.5f, .2f, .6f, .7f, .8f));
         this.random = new Random();
     }
 
