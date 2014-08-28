@@ -7,6 +7,7 @@ import java.util.UUID;
 import static com.comandante.creeper.model.Color.*;
 
 public enum ItemType {
+
     UNKNOWN(0, Arrays.asList(""), "", "", "", false, 0, 0),
     KEY(1, Arrays.asList("key", "gold key", "shiny gold key"),
             YELLOW + "a shiny gold key" + RESET,
@@ -15,6 +16,7 @@ public enum ItemType {
             false,
             0,
             60),
+
     BEER(2, Arrays.asList("beer", "can of beer"),
             CYAN + "a dented can of beer" + RESET,
             CYAN + "a beer" + RESET + " lies on the ground, unopened",
@@ -22,6 +24,7 @@ public enum ItemType {
             true,
             2,
             60),
+
     BOOK(3, Arrays.asList("book", "used book"),
             MAGENTA + "a leather book" + RESET,
             MAGENTA + "a well used book" + RESET + " with what looks like a leather back rests here.",

@@ -58,7 +58,7 @@ public abstract class Room extends CreeperEntity {
         return itemIds;
     }
 
-    public void remotePresentItem(String itemId) {
+    public void removePresentItem(String itemId) {
         itemIds.remove(itemId);
 
     }

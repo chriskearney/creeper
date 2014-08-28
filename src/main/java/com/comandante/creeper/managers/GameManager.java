@@ -235,7 +235,7 @@ public class GameManager {
         for (String itemId : playerCurrentRoom.getItemIds()) {
             Item itemEntity = entityManager.getItemEntity(itemId);
             if (itemEntity == null) {
-                playerCurrentRoom.remotePresentItem(itemId);
+                playerCurrentRoom.removePresentItem(itemId);
                 continue;
             }
             sb.append("   ").append(entityManager.getItemEntity(itemId).getRestingName()).append("\r\n");
