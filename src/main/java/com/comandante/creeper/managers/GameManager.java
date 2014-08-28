@@ -229,7 +229,7 @@ public class GameManager {
                 continue;
             }
             Player searchPlayer = playerManager.getPlayer(searchPlayerId);
-            sb.append(searchPlayer.getPlayerName()).append(" is here.\r\n");
+            sb.append(searchPlayer.getPlayerName()).append(" is here.\r\n").append(RESET);
         }
 
         for (String itemId : playerCurrentRoom.getItemIds()) {
@@ -238,7 +238,7 @@ public class GameManager {
                 playerCurrentRoom.remotePresentItem(itemId);
                 continue;
             }
-            sb.append("   ").append(entityManager.getItemEntity(itemId).getItemName()).append(" is on the ground.\r\n");
+            sb.append("   ").append(entityManager.getItemEntity(itemId).getRestingName()).append("\r\n");
         }
 
         for (String npcId : playerCurrentRoom.getNpcIds()) {

@@ -8,6 +8,7 @@ import com.comandante.creeper.npc.Npc;
 import org.mapdb.DB;
 import org.mapdb.HTreeMap;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -75,9 +76,10 @@ public class EntityManager {
             while (true) {
                 try {
                     Thread.sleep(10000);
-                    for (Map.Entry<String, CreeperEntity> next : entities.entrySet()) {
-                        CreeperEntity creeperEntity = next.getValue();
-                        ticketRunnerService.submit(creeperEntity);
+                    Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
+                    while (rooms.hasNext()) {
+                        Map.Entry<Integer, Room> next = rooms.next();
+                        ticketRunnerService.submit(next.getValue());
                     }
                 } catch (InterruptedException ie) {
                     throw new RuntimeException("Problem with ticker.");

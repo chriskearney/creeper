@@ -11,11 +11,26 @@ public class PlayerMetadata implements Serializable {
     String playerName;
     String password;
     String playerId;
-    int health;
-    int stamina;
-    int strength;
-    int dexterity;
+    float strength;
+    float willpower;
+    float endurance;
+    float aim;
+    int
     String[] inventory;
+
+    /*STRENGTH -
+WILLPOWER - HEALTH REGENATION HOW EFFECTIVE HEALING DEVICES ARE
+                - INCREASES CHANCE OF CRITICAL
+ENDURANCE - INCREASE TOTAL HEALTH
+        -RATE AT WHICH NATURAL TICK HEALTH REGENATION WORKS
+        - RATE OF MOVEMENT
+AIM - CHANCE TO HIT
+        AND DAMAGE PER HIT INCREASE
+AGILE - CRITICAL CHANCE INCREASE
+        - FLEE INCREASE
+        - DODGE/PARRY INCREASE
+
+*/
 
     public PlayerMetadata(String playerName, String password, String playerId) {
         this.playerName = playerName;
