@@ -31,7 +31,7 @@ public class Main {
         EntityManager entityManager =  new EntityManager(roomManager, db);
         PlayerManager playerManager = new PlayerManager(db);
 
-        Stats chrisBrianStats = new Stats(7, 8, 6, 5, 4, 10, 100);
+        Stats chrisBrianStats = new Stats(7, 8, 6, 5, 4, 10, 100, 20, 1);
         if (playerManager.getPlayerMetadata(new Player("chris").getPlayerId()) == null) {
             System.out.println("Creating Chris User.");
             playerManager.savePlayerMetadata(new PlayerMetadata("chris", "poop", new String(Base64.encodeBase64("chris".getBytes())), chrisBrianStats));

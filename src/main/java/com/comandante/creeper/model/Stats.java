@@ -6,13 +6,15 @@ import java.util.Random;
 public class Stats implements Serializable {
     int strength;
     int willpower;
-    int  aim;
+    int aim;
     int agile;
     int armorRating;
     int meleSkill;
     int health;
+    int weaponRating;
+    int numberweaponOfRolls;
 
-    public Stats(int strength, int willpower, int aim, int agile, int armorRating, int meleSkill, int health) {
+    public Stats(int strength, int willpower, int aim, int agile, int armorRating, int meleSkill, int health, int weaponRating, int numberweaponOfRolls) {
         this.strength = strength;
         this.willpower = willpower;
         this.aim = aim;
@@ -20,6 +22,8 @@ public class Stats implements Serializable {
         this.armorRating = armorRating;
         this.meleSkill = meleSkill;
         this.health = health;
+        this.weaponRating = weaponRating;
+        this.numberweaponOfRolls = numberweaponOfRolls;
     }
 
     public Stats() {
@@ -81,9 +85,25 @@ public class Stats implements Serializable {
         this.health = health;
     }
 
+    public int getWeaponRating() {
+        return weaponRating;
+    }
+
+    public void setWeaponRating(int weaponRating) {
+        this.weaponRating = weaponRating;
+    }
+
+    public int getNumberweaponOfRolls() {
+        return numberweaponOfRolls;
+    }
+
+    public void setNumberweaponOfRolls(int numberweaponOfRolls) {
+        this.numberweaponOfRolls = numberweaponOfRolls;
+    }
+
     public static void main(String[] args) throws InterruptedException {
-        Stats challenger = new Stats(7, 8, 6, 5, 4, 10, 100);
-        Stats victim = new Stats(7, 8, 6, 5, 4, 10, 100);
+        Stats challenger = new Stats(7, 8, 6, 5, 4, 10, 100, 20, 1);
+        Stats victim = new Stats(7, 8, 6, 5, 4, 10, 100, 10, 1);
 
         int damageToVictim = 0;
         int chanceToHitVictim = 0;
@@ -132,7 +152,7 @@ public class Stats implements Serializable {
     }
 
     private static int getAttack(Stats challenger, Stats victim)  {
-        return challenger.getStrength() + randInt(1, 6) - victim.getArmorRating();
+        return challenger.getStrength() + (randInt(1, challenger.getWeaponRating())) * challenger.getNumberweaponOfRolls() - victim.getArmorRating();
     }
 
     public static int randInt(int min, int max) {
