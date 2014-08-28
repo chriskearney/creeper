@@ -109,7 +109,7 @@ public class Stats implements Serializable {
         int totalChallengerWin = 0;
         int totalVictimWin = 0;
         for (int i = 0; i < 30000; i++) {
-            boolean results = fight(new Stats(7, 8, 6, 5, 4, 10, 100, 20, 1), new Stats(7, 8, 6, 5, 4, 10, 100, 10, 1));
+            boolean results = fight(new Stats(7, 8, 6, 5, 4, 10, 100, 20, 1), new Stats(7, 8, 6, 5, 4, 10, 200, 10, 1));
             if (results) {
                 totalChallengerWin++;
             } else {
@@ -148,8 +148,8 @@ public class Stats implements Serializable {
             } else {
                 System.out.println("Miss!");
             }
-            damageToChallenger = getAttack(challenger, victim);
-            chanceToHitChallenger = challenger.getStrength() + (challenger.getMeleSkill() * 5) - (victim.getAgile() * 5);
+            damageToChallenger = getAttack(victim, challenger);
+            chanceToHitChallenger = victim.getStrength() + (victim.getMeleSkill() * 5) - (challenger.getAgile() * 5);
 
             if (randInt(0, 100) < chanceToHitChallenger) {
                 System.out.println("Attack landed on challenger for : " + damageToChallenger + " damage.");
