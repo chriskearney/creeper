@@ -25,6 +25,8 @@ public abstract class Room extends CreeperEntity {
     private final Set<String> npcIds = Sets.newConcurrentHashSet();
     private final Set<String> itemIds = Sets.newConcurrentHashSet();
     private List<ItemSpawner> itemSpawners = Lists.newArrayList();
+    private List<NpcSpawner> npcSpawners = Lists.newArrayList();
+
 
     public Room(Integer roomId,
                 String roomTitle,
@@ -136,6 +138,11 @@ public abstract class Room extends CreeperEntity {
         itemSpawners.add(itemSpawner);
     }
 
+    public void addNpcSpawner(NpcSpawner npcSpawner) {
+        npcSpawner.setRoomId(roomId);
+        npcSpawners.add(npcSpawner);
+    }
+
     @Override
     public void run() {
         Iterator<ItemSpawner> iterator = itemSpawners.iterator();
@@ -143,6 +150,10 @@ public abstract class Room extends CreeperEntity {
             ItemSpawner next = iterator.next();
             next.run();
         }
-
+        Iterator<NpcSpawner> npcSpawnerIterator = npcSpawners.iterator();
+        while (npcSpawnerIterator.hasNext()) {
+            NpcSpawner next = npcSpawnerIterator.next();
+            next.run();
+        }
     }
 }

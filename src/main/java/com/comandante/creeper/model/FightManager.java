@@ -73,7 +73,7 @@ public class FightManager {
             channelUtils.writeNoPrompt(player.getPlayerId(), "You miss " + npc.getName());
         }
         try {
-            Thread.sleep(1100);
+            Thread.sleep(600);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -89,7 +89,7 @@ public class FightManager {
             channelUtils.writeNoPrompt(player.getPlayerId(), npc.getName() + " misses you");
         }
         try {
-            Thread.sleep(1100);
+            Thread.sleep(600);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

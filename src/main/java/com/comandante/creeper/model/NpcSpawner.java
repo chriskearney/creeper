@@ -1,25 +1,26 @@
-package com.comandante.creeper.Items;
+package com.comandante.creeper.model;
 
+
+import com.comandante.creeper.Items.SpawnRule;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.model.CreeperEntity;
+import com.comandante.creeper.npc.Npc;
 
 import java.util.Random;
 import java.util.Set;
 
-public class ItemSpawner extends CreeperEntity {
+public class NpcSpawner extends CreeperEntity {
 
-    private final ItemType spawnItemType;
-    private final SpawnRule spawnRule;
+    private final Npc npc;
     private final GameManager gameManager;
-    private Integer roomId;
+    private final SpawnRule spawnRule;
     private int noTicks = 0;
     private final Random random = new Random();
+    private Integer roomId;
 
-    public ItemSpawner(ItemType spawnItemType, SpawnRule spawnRule, GameManager gameManager) {
-        this.spawnItemType = spawnItemType;
-        this.spawnRule = spawnRule;
+    public NpcSpawner(Npc npc, GameManager gameManager, SpawnRule spawnRule) {
+        this.npc = npc;
         this.gameManager = gameManager;
-        this.noTicks = spawnRule.getSpawnIntervalTicks();
+        this.spawnRule = spawnRule;
     }
 
     public void incTicks() {
@@ -62,11 +63,10 @@ public class ItemSpawner extends CreeperEntity {
 
     private int countNumberInRoom() {
         int numberCurrentlyInRoom = 0;
-        Set<String> itemIds = gameManager.getRoomManager().getRoom(roomId).getItemIds();
-        for (String i : itemIds) {
-            Item currentItem = gameManager.getEntityManager().getItemEntity(i);
-            ItemType currentItemType = ItemType.itemTypeFromCode(currentItem.getItemTypeId());
-            if (currentItemType.equals(spawnItemType)) {
+        Set<String> npcIds = gameManager.getRoomManager().getRoom(roomId).getNpcIds();
+        for (String i : npcIds) {
+            Npc currentNpc = gameManager.getEntityManager().getNpcEntity(i);
+            if (currentNpc.getName().equals(npc.getName())) {
                 numberCurrentlyInRoom++;
             }
         }
@@ -74,9 +74,7 @@ public class ItemSpawner extends CreeperEntity {
     }
 
     private void createAndAddItem() {
-        Item item = spawnItemType.create();
-        gameManager.getEntityManager().addItem(item);
-        gameManager.placeItemInRoom(roomId, item.getItemId());
+        Npc newNpc = npc.create(gameManager, roomId);
+        gameManager.getEntityManager().addEntity(newNpc);
     }
-
 }

@@ -27,6 +27,12 @@ public class Derper extends Npc {
         this.random = new Random();
     }
 
+
+    @Override
+    public Derper create(GameManager gameManager, Integer roomId) {
+        return new Derper(gameManager, roomId);
+    }
+
     @Override
     public void run() {
         super.run();

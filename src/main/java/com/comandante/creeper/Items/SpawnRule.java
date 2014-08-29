@@ -2,18 +2,18 @@ package com.comandante.creeper.Items;
 
 import com.google.common.base.Optional;
 
-public class ItemSpawnRule {
+public class SpawnRule {
 
     private Optional<Integer> randomChance = Optional.absent();
     private final int spawnIntervalTicks;
     private final int maxPerRoom;
 
-    public ItemSpawnRule(int spawnIntervalTicks, int maxPerRoom) {
+    public SpawnRule(int spawnIntervalTicks, int maxPerRoom) {
         this.spawnIntervalTicks = spawnIntervalTicks;
         this.maxPerRoom = maxPerRoom;
     }
 
-    public ItemSpawnRule(int spawnIntervalTicks, int maxPerRoom, int randomPercent) {
+    public SpawnRule(int spawnIntervalTicks, int maxPerRoom, int randomPercent) {
         this.spawnIntervalTicks = spawnIntervalTicks;
         this.maxPerRoom = maxPerRoom;
         this.randomChance = Optional.of(randomPercent);
