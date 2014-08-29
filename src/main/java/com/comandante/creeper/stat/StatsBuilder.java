@@ -7,7 +7,8 @@ public class StatsBuilder {
     private int agile;
     private int armorRating;
     private int meleSkill;
-    private int health;
+    private int currentHealth;
+    private int maxHealth;
     private int weaponRatingMax;
     private int weaponRatingMin;
     private int numberweaponOfRolls;
@@ -42,8 +43,13 @@ public class StatsBuilder {
         return this;
     }
 
-    public StatsBuilder setHealth(int health) {
-        this.health = health;
+    public StatsBuilder setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+        return this;
+    }
+
+    public StatsBuilder setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
         return this;
     }
 
@@ -63,6 +69,6 @@ public class StatsBuilder {
     }
 
     public Stats createStats() {
-        return new Stats(strength, willpower, aim, agile, armorRating, meleSkill, health, weaponRatingMax, weaponRatingMin, numberweaponOfRolls);
+        return new Stats(strength, willpower, aim, agile, armorRating, meleSkill, currentHealth, maxHealth, weaponRatingMax, weaponRatingMin, numberweaponOfRolls);
     }
 }

@@ -73,7 +73,7 @@ public class EntityManager {
     public void updateNpcHealth(String npcId, int amt) {
         synchronized (npcId){
             Npc npcEntity = getNpcEntity(npcId);
-            npcEntity.getStats().setHealth(npcEntity.getStats().getHealth() + amt);
+            npcEntity.getStats().setCurrentHealth(npcEntity.getStats().getCurrentHealth() + amt);
         }
     }
 

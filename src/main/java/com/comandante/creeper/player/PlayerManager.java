@@ -49,9 +49,16 @@ public class PlayerManager {
     }
 
     public String getPrompt(String playerId, Integer roomId) {
+
+        Player player = getPlayer(playerId);
+        PlayerMetadata playerMetadata = getPlayerMetadata(playerId);
+        int currentHealth = playerMetadata.getStats().getCurrentHealth();
+        int maxHealth = playerMetadata.getStats().getMaxHealth();
         StringBuilder sb = new StringBuilder()
                 .append("[")
-                .append(getPlayer(playerId).getPlayerName())
+                .append(player.getPlayerName())
+                .append(" health: ")
+                .append(currentHealth).append("/").append(maxHealth)
                 .append(" roomId:")
                 .append(roomId)
                 .append((" users:"))
@@ -119,7 +126,7 @@ public class PlayerManager {
         synchronized (playerId) {
             PlayerMetadata playerMetadata = getPlayerMetadata(playerId);
             Stats stats = playerMetadata.getStats();
-            stats.setHealth(stats.getHealth() + amount);
+            stats.setCurrentHealth(stats.getCurrentHealth() + amount);
             savePlayerMetadata(playerMetadata);
         }
     }

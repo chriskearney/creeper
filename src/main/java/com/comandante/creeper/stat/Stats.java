@@ -9,32 +9,11 @@ public class Stats implements Serializable {
     private int agile;
     private int armorRating;
     private int meleSkill;
-    private int health;
+    private int currentHealth;
+    private int maxHealth;
     private int weaponRatingMax;
     private int weaponRatingMin;
     private int numberweaponOfRolls;
-
-    public Stats(int strength,
-                 int willpower,
-                 int aim,
-                 int agile,
-                 int armorRating,
-                 int meleSkill,
-                 int health,
-                 int weaponRatingMax,
-                 int weaponRatingMin,
-                 int numberweaponOfRolls) {
-        this.strength = strength;
-        this.willpower = willpower;
-        this.aim = aim;
-        this.agile = agile;
-        this.armorRating = armorRating;
-        this.meleSkill = meleSkill;
-        this.health = health;
-        this.weaponRatingMax = weaponRatingMax;
-        this.weaponRatingMin = weaponRatingMin;
-        this.numberweaponOfRolls = numberweaponOfRolls;
-    }
 
     public int getStrength() {
         return strength;
@@ -84,12 +63,20 @@ public class Stats implements Serializable {
         this.meleSkill = meleSkill;
     }
 
-    public int getHealth() {
-        return health;
+    public int getCurrentHealth() {
+        return currentHealth;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
     }
 
     public int getWeaponRatingMax() {
@@ -116,19 +103,27 @@ public class Stats implements Serializable {
         this.numberweaponOfRolls = numberweaponOfRolls;
     }
 
-    @Override
-    public String toString() {
-        return "Stats{" +
-                "strength=" + strength +
-                ", willpower=" + willpower +
-                ", aim=" + aim +
-                ", agile=" + agile +
-                ", armorRating=" + armorRating +
-                ", meleSkill=" + meleSkill +
-                ", health=" + health +
-                ", weaponRatingMax=" + weaponRatingMax +
-                ", weaponRatingMin=" + weaponRatingMin +
-                ", numberweaponOfRolls=" + numberweaponOfRolls +
-                '}';
+    public Stats(int strength,
+                 int willpower,
+                 int aim,
+                 int agile,
+                 int armorRating,
+                 int meleSkill,
+                 int currentHealth,
+                 int maxHealth,
+                 int weaponRatingMax,
+                 int weaponRatingMin,
+                 int numberweaponOfRolls) {
+        this.strength = strength;
+        this.willpower = willpower;
+        this.aim = aim;
+        this.agile = agile;
+        this.armorRating = armorRating;
+        this.meleSkill = meleSkill;
+        this.currentHealth = currentHealth;
+        this.maxHealth = maxHealth;
+        this.weaponRatingMax = weaponRatingMax;
+        this.weaponRatingMin = weaponRatingMin;
+        this.numberweaponOfRolls = numberweaponOfRolls;
     }
 }

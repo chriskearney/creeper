@@ -31,8 +31,8 @@ public class FightManager {
         Stats npcStats = npc.getStats();
         Stats playerStats = playerMetadata.getStats();
 
-        while (npcStats.getHealth() > 0) {
-            if (playerStats.getHealth() <= 0) {
+        while (npcStats.getCurrentHealth() > 0) {
+            if (playerStats.getCurrentHealth() <= 0) {
                 break;
             }
             fightTurn(playerStats, npcStats, 3, player, npc);
@@ -40,13 +40,13 @@ public class FightManager {
 
         playerManager.savePlayerMetadata(playerMetadata);
 
-        if (playerStats.getHealth() <= 0) {
+        if (playerStats.getCurrentHealth() <= 0) {
             channelUtils.write(player.getPlayerId(), "You died.");
             channelUtils.writeToRoom(player.getPlayerId(), player.getPlayerName() + " is now dead.");
             return;
         }
 
-        if (npcStats.getHealth() <= 0) {
+        if (npcStats.getCurrentHealth() <= 0) {
             channelUtils.writeNoPrompt(player.getPlayerId(), "You killed " + npc.getName());
             channelUtils.writeToRoom(player.getPlayerId(), npc.getDieMessage());
             entityManager.deleteNpcEntity(npc.getEntityId());
@@ -56,7 +56,7 @@ public class FightManager {
 
     public void fightTurn(Stats challenger, Stats victim, int numRoundsPerTurns, Player player, Npc npc) {
         for (int i = 0; i < numRoundsPerTurns; i++) {
-            if (challenger.getHealth() <= 0 || victim.getHealth() <= 0) {
+            if (challenger.getCurrentHealth() <= 0 || victim.getCurrentHealth() <= 0) {
                 return;
             }
             fightRound(challenger, victim, player, npc);
@@ -80,7 +80,7 @@ public class FightManager {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (victim.getHealth() <= 0) {
+        if (victim.getCurrentHealth() <= 0) {
             return;
         }
         int chanceToHitBack = getChanceToHit(victim, challenger);

@@ -54,14 +54,14 @@ public class StatsTester {
 
         int turns = 0;
         while (true) {
-            if (challenger.getHealth() <= 0 || victim.getHealth() <= 0) {
+            if (challenger.getCurrentHealth() <= 0 || victim.getCurrentHealth() <= 0) {
                 break;
             }
             NO_TURNS++;
             damageToVictim = getAttack(challenger, victim);
             chanceToHitVictim = (challenger.getStrength() + challenger.getMeleSkill()) * 5 - victim.getAgile() * 5;
             if (randInt(0, 100) < chanceToHitVictim) {
-                victim.setHealth(victim.getHealth() - damageToVictim);
+                victim.setCurrentHealth(victim.getCurrentHealth() - damageToVictim);
                 TOTAL_DAMAGE_CHALLENGER = TOTAL_DAMAGE_CHALLENGER + damageToVictim;
                 NO_HITS_CHALLENGER++;
             } else {
@@ -71,7 +71,7 @@ public class StatsTester {
             chanceToHitChallenger = (victim.getStrength() + victim.getMeleSkill()) * 5 - (challenger.getAgile() * 5);
 
             if (randInt(0, 100) < chanceToHitChallenger) {
-                challenger.setHealth(challenger.getHealth() - damageToChallenger);
+                challenger.setCurrentHealth(challenger.getCurrentHealth() - damageToChallenger);
                 TOTAL_DAMAGE_VICTIM = TOTAL_DAMAGE_VICTIM + damageToVictim;
                 NO_HITS_VICTIM++;
             } else {
@@ -79,7 +79,7 @@ public class StatsTester {
             }
         }
 
-        if (challenger.getHealth() > victim.getHealth()) {
+        if (challenger.getCurrentHealth() > victim.getCurrentHealth()) {
             return true;
         } else {
             return false;

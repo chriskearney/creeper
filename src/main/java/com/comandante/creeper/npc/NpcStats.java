@@ -10,7 +10,8 @@ public class NpcStats {
             .setAgile(1)
             .setArmorRating(5)
             .setMeleSkill(5)
-            .setHealth(100)
+            .setCurrentHealth(100)
+            .setMaxHealth(100)
             .setWeaponRatingMin(5)
             .setWeaponRatingMax(10)
             .setNumberweaponOfRolls(1);
@@ -22,7 +23,8 @@ public class NpcStats {
             .setAgile(1)
             .setArmorRating(5)
             .setMeleSkill(5)
-            .setHealth(150)
+            .setCurrentHealth(150)
+            .setMaxHealth(150)
             .setWeaponRatingMin(5)
             .setWeaponRatingMax(10)
             .setNumberweaponOfRolls(1);

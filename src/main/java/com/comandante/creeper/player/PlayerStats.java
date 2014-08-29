@@ -12,7 +12,8 @@ public class PlayerStats {
             .setAgile(1)
             .setArmorRating(2)
             .setMeleSkill(10)
-            .setHealth(100)
+            .setCurrentHealth(100)
+            .setMaxHealth(100)
             .setWeaponRatingMin(10)
             .setWeaponRatingMax(20)
             .setNumberweaponOfRolls(1);

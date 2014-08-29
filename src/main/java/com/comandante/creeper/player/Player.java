@@ -51,7 +51,7 @@ public class Player extends CreeperEntity {
     @Override
     public void run() {
 
-        if (gameManager.getPlayerManager().getPlayerMetadata(Main.createPlayerId(playerName)).getStats().getHealth() < 100) {
+        if (gameManager.getPlayerManager().getPlayerMetadata(Main.createPlayerId(playerName)).getStats().getCurrentHealth() < 100) {
             gameManager.getPlayerManager().updatePlayerHealth(Main.createPlayerId(playerName), 10);
             gameManager.getChannelUtils().writeNoPrompt(Main.createPlayerId(playerName), "Health healed by 10.");
         }
