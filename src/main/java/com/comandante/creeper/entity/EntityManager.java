@@ -87,7 +87,6 @@ public class EntityManager {
             while (true) {
                 try {
                     Thread.sleep(10000);
-                    System.out.println("tick.");
                     Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
                     while (rooms.hasNext()) {
                         Map.Entry<Integer, Room> next = rooms.next();
