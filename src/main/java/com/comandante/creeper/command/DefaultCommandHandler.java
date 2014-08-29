@@ -1,6 +1,7 @@
 package com.comandante.creeper.command;
 
 
+import com.comandante.creeper.Main;
 import com.comandante.creeper.command.commands.DropCommand;
 import com.comandante.creeper.command.commands.GossipCommand;
 import com.comandante.creeper.command.commands.InventoryCommand;
@@ -15,7 +16,6 @@ import com.comandante.creeper.command.commands.UseCommand;
 import com.comandante.creeper.command.commands.WhoCommand;
 import com.comandante.creeper.command.commands.WhoamiCommand;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.model.Player;
 import com.comandante.creeper.server.CreeperSession;
 import org.jboss.netty.channel.MessageEvent;
 
@@ -33,7 +33,7 @@ public class DefaultCommandHandler {
         String originalMessage = (String) e.getMessage();
         e.getChannel();
         String rootCommand = originalMessage.split(" ")[0].toLowerCase();
-        String playerId = new Player(creeperSession.getUsername().get()).getPlayerId();
+        String playerId = Main.createPlayerId(creeperSession.getUsername().get());
         if (GossipCommand.validTriggers.contains(rootCommand)) {
             GossipCommand gossipCommand = new GossipCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(gossipCommand);

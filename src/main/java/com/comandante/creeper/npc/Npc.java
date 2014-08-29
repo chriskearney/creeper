@@ -21,6 +21,7 @@ public abstract class Npc extends CreeperEntity {
     private final String name;
     private final String colorName;
     private final Stats stats;
+    private final String dieMessage;
 
     @Override
     public void run() {
@@ -31,13 +32,14 @@ public abstract class Npc extends CreeperEntity {
         return colorName;
     }
 
-    protected Npc(GameManager gameManager, Integer roomId, String name, String colorName, long lastPhraseTimestamp, Stats stats) {
+    protected Npc(GameManager gameManager, Integer roomId, String name, String colorName, long lastPhraseTimestamp, Stats stats, String dieMessage) {
         this.gameManager = gameManager;
         this.roomId = roomId;
         this.name = name;
         this.colorName = colorName;
         this.lastPhraseTimestamp = lastPhraseTimestamp;
         this.stats = stats;
+        this.dieMessage = dieMessage;
     }
 
     public Stats getStats() {
@@ -58,6 +60,10 @@ public abstract class Npc extends CreeperEntity {
 
     public String getName() {
         return name;
+    }
+
+    public String getDieMessage() {
+        return dieMessage;
     }
 
     public void npcSay(Integer roomId, String message) {

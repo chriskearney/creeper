@@ -39,11 +39,14 @@ public class FightManager {
 
         if (playerStats.getHealth() <= 0) {
             channelUtils.write(player.getPlayerId(), "You died.");
+            channelUtils.writeToRoom(player.getPlayerId(), player.getPlayerName() + " is now dead.");
             return;
         }
 
         if (npcStats.getHealth() <= 0) {
             channelUtils.write(player.getPlayerId(), "You killed " + npc.getName());
+            channelUtils.writeToRoom(player.getPlayerId(), npc.getDieMessage());
+            entityManager.deleteNpcEntity(npc.getEntityId());
             return;
         }
     }
@@ -64,7 +67,7 @@ public class FightManager {
             damageToVictim = getAttack(challenger, victim);
         }
         if (damageToVictim > 0) {
-            doDamage(victim, damageToVictim);
+            doNpcDamage(npc.getEntityId(), damageToVictim);
             channelUtils.writeNoPrompt(player.getPlayerId(), damageToVictim + " damage done to " + npc.getName());
         } else {
             channelUtils.writeNoPrompt(player.getPlayerId(), "You miss " + npc.getName());
@@ -75,15 +78,19 @@ public class FightManager {
         int chanceToHitBack = getChanceToHit(victim, challenger);
         int damageBack = getAttack(victim, challenger);
         if (randInt(0, 100) < chanceToHitBack) {
-            doDamage(challenger, damageBack);
+            doPlayerDamage(player.getPlayerId(), damageBack);
             channelUtils.writeNoPrompt(player.getPlayerId(), npc.getName() + " damages you for " + damageBack);
         } else {
             channelUtils.writeNoPrompt(player.getPlayerId(), npc.getName() + " misses you");
         }
     }
 
-    private static void doDamage(Stats stats, int damageAmount) {
-        stats.setHealth(stats.getHealth() - damageAmount);
+    private void doPlayerDamage(String playerId, int damageAmount) {
+        playerManager.updatePlayerHealth(playerId, -damageAmount);
+    }
+
+    private void doNpcDamage(String npcId, int damageAmount) {
+        entityManager.updateNpcHealth(npcId, -damageAmount);
     }
 
     private static int getChanceToHit(Stats challenger, Stats victim) {

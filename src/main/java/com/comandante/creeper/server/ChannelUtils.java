@@ -5,6 +5,8 @@ import com.comandante.creeper.managers.RoomManager;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
 
+import java.util.Set;
+
 public class ChannelUtils {
 
     private final PlayerManager playerManager;
@@ -23,6 +25,19 @@ public class ChannelUtils {
         Player player = playerManager.getPlayer(playerId);
         Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
         player.getChannel().write(playerManager.getPrompt(playerId, playerCurrentRoom.getRoomId()));
+    }
+
+    public void writeToRoom(String playerId, String message) {
+        Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(playerManager.getPlayer(playerId)).get();
+        Set<String> presentPlayerIds = playerCurrentRoom.getPresentPlayerIds();
+        for (String id : presentPlayerIds) {
+            Player presentPlayer = playerManager.getPlayer(id);
+            if (presentPlayer.getPlayerId().equals(playerId)) {
+                write(playerId, message);
+            } else {
+                writeNoPrompt(presentPlayer.getPlayerId(), message);
+            }
+        }
     }
 
     public void write(String playerId, String message) {

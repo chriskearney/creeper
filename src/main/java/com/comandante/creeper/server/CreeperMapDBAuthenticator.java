@@ -1,5 +1,6 @@
 package com.comandante.creeper.server;
 
+import com.comandante.creeper.Main;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
@@ -15,7 +16,7 @@ public class CreeperMapDBAuthenticator implements CreeperAuthenticator {
 
     @Override
     public boolean authenticateAndRegisterPlayer(String username, String password, Channel channel) {
-        PlayerMetadata playerMetadata = gameManager.getPlayerManager().getPlayerMetadata(new Player(username).getPlayerId());
+        PlayerMetadata playerMetadata = gameManager.getPlayerManager().getPlayerMetadata(Main.createPlayerId(username));
         if (playerMetadata == null) {
             return false;
         }
@@ -25,7 +26,7 @@ public class CreeperMapDBAuthenticator implements CreeperAuthenticator {
         if (gameManager.getPlayerManager().doesPlayerExist(username)) {
             gameManager.getPlayerManager().removePlayer(username);
         }
-        Player player = new Player(username);
+        Player player = new Player(username, gameManager);
         player.setChannel(channel);
         gameManager.getPlayerManager().addPlayer(player);
         if (!gameManager.getRoomManager().getPlayerCurrentRoom(player).isPresent()) {

@@ -7,7 +7,6 @@ import com.comandante.creeper.managers.EntityManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.managers.PlayerManager;
 import com.comandante.creeper.managers.RoomManager;
-import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.PlayerMetadata;
 import com.comandante.creeper.model.Stats;
 import com.comandante.creeper.model.StatsBuilder;
@@ -29,16 +28,17 @@ public class Main {
                 .make();
 
         RoomManager roomManager = new RoomManager();
-        EntityManager entityManager = new EntityManager(roomManager, db);
         PlayerManager playerManager = new PlayerManager(db);
 
+        EntityManager entityManager = new EntityManager(roomManager, playerManager, db);
+
         Stats chrisBrianStats = new StatsBuilder().setStrength(7).setWillpower(8).setAim(6).setAgile(5).setArmorRating(4).setMeleSkill(10).setHealth(100).setWeaponRatingMin(10).setWeaponRatingMax(20).setNumberweaponOfRolls(1).createStats();
-        if (playerManager.getPlayerMetadata(new Player("chris").getPlayerId()) == null) {
+        if (playerManager.getPlayerMetadata(createPlayerId("chris")) == null) {
             System.out.println("Creating Chris User.");
             playerManager.savePlayerMetadata(new PlayerMetadata("chris", "poop", new String(Base64.encodeBase64("chris".getBytes())), chrisBrianStats));
         }
 
-        if (playerManager.getPlayerMetadata(new Player("brian").getPlayerId()) == null) {
+        if (playerManager.getPlayerMetadata(createPlayerId("chris")) == null) {
             System.out.println("Creating Brian User.");
             playerManager.savePlayerMetadata(new PlayerMetadata("brian", "poop", new String(Base64.encodeBase64("brian".getBytes())), chrisBrianStats));
         }
@@ -66,5 +66,9 @@ public class Main {
         creeperServer.run(gameManager, defaultCommandHandler);
 
         System.out.println("Creeper started.");
+    }
+
+    public static String createPlayerId(String playerName) {
+        return new String(Base64.encodeBase64(playerName.getBytes()));
     }
 }

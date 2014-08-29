@@ -3,6 +3,7 @@ package com.comandante.creeper.managers;
 import com.comandante.creeper.model.CreeperEntity;
 import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.Items.ItemSerializer;
+import com.comandante.creeper.model.Player;
 import com.comandante.creeper.model.Room;
 import com.comandante.creeper.npc.Npc;
 import org.mapdb.DB;
@@ -22,15 +23,17 @@ public class EntityManager {
     private final ExecutorService tickService = Executors.newFixedThreadPool(1);
     private final ExecutorService ticketRunnerService = Executors.newFixedThreadPool(10);
     private final RoomManager roomManager;
+    private final PlayerManager playerManager;
     private final DB db;
 
-    public EntityManager(RoomManager roomManager, DB db) {
+    public EntityManager(RoomManager roomManager, PlayerManager playerManager, DB db) {
         this.roomManager = roomManager;
         if (db.exists("itemMap")) {
             this.items = db.get("itemMap");
         } else {
             this.items = db.createHashMap("itemMap").valueSerializer(new ItemSerializer()).make();
         }
+        this.playerManager = playerManager;
         this.db = db;
         tickService.submit(new Ticker());
     }
@@ -66,6 +69,13 @@ public class EntityManager {
         return npcs.get(npcId);
     }
 
+    public void updateNpcHealth(String npcId, int amt) {
+        synchronized (npcId){
+            Npc npcEntity = getNpcEntity(npcId);
+            npcEntity.getStats().setHealth(npcEntity.getStats().getHealth() + amt);
+        }
+    }
+
     public Item getItemEntity(String itemId) {
         return items.get(itemId);
     }
@@ -79,6 +89,11 @@ public class EntityManager {
                     Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
                     while (rooms.hasNext()) {
                         Map.Entry<Integer, Room> next = rooms.next();
+                        ticketRunnerService.submit(next.getValue());
+                    }
+                    Iterator<Map.Entry<String, Player>> players = playerManager.getPlayers();
+                    while (players.hasNext()) {
+                        Map.Entry<String, Player> next = players.next();
                         ticketRunnerService.submit(next.getValue());
                     }
                 } catch (InterruptedException ie) {

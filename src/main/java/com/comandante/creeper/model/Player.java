@@ -1,6 +1,8 @@
 package com.comandante.creeper.model;
 
 
+import com.comandante.creeper.Main;
+import com.comandante.creeper.managers.GameManager;
 import com.google.common.base.Optional;
 import org.apache.commons.codec.binary.Base64;
 import org.jboss.netty.channel.Channel;
@@ -10,9 +12,11 @@ public class Player extends CreeperEntity {
     private String playerName;
     private Channel channel;
     private Optional<String> returnDirection = Optional.absent();
+    private final GameManager gameManager;
 
-    public Player(String playerName) {
+    public Player(String playerName, GameManager gameManager) {
         this.playerName = playerName;
+        this.gameManager = gameManager;
     }
 
     public String getPlayerName() {
@@ -45,6 +49,11 @@ public class Player extends CreeperEntity {
 
     @Override
     public void run() {
+
+        if (gameManager.getPlayerManager().getPlayerMetadata(Main.createPlayerId(playerName)).getStats().getHealth() < 100) {
+            gameManager.getPlayerManager().updatePlayerHealth(Main.createPlayerId(playerName), 10);
+            gameManager.getChannelUtils().write(Main.createPlayerId(playerName), "Health healed by 10.");
+        }
 
     }
 }

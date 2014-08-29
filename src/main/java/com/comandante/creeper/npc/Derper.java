@@ -18,11 +18,12 @@ public class Derper extends Npc {
     private final Random random;
     private final static String colorName = new StringBuilder()
             .append(GREEN)
-            .append("Federation Sentry")
+            .append("derper")
             .append(RESET).toString();
 
+
     public Derper(GameManager gameManager, Integer roomId) {
-        super(gameManager, roomId, NAME, colorName, 0, NpcStats.JOE_NPC.createStats());
+        super(gameManager, roomId, NAME, colorName, 0, NpcStats.JOE_NPC.createStats(), "derper's face is melted");
         this.random = new Random();
     }
 

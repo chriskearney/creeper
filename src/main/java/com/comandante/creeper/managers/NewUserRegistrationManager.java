@@ -1,7 +1,7 @@
 package com.comandante.creeper.managers;
 
 
-import com.comandante.creeper.model.Player;
+import com.comandante.creeper.Main;
 import com.comandante.creeper.model.PlayerMetadata;
 import com.comandante.creeper.model.PlayerStats;
 import com.comandante.creeper.server.CreeperSession;
@@ -35,7 +35,7 @@ public class NewUserRegistrationManager {
     }
 
     private boolean setDesiredUsername(CreeperSession session, MessageEvent e) {
-        PlayerMetadata playerMetadata = playerManager.getPlayerMetadata(new Player((String) e.getMessage()).getPlayerId());
+        PlayerMetadata playerMetadata = playerManager.getPlayerMetadata(Main.createPlayerId((String) e.getMessage()));
         if (playerMetadata != null) {
             e.getChannel().write("Username is in use.\r\n");
             newUserRegistrationFlow(session, e);
@@ -58,7 +58,7 @@ public class NewUserRegistrationManager {
             return;
         }
         session.setPassword(Optional.of(password));
-        PlayerMetadata playerMetadata = new PlayerMetadata(session.getUsername().get(), session.getPassword().get(), new Player(session.getUsername().get()).getPlayerId(), PlayerStats.DEFAULT_PLAYER.createStats());
+        PlayerMetadata playerMetadata = new PlayerMetadata(session.getUsername().get(), session.getPassword().get(), Main.createPlayerId(session.getUsername().get()), PlayerStats.DEFAULT_PLAYER.createStats());
         playerManager.savePlayerMetadata(playerMetadata);
         e.getChannel().write("User created.\r\n");
         session.setState(CreeperSession.State.newUserRegCompleted);

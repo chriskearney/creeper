@@ -118,4 +118,13 @@ public class PlayerManager {
         return playerStats.toString();
     }
 
+    public void updatePlayerHealth(String playerId, int amount) {
+        synchronized (playerId) {
+            PlayerMetadata playerMetadata = getPlayerMetadata(playerId);
+            Stats stats = playerMetadata.getStats();
+            stats.setHealth(stats.getHealth() + amount);
+            savePlayerMetadata(playerMetadata);
+        }
+    }
+
 }
