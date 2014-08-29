@@ -23,7 +23,7 @@ public class StatsTester {
         for (int i = 0; i < NUM_EXECUTION; i++) {
             boolean results = fight(
                     PlayerStats.DEFAULT_PLAYER.createStats(),
-                    NpcStats.JOE_NPC.createStats());
+                    NpcStats.DERPER.createStats());
             //strength, willpower, aim, agile, armorRating, meleSkill, health, weaponRatingMin, weaponRatingMax, numberweaponOfRolls
             if (results) {
                 totalChallengerWin++;

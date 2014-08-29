@@ -4,6 +4,7 @@ import com.comandante.creeper.Items.ItemType;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.npc.Derper;
+import com.comandante.creeper.npc.DruggedPimp;
 import com.comandante.creeper.spawner.ItemSpawner;
 import com.comandante.creeper.spawner.NpcSpawner;
 import com.comandante.creeper.spawner.SpawnRule;
@@ -31,6 +32,9 @@ public class RoomBuilders {
         basicRoom.addItemSpawner(new ItemSpawner(ItemType.BEER, new SpawnRule(20, 3), gameManager));
         basicRoom.addItemSpawner(new ItemSpawner(ItemType.KEY, new SpawnRule(30, 1, 10), gameManager));
         basicRoom.addNpcSpawner(new NpcSpawner(new Derper(gameManager, basicRoom.getRoomId()), gameManager, new SpawnRule(10, 5)));
+        basicRoom.addNpcSpawner(new NpcSpawner(new DruggedPimp(gameManager, basicRoom.getRoomId()), gameManager, new SpawnRule(10, 5)));
+
+
         entityManager.addEntity(basicRoom);
         entityManager.addEntity(new BasicRoom(
                 2,

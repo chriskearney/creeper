@@ -23,7 +23,7 @@ public abstract class Npc extends CreeperEntity {
     private final Stats stats;
     private final String dieMessage;
 
-    public abstract Derper create(GameManager gameManager, Integer roomId);
+    public abstract Npc create(GameManager gameManager, Integer roomId);
 
     @Override
     public void run() {

@@ -22,7 +22,7 @@ public class Derper extends Npc {
 
 
     public Derper(GameManager gameManager, Integer roomId) {
-        super(gameManager, roomId, NAME, colorName, 0, NpcStats.JOE_NPC.createStats(), "derper's face is melted");
+        super(gameManager, roomId, NAME, colorName, 0, NpcStats.DERPER.createStats(), "derper's face is melted");
         this.random = new Random();
     }
 
