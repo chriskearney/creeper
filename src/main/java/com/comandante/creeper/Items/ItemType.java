@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static com.comandante.creeper.model.Color.*;
+import static com.comandante.creeper.server.Color.*;
 
 public enum ItemType {
 

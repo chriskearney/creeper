@@ -2,14 +2,14 @@ package com.comandante.creeper.command.commands;
 
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.model.Player;
+import com.comandante.creeper.player.Player;
 import com.google.common.collect.ImmutableList;
 
 import java.util.Iterator;
 import java.util.Map;
 
-import static com.comandante.creeper.model.Color.MAGENTA;
-import static com.comandante.creeper.model.Color.RESET;
+import static com.comandante.creeper.server.Color.MAGENTA;
+import static com.comandante.creeper.server.Color.RESET;
 
 public class GossipCommand extends Command {
 

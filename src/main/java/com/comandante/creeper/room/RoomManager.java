@@ -1,7 +1,6 @@
-package com.comandante.creeper.managers;
+package com.comandante.creeper.room;
 
-import com.comandante.creeper.model.Player;
-import com.comandante.creeper.model.Room;
+import com.comandante.creeper.player.Player;
 import com.google.common.base.Optional;
 
 import java.util.Iterator;

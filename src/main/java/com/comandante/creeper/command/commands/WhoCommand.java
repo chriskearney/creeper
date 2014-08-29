@@ -1,13 +1,13 @@
 package com.comandante.creeper.command.commands;
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.model.Player;
+import com.comandante.creeper.player.Player;
 import com.google.common.collect.ImmutableList;
 
 import java.util.Set;
 
-import static com.comandante.creeper.model.Color.CYAN;
-import static com.comandante.creeper.model.Color.RESET;
+import static com.comandante.creeper.server.Color.CYAN;
+import static com.comandante.creeper.server.Color.RESET;
 
 public class WhoCommand extends Command {
 

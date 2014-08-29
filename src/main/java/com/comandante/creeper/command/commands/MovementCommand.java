@@ -1,9 +1,9 @@
 package com.comandante.creeper.command.commands;
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.model.Movement;
-import com.comandante.creeper.model.Player;
-import com.comandante.creeper.model.Room;
+import com.comandante.creeper.player.PlayerMovement;
+import com.comandante.creeper.player.Player;
+import com.comandante.creeper.room.Room;
 import com.comandante.creeper.server.ChannelUtils;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -47,7 +47,7 @@ public class MovementCommand extends Command {
         }
         Room currentRoom = roomOptional.get();
         final String command = getOriginalMessageParts().get(0);
-        Movement movement = null;
+        PlayerMovement playerMovement = null;
         if (!validTriggers.contains(command.toLowerCase())) {
             throw new RuntimeException("Malformed movement command.");
         }
@@ -57,7 +57,7 @@ public class MovementCommand extends Command {
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getNorthId().get());
-            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the north.", "south");
+            playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the north.", "south");
         }
         if (southTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getSouthId().isPresent()) {
@@ -65,7 +65,7 @@ public class MovementCommand extends Command {
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getSouthId().get());
-            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the south.", "north");
+            playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the south.", "north");
         }
         if (eastTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getEastId().isPresent()) {
@@ -73,7 +73,7 @@ public class MovementCommand extends Command {
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getEastId().get());
-            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the east.", "west");
+            playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the east.", "west");
         }
         if (westTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getWestId().isPresent()) {
@@ -81,7 +81,7 @@ public class MovementCommand extends Command {
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getWestId().get());
-            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "east");
+            playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "east");
         }
         if (upTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getUpId().isPresent()) {
@@ -89,7 +89,7 @@ public class MovementCommand extends Command {
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getUpId().get());
-            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "down");
+            playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "down");
         }
         if (downTriggers.contains(command.toLowerCase())) {
             if (!currentRoom.getDownId().isPresent()) {
@@ -97,12 +97,12 @@ public class MovementCommand extends Command {
                 return;
             }
             Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getDownId().get());
-            movement = new Movement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "up");
+            playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "up");
         }
-        gameManager.movePlayer(movement);
-        if (movement != null) {
-            player.setReturnDirection(Optional.of(movement.getReturnDirection()));
-            gameManager.currentRoomLogic(movement.getPlayer().getPlayerId());
+        gameManager.movePlayer(playerMovement);
+        if (playerMovement != null) {
+            player.setReturnDirection(Optional.of(playerMovement.getReturnDirection()));
+            gameManager.currentRoomLogic(playerMovement.getPlayer().getPlayerId());
         }
     }
 }

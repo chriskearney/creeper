@@ -2,11 +2,11 @@ package com.comandante.creeper.npc;
 
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.model.CreeperEntity;
-import com.comandante.creeper.model.Stats;
+import com.comandante.creeper.entity.CreeperEntity;
+import com.comandante.creeper.stat.Stats;
 
-import static com.comandante.creeper.model.Color.RED;
-import static com.comandante.creeper.model.Color.RESET;
+import static com.comandante.creeper.server.Color.RED;
+import static com.comandante.creeper.server.Color.RESET;
 
 
 public abstract class Npc extends CreeperEntity {

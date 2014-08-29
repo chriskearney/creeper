@@ -1,4 +1,4 @@
-package com.comandante.creeper.model;
+package com.comandante.creeper.player;
 
 import com.google.gson.GsonBuilder;
 import org.mapdb.Serializer;

@@ -1,4 +1,4 @@
-package com.comandante.creeper.model;
+package com.comandante.creeper.entity;
 
 import java.util.UUID;
 

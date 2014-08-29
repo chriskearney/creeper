@@ -1,11 +1,8 @@
-package com.comandante.creeper.managers;
+package com.comandante.creeper.player;
 
 
-import com.comandante.creeper.model.Player;
-import com.comandante.creeper.model.PlayerMetadata;
-import com.comandante.creeper.model.PlayerMetadataSerializer;
-import com.comandante.creeper.model.Room;
-import com.comandante.creeper.model.Stats;
+import com.comandante.creeper.room.Room;
+import com.comandante.creeper.stat.Stats;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import org.apache.commons.codec.binary.Base64;

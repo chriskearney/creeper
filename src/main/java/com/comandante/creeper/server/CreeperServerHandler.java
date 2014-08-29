@@ -10,7 +10,7 @@ import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 
-import static com.comandante.creeper.model.Color.RESET;
+import static com.comandante.creeper.server.Color.RESET;
 
 public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
 

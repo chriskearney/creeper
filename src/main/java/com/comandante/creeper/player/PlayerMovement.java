@@ -1,8 +1,8 @@
-package com.comandante.creeper.model;
+package com.comandante.creeper.player;
 
 import com.comandante.creeper.command.commands.MovementCommand;
 
-public class Movement {
+public class PlayerMovement {
 
     private final Player player;
     private final Integer sourceRoomId;
@@ -11,12 +11,12 @@ public class Movement {
     private final String roomExitMessage;
     private final String returnDirection;
 
-    public Movement(Player player,
-                    Integer sourceRoomId,
-                    Integer destinationRoomId,
-                    MovementCommand command,
-                    String roomExitMessage,
-                    String returnDirection) {
+    public PlayerMovement(Player player,
+                          Integer sourceRoomId,
+                          Integer destinationRoomId,
+                          MovementCommand command,
+                          String roomExitMessage,
+                          String returnDirection) {
         this.player = player;
         this.sourceRoomId = sourceRoomId;
         this.destinationRoomId = destinationRoomId;

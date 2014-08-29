@@ -1,9 +1,12 @@
-package com.comandante.creeper.model;
+package com.comandante.creeper.managers;
 
-import com.comandante.creeper.managers.EntityManager;
-import com.comandante.creeper.managers.PlayerManager;
-import com.comandante.creeper.managers.RoomManager;
+import com.comandante.creeper.entity.EntityManager;
+import com.comandante.creeper.stat.Stats;
+import com.comandante.creeper.player.PlayerManager;
+import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.npc.Npc;
+import com.comandante.creeper.player.Player;
+import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.server.ChannelUtils;
 
 import java.util.Random;

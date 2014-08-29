@@ -1,7 +1,7 @@
 package com.comandante.creeper.command.commands;
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.model.Player;
+import com.comandante.creeper.player.Player;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;

@@ -1,15 +1,15 @@
 package com.comandante.creeper;
 
-import com.comandante.creeper.builder.RoomBuilders;
+import com.comandante.creeper.room.RoomBuilders;
 import com.comandante.creeper.command.CommandService;
 import com.comandante.creeper.command.DefaultCommandHandler;
-import com.comandante.creeper.managers.EntityManager;
+import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.managers.PlayerManager;
-import com.comandante.creeper.managers.RoomManager;
-import com.comandante.creeper.model.PlayerMetadata;
-import com.comandante.creeper.model.Stats;
-import com.comandante.creeper.model.StatsBuilder;
+import com.comandante.creeper.player.PlayerManager;
+import com.comandante.creeper.room.RoomManager;
+import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.stat.Stats;
+import com.comandante.creeper.stat.StatsBuilder;
 import com.comandante.creeper.npc.Derper;
 import com.comandante.creeper.server.CreeperServer;
 import org.apache.commons.codec.binary.Base64;
@@ -38,7 +38,7 @@ public class Main {
             playerManager.savePlayerMetadata(new PlayerMetadata("chris", "poop", new String(Base64.encodeBase64("chris".getBytes())), chrisBrianStats));
         }
 
-        if (playerManager.getPlayerMetadata(createPlayerId("chris")) == null) {
+        if (playerManager.getPlayerMetadata(createPlayerId("brian")) == null) {
             System.out.println("Creating Brian User.");
             playerManager.savePlayerMetadata(new PlayerMetadata("brian", "poop", new String(Base64.encodeBase64("brian".getBytes())), chrisBrianStats));
         }

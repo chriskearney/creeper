@@ -1,5 +1,7 @@
-package com.comandante.creeper.model;
+package com.comandante.creeper.player;
 
+
+import com.comandante.creeper.stat.StatsBuilder;
 
 public class PlayerStats {
 

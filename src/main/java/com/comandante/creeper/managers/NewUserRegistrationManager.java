@@ -2,8 +2,9 @@ package com.comandante.creeper.managers;
 
 
 import com.comandante.creeper.Main;
-import com.comandante.creeper.model.PlayerMetadata;
-import com.comandante.creeper.model.PlayerStats;
+import com.comandante.creeper.player.PlayerManager;
+import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.player.PlayerStats;
 import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
 import org.jboss.netty.channel.MessageEvent;

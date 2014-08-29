@@ -1,6 +1,8 @@
-package com.comandante.creeper.model;
+package com.comandante.creeper.room;
 
-import com.comandante.creeper.Items.ItemSpawner;
+import com.comandante.creeper.entity.CreeperEntity;
+import com.comandante.creeper.spawner.ItemSpawner;
+import com.comandante.creeper.spawner.NpcSpawner;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;

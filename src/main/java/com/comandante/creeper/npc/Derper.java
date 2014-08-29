@@ -2,14 +2,13 @@ package com.comandante.creeper.npc;
 
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.model.NpcStats;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import static com.comandante.creeper.model.Color.GREEN;
-import static com.comandante.creeper.model.Color.RESET;
+import static com.comandante.creeper.server.Color.GREEN;
+import static com.comandante.creeper.server.Color.RESET;
 
 public class Derper extends Npc {
 

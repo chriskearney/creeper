@@ -1,4 +1,7 @@
-package com.comandante.creeper.model;
+package com.comandante.creeper.stat;
+
+import com.comandante.creeper.npc.NpcStats;
+import com.comandante.creeper.player.PlayerStats;
 
 import java.util.Random;
 

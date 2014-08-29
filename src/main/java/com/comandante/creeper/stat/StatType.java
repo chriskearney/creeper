@@ -1,4 +1,4 @@
-package com.comandante.creeper.model;
+package com.comandante.creeper.stat;
 
 public enum StatType {
     STRENGTH(1),

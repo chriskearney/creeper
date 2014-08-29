@@ -2,8 +2,8 @@ package com.comandante.creeper.command.commands;
 
 import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.model.PlayerMetadata;
-import com.comandante.creeper.model.Room;
+import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.room.Room;
 import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;

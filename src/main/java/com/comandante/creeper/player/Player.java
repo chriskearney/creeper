@@ -1,8 +1,9 @@
-package com.comandante.creeper.model;
+package com.comandante.creeper.player;
 
 
 import com.comandante.creeper.Main;
 import com.comandante.creeper.managers.GameManager;
+import com.comandante.creeper.entity.CreeperEntity;
 import com.google.common.base.Optional;
 import org.apache.commons.codec.binary.Base64;
 import org.jboss.netty.channel.Channel;

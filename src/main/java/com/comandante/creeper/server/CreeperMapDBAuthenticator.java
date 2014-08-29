@@ -2,8 +2,8 @@ package com.comandante.creeper.server;
 
 import com.comandante.creeper.Main;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.model.Player;
-import com.comandante.creeper.model.PlayerMetadata;
+import com.comandante.creeper.player.Player;
+import com.comandante.creeper.player.PlayerMetadata;
 import org.jboss.netty.channel.Channel;
 
 public class CreeperMapDBAuthenticator implements CreeperAuthenticator {

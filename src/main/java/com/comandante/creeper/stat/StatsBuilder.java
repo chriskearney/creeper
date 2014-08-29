@@ -1,4 +1,4 @@
-package com.comandante.creeper.model;
+package com.comandante.creeper.stat;
 
 public class StatsBuilder {
     private int strength;

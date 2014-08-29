@@ -1,7 +1,7 @@
 package com.comandante.creeper.Items;
 
-import com.comandante.creeper.managers.EntityManager;
-import com.comandante.creeper.model.CreeperEntity;
+import com.comandante.creeper.entity.EntityManager;
+import com.comandante.creeper.entity.CreeperEntity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,13 +1,12 @@
-package com.comandante.creeper.builder;
+package com.comandante.creeper.room;
 
-import com.comandante.creeper.Items.SpawnRule;
-import com.comandante.creeper.Items.ItemSpawner;
 import com.comandante.creeper.Items.ItemType;
-import com.comandante.creeper.managers.EntityManager;
+import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.model.BasicRoom;
-import com.comandante.creeper.model.NpcSpawner;
 import com.comandante.creeper.npc.Derper;
+import com.comandante.creeper.spawner.ItemSpawner;
+import com.comandante.creeper.spawner.NpcSpawner;
+import com.comandante.creeper.spawner.SpawnRule;
 import com.google.common.base.Optional;
 
 /**

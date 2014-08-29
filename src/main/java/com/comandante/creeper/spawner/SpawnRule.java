@@ -1,4 +1,4 @@
-package com.comandante.creeper.Items;
+package com.comandante.creeper.spawner;
 
 import com.google.common.base.Optional;
 

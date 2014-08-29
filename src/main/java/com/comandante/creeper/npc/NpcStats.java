@@ -1,4 +1,6 @@
-package com.comandante.creeper.model;
+package com.comandante.creeper.npc;
+
+import com.comandante.creeper.stat.StatsBuilder;
 
 public class NpcStats {
     public final static StatsBuilder JOE_NPC = new StatsBuilder()

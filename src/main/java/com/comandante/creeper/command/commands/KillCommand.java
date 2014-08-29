@@ -1,9 +1,9 @@
 package com.comandante.creeper.command.commands;
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.model.FightManager;
-import com.comandante.creeper.model.Player;
-import com.comandante.creeper.model.Room;
+import com.comandante.creeper.managers.FightManager;
+import com.comandante.creeper.player.Player;
+import com.comandante.creeper.room.Room;
 import com.comandante.creeper.npc.Npc;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;

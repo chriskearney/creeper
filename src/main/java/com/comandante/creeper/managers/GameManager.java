@@ -3,11 +3,13 @@ package com.comandante.creeper.managers;
 
 import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.Items.ItemDecayManager;
-import com.comandante.creeper.model.FightManager;
-import com.comandante.creeper.model.Movement;
-import com.comandante.creeper.model.Player;
-import com.comandante.creeper.model.Room;
+import com.comandante.creeper.entity.EntityManager;
+import com.comandante.creeper.player.PlayerMovement;
+import com.comandante.creeper.player.Player;
+import com.comandante.creeper.player.PlayerManager;
+import com.comandante.creeper.room.Room;
 import com.comandante.creeper.npc.Npc;
+import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
@@ -20,9 +22,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import static com.comandante.creeper.model.Color.BRIGHT_GREEN;
-import static com.comandante.creeper.model.Color.GREEN;
-import static com.comandante.creeper.model.Color.RESET;
+import static com.comandante.creeper.server.Color.BRIGHT_GREEN;
+import static com.comandante.creeper.server.Color.GREEN;
+import static com.comandante.creeper.server.Color.RESET;
 
 public class GameManager {
 
@@ -128,21 +130,21 @@ public class GameManager {
         playerCurrentRoom.get().addAfkPlayer(playerByUsername.getPlayerId());
     }
 
-    public void movePlayer(Movement movement) {
+    public void movePlayer(PlayerMovement playerMovement) {
         synchronized (Interners.newStrongInterner()) {
-            Room sourceRoom = roomManager.getRoom(movement.getSourceRoomId());
-            Room destinationRoom = roomManager.getRoom(movement.getDestinationRoomId());
-            sourceRoom.removePresentPlayer(movement.getPlayer().getPlayerId());
+            Room sourceRoom = roomManager.getRoom(playerMovement.getSourceRoomId());
+            Room destinationRoom = roomManager.getRoom(playerMovement.getDestinationRoomId());
+            sourceRoom.removePresentPlayer(playerMovement.getPlayer().getPlayerId());
             for (Player next : playerManager.getPresentPlayers(sourceRoom)) {
                 StringBuilder sb = new StringBuilder();
-                sb.append(movement.getPlayer().getPlayerName());
-                sb.append(" ").append(movement.getRoomExitMessage());
+                sb.append(playerMovement.getPlayer().getPlayerName());
+                sb.append(" ").append(playerMovement.getRoomExitMessage());
                 channelUtils.writeNoPrompt(next.getPlayerId(), sb.toString());
             }
             for (Player next : playerManager.getPresentPlayers(destinationRoom)) {
-                channelUtils.writeNoPrompt(next.getPlayerId(), movement.getPlayer().getPlayerName() + " arrived.");
+                channelUtils.writeNoPrompt(next.getPlayerId(), playerMovement.getPlayer().getPlayerName() + " arrived.");
             }
-            destinationRoom.addPresentPlayer(movement.getPlayer().getPlayerId());
+            destinationRoom.addPresentPlayer(playerMovement.getPlayer().getPlayerId());
         }
     }
 
