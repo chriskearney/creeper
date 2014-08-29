@@ -44,7 +44,7 @@ public class FightManager {
         }
 
         if (npcStats.getHealth() <= 0) {
-            channelUtils.write(player.getPlayerId(), "You killed " + npc.getName());
+            channelUtils.writeNoPrompt(player.getPlayerId(), "You killed " + npc.getName());
             channelUtils.writeToRoom(player.getPlayerId(), npc.getDieMessage());
             entityManager.deleteNpcEntity(npc.getEntityId());
             return;
@@ -72,6 +72,11 @@ public class FightManager {
         } else {
             channelUtils.writeNoPrompt(player.getPlayerId(), "You miss " + npc.getName());
         }
+        try {
+            Thread.sleep(1100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (victim.getHealth() <= 0) {
             return;
         }
@@ -82,6 +87,11 @@ public class FightManager {
             channelUtils.writeNoPrompt(player.getPlayerId(), npc.getName() + " damages you for " + damageBack);
         } else {
             channelUtils.writeNoPrompt(player.getPlayerId(), npc.getName() + " misses you");
+        }
+        try {
+            Thread.sleep(1100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

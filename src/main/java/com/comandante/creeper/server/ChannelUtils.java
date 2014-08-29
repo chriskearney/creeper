@@ -32,13 +32,13 @@ public class ChannelUtils {
         Set<String> presentPlayerIds = playerCurrentRoom.getPresentPlayerIds();
         for (String id : presentPlayerIds) {
             Player presentPlayer = playerManager.getPlayer(id);
-            if (presentPlayer.getPlayerId().equals(playerId)) {
-                write(playerId, message);
-            } else {
+       //     if (presentPlayer.getPlayerId().equals(playerId)) {
+        //        write(playerId, message);
+         //   } else {
                 writeNoPrompt(presentPlayer.getPlayerId(), message);
             }
         }
-    }
+
 
     public void write(String playerId, String message) {
         write(playerId, message, true);
