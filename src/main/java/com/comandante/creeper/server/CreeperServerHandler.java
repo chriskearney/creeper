@@ -61,6 +61,7 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
                 gameManager.currentRoomLogic(creeperSession, e);
             }
         } else {
+            gameManager.getPlayerManager().getSessionManager().putSession(creeperSession);
             defaultCommandHandler.handle(e, creeperSession);
         }
     }

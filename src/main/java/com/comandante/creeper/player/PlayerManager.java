@@ -1,6 +1,8 @@
 package com.comandante.creeper.player;
 
 
+import com.comandante.creeper.fight.FightManager;
+import com.comandante.creeper.managers.SessionManager;
 import com.comandante.creeper.room.Room;
 import com.comandante.creeper.stat.Stats;
 import com.google.common.collect.ImmutableSet;
@@ -19,14 +21,20 @@ public class PlayerManager {
     private ConcurrentHashMap<String, Player> players = new ConcurrentHashMap<String, Player>();
     private HTreeMap<String, PlayerMetadata> playerMetadataStore;
     private final DB db;
+    private final SessionManager sessionManager;
 
-    public PlayerManager(DB db) {
+    public SessionManager getSessionManager() {
+        return sessionManager;
+    }
+
+    public PlayerManager(DB db, SessionManager sessionManager) {
         this.db = db;
         if (db.exists("playerMetadata")) {
             this.playerMetadataStore = db.get("playerMetadata");
         } else {
             this.playerMetadataStore = db.createHashMap("playerMetadata").valueSerializer(new PlayerMetadataSerializer()).make();
         }
+        this.sessionManager = sessionManager;
     }
 
     public Set<Player> getPresentPlayers(Room room) {
@@ -46,25 +54,6 @@ public class PlayerManager {
             cnt++;
         }
         return cnt;
-    }
-
-    public String getPrompt(String playerId, Integer roomId) {
-
-        Player player = getPlayer(playerId);
-        PlayerMetadata playerMetadata = getPlayerMetadata(playerId);
-        int currentHealth = playerMetadata.getStats().getCurrentHealth();
-        int maxHealth = playerMetadata.getStats().getMaxHealth();
-        StringBuilder sb = new StringBuilder()
-                .append("[")
-                .append(player.getPlayerName())
-                .append(" health: ")
-                .append(currentHealth).append("/").append(maxHealth)
-                .append(" roomId:")
-                .append(roomId)
-                .append((" users:"))
-                .append(getNumberOfLoggedInUsers())
-                .append("] ");
-        return sb.toString();
     }
 
     public void addInventoryId(String playerId, String inventoryId) {
@@ -129,6 +118,29 @@ public class PlayerManager {
             stats.setCurrentHealth(stats.getCurrentHealth() + amount);
             savePlayerMetadata(playerMetadata);
         }
+    }
+
+
+    public String getPrompt(String playerId, Integer roomId) {
+        boolean isFight = FightManager.isActiveFight(sessionManager.getSession(playerId));
+        Player player = getPlayer(playerId);
+        PlayerMetadata playerMetadata = getPlayerMetadata(playerId);
+        int currentHealth = playerMetadata.getStats().getCurrentHealth();
+        int maxHealth = playerMetadata.getStats().getMaxHealth();
+        StringBuilder sb = new StringBuilder()
+                .append("[")
+                .append(player.getPlayerName())
+                .append(" health: ")
+                .append(currentHealth).append("/").append(maxHealth)
+                .append(" roomId:")
+                .append(roomId)
+                .append((" users:"))
+                .append(getNumberOfLoggedInUsers());
+        if (isFight) {
+            sb.append(" in battle! ");
+        }
+        sb.append("] ");
+        return sb.toString();
     }
 
 }

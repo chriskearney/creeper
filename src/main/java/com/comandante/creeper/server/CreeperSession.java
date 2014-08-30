@@ -1,12 +1,17 @@
 package com.comandante.creeper.server;
 
+import com.comandante.creeper.fight.FightResults;
 import com.google.common.base.Optional;
+
+import java.util.concurrent.Future;
 
 public class CreeperSession {
 
     private Optional<String> username = Optional.absent();
     private Optional<String> password = Optional.absent();
     private boolean isAuthed = false;
+    private Optional<Future<FightResults>> activeFight = Optional.absent();
+
     State state;
 
     public enum State {
@@ -16,6 +21,14 @@ public class CreeperSession {
         newUserPromptedForPassword,
         newUserRegCompleted,
         authed
+    }
+
+    public Optional<Future<FightResults>> getActiveFight() {
+        return activeFight;
+    }
+
+    public void setActiveFight(Optional<Future<FightResults>> activeFight) {
+        this.activeFight = activeFight;
     }
 
     public Optional<String> getUsername() {

@@ -1,10 +1,12 @@
 package com.comandante.creeper.command.commands;
 
+import com.comandante.creeper.fight.FightManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.room.Room;
 import com.comandante.creeper.server.ChannelUtils;
+import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
@@ -12,6 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MovementCommand extends Command {
+
+    private final CreeperSession session;
 
     private final static String helpDescription = "Movement command.";
     public final static List<String> northTriggers = Arrays.asList("n", "north".toLowerCase());
@@ -32,8 +36,9 @@ public class MovementCommand extends Command {
                     .build();
     private final static boolean isCaseSensitiveTriggers = false;
 
-    public MovementCommand(String playerId, GameManager gameManager, String originalMessage) {
+    public MovementCommand(String playerId, GameManager gameManager, String originalMessage, CreeperSession session) {
         super(playerId, gameManager, helpDescription, validTriggers, isCaseSensitiveTriggers, originalMessage);
+        this.session = session;
     }
 
     @Override
@@ -44,6 +49,10 @@ public class MovementCommand extends Command {
         ChannelUtils channelUtils = gameManager.getChannelUtils();
         if (!roomOptional.isPresent()) {
             throw new RuntimeException("Player is not in a room, movement failed!");
+        }
+        if (FightManager.isActiveFight(session)) {
+            channelUtils.write(getPlayerId(), "You can't not move while in a fight!");
+            return;
         }
         Room currentRoom = roomOptional.get();
         final String command = getOriginalMessageParts().get(0);

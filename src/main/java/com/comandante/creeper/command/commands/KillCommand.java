@@ -1,16 +1,20 @@
 package com.comandante.creeper.command.commands;
 
+import com.comandante.creeper.fight.FightManager;
+import com.comandante.creeper.fight.FightResults;
 import com.comandante.creeper.fight.FightRun;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.fight.FightManager;
+import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.room.Room;
-import com.comandante.creeper.npc.Npc;
+import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Joiner;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.concurrent.Future;
 
 public class KillCommand extends Command {
 
@@ -21,10 +25,12 @@ public class KillCommand extends Command {
     ).build();
     private final static boolean isCaseSensitiveTriggers = false;
     private final FightManager fightManager;
+    private final CreeperSession creeperSession;
 
-    public KillCommand(String playerId, GameManager gameManager, String originalMessage, FightManager fightManager) {
+    public KillCommand(String playerId, GameManager gameManager, String originalMessage, FightManager fightManager, CreeperSession creeperSession) {
         super(playerId, gameManager, helpDescription, validTriggers, isCaseSensitiveTriggers, originalMessage);
         this.fightManager = fightManager;
+        this.creeperSession = creeperSession;
     }
 
     @Override
@@ -44,7 +50,8 @@ public class KillCommand extends Command {
             Npc npcEntity = getGameManager().getEntityManager().getNpcEntity(npcId);
             if (npcEntity.getName().equals(target)) {
                 FightRun fightRun = new FightRun(player, npcEntity, getGameManager());
-                fightManager.fight(fightRun);
+                Future<FightResults> fight = fightManager.fight(fightRun);
+                creeperSession.setActiveFight(Optional.of(fight));
                 return;
             }
         }

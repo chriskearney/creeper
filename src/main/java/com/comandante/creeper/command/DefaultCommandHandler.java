@@ -38,7 +38,7 @@ public class DefaultCommandHandler {
             GossipCommand gossipCommand = new GossipCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(gossipCommand);
         } else if (MovementCommand.validTriggers.contains(rootCommand)) {
-            MovementCommand movementCommand = new MovementCommand(playerId, gameManager, originalMessage);
+            MovementCommand movementCommand = new MovementCommand(playerId, gameManager, originalMessage, creeperSession);
             commandService.processCommand(movementCommand);
         } else if (SayCommand.validTriggers.contains(rootCommand)) {
             SayCommand sayCommand = new SayCommand(playerId, gameManager, originalMessage);
@@ -68,7 +68,7 @@ public class DefaultCommandHandler {
             LookCommand lookCommand = new LookCommand(playerId, gameManager, originalMessage);
             commandService.processCommand(lookCommand);
         } else if (KillCommand.validTriggers.contains(rootCommand)) {
-            KillCommand killCommand = new KillCommand(playerId, gameManager, originalMessage, gameManager.getFightManager());
+            KillCommand killCommand = new KillCommand(playerId, gameManager, originalMessage, gameManager.getFightManager(), creeperSession);
             commandService.processCommand(killCommand);
         } else {
             UnknownCommand unknownCommand = new UnknownCommand(playerId, gameManager, originalMessage);

@@ -1,5 +1,6 @@
 package com.comandante.creeper;
 
+import com.comandante.creeper.managers.SessionManager;
 import com.comandante.creeper.room.RoomBuilders;
 import com.comandante.creeper.command.CommandService;
 import com.comandante.creeper.command.DefaultCommandHandler;
@@ -28,7 +29,7 @@ public class Main {
                 .make();
 
         RoomManager roomManager = new RoomManager();
-        PlayerManager playerManager = new PlayerManager(db);
+        PlayerManager playerManager = new PlayerManager(db, new SessionManager());
 
         EntityManager entityManager = new EntityManager(roomManager, playerManager, db);
 

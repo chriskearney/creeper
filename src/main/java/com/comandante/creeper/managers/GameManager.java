@@ -5,11 +5,11 @@ import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.Items.ItemDecayManager;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.fight.FightManager;
-import com.comandante.creeper.player.PlayerMovement;
+import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
+import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.room.Room;
-import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.server.CreeperSession;
@@ -23,9 +23,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import static com.comandante.creeper.server.Color.BRIGHT_GREEN;
-import static com.comandante.creeper.server.Color.GREEN;
-import static com.comandante.creeper.server.Color.RESET;
+import static com.comandante.creeper.server.Color.*;
 
 public class GameManager {
 
@@ -53,7 +51,7 @@ public class GameManager {
         this.entityManager.addEntity(itemDecayManager);
         this.newUserRegistrationManager = new NewUserRegistrationManager(playerManager);
         this.channelUtils = new ChannelUtils(getPlayerManager(), getRoomManager());
-        this.fightManager = new FightManager(channelUtils, entityManager, roomManager, playerManager);
+        this.fightManager = new FightManager(channelUtils, entityManager, playerManager);
     }
 
     public FightManager getFightManager() {

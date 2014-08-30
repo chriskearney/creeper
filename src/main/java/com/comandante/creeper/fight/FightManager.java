@@ -4,8 +4,8 @@ import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
-import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.server.ChannelUtils;
+import com.comandante.creeper.server.CreeperSession;
 import com.comandante.creeper.stat.Stats;
 
 import java.util.Random;
@@ -16,17 +16,15 @@ import java.util.concurrent.Future;
 public class FightManager {
 
     private final PlayerManager playerManager;
-    private final RoomManager roomManager;
     private final EntityManager entityManager;
     private final ChannelUtils channelUtils;
     private static final Random random = new Random();
 
     private final ExecutorService fightService;
 
-    public FightManager(ChannelUtils channelUtils, EntityManager entityManager, RoomManager roomManager, PlayerManager playerManager) {
+    public FightManager(ChannelUtils channelUtils, EntityManager entityManager, PlayerManager playerManager) {
         this.channelUtils = channelUtils;
         this.entityManager = entityManager;
-        this.roomManager = roomManager;
         this.playerManager = playerManager;
         this.fightService = Executors.newFixedThreadPool(10);
     }
@@ -104,6 +102,11 @@ public class FightManager {
 
     private static int randInt(int min, int max) {
         return random.nextInt((max - min) + 1) + min;
+    }
+
+    public static boolean isActiveFight(CreeperSession session) {
+        if (session == null) return false;
+        return (session.getActiveFight().isPresent() && !session.getActiveFight().get().isDone());
     }
 
 }
