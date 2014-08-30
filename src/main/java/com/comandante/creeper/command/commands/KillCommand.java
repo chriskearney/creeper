@@ -1,7 +1,8 @@
 package com.comandante.creeper.command.commands;
 
+import com.comandante.creeper.fight.FightRun;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.managers.FightManager;
+import com.comandante.creeper.fight.FightManager;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.room.Room;
 import com.comandante.creeper.npc.Npc;
@@ -42,7 +43,8 @@ public class KillCommand extends Command {
         for (String npcId: npcIds) {
             Npc npcEntity = getGameManager().getEntityManager().getNpcEntity(npcId);
             if (npcEntity.getName().equals(target)) {
-                fightManager.fight(player, npcEntity);
+                FightRun fightRun = new FightRun(player, npcEntity, getGameManager());
+                fightManager.fight(fightRun);
                 return;
             }
         }

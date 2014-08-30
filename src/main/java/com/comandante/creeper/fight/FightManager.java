@@ -1,15 +1,17 @@
-package com.comandante.creeper.managers;
+package com.comandante.creeper.fight;
 
 import com.comandante.creeper.entity.EntityManager;
-import com.comandante.creeper.stat.Stats;
-import com.comandante.creeper.player.PlayerManager;
-import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
-import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.player.PlayerManager;
+import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.server.ChannelUtils;
+import com.comandante.creeper.stat.Stats;
 
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class FightManager {
 
@@ -19,39 +21,19 @@ public class FightManager {
     private final ChannelUtils channelUtils;
     private static final Random random = new Random();
 
+    private final ExecutorService fightService;
+
     public FightManager(ChannelUtils channelUtils, EntityManager entityManager, RoomManager roomManager, PlayerManager playerManager) {
         this.channelUtils = channelUtils;
         this.entityManager = entityManager;
         this.roomManager = roomManager;
         this.playerManager = playerManager;
+        this.fightService = Executors.newFixedThreadPool(10);
     }
 
-    public void fight(Player player, Npc npc) {
-        PlayerMetadata playerMetadata = playerManager.getPlayerMetadata(player.getPlayerId());
-        Stats npcStats = npc.getStats();
-        Stats playerStats = playerMetadata.getStats();
 
-        while (npcStats.getCurrentHealth() > 0) {
-            if (playerStats.getCurrentHealth() <= 0) {
-                break;
-            }
-            fightTurn(playerStats, npcStats, 3, player, npc);
-        }
-
-        playerManager.savePlayerMetadata(playerMetadata);
-
-        if (playerStats.getCurrentHealth() <= 0) {
-            channelUtils.write(player.getPlayerId(), "You died.");
-            channelUtils.writeToRoom(player.getPlayerId(), player.getPlayerName() + " is now dead.");
-            return;
-        }
-
-        if (npcStats.getCurrentHealth() <= 0) {
-            channelUtils.writeNoPrompt(player.getPlayerId(), "You killed " + npc.getName());
-            channelUtils.writeToRoom(player.getPlayerId(), npc.getDieMessage());
-            entityManager.deleteNpcEntity(npc.getEntityId());
-            return;
-        }
+    public Future<FightResults> fight(FightRun fightRun) {
+        return fightService.submit(fightRun);
     }
 
     public void fightTurn(Stats challenger, Stats victim, int numRoundsPerTurns, Player player, Npc npc) {

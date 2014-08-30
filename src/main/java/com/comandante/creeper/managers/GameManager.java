@@ -4,6 +4,7 @@ package com.comandante.creeper.managers;
 import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.Items.ItemDecayManager;
 import com.comandante.creeper.entity.EntityManager;
+import com.comandante.creeper.fight.FightManager;
 import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
