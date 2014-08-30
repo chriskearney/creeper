@@ -36,18 +36,21 @@ public class FightRun implements Callable<FightResults> {
 
         gameManager.getPlayerManager().savePlayerMetadata(playerMetadata);
 
+        FightResults fightResults = new FightResultsBuilder().setNpcWon(false).setPlayerWon(false).createFightResults();;
+
         if (playerStats.getCurrentHealth() <= 0) {
             gameManager.getChannelUtils().write(player.getPlayerId(), "You died.");
             gameManager.getChannelUtils().writeToRoom(player.getPlayerId(), player.getPlayerName() + " is now dead.");
-            return new FightResultsBuilder().setNpcWon(true).setPlayerWon(false).createFightResults();
+            fightResults = new FightResultsBuilder().setNpcWon(true).setPlayerWon(false).createFightResults();
         }
 
         if (npcStats.getCurrentHealth() <= 0) {
             gameManager.getChannelUtils().writeNoPrompt(player.getPlayerId(), "You killed " + npc.getName());
             gameManager.getChannelUtils().writeToRoom(player.getPlayerId(), npc.getDieMessage());
             gameManager.getEntityManager().deleteNpcEntity(npc.getEntityId());
-            return new FightResultsBuilder().setNpcWon(false).setPlayerWon(true).createFightResults();
+            fightResults = new FightResultsBuilder().setNpcWon(false).setPlayerWon(true).createFightResults();
         }
-        return new FightResultsBuilder().setNpcWon(false).setPlayerWon(false).createFightResults();
+        gameManager.getChannelUtils().writeOnlyPrompt(player.getPlayerId());
+        return fightResults;
     }
 }

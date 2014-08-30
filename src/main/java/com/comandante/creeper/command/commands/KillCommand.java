@@ -35,8 +35,11 @@ public class KillCommand extends Command {
 
     @Override
     public void run() {
-
         Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId());
+        if (FightManager.isActiveFight(creeperSession)) {
+            commandWrite("You are already in a fight!");
+            return;
+        }
         ArrayList<String> originalMessageParts = getOriginalMessageParts();
         if (originalMessageParts.size() == 1) {
             commandWrite("You need to specify who you want to kill.");
