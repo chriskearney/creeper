@@ -1,6 +1,6 @@
-package com.comandante.creeper.command;
+package com.comandante.creeper.server;
 
-import com.comandante.creeper.command.commands.Command;
+import com.comandante.creeper.server.command.Command;
 
 import java.util.HashMap;
 import java.util.List;

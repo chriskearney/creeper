@@ -11,12 +11,12 @@ import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 
 import static com.comandante.creeper.server.Color.RESET;
 
-public class AuthHandler extends SimpleChannelUpstreamHandler {
+public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
 
     private final GameManager gameManager;
     private final CreeperAuthenticator creeperAuthenticator;
 
-    public AuthHandler(GameManager gameManager) {
+    public CreeperAuthenticationHandler(GameManager gameManager) {
         this.gameManager = gameManager;
         this.creeperAuthenticator = new GameAuth(gameManager);
     }
@@ -61,7 +61,7 @@ public class AuthHandler extends SimpleChannelUpstreamHandler {
             }
         } else {
             gameManager.getPlayerManager().getSessionManager().putSession(creeperSession);
-            e.getChannel().getPipeline().addLast("server_handler", new MudCommandHandler(gameManager));
+            e.getChannel().getPipeline().addLast("server_handler", new CreeperCommandHandler(gameManager));
             e.getChannel().getPipeline().remove(this);
             e.getChannel().setAttachment(creeperSession);
         }

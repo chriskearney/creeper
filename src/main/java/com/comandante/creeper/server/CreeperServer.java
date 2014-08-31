@@ -21,7 +21,7 @@ public class CreeperServer {
 
     public void run(GameManager gameManager) throws Exception {
         ServerBootstrap bootstrap = new ServerBootstrap(new NioServerSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
-        AuthHandler handler = new AuthHandler(gameManager);
+        CreeperAuthenticationHandler handler = new CreeperAuthenticationHandler(gameManager);
         bootstrap.setPipelineFactory(new CreeperServerPipelineFactory(handler));
         bootstrap.bind(new InetSocketAddress(port));
     }

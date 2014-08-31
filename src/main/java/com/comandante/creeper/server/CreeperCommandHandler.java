@@ -1,18 +1,18 @@
 package com.comandante.creeper.server;
 
 import com.comandante.creeper.Main;
-import com.comandante.creeper.command.commands.Command;
 import com.comandante.creeper.managers.GameManager;
+import com.comandante.creeper.server.command.Command;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 
-public class MudCommandHandler extends SimpleChannelUpstreamHandler {
+public class CreeperCommandHandler extends SimpleChannelUpstreamHandler {
 
     private final GameManager gameManager;
 
-    public MudCommandHandler(GameManager gameManager) {
+    public CreeperCommandHandler(GameManager gameManager) {
         this.gameManager = gameManager;
     }
 
