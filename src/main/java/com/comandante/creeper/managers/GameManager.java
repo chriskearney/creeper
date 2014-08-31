@@ -253,4 +253,16 @@ public class GameManager {
         entityManager.addItem(itemEntity);
     }
 
+    public void roomSay(Integer roomId, String message, String sourcePlayerId) {
+        Set<String> presentPlayerIds = roomManager.getRoom(roomId).getPresentPlayerIds();
+        for (String playerId : presentPlayerIds) {
+            Player player = playerManager.getPlayer(playerId);
+            if (player.getPlayerId().equals(sourcePlayerId)) {
+                channelUtils.write(playerId, message);
+                continue;
+            }
+            channelUtils.writeNoPrompt(player.getPlayerId(), message);
+        }
+    }
+
 }

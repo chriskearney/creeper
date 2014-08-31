@@ -1,79 +1,62 @@
 package com.comandante.creeper.command.commands;
 
+import com.comandante.creeper.Main;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.player.Player;
-import com.google.common.collect.ImmutableList;
+import com.comandante.creeper.server.CreeperSession;
+import org.jboss.netty.channel.Channel;
+import org.jboss.netty.channel.ChannelHandlerContext;
+import org.jboss.netty.channel.MessageEvent;
+import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Set;
+import java.util.List;
 
-public abstract class Command implements Runnable {
+public abstract class Command extends SimpleChannelUpstreamHandler {
 
-    private final String playerId;
     private final GameManager gameManager;
-    private final String helpDescription;
-    private final ImmutableList validTriggers;
-    private final boolean isCaseSensitiveTriggers;
-    private final ArrayList<String> originalMessageParts;
-    private final String originalMessage;
+    private final List<String> validTriggers;
+    private final String description;
 
-    public Command(String playerId, GameManager gameManager, String helpDescription, ImmutableList validTriggers, boolean isCaseSensitiveTriggers, String originalMessage) {
-        this.playerId = playerId;
+    protected Command(GameManager gameManager, List<String> validTriggers, String description) {
         this.gameManager = gameManager;
-        this.helpDescription = helpDescription;
         this.validTriggers = validTriggers;
-        this.isCaseSensitiveTriggers = isCaseSensitiveTriggers;
-        this.originalMessageParts = getMessageParts(originalMessage);
-        this.originalMessage = originalMessage;
+        this.description = description;
     }
 
-    public ArrayList<String> getOriginalMessageParts() {
-        return originalMessageParts;
+    @Override
+    public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        e.getChannel().getPipeline().remove(ctx.getHandler());
+        super.messageReceived(ctx, e);
     }
 
-    public String getPlayerId() {
-        return playerId;
+    public CreeperSession getCreeperSession(Channel channel) {
+        return (CreeperSession) channel.getAttachment();
     }
 
     public GameManager getGameManager() {
         return gameManager;
     }
 
-    public String getHelpDescription() {
-        return helpDescription;
-    }
-
-    public ImmutableList getValidTriggers() {
+    public List<String> getValidTriggers() {
         return validTriggers;
     }
 
-    public boolean isCaseSensitiveTriggers() {
-        return isCaseSensitiveTriggers;
+    public String getDescription() {
+        return description;
     }
 
-    public String getOriginalMessage() {
-        return originalMessage;
+    public String getPlayerId(CreeperSession creeperSession) {
+        return Main.createPlayerId(creeperSession.getUsername().get());
     }
 
-    private ArrayList<String> getMessageParts(String s) {
-        String[] split = s.split(" ");
-        return new ArrayList<String>(Arrays.asList(split));
+    public String getRootCommand(MessageEvent e){
+        String origMessage = (String) e.getMessage();
+        return origMessage.split(" ")[0].toLowerCase();
     }
 
-    public void commandWrite(String message) {
-        getGameManager().getChannelUtils().write(getPlayerId(), message);
-    }
-
-    public void roomSay(Integer roomId, String message) {
-        Set<String> presentPlayerIds = getGameManager().getRoomManager().getRoom(roomId).getPresentPlayerIds();
-        for (String playerId : presentPlayerIds) {
-            Player player = getGameManager().getPlayerManager().getPlayer(playerId);
-            if (player.getPlayerId().equals(getPlayerId())) {
-                commandWrite(message);
-                return;
-            }
-            getGameManager().getChannelUtils().writeNoPrompt(player.getPlayerId(), message);
-        }
+    public List<String> getOriginalMessageParts(MessageEvent e) {
+        String origMessage = (String) e.getMessage();
+        return new ArrayList<>(Arrays.asList(origMessage.split(" ")));
     }
 }

@@ -1,6 +1,5 @@
 package com.comandante.creeper.server;
 
-import com.comandante.creeper.command.DefaultCommandHandler;
 import com.comandante.creeper.managers.GameManager;
 import com.google.common.base.Optional;
 import org.jboss.netty.channel.ChannelEvent;
@@ -12,20 +11,20 @@ import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 
 import static com.comandante.creeper.server.Color.RESET;
 
-public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
+public class AuthHandler extends SimpleChannelUpstreamHandler {
 
-    private final CreeperAuthenticator creeperAuthenticator;
     private final GameManager gameManager;
-    private final DefaultCommandHandler defaultCommandHandler;
+    private final CreeperAuthenticator creeperAuthenticator;
 
-    public CreeperServerHandler(CreeperAuthenticator creeperAuthenticator, GameManager gameManager, DefaultCommandHandler defaultCommandHandler) {
-        this.creeperAuthenticator = creeperAuthenticator;
+    public AuthHandler(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.defaultCommandHandler = defaultCommandHandler;
+        this.creeperAuthenticator = new GameAuth(gameManager);
     }
+
 
     @Override
     public void handleUpstream(ChannelHandlerContext ctx, ChannelEvent e) throws Exception {
+        System.out.println();
         if (e instanceof ChannelStateEvent) {
             System.err.println(e);
         }
@@ -47,7 +46,7 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
     }
 
     @Override
-    public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws InterruptedException {
+    public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         CreeperSession creeperSession = (CreeperSession) ctx.getAttachment();
         if (!creeperSession.isAuthed()) {
             if (creeperSession.state.equals(CreeperSession.State.newUserPromptedForUsername) || creeperSession.state.equals(CreeperSession.State.newUserPromptedForPassword)) {
@@ -62,9 +61,18 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
             }
         } else {
             gameManager.getPlayerManager().getSessionManager().putSession(creeperSession);
-            defaultCommandHandler.handle(e, creeperSession);
+            e.getChannel().getPipeline().addLast("server_handler", new MudCommandHandler(gameManager));
+            e.getChannel().getPipeline().remove(this);
+            e.getChannel().setAttachment(creeperSession);
         }
+        super.messageReceived(ctx, e);
     }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) throws Exception {
+        super.exceptionCaught(ctx, e);
+    }
+
 
     private void doAuthentication(ChannelHandlerContext ctx, MessageEvent e) {
         String message = (String) e.getMessage();
@@ -92,15 +100,6 @@ public class CreeperServerHandler extends SimpleChannelUpstreamHandler {
             creeperSession.setState(CreeperSession.State.authed);
             e.getChannel().write("Welcome to creeper.\r\n");
         }
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
-        e.getCause().printStackTrace();
-        e.getChannel().close();
-        CreeperSession creeperSession = (CreeperSession) ctx.getAttachment();
-        gameManager.setPlayerAfk(creeperSession.getUsername().get());
-        gameManager.getPlayerManager().removePlayer(creeperSession.getUsername().get());
     }
 
 }

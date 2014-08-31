@@ -1,18 +1,30 @@
 package com.comandante.creeper;
 
-import com.comandante.creeper.managers.SessionManager;
-import com.comandante.creeper.room.RoomBuilders;
-import com.comandante.creeper.command.CommandService;
-import com.comandante.creeper.command.DefaultCommandHandler;
+import com.comandante.creeper.command.CreeperCommandRegistry;
+import com.comandante.creeper.command.commands.DropCommand;
+import com.comandante.creeper.command.commands.GossipCommand;
+import com.comandante.creeper.command.commands.InventoryCommand;
+import com.comandante.creeper.command.commands.KillCommand;
+import com.comandante.creeper.command.commands.LookCommand;
+import com.comandante.creeper.command.commands.MovementCommand;
+import com.comandante.creeper.command.commands.PickUpCommand;
+import com.comandante.creeper.command.commands.SayCommand;
+import com.comandante.creeper.command.commands.TellCommand;
+import com.comandante.creeper.command.commands.UnknownCommand;
+import com.comandante.creeper.command.commands.UseCommand;
+import com.comandante.creeper.command.commands.WhoCommand;
+import com.comandante.creeper.command.commands.WhoamiCommand;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.managers.GameManager;
+import com.comandante.creeper.managers.SessionManager;
+import com.comandante.creeper.npc.Derper;
 import com.comandante.creeper.player.PlayerManager;
-import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.room.RoomBuilders;
+import com.comandante.creeper.room.RoomManager;
+import com.comandante.creeper.server.CreeperServer;
 import com.comandante.creeper.stat.Stats;
 import com.comandante.creeper.stat.StatsBuilder;
-import com.comandante.creeper.npc.Derper;
-import com.comandante.creeper.server.CreeperServer;
 import org.apache.commons.codec.binary.Base64;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
@@ -20,6 +32,8 @@ import org.mapdb.DBMaker;
 import java.io.File;
 
 public class Main {
+
+    public static CreeperCommandRegistry creeperCommandRegistry;
 
     public static void main(String[] args) throws Exception {
 
@@ -60,11 +74,22 @@ public class Main {
 
         entityManager.addEntity(new Derper(gameManager, 1));
 
-        CommandService commandService = new CommandService();
-        DefaultCommandHandler defaultCommandHandler = new DefaultCommandHandler(gameManager, commandService);
+        creeperCommandRegistry = new CreeperCommandRegistry(new UnknownCommand(gameManager));
+        creeperCommandRegistry.addCommand(new DropCommand(gameManager));
+        creeperCommandRegistry.addCommand(new GossipCommand(gameManager));
+        creeperCommandRegistry.addCommand(new InventoryCommand(gameManager));
+        creeperCommandRegistry.addCommand(new KillCommand(gameManager));
+        creeperCommandRegistry.addCommand(new LookCommand(gameManager));
+        creeperCommandRegistry.addCommand(new MovementCommand(gameManager));
+        creeperCommandRegistry.addCommand(new PickUpCommand(gameManager));
+        creeperCommandRegistry.addCommand(new SayCommand(gameManager));
+        creeperCommandRegistry.addCommand(new TellCommand(gameManager));
+        creeperCommandRegistry.addCommand(new UseCommand(gameManager));
+        creeperCommandRegistry.addCommand(new WhoamiCommand(gameManager));
+        creeperCommandRegistry.addCommand(new WhoCommand(gameManager));
 
         CreeperServer creeperServer = new CreeperServer(8080, db);
-        creeperServer.run(gameManager, defaultCommandHandler);
+        creeperServer.run(gameManager);
 
         System.out.println("Creeper started.");
     }

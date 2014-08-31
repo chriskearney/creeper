@@ -2,8 +2,11 @@ package com.comandante.creeper.command.commands;
 
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.Player;
-import com.google.common.collect.ImmutableList;
+import org.jboss.netty.channel.ChannelHandlerContext;
+import org.jboss.netty.channel.MessageEvent;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import static com.comandante.creeper.server.Color.CYAN;
@@ -11,29 +14,31 @@ import static com.comandante.creeper.server.Color.RESET;
 
 public class WhoCommand extends Command {
 
-    private final static String helpDescription = "List who you are.";
-    public final static ImmutableList validTriggers = new ImmutableList.Builder<String>().add(
-            "who".toLowerCase()
-    ).build();
-    private final static boolean isCaseSensitiveTriggers = false;
+    final static List<String> validTriggers = Arrays.asList("who");
+    final static String description = "Drop an item";
 
-    public WhoCommand(String playerId, GameManager gameManager, String originalMessage) {
-        super(playerId, gameManager, helpDescription, validTriggers, isCaseSensitiveTriggers, originalMessage);
+    public WhoCommand(GameManager gameManager) {
+        super(gameManager, validTriggers, description);
     }
 
     @Override
-    public void run() {
-        Set<Player> allPlayers = getGameManager().getAllPlayers();
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(CYAN);
-        stringBuilder.append("----------------------\r\n");
-        stringBuilder.append("|--active users------|\r\n");
-        stringBuilder.append("----------------------\r\n");
-        for (Player allPlayer : allPlayers) {
-            stringBuilder.append(allPlayer.getPlayerName());
-            stringBuilder.append("\r\n");
+    public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        try {
+            Set<Player> allPlayers = getGameManager().getAllPlayers();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(CYAN);
+            stringBuilder.append("----------------------\r\n");
+            stringBuilder.append("|--active users------|\r\n");
+            stringBuilder.append("----------------------\r\n");
+            for (Player allPlayer : allPlayers) {
+                stringBuilder.append(allPlayer.getPlayerName());
+                stringBuilder.append(" - ").append(allPlayer.getChannel().getRemoteAddress().toString());
+                stringBuilder.append("\r\n");
+            }
+            stringBuilder.append(RESET);
+            getGameManager().getChannelUtils().write(getPlayerId(getCreeperSession(e.getChannel())), stringBuilder.toString());
+        } finally {
+            super.messageReceived(ctx, e);
         }
-        stringBuilder.append(RESET);
-        commandWrite(stringBuilder.toString());
     }
 }

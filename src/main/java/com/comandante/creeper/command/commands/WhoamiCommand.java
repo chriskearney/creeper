@@ -2,23 +2,27 @@ package com.comandante.creeper.command.commands;
 
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.Player;
-import com.google.common.collect.ImmutableList;
+import org.jboss.netty.channel.ChannelHandlerContext;
+import org.jboss.netty.channel.MessageEvent;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class WhoamiCommand extends Command {
+    final static List<String> validTriggers = Arrays.asList("whoami");
+    final static String description = "Who am I?";
 
-    private final static String helpDescription = "List players currently logged in to server.";
-    public final static ImmutableList validTriggers = new ImmutableList.Builder<String>().add(
-            "whoami".toLowerCase()
-    ).build();
-    private final static boolean isCaseSensitiveTriggers = false;
-
-    public WhoamiCommand(String playerId, GameManager gameManager, String originalMessage) {
-        super(playerId, gameManager, helpDescription, validTriggers, isCaseSensitiveTriggers, originalMessage);
+    public WhoamiCommand(GameManager gameManager) {
+        super(gameManager, validTriggers, description);
     }
 
     @Override
-    public void run() {
-        Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId());
-        commandWrite(player.getPlayerName());
+    public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        try {
+            Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId(getCreeperSession(e.getChannel())));
+            getGameManager().getChannelUtils().write(player.getPlayerId(), player.getPlayerName());
+        } finally {
+            super.messageReceived(ctx, e);
+        }
     }
 }

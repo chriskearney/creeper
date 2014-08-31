@@ -6,11 +6,11 @@ import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerMetadata;
 import org.jboss.netty.channel.Channel;
 
-public class CreeperMapDBAuthenticator implements CreeperAuthenticator {
+public class GameAuth implements CreeperAuthenticator {
 
     private final GameManager gameManager;
 
-    public CreeperMapDBAuthenticator(GameManager gameManager) {
+    public GameAuth(GameManager gameManager) {
         this.gameManager = gameManager;
     }
 

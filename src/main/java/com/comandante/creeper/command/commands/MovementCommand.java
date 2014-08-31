@@ -9,15 +9,16 @@ import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
+import org.jboss.netty.channel.ChannelHandlerContext;
+import org.jboss.netty.channel.MessageEvent;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class MovementCommand extends Command {
 
-    private final CreeperSession session;
+    final static String description = "Make a move.";
 
-    private final static String helpDescription = "Movement command.";
     public final static List<String> northTriggers = Arrays.asList("n", "north".toLowerCase());
     public final static List<String> southTriggers = Arrays.asList("s", "south".toLowerCase());
     public final static List<String> eastTriggers = Arrays.asList("e", "east".toLowerCase());
@@ -34,84 +35,87 @@ public class MovementCommand extends Command {
                     .addAll(upTriggers)
                     .addAll(downTriggers)
                     .build();
-    private final static boolean isCaseSensitiveTriggers = false;
 
-    public MovementCommand(String playerId, GameManager gameManager, String originalMessage, CreeperSession session) {
-        super(playerId, gameManager, helpDescription, validTriggers, isCaseSensitiveTriggers, originalMessage);
-        this.session = session;
+    public MovementCommand(GameManager gameManager) {
+        super(gameManager, validTriggers, description);
     }
 
     @Override
-    public void run() {
-        final GameManager gameManager = getGameManager();
-        Player player = gameManager.getPlayerManager().getPlayer(getPlayerId());
-        Optional<Room> roomOptional = gameManager.getRoomManager().getPlayerCurrentRoom(player);
-        ChannelUtils channelUtils = gameManager.getChannelUtils();
-        if (!roomOptional.isPresent()) {
-            throw new RuntimeException("Player is not in a room, movement failed!");
-        }
-        if (FightManager.isActiveFight(session)) {
-            channelUtils.write(getPlayerId(), "You can't not move while in a fight!");
-            return;
-        }
-        Room currentRoom = roomOptional.get();
-        final String command = getOriginalMessageParts().get(0);
-        PlayerMovement playerMovement = null;
-        if (!validTriggers.contains(command.toLowerCase())) {
-            throw new RuntimeException("Malformed movement command.");
-        }
-        if (northTriggers.contains(command.toLowerCase())) {
-            if (!currentRoom.getNorthId().isPresent()) {
-                commandWrite("There's no northern exit.");
+    public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        try {
+            final GameManager gameManager = getGameManager();
+            CreeperSession session = getCreeperSession(e.getChannel());
+            Player player = gameManager.getPlayerManager().getPlayer(getPlayerId(session));
+            Optional<Room> roomOptional = gameManager.getRoomManager().getPlayerCurrentRoom(player);
+            ChannelUtils channelUtils = gameManager.getChannelUtils();
+            if (!roomOptional.isPresent()) {
+                throw new RuntimeException("Player is not in a room, movement failed!");
+            }
+            if (FightManager.isActiveFight(session)) {
+                channelUtils.write(getPlayerId(session), "You can't not move while in a fight!");
                 return;
             }
-            Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getNorthId().get());
-            playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the north.", "south");
-        }
-        if (southTriggers.contains(command.toLowerCase())) {
-            if (!currentRoom.getSouthId().isPresent()) {
-                commandWrite("There's no southern exit.");
-                return;
+            Room currentRoom = roomOptional.get();
+            final String command = getRootCommand(e);
+            PlayerMovement playerMovement = null;
+            if (!validTriggers.contains(command.toLowerCase())) {
+                throw new RuntimeException("Malformed movement command.");
             }
-            Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getSouthId().get());
-            playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the south.", "north");
-        }
-        if (eastTriggers.contains(command.toLowerCase())) {
-            if (!currentRoom.getEastId().isPresent()) {
-                commandWrite("There's no eastern exit.");
-                return;
+            if (northTriggers.contains(command.toLowerCase())) {
+                if (!currentRoom.getNorthId().isPresent()) {
+                    channelUtils.write(getPlayerId(session), "There's no northern exit.");
+                    return;
+                }
+                Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getNorthId().get());
+                playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the north.", "south");
             }
-            Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getEastId().get());
-            playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the east.", "west");
-        }
-        if (westTriggers.contains(command.toLowerCase())) {
-            if (!currentRoom.getWestId().isPresent()) {
-                commandWrite("There's no western exit.");
-                return;
+            if (southTriggers.contains(command.toLowerCase())) {
+                if (!currentRoom.getSouthId().isPresent()) {
+                    channelUtils.write(getPlayerId(session), "There's no southern exit.");
+                    return;
+                }
+                Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getSouthId().get());
+                playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the south.", "north");
             }
-            Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getWestId().get());
-            playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "east");
-        }
-        if (upTriggers.contains(command.toLowerCase())) {
-            if (!currentRoom.getUpId().isPresent()) {
-                commandWrite("There's no up exit.");
-                return;
+            if (eastTriggers.contains(command.toLowerCase())) {
+                if (!currentRoom.getEastId().isPresent()) {
+                    channelUtils.write(getPlayerId(session), "There's no eastern exit.");
+                    return;
+                }
+                Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getEastId().get());
+                playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the east.", "west");
             }
-            Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getUpId().get());
-            playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "down");
-        }
-        if (downTriggers.contains(command.toLowerCase())) {
-            if (!currentRoom.getDownId().isPresent()) {
-                commandWrite("There's no down exit.");
-                return;
+            if (westTriggers.contains(command.toLowerCase())) {
+                if (!currentRoom.getWestId().isPresent()) {
+                    channelUtils.write(getPlayerId(session), "There's no western exit.");
+                    return;
+                }
+                Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getWestId().get());
+                playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "east");
             }
-            Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getDownId().get());
-            playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "up");
-        }
-        gameManager.movePlayer(playerMovement);
-        if (playerMovement != null) {
-            player.setReturnDirection(Optional.of(playerMovement.getReturnDirection()));
-            gameManager.currentRoomLogic(playerMovement.getPlayer().getPlayerId());
+            if (upTriggers.contains(command.toLowerCase())) {
+                if (!currentRoom.getUpId().isPresent()) {
+                    channelUtils.write(getPlayerId(session), "There's no up exit.");
+                    return;
+                }
+                Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getUpId().get());
+                playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "down");
+            }
+            if (downTriggers.contains(command.toLowerCase())) {
+                if (!currentRoom.getDownId().isPresent()) {
+                    channelUtils.write(getPlayerId(session), "There's no down exit.");
+                    return;
+                }
+                Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getDownId().get());
+                playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "up");
+            }
+            gameManager.movePlayer(playerMovement);
+            if (playerMovement != null) {
+                player.setReturnDirection(Optional.of(playerMovement.getReturnDirection()));
+                gameManager.currentRoomLogic(playerMovement.getPlayer().getPlayerId());
+            }
+        } finally {
+            super.messageReceived(ctx, e);
         }
     }
 }

@@ -1,21 +1,21 @@
 package com.comandante.creeper.command.commands;
 
 import com.comandante.creeper.managers.GameManager;
-import com.google.common.collect.ImmutableList;
+import org.jboss.netty.channel.ChannelHandlerContext;
+import org.jboss.netty.channel.MessageEvent;
 
 public class UnknownCommand extends Command {
-    private final static String helpDescription = "Unknown.";
-    public final static ImmutableList validTriggers = new ImmutableList.Builder<String>().add(
-            "".toLowerCase()
-    ).build();
-    private final static boolean isCaseSensitiveTriggers = false;
 
-    public UnknownCommand(String playerId, GameManager gameManager, String originalMessage) {
-        super(playerId, gameManager, helpDescription, validTriggers, isCaseSensitiveTriggers, originalMessage);
+    public UnknownCommand(GameManager gameManager) {
+        super(gameManager, null, null);
     }
 
     @Override
-    public void run() {
-        getGameManager().getChannelUtils().writeOnlyPrompt(getPlayerId());
+    public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        try {
+            getGameManager().getChannelUtils().writeOnlyPrompt(getPlayerId(getCreeperSession(e.getChannel())));
+        } finally {
+            super.messageReceived(ctx, e);
+        }
     }
 }
