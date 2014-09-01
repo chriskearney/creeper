@@ -52,7 +52,7 @@ public class FightManager {
         }
         if (damageToVictim > 0) {
             doNpcDamage(npc.getEntityId(), damageToVictim);
-            channelUtils.writeNoPrompt(player.getPlayerId(), damageToVictim + Color.BOLD_ON + Color.BRIGHT_RED + " damage" + Color.RESET + " done to " + npc.getColorName());
+            channelUtils.writeNoPrompt(player.getPlayerId(), damageToVictim + Color.BOLD_ON + Color.RED + " damage" + Color.RESET + " done to " + npc.getColorName());
         } else {
             channelUtils.writeNoPrompt(player.getPlayerId(), "You miss " + npc.getName());
         }
@@ -68,7 +68,7 @@ public class FightManager {
         int damageBack = getAttack(victim, challenger);
         if (randInt(0, 100) < chanceToHitBack) {
             doPlayerDamage(player.getPlayerId(), damageBack);
-            channelUtils.writeNoPrompt(player.getPlayerId(), npc.getColorName() + Color.BOLD_ON + Color.BRIGHT_RED + " damages" + Color.RESET + " you for " + damageBack);
+            channelUtils.writeNoPrompt(player.getPlayerId(), npc.getColorName() + Color.BOLD_ON + Color.RED + " damages" + Color.RESET + " you for " + damageBack);
         } else {
             channelUtils.writeNoPrompt(player.getPlayerId(), npc.getColorName() + " misses you");
         }

@@ -12,6 +12,7 @@ import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.room.Room;
 import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.server.ChannelUtils;
+import com.comandante.creeper.server.Color;
 import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
@@ -137,78 +138,93 @@ public class GameManager {
     }
 
     private String getExits(Room room, Player player) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("[ ");
-        stringBuilder.append(BRIGHT_GREEN);
+        int numExits = 0;
+        StringBuilder sb = new StringBuilder();
+        sb.append("[ ");
+        sb.append(BOLD_ON);
+        sb.append(Color.GREEN);
         if (!player.getReturnDirection().isPresent()) {
             player.setReturnDirection(Optional.of("-"));
         }
         if (room.getNorthId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("north")) {
-                stringBuilder.append(GREEN);
-                stringBuilder.append("North ");
-                stringBuilder.append(BRIGHT_GREEN);
+                sb.append(BOLD_OFF);
+                sb.append("North ");
+                sb.append(BOLD_ON);
             } else {
-                stringBuilder.append("North ");
+                sb.append("North ");
             }
+            numExits++;
         }
         if (room.getSouthId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("south")) {
-                stringBuilder.append(GREEN);
-                stringBuilder.append("South ");
-                stringBuilder.append(BRIGHT_GREEN);
+                sb.append(BOLD_OFF);
+                sb.append("South ");
+                sb.append(BOLD_ON);
             } else {
-                stringBuilder.append("South ");
+                sb.append("South ");
             }
+            numExits++;
         }
         if (room.getEastId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("east")) {
-                stringBuilder.append(GREEN);
-                stringBuilder.append("East ");
-                stringBuilder.append(BRIGHT_GREEN);
+                sb.append(BOLD_OFF);
+                sb.append("East ");
+                sb.append(BOLD_ON);
             } else {
-                stringBuilder.append("East ");
+                sb.append("East ");
             }
+            numExits++;
         }
         if (room.getWestId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("west")) {
-                stringBuilder.append(GREEN);
-                stringBuilder.append("West ");
-                stringBuilder.append(BRIGHT_GREEN);
+                sb.append(BOLD_OFF);
+                sb.append("West ");
+                sb.append(BOLD_ON);
             } else {
-                stringBuilder.append("West ");
+                sb.append("West ");
             }
+            numExits++;
         }
         if (room.getUpId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("up")) {
-                stringBuilder.append(GREEN);
-                stringBuilder.append("Up ");
-                stringBuilder.append(BRIGHT_GREEN);
+                sb.append(BOLD_OFF);
+                sb.append("Up ");
+                sb.append(BOLD_ON);
             } else {
-                stringBuilder.append("Up ");
+                sb.append("Up ");
             }
+            numExits++;
         }
         if (room.getDownId().isPresent()) {
             if (player.getReturnDirection().get().equalsIgnoreCase("down")) {
-                stringBuilder.append(GREEN);
-                stringBuilder.append("Down ");
-                stringBuilder.append(BRIGHT_GREEN);
+                sb.append(BOLD_OFF);
+                sb.append("Down ");
+                sb.append(BOLD_ON);
             } else {
-                stringBuilder.append("Down ");
+                sb.append("Down ");
             }
+            numExits++;
         }
-        stringBuilder.append(RESET).append("]\r\n");
-        return stringBuilder.toString();
+        String fin = null;
+        if (numExits == 1) {
+            fin = sb.toString().replace(BOLD_OFF, BOLD_ON);
+        } else {
+            fin = sb.toString();
+        }
+        fin = fin + RESET + "]\r\n";
+        return fin;
     }
 
     public void currentRoomLogic(String playerId) {
         Player player = playerManager.getPlayer(playerId);
         final Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
         StringBuilder sb = new StringBuilder();
-        sb.append(BRIGHT_GREEN);
+        sb.append(Color.BOLD_ON + Color.GREEN);
         sb.append(playerCurrentRoom.getRoomTitle()).append("\r\n\r\n");
         sb.append(RESET);
-        sb.append(WordUtils.wrap(playerCurrentRoom.getRoomDescription(), 80)).append("\r\n");
+        //java.lang.String wrap(java.lang.String str, int wrapLength, java.lang.String newLineStr, boolean wrapLongWords)
+        sb.append(WordUtils.wrap(playerCurrentRoom.getRoomDescription(), 80, "\r\n", true)).append("\r\n");
 
         sb.append(getExits(playerCurrentRoom, player));
         for (String searchPlayerId : playerCurrentRoom.getPresentPlayerIds()) {
