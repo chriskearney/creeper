@@ -36,27 +36,23 @@ public class ItemSpawner extends CreeperEntity {
     public void run() {
         incTicks();
         if (noTicks >= spawnRule.getSpawnIntervalTicks()) {
-            if (spawnRule.getRandomChance().isPresent()) {
-                processRandom();
-            } else {
-                processNormal();
-            }
+            processRandom();
             noTicks = 0;
         }
     }
 
     private void processRandom() {
-        int randomPercentage = spawnRule.getRandomChance().get();
-        int numberOfAttempts = spawnRule.getMaxPerRoom() - countNumberInRoom();
+        int randomPercentage = spawnRule.getRandomChance();
+        int numberOfAttempts = spawnRule.getMaxInstances() - countNumberInRoom();
         for (int i = 0; i < numberOfAttempts; i++) {
-            if (random.nextInt(100) < randomPercentage) {
+            if (random.nextInt(100) < randomPercentage || randomPercentage == 100) {
                 createAndAddItem();
             }
         }
     }
 
     private void processNormal() {
-        int numberToCreate = spawnRule.getMaxPerRoom() - countNumberInRoom();
+        int numberToCreate = spawnRule.getMaxInstances() - countNumberInRoom();
         for (int i = 0; i < numberToCreate; i++) {
             createAndAddItem();
         }

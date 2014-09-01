@@ -4,7 +4,13 @@ package com.comandante.creeper.spawner;
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.npc.Npc;
+import com.comandante.creeper.room.Area;
+import com.comandante.creeper.room.Room;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
@@ -15,10 +21,12 @@ public class NpcSpawner extends CreeperEntity {
     private final SpawnRule spawnRule;
     private int noTicks;
     private final Random random = new Random();
-    private Integer roomId;
+    private final Area spawnArea;
 
-    public NpcSpawner(Npc npc, GameManager gameManager, SpawnRule spawnRule) {
+
+    public NpcSpawner(Npc npc, Area area, GameManager gameManager, SpawnRule spawnRule) {
         this.npc = npc;
+        this.spawnArea = area;
         this.gameManager = gameManager;
         this.spawnRule = spawnRule;
         this.noTicks = spawnRule.getSpawnIntervalTicks();
@@ -28,54 +36,62 @@ public class NpcSpawner extends CreeperEntity {
         noTicks++;
     }
 
-    public void setRoomId(Integer roomId) {
-        this.roomId = roomId;
-    }
-
     @Override
     public void run() {
         incTicks();
         if (noTicks >= spawnRule.getSpawnIntervalTicks()) {
-            if (spawnRule.getRandomChance().isPresent()) {
-                processRandom();
-            } else {
-                processNormal();
+            int randomPercentage = spawnRule.getRandomChance();
+            int numberOfAttempts = spawnRule.getMaxInstances() - counterNumberInArea();
+            for (int i = 0; i < numberOfAttempts; i++) {
+                if (random.nextInt(100) < randomPercentage || randomPercentage == 100) {
+                    createAndAddItem();
+                }
             }
             noTicks = 0;
         }
     }
 
-    private void processRandom() {
-        int randomPercentage = spawnRule.getRandomChance().get();
-        int numberOfAttempts = spawnRule.getMaxPerRoom() - countNumberInRoom();
-        for (int i = 0; i < numberOfAttempts; i++) {
-            if (random.nextInt(100) < randomPercentage) {
-                createAndAddItem();
+    private int counterNumberInArea() {
+        int numberCurrentlyInArea = 0;
+        Set<Room> roomsByArea = gameManager.getRoomManager().getRoomsByArea(spawnArea);
+        for (Room room : roomsByArea) {
+            if (room.getAreas().contains(spawnArea)) {
+                for (String i : room.getNpcIds()) {
+                    Npc currentNpc = gameManager.getEntityManager().getNpcEntity(i);
+                    if (currentNpc.getName().equals(npc.getName())) {
+                        numberCurrentlyInArea++;
+                    }
+                }
             }
         }
-    }
-
-    private void processNormal() {
-        int numberToCreate = spawnRule.getMaxPerRoom() - countNumberInRoom();
-        for (int i = 0; i < numberToCreate; i++) {
-            createAndAddItem();
-        }
-    }
-
-    private int countNumberInRoom() {
-        int numberCurrentlyInRoom = 0;
-        Set<String> npcIds = gameManager.getRoomManager().getRoom(roomId).getNpcIds();
-        for (String i : npcIds) {
-            Npc currentNpc = gameManager.getEntityManager().getNpcEntity(i);
-            if (currentNpc.getName().equals(npc.getName())) {
-                numberCurrentlyInRoom++;
-            }
-        }
-        return numberCurrentlyInRoom;
+        return numberCurrentlyInArea;
     }
 
     private void createAndAddItem() {
-        Npc newNpc = npc.create(gameManager, roomId);
+        ArrayList<Room> rooms = Lists.newArrayList(Iterators.filter(gameManager.getRoomManager().getRoomsByArea(spawnArea).iterator(), getRoomsWithRoom()));
+        Room room = rooms.get(random.nextInt(rooms.size()));
+        Npc newNpc = npc.create(gameManager);
         gameManager.getEntityManager().addEntity(newNpc);
+        room.addPresentNpc(newNpc.getEntityId());
+    }
+
+    private Predicate<Room> getRoomsWithRoom() {
+        return new Predicate<Room>() {
+            @Override
+            public boolean apply(Room room) {
+                int count = 0;
+                Set<String> npcIds = room.getNpcIds();
+                for (String npcId : npcIds) {
+                    Npc npcEntity = gameManager.getEntityManager().getNpcEntity(npcId);
+                    if (npcEntity.getName().equals(npc.getName())) {
+                        count++;
+                    }
+                }
+                if (count < spawnRule.getMaxPerRoom()) {
+                    return true;
+                }
+                return false;
+            }
+        };
     }
 }

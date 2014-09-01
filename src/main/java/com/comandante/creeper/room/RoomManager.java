@@ -1,10 +1,13 @@
 package com.comandante.creeper.room;
 
+import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.google.common.base.Optional;
+import com.google.common.collect.Sets;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RoomManager {
@@ -35,6 +38,33 @@ public class RoomManager {
             }
         }
         return Optional.absent();
+    }
+
+    public Optional<Room> getNpcCurrentRoom(Npc npc) {
+        Iterator<Map.Entry<Integer, Room>> rooms1 = getRooms();
+        while (rooms1.hasNext()) {
+            Map.Entry<Integer, Room> next = rooms1.next();
+            Room room = next.getValue();
+            for (String npcId: room.getNpcIds()) {
+                if (npcId.equals(npc.getEntityId())) {
+                    return Optional.of(next.getValue());
+                }
+            }
+        }
+        return Optional.absent();
+    }
+
+
+    public Set<Room> getRoomsByArea(Area area) {
+        Set<Room> rooms = Sets.newHashSet();
+        Iterator<Map.Entry<Integer, Room>> rooms1 = getRooms();
+        while (rooms1.hasNext()) {
+            Map.Entry<Integer, Room> next = rooms1.next();
+            if (next.getValue().getAreas().contains(area)) {
+                rooms.add(next.getValue());
+            }
+        }
+        return rooms;
     }
 
 }

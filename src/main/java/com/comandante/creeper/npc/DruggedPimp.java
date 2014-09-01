@@ -19,13 +19,13 @@ public class DruggedPimp extends Npc {
             .append("drugged pimp")
             .append(RESET).toString();
 
-    public DruggedPimp(GameManager gameManager, Integer roomId) {
-        super(gameManager, roomId, NAME, colorName, 0, NpcStats.DRUGGED_PIMP.createStats(), "a drugged pimp is dead and broke", Optional.of(Sets.newHashSet(Area.NEWBIE_ZONE)));
+    public DruggedPimp(GameManager gameManager) {
+        super(gameManager, NAME, colorName, 0, NpcStats.DRUGGED_PIMP.createStats(), "a drugged pimp is dead and broke", Optional.of(Sets.newHashSet(Area.NEWBIE_ZONE)));
         this.random = new Random();
     }
 
     @Override
-    public DruggedPimp create(GameManager gameManager, Integer roomId) {
-        return new DruggedPimp(gameManager, roomId);
+    public DruggedPimp create(GameManager gameManager) {
+        return new DruggedPimp(gameManager);
     }
 }

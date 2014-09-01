@@ -1,6 +1,17 @@
 package com.comandante.creeper;
 
+import com.comandante.creeper.entity.EntityManager;
+import com.comandante.creeper.managers.GameManager;
+import com.comandante.creeper.managers.SessionManager;
+import com.comandante.creeper.npc.DruggedPimp;
+import com.comandante.creeper.player.PlayerManager;
+import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.room.Area;
+import com.comandante.creeper.room.Room;
+import com.comandante.creeper.room.RoomBuilders;
+import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.server.CreeperCommandRegistry;
+import com.comandante.creeper.server.CreeperServer;
 import com.comandante.creeper.server.command.DropCommand;
 import com.comandante.creeper.server.command.GossipCommand;
 import com.comandante.creeper.server.command.InventoryCommand;
@@ -14,22 +25,18 @@ import com.comandante.creeper.server.command.UnknownCommand;
 import com.comandante.creeper.server.command.UseCommand;
 import com.comandante.creeper.server.command.WhoCommand;
 import com.comandante.creeper.server.command.WhoamiCommand;
-import com.comandante.creeper.entity.EntityManager;
-import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.managers.SessionManager;
-import com.comandante.creeper.npc.Derper;
-import com.comandante.creeper.player.PlayerManager;
-import com.comandante.creeper.player.PlayerMetadata;
-import com.comandante.creeper.room.RoomBuilders;
-import com.comandante.creeper.room.RoomManager;
-import com.comandante.creeper.server.CreeperServer;
+import com.comandante.creeper.spawner.NpcSpawner;
+import com.comandante.creeper.spawner.SpawnRule;
 import com.comandante.creeper.stat.Stats;
 import com.comandante.creeper.stat.StatsBuilder;
+import com.google.common.collect.Sets;
 import org.apache.commons.codec.binary.Base64;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Main {
 
@@ -72,7 +79,12 @@ public class Main {
 
         // zones end
 
-        entityManager.addEntity(new Derper(gameManager, 1));
+        entityManager.addEntity(new NpcSpawner(new DruggedPimp(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 30, 4, 100)));
+        Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
+        while (rooms.hasNext()) {
+            Map.Entry<Integer, Room> next = rooms.next();
+            next.getValue().setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
+        }
 
         creeperCommandRegistry = new CreeperCommandRegistry(new UnknownCommand(gameManager));
         creeperCommandRegistry.addCommand(new DropCommand(gameManager));

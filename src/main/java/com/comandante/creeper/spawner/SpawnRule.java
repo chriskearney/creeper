@@ -1,34 +1,33 @@
 package com.comandante.creeper.spawner;
 
-import com.google.common.base.Optional;
-
 public class SpawnRule {
 
-    private Optional<Integer> randomChance = Optional.absent();
+    private int randomChance;
     private final int spawnIntervalTicks;
+    private final int maxInstances;
     private final int maxPerRoom;
 
-    public SpawnRule(int spawnIntervalTicks, int maxPerRoom) {
+    public SpawnRule(int spawnIntervalTicks, int maxInstances, int maxPerRoom, int randomPercent) {
         this.spawnIntervalTicks = spawnIntervalTicks;
+        this.maxInstances = maxInstances;
         this.maxPerRoom = maxPerRoom;
+        this.randomChance = randomPercent;
     }
 
-    public SpawnRule(int spawnIntervalTicks, int maxPerRoom, int randomPercent) {
-        this.spawnIntervalTicks = spawnIntervalTicks;
-        this.maxPerRoom = maxPerRoom;
-        this.randomChance = Optional.of(randomPercent);
-    }
-
-    public Optional<Integer> getRandomChance() {
+    public int getRandomChance() {
         return randomChance;
+    }
+
+    public int getMaxPerRoom() {
+        return maxPerRoom;
     }
 
     public int getSpawnIntervalTicks() {
         return spawnIntervalTicks;
     }
 
-    public int getMaxPerRoom() {
-        return maxPerRoom;
+    public int getMaxInstances() {
+        return maxInstances;
     }
 }
 

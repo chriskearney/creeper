@@ -42,13 +42,12 @@ public class EntityManager {
     public void addEntity(CreeperEntity creeperEntity) {
         if (creeperEntity instanceof Npc) {
             Npc npc = (Npc) creeperEntity;
-            roomManager.getRoom(npc.getRoomId()).addPresentNpc(npc.getEntityId());
             npcs.put(creeperEntity.getEntityId(), npc);
-        }
-        if (creeperEntity instanceof Room) {
+        } else if (creeperEntity instanceof Room) {
             roomManager.addRoom((Room) creeperEntity);
+        } else {
+            entities.put(creeperEntity.getEntityId(), creeperEntity);
         }
-        entities.put(creeperEntity.getEntityId(), creeperEntity);
     }
 
     public void addItem(Item item) {
@@ -62,7 +61,7 @@ public class EntityManager {
     }
 
     public void deleteNpcEntity(String npcId) {
-        roomManager.getRoom(npcs.get(npcId).getRoomId()).removePresentNpc(npcId);
+        roomManager.getNpcCurrentRoom(getNpcEntity(npcId)).get().removePresentNpc(npcId);
         npcs.remove(npcId);
     }
 
@@ -97,9 +96,12 @@ public class EntityManager {
                         Map.Entry<String, Player> next = players.next();
                         ticketRunnerService.submit(next.getValue());
                     }
-                    Iterator<Map.Entry<String, Npc>> entries = npcs.entrySet().iterator();
-                    while (entries.hasNext()) {
-                        Map.Entry<String, Npc> next = entries.next();
+                    for (Map.Entry<String, Npc> next : npcs.entrySet()) {
+                        ticketRunnerService.submit(next.getValue());
+                    }
+                    Iterator<Map.Entry<String, CreeperEntity>> iterator = entities.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Map.Entry<String, CreeperEntity> next = iterator.next();
                         ticketRunnerService.submit(next.getValue());
                     }
                 } catch (InterruptedException ie) {

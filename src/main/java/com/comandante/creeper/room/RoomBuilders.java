@@ -3,10 +3,7 @@ package com.comandante.creeper.room;
 import com.comandante.creeper.Items.ItemType;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.npc.Derper;
-import com.comandante.creeper.npc.DruggedPimp;
 import com.comandante.creeper.spawner.ItemSpawner;
-import com.comandante.creeper.spawner.NpcSpawner;
 import com.comandante.creeper.spawner.SpawnRule;
 import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
@@ -30,10 +27,8 @@ public class RoomBuilders {
                 Optional.<Integer>absent(),
                 "You are standing before the Federation Training Encampment. A huge wall surrounds the base. To the north you see a two doors leading inside. Above the doors you sits the symbol of the Federation, a single red star with five points and a raised fist in the center. Sentries along the encampment walls begin to eye you suspiciously. You then remember that malingering in front of a Federation base could prove to be a fatal mistake.\r\n");
 
-        basicRoom.addItemSpawner(new ItemSpawner(ItemType.BEER, new SpawnRule(20, 3), gameManager));
-        basicRoom.addItemSpawner(new ItemSpawner(ItemType.KEY, new SpawnRule(30, 1, 10), gameManager));
-        basicRoom.addNpcSpawner(new NpcSpawner(new Derper(gameManager, basicRoom.getRoomId()), gameManager, new SpawnRule(100, 2)));
-        basicRoom.addNpcSpawner(new NpcSpawner(new DruggedPimp(gameManager, basicRoom.getRoomId()), gameManager, new SpawnRule(100, 2)));
+        basicRoom.addItemSpawner(new ItemSpawner(ItemType.BEER, new SpawnRule(20, 3, 3, 100), gameManager));
+        basicRoom.addItemSpawner(new ItemSpawner(ItemType.KEY, new SpawnRule(30, 1, 10, 100), gameManager));
         basicRoom.setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
 
 

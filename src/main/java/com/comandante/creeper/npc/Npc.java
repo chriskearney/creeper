@@ -23,7 +23,6 @@ public abstract class Npc extends CreeperEntity {
 
     private long lastPhraseTimestamp;
     private final GameManager gameManager;
-    private Integer roomId;
     private final String name;
     private final String colorName;
     private final Stats stats;
@@ -32,7 +31,7 @@ public abstract class Npc extends CreeperEntity {
     private AtomicBoolean isInFight = new AtomicBoolean(false);
     Random random = new Random();
 
-    public abstract Npc create(GameManager gameManager, Integer roomId);
+    public abstract Npc create(GameManager gameManager);
 
     @Override
     public void run() {
@@ -49,9 +48,8 @@ public abstract class Npc extends CreeperEntity {
         return colorName;
     }
 
-    protected Npc(GameManager gameManager, Integer roomId, String name, String colorName, long lastPhraseTimestamp, Stats stats, String dieMessage, Optional<HashSet<Area>> roamAreas) {
+    protected Npc(GameManager gameManager, String name, String colorName, long lastPhraseTimestamp, Stats stats, String dieMessage, Optional<HashSet<Area>> roamAreas) {
         this.gameManager = gameManager;
-        this.roomId = roomId;
         this.name = name;
         this.colorName = colorName;
         this.lastPhraseTimestamp = lastPhraseTimestamp;
@@ -80,10 +78,6 @@ public abstract class Npc extends CreeperEntity {
         return gameManager;
     }
 
-    public Integer getRoomId() {
-        return roomId;
-    }
-
     public long getLastPhraseTimestamp() {
         return lastPhraseTimestamp;
     }
@@ -94,10 +88,6 @@ public abstract class Npc extends CreeperEntity {
 
     public String getDieMessage() {
         return dieMessage;
-    }
-
-    public void setRoomId(Integer roomId) {
-        this.roomId = roomId;
     }
 
     public void npcSay(Integer roomId, String message) {

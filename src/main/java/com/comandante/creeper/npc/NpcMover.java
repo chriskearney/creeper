@@ -19,8 +19,7 @@ public class NpcMover {
 
     public void roam(final GameManager gameManager, String npcId) {
         final Npc npcEntity = gameManager.getEntityManager().getNpcEntity(npcId);
-        Integer roomId = npcEntity.getRoomId();
-        Room npcCurrentRoom = gameManager.getRoomManager().getRoom(roomId);
+        Room npcCurrentRoom = gameManager.getRoomManager().getNpcCurrentRoom(npcEntity).get();
         Set<Integer> possibleExits = getPossibleExits(npcCurrentRoom);
         Predicate<Integer> isRoamable = new Predicate<Integer>() {
             @Override
@@ -35,13 +34,11 @@ public class NpcMover {
             }
         };
         List<Integer> canRoam = Lists.newArrayList(Iterables.filter(possibleExits, isRoamable));
-        int i = random.nextInt(canRoam.size());
-        Integer destinationRoomId = canRoam.get(i);
+        Integer destinationRoomId = canRoam.get(random.nextInt(canRoam.size()));
         String exitMessage = getExitMessage(npcCurrentRoom, destinationRoomId);
         npcCurrentRoom.getNpcIds().remove(npcId);
         gameManager.roomSay(npcCurrentRoom.getRoomId(), npcEntity.getName() + " " + exitMessage, "");
         gameManager.getRoomManager().getRoom(destinationRoomId).getNpcIds().add(npcId);
-        npcEntity.setRoomId(destinationRoomId);
         gameManager.roomSay(destinationRoomId, npcEntity.getName() + " has arrived.", "");
     }
 

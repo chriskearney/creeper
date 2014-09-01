@@ -24,15 +24,15 @@ public class Derper extends Npc {
             .append(RESET).toString();
 
 
-    public Derper(GameManager gameManager, Integer roomId) {
-        super(gameManager, roomId, NAME, colorName, 0, NpcStats.DERPER.createStats(), "derper's face is melted", Optional.of(Sets.newHashSet(Area.NEWBIE_ZONE)));
+    public Derper(GameManager gameManager) {
+        super(gameManager, NAME, colorName, 0, NpcStats.DERPER.createStats(), "derper's face is melted", Optional.of(Sets.newHashSet(Area.NEWBIE_ZONE)));
         this.random = new Random();
     }
 
 
     @Override
-    public Derper create(GameManager gameManager, Integer roomId) {
-        return new Derper(gameManager, roomId);
+    public Derper create(GameManager gameManager) {
+        return new Derper(gameManager);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class Derper extends Npc {
         super.run();
         if (System.currentTimeMillis() - getLastPhraseTimestamp() > phraseIntervalMs) {
             int size = PHRASES.size();
-            npcSay(getRoomId(), PHRASES.get(random.nextInt(size)));
+            //npcSay(getRoomId(), PHRASES.get(random.nextInt(size)));
             setLastPhraseTimestamp(System.currentTimeMillis());
         }
     }

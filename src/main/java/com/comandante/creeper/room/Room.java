@@ -2,7 +2,6 @@ package com.comandante.creeper.room;
 
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.spawner.ItemSpawner;
-import com.comandante.creeper.spawner.NpcSpawner;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -27,7 +26,6 @@ public abstract class Room extends CreeperEntity {
     private final Set<String> npcIds = Sets.newConcurrentHashSet();
     private final Set<String> itemIds = Sets.newConcurrentHashSet();
     private List<ItemSpawner> itemSpawners = Lists.newArrayList();
-    private List<NpcSpawner> npcSpawners = Lists.newArrayList();
     private Set<Area> areas = Sets.newHashSet(Area.DEFAULT);
 
     public Room(Integer roomId,
@@ -148,21 +146,11 @@ public abstract class Room extends CreeperEntity {
         itemSpawners.add(itemSpawner);
     }
 
-    public void addNpcSpawner(NpcSpawner npcSpawner) {
-        npcSpawner.setRoomId(roomId);
-        npcSpawners.add(npcSpawner);
-    }
-
     @Override
     public void run() {
         Iterator<ItemSpawner> iterator = itemSpawners.iterator();
         while (iterator.hasNext()) {
             ItemSpawner next = iterator.next();
-            next.run();
-        }
-        Iterator<NpcSpawner> npcSpawnerIterator = npcSpawners.iterator();
-        while (npcSpawnerIterator.hasNext()) {
-            NpcSpawner next = npcSpawnerIterator.next();
             next.run();
         }
     }
