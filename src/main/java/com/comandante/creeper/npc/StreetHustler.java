@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.comandante.creeper.server.Color.BRIGHT_RED;
-import static com.comandante.creeper.server.Color.GREEN;
 import static com.comandante.creeper.server.Color.RESET;
 
 public class StreetHustler extends Npc {
@@ -21,7 +20,8 @@ public class StreetHustler extends Npc {
             {"s", "street", "hustler", NAME}
     ));
 
-    private final static String colorName = GREEN + "s" + Color.YELLOW + "t" + Color.BLUE + "r" + Color.MAGENTA + "e" + Color.BRIGHT_WHITE + "e" + Color.RED + "t" + Color.BRIGHT_GREEN + " hustler" + RESET;
+    private final static String colorName = Color.BOLD_ON + Color.BRIGHT_MAGENTA + Color.BOLD_OFF + "s" + Color.YELLOW + "t" + Color.BLUE + "r" + Color.MAGENTA + "e" + Color.BRIGHT_WHITE + "e" + Color.RED + "t" + Color.BRIGHT_GREEN + " " +
+            Color.BRIGHT_YELLOW + "hustler" + RESET;
     private final static String dieMessage = "a " + colorName + " breathes his last breath in a pool of " + BRIGHT_RED + "blood" + RESET;
 
     public StreetHustler(GameManager gameManager) {

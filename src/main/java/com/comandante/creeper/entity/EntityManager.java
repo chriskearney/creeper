@@ -85,7 +85,6 @@ public class EntityManager {
         public void run() {
             while (true) {
                 try {
-                    Thread.sleep(10000);
                     Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
                     while (rooms.hasNext()) {
                         Map.Entry<Integer, Room> next = rooms.next();
@@ -104,6 +103,7 @@ public class EntityManager {
                         Map.Entry<String, CreeperEntity> next = iterator.next();
                         ticketRunnerService.submit(next.getValue());
                     }
+                    Thread.sleep(10000);
                 } catch (InterruptedException ie) {
                     throw new RuntimeException("Problem with ticker.");
                 }

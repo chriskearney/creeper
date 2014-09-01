@@ -343,5 +343,4 @@ public class RoomBuilders {
                 "You arrive to the end of Terminal 4.\r\n"));
 
     }
-
 }

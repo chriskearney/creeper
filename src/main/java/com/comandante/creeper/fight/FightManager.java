@@ -5,6 +5,7 @@ import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.server.ChannelUtils;
+import com.comandante.creeper.server.Color;
 import com.comandante.creeper.server.CreeperSession;
 import com.comandante.creeper.stat.Stats;
 
@@ -51,7 +52,7 @@ public class FightManager {
         }
         if (damageToVictim > 0) {
             doNpcDamage(npc.getEntityId(), damageToVictim);
-            channelUtils.writeNoPrompt(player.getPlayerId(), damageToVictim + " damage done to " + npc.getName());
+            channelUtils.writeNoPrompt(player.getPlayerId(), damageToVictim + Color.BOLD_ON + Color.BRIGHT_RED + " damage" + Color.RESET + " done to " + npc.getColorName());
         } else {
             channelUtils.writeNoPrompt(player.getPlayerId(), "You miss " + npc.getName());
         }
@@ -67,9 +68,9 @@ public class FightManager {
         int damageBack = getAttack(victim, challenger);
         if (randInt(0, 100) < chanceToHitBack) {
             doPlayerDamage(player.getPlayerId(), damageBack);
-            channelUtils.writeNoPrompt(player.getPlayerId(), npc.getName() + " damages you for " + damageBack);
+            channelUtils.writeNoPrompt(player.getPlayerId(), npc.getColorName() + Color.BOLD_ON + Color.BRIGHT_RED + " damages" + Color.RESET + " you for " + damageBack);
         } else {
-            channelUtils.writeNoPrompt(player.getPlayerId(), npc.getName() + " misses you");
+            channelUtils.writeNoPrompt(player.getPlayerId(), npc.getColorName() + " misses you");
         }
         try {
             Thread.sleep(600);
