@@ -126,4 +126,21 @@ public class Stats implements Serializable {
         this.weaponRatingMin = weaponRatingMin;
         this.numberweaponOfRolls = numberweaponOfRolls;
     }
+
+    @Override
+    public String toString() {
+        return "Stats{" +
+                "strength=" + strength +
+                ", willpower=" + willpower +
+                ", aim=" + aim +
+                ", agile=" + agile +
+                ", armorRating=" + armorRating +
+                ", meleSkill=" + meleSkill +
+                ", currentHealth=" + currentHealth +
+                ", maxHealth=" + maxHealth +
+                ", weaponRatingMax=" + weaponRatingMax +
+                ", weaponRatingMin=" + weaponRatingMin +
+                ", numberweaponOfRolls=" + numberweaponOfRolls +
+                '}';
+    }
 }

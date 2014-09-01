@@ -32,8 +32,8 @@ public class RoomBuilders {
 
         basicRoom.addItemSpawner(new ItemSpawner(ItemType.BEER, new SpawnRule(20, 3), gameManager));
         basicRoom.addItemSpawner(new ItemSpawner(ItemType.KEY, new SpawnRule(30, 1, 10), gameManager));
-        basicRoom.addNpcSpawner(new NpcSpawner(new Derper(gameManager, basicRoom.getRoomId()), gameManager, new SpawnRule(10, 5)));
-        basicRoom.addNpcSpawner(new NpcSpawner(new DruggedPimp(gameManager, basicRoom.getRoomId()), gameManager, new SpawnRule(10, 5)));
+        basicRoom.addNpcSpawner(new NpcSpawner(new Derper(gameManager, basicRoom.getRoomId()), gameManager, new SpawnRule(100, 2)));
+        basicRoom.addNpcSpawner(new NpcSpawner(new DruggedPimp(gameManager, basicRoom.getRoomId()), gameManager, new SpawnRule(100, 2)));
         basicRoom.setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
 
 
