@@ -18,7 +18,11 @@ public class ChannelUtils {
     }
 
     public void writeNoPrompt(String playerId, String message) {
-        write(playerId, message, false);
+        write(playerId, message, false, true);
+    }
+
+    public void writeNoPromptNoAfterSpace(String playerId, String message) {
+        write(playerId, message, false, false);
     }
 
     public void writeOnlyPrompt(String playerId) {
@@ -41,16 +45,18 @@ public class ChannelUtils {
 
 
     public void write(String playerId, String message) {
-        write(playerId, message, true);
+        write(playerId, message, true, true);
     }
 
-    public void write(String playerId, String message, boolean isPrompt) {
+    public void write(String playerId, String message, boolean isPrompt, boolean isAfterSpace) {
         Player player = playerManager.getPlayer(playerId);
         Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
         StringBuilder sb = new StringBuilder();
         sb.append("\r\n");
         sb.append(sanitze(message));
-        sb.append(("\r\n"));
+        if (isAfterSpace) {
+            sb.append(("\r\n"));
+        }
         if (isPrompt) {
             sb.append(playerManager.getPrompt(playerId, playerCurrentRoom.getRoomId()));
         }
