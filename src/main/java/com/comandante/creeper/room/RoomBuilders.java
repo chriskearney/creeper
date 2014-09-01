@@ -9,6 +9,7 @@ import com.comandante.creeper.spawner.ItemSpawner;
 import com.comandante.creeper.spawner.NpcSpawner;
 import com.comandante.creeper.spawner.SpawnRule;
 import com.google.common.base.Optional;
+import com.google.common.collect.Sets;
 
 /**
  * Created by Brian Kearney on 8/24/2014.
@@ -33,10 +34,12 @@ public class RoomBuilders {
         basicRoom.addItemSpawner(new ItemSpawner(ItemType.KEY, new SpawnRule(30, 1, 10), gameManager));
         basicRoom.addNpcSpawner(new NpcSpawner(new Derper(gameManager, basicRoom.getRoomId()), gameManager, new SpawnRule(10, 5)));
         basicRoom.addNpcSpawner(new NpcSpawner(new DruggedPimp(gameManager, basicRoom.getRoomId()), gameManager, new SpawnRule(10, 5)));
+        basicRoom.setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
 
 
         entityManager.addEntity(basicRoom);
-        entityManager.addEntity(new BasicRoom(
+
+        BasicRoom room1 = new BasicRoom(
                 2,
                 "Quarter Deck",
                 Optional.of(3),
@@ -45,9 +48,10 @@ public class RoomBuilders {
                 Optional.of(5),
                 Optional.of(6),
                 Optional.<Integer>absent(),
-                "You are standing on the quarter deck of the Training Encampment. Federation flags line the walls of this large room. A statue of the Grand Marshal of the Federation sit in the back. A Private on watch is behind a desk in the center of the room. To the west you hear the sounds of gun fire. To the east a sentry stands by a door waiting to scan the credentials of anyone looking for access to the armory. A staircase leads up stairs. You get the feeling only high ranking officers are allowed on the second floor. To the north is a door leading to the training fields.\r\n"));
-
-        entityManager.addEntity(new BasicRoom(
+                "You are standing on the quarter deck of the Training Encampment. Federation flags line the walls of this large room. A statue of the Grand Marshal of the Federation sit in the back. A Private on watch is behind a desk in the center of the room. To the west you hear the sounds of gun fire. To the east a sentry stands by a door waiting to scan the credentials of anyone looking for access to the armory. A staircase leads up stairs. You get the feeling only high ranking officers are allowed on the second floor. To the north is a door leading to the training fields.\r\n");
+        room1.setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
+        entityManager.addEntity(room1);
+        BasicRoom room2 = new BasicRoom(
                 3,
                 "Training Field",
                 Optional.of(8),
@@ -56,9 +60,14 @@ public class RoomBuilders {
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
-                "You are standing on the center of a massive training field. You see a large field with a track surrounding it. A main pathway connects from back gate to the north to the main Federation building. Soldiers of all ranks are going about their business here.\r\n"));
+                "You are standing on the center of a massive training field. You see a large field with a track" +
+                        " surrounding it. A main pathway connects from back gate to the north to the main Federation" +
+                        " building. Soldiers of all ranks are going about their business here.\r\n");
+        room2.setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
 
-        entityManager.addEntity(new BasicRoom(
+        entityManager.addEntity(room2);
+
+        BasicRoom room3 = new BasicRoom(
                 4,
                 "Armory",
                 Optional.<Integer>absent(),
@@ -67,7 +76,13 @@ public class RoomBuilders {
                 Optional.of(2),
                 Optional.<Integer>absent(),
                 Optional.<Integer>absent(),
-                "You are standing in the Federation Training Encampment armory. A counter extends from wall to wall separating you from the stock. A Lieutenant is standing behind the counter filling out paper work. You can see shelves extending to the back of the room fully stocked with Federation issued weapons. The door closes and locks behind you.\r\n"));
+                "You are standing in the Federation Training Encampment armory. A counter extends from wall to wall" +
+                        " separating you from the stock. A Lieutenant is standing behind the counter filling out paper" +
+                        " work. You can see shelves extending to the back of the room fully stocked with Federation" +
+                        " issued weapons. The door closes and locks behind you.\r\n");
+        room3.setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
+
+        entityManager.addEntity(room3);
 
         entityManager.addEntity(new BasicRoom(
                 5,

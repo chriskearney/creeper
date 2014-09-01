@@ -1,6 +1,9 @@
 package com.comandante.creeper.npc;
 
 import com.comandante.creeper.managers.GameManager;
+import com.comandante.creeper.room.Area;
+import com.google.common.base.Optional;
+import com.google.common.collect.Sets;
 
 import java.util.Random;
 
@@ -17,7 +20,7 @@ public class DruggedPimp extends Npc {
             .append(RESET).toString();
 
     public DruggedPimp(GameManager gameManager, Integer roomId) {
-        super(gameManager, roomId, NAME, colorName, 0, NpcStats.DRUGGED_PIMP.createStats(), "a drugged pimp is dead and broke");
+        super(gameManager, roomId, NAME, colorName, 0, NpcStats.DRUGGED_PIMP.createStats(), "a drugged pimp is dead and broke", Optional.of(Sets.newHashSet(Area.NEWBIE_ZONE)));
         this.random = new Random();
     }
 

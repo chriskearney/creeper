@@ -13,7 +13,7 @@ public class NpcSpawner extends CreeperEntity {
     private final Npc npc;
     private final GameManager gameManager;
     private final SpawnRule spawnRule;
-    private int noTicks = 0;
+    private int noTicks;
     private final Random random = new Random();
     private Integer roomId;
 
@@ -21,6 +21,7 @@ public class NpcSpawner extends CreeperEntity {
         this.npc = npc;
         this.gameManager = gameManager;
         this.spawnRule = spawnRule;
+        this.noTicks = spawnRule.getSpawnIntervalTicks();
     }
 
     public void incTicks() {

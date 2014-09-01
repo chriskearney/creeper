@@ -97,6 +97,11 @@ public class EntityManager {
                         Map.Entry<String, Player> next = players.next();
                         ticketRunnerService.submit(next.getValue());
                     }
+                    Iterator<Map.Entry<String, Npc>> entries = npcs.entrySet().iterator();
+                    while (entries.hasNext()) {
+                        Map.Entry<String, Npc> next = entries.next();
+                        ticketRunnerService.submit(next.getValue());
+                    }
                 } catch (InterruptedException ie) {
                     throw new RuntimeException("Problem with ticker.");
                 }

@@ -48,6 +48,7 @@ public class KillCommand extends Command {
             for (String npcId : npcIds) {
                 Npc npcEntity = getGameManager().getEntityManager().getNpcEntity(npcId);
                 if (npcEntity.getName().equals(target)) {
+                    npcEntity.setIsInFight(true);
                     FightRun fightRun = new FightRun(player, npcEntity, getGameManager());
                     Future<FightResults> fight = getGameManager().getFightManager().fight(fightRun);
                     creeperSession.setActiveFight(Optional.of(fight));

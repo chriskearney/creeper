@@ -2,6 +2,9 @@ package com.comandante.creeper.npc;
 
 
 import com.comandante.creeper.managers.GameManager;
+import com.comandante.creeper.room.Area;
+import com.google.common.base.Optional;
+import com.google.common.collect.Sets;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +25,7 @@ public class Derper extends Npc {
 
 
     public Derper(GameManager gameManager, Integer roomId) {
-        super(gameManager, roomId, NAME, colorName, 0, NpcStats.DERPER.createStats(), "derper's face is melted");
+        super(gameManager, roomId, NAME, colorName, 0, NpcStats.DERPER.createStats(), "derper's face is melted", Optional.of(Sets.newHashSet(Area.NEWBIE_ZONE)));
         this.random = new Random();
     }
 

@@ -36,11 +36,13 @@ public class FightRun implements Callable<FightResults> {
 
         gameManager.getPlayerManager().savePlayerMetadata(playerMetadata);
 
-        FightResults fightResults = new FightResultsBuilder().setNpcWon(false).setPlayerWon(false).createFightResults();;
+        FightResults fightResults = new FightResultsBuilder().setNpcWon(false).setPlayerWon(false).createFightResults();
+
 
         if (playerStats.getCurrentHealth() <= 0) {
             gameManager.getChannelUtils().write(player.getPlayerId(), "You died.");
             gameManager.getChannelUtils().writeToRoom(player.getPlayerId(), player.getPlayerName() + " is now dead.");
+            npc.setIsInFight(false);
             fightResults = new FightResultsBuilder().setNpcWon(true).setPlayerWon(false).createFightResults();
         }
 
