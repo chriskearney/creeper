@@ -4,6 +4,7 @@ import com.comandante.creeper.fight.FightResults;
 import com.google.common.base.Optional;
 
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CreeperSession {
 
@@ -11,6 +12,7 @@ public class CreeperSession {
     private Optional<String> password = Optional.absent();
     private boolean isAuthed = false;
     private Optional<Future<FightResults>> activeFight = Optional.absent();
+    private AtomicBoolean isAbleToDoAbility = new AtomicBoolean(false);
 
     State state;
 
@@ -61,5 +63,13 @@ public class CreeperSession {
 
     public State getState() {
         return state;
+    }
+
+    public void setIsAbleToDoAbility(boolean b) {
+        this.isAbleToDoAbility.set(b);
+    }
+
+    public boolean IsAbleToDoAbility() {
+        return this.isAbleToDoAbility.get();
     }
 }

@@ -32,6 +32,14 @@ public class FightRun implements Callable<FightResults> {
                 break;
             }
             gameManager.getFightManager().fightTurn(playerStats, npcStats, 3, player, npc);
+            gameManager.getChannelUtils().write(player.getPlayerId(), "Use an ability!");
+            gameManager.getPlayerManager().getSessionManager().getSession(player.getPlayerId()).setIsAbleToDoAbility(true);
+            try {
+                Thread.sleep(2200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            gameManager.getPlayerManager().getSessionManager().getSession(player.getPlayerId()).setIsAbleToDoAbility(false);
         }
 
         gameManager.getPlayerManager().savePlayerMetadata(playerMetadata);

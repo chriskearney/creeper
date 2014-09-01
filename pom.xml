@@ -43,6 +43,11 @@
       <artifactId>gson</artifactId>
       <version>2.2.4</version>
     </dependency>
+    <dependency>
+      <groupId>org.ow2.sirocco</groupId>
+      <artifactId>sirocco-text-table-formatter</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
 
   <build>
