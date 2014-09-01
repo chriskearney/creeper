@@ -3,7 +3,7 @@ package com.comandante.creeper;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.managers.SessionManager;
-import com.comandante.creeper.npc.DruggedPimp;
+import com.comandante.creeper.npc.StreetHustler;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.room.Area;
@@ -79,7 +79,7 @@ public class Main {
 
         // zones end
 
-        entityManager.addEntity(new NpcSpawner(new DruggedPimp(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 30, 4, 100)));
+        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 30, 4, 100)));
         Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
         while (rooms.hasNext()) {
             Map.Entry<Integer, Room> next = rooms.next();

@@ -47,7 +47,7 @@ public class KillCommand extends Command {
             Set<String> npcIds = playerCurrentRoom.getNpcIds();
             for (String npcId : npcIds) {
                 Npc npcEntity = getGameManager().getEntityManager().getNpcEntity(npcId);
-                if (npcEntity.getName().equals(target)) {
+                if (npcEntity.getValidTriggers().contains(target)) {
                     npcEntity.setIsInFight(true);
                     FightRun fightRun = new FightRun(player, npcEntity, getGameManager());
                     Future<FightResults> fight = getGameManager().getFightManager().fight(fightRun);

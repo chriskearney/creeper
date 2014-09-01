@@ -9,6 +9,7 @@ import com.google.common.base.Optional;
 
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.comandante.creeper.server.Color.RED;
@@ -28,6 +29,8 @@ public abstract class Npc extends CreeperEntity {
     private final Stats stats;
     private final String dieMessage;
     private final Optional<HashSet<Area>> roamAreas;
+    private final Set<String> validTriggers;
+
     private AtomicBoolean isInFight = new AtomicBoolean(false);
     Random random = new Random();
 
@@ -48,7 +51,7 @@ public abstract class Npc extends CreeperEntity {
         return colorName;
     }
 
-    protected Npc(GameManager gameManager, String name, String colorName, long lastPhraseTimestamp, Stats stats, String dieMessage, Optional<HashSet<Area>> roamAreas) {
+    protected Npc(GameManager gameManager, String name, String colorName, long lastPhraseTimestamp, Stats stats, String dieMessage, Optional<HashSet<Area>> roamAreas, Set<String> validTriggers) {
         this.gameManager = gameManager;
         this.name = name;
         this.colorName = colorName;
@@ -56,6 +59,11 @@ public abstract class Npc extends CreeperEntity {
         this.stats = stats;
         this.dieMessage = dieMessage;
         this.roamAreas = roamAreas;
+        this.validTriggers = validTriggers;
+    }
+
+    public Set<String> getValidTriggers() {
+        return validTriggers;
     }
 
     public Optional<HashSet<Area>> getRoamAreas() {
