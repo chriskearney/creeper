@@ -66,16 +66,8 @@ public class MapMaker {
             sb.append("\r\n");
         }
         context.stop();
-        //System.out.println("avg map generation time: " + java.util.concurrent.TimeUnit.NANOSECONDS.toMillis(Math.round(timer.getMeanRate())));
+        //System.out.println("avg map generation time: " + Math.round(timer.getMeanRate()) + "ns");
         return sb.toString();
-    }
-
-    public List<Map<String, Integer>> processMapCoordinates(Map<String, Integer> map) {
-        Iterator<Map.Entry<String, Integer>> mapIterator = map.entrySet().iterator();
-        return FluentIterable.
-                from(ImmutableList.copyOf(mapIterator)).
-                transform(getRoomProcessorFunction()).
-                filter(getNonEmpty()).toList();
     }
 
     public Function<Optional<Room>, String> getRendering(final Integer currentroomId) {
@@ -95,6 +87,14 @@ public class MapMaker {
         };
     }
 
+    public List<Map<String, Integer>> processMapCoordinates(Map<String, Integer> map) {
+        Iterator<Map.Entry<String, Integer>> mapIterator = map.entrySet().iterator();
+        return FluentIterable.
+                from(ImmutableList.copyOf(mapIterator)).
+                transform(getRoomProcessorFunction()).
+                filter(getNonEmpty()).toList();
+    }
+
     public Function<Map.Entry<String, Integer>, Map<String, Integer>> getRoomProcessorFunction() {
         return new Function<Map.Entry<String, Integer>, Map<String, Integer>>() {
             @Override
@@ -102,19 +102,10 @@ public class MapMaker {
                 Integer roomId = stringIntegerEntry.getValue();
                 String coords = stringIntegerEntry.getKey();
                 String[] split = coords.split("\\|");
-                int row;
-                int columnNumber;
-                try {
-                    row = Integer.parseInt(split[0]);
-                    columnNumber = Integer.parseInt(split[1]);
-                } catch (Exception e) {
-                    return Maps.newHashMap();
-                }
-                if (columnNumber < 0 || columnNumber > 7) {
-                    return Maps.newHashMap();
-                }
-                if (row < 0 || row > 7) {
-                    return Maps.newHashMap();
+                int row = Integer.parseInt(split[0]);
+                int columnNumber = Integer.parseInt(split[1]);
+                if (columnNumber < 0 || columnNumber > 7 || row < 0 || row > 7) {
+                    return null;
                 } else {
                     setCoordinateRoom(coords, getRoom(stringIntegerEntry.getValue()));
                     return getRoomIds(roomId, coords);
@@ -127,7 +118,7 @@ public class MapMaker {
         return new Predicate<Map<String, Integer>>() {
             @Override
             public boolean apply(Map<String, Integer> stringIntegerMap) {
-                if (stringIntegerMap.size() > 0) {
+                if (stringIntegerMap != null) {
                     return true;
                 }
                 return false;
@@ -138,26 +129,22 @@ public class MapMaker {
     public Map<String, Integer> getRoomIds(Integer roomId, String identifier) {
         Room room = getRoom(roomId);
         String[] split = identifier.split("\\|");
-        int row;
-        int columnNumber;
-
-        row = Integer.parseInt(split[0]);
-        columnNumber = Integer.parseInt(split[1]);
-
+        int row = Integer.parseInt(split[0]);
+        int columnNumber = Integer.parseInt(split[1]);
         Map<String, Integer> roomIds = Maps.newHashMap();
-        if (room.getNorthId().isPresent()) {
+        if (room.getNorthId().isPresent() && !room.getNorthId().get().equals(roomId)) {
             int b = row - 1;
             roomIds.put(b + "|" + columnNumber, room.getNorthId().get());
         }
-        if (room.getSouthId().isPresent()) {
+        if (room.getSouthId().isPresent() && !room.getSouthId().get().equals(roomId)) {
             int b = row + 1;
             roomIds.put(b + "|" + columnNumber, room.getSouthId().get());
         }
-        if (room.getEastId().isPresent()) {
+        if (room.getEastId().isPresent() && !room.getEastId().get().equals(roomId)) {
             int b = columnNumber + 1;
             roomIds.put(row + "|" + b, room.getEastId().get());
         }
-        if (room.getWestId().isPresent()) {
+        if (room.getWestId().isPresent() && !room.getWestId().get().equals(roomId)) {
             int b = columnNumber - 1;
             roomIds.put(row + "|" + b, room.getWestId().get());
         }
