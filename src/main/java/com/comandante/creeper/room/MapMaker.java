@@ -20,8 +20,8 @@ public class MapMaker {
 
     private final RoomManager roomManager;
     private List<List<Optional<Room>>> fullMatrix;
-    private final static int MAX_ROWS = 8;
-    private final static int MAX_COLUMNS = 8;
+    private final static int MAX_ROWS = 9;
+    private final static int MAX_COLUMNS = 9;
 
     public MapMaker(RoomManager roomManager) {
         this.roomManager = roomManager;

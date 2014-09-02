@@ -233,7 +233,7 @@ public class GameManager {
         sb.append(RESET);
         //java.lang.String wrap(java.lang.String str, int wrapLength, java.lang.String newLineStr, boolean wrapLongWords)
         sb.append(WordUtils.wrap(playerCurrentRoom.getRoomDescription(), 80, "\r\n", true)).append("\r\n");
-        sb.append(getMapMaker().drawMap(playerCurrentRoom.getRoomId())).append("\r\n");
+       // sb.append(getMapMaker().drawMap(playerCurrentRoom.getRoomId())).append("\r\n");
         sb.append(getExits(playerCurrentRoom, player));
         for (String searchPlayerId : playerCurrentRoom.getPresentPlayerIds()) {
             if (searchPlayerId.equals(player.getPlayerId())) {
