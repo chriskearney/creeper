@@ -71,7 +71,6 @@ public class MapMaker {
     }
 
     public List<Map<String, Integer>> processMapCoordinates(Map<String, Integer> map) {
-        c++;
         Iterator<Map.Entry<String, Integer>> mapIterator = map.entrySet().iterator();
         return FluentIterable.
                 from(ImmutableList.copyOf(mapIterator)).
