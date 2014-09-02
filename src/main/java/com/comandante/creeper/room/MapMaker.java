@@ -28,33 +28,42 @@ public class MapMaker {
     public String drawMap(Integer roomId) {
         fullMatrix = getBlankMatrix();
         Room E4 = getRoom(roomId);
+        int c = 0;
         Iterator<Map.Entry<String, Integer>> iterator = getRoomIds(E4.getRoomId(), "4|4").entrySet().iterator();
         ImmutableList<Map<String, Integer>> maps = FluentIterable.from(ImmutableList.copyOf(iterator))
                 .transform(getRoomProcessorFunction())
                 .filter(getNonEmpty())
                 .toList();
         for (Map<String, Integer> next : maps) {
+            c++;
             Iterator<Map.Entry<String, Integer>> iterator1 = next.entrySet().iterator();
             ImmutableList<Map<String, Integer>> maps1 = FluentIterable.from(ImmutableList.copyOf(iterator1)).transform(getRoomProcessorFunction()).filter(getNonEmpty()).toList();
             for (Map<String, Integer> next1 : maps1) {
+                c++;
                 Iterator<Map.Entry<String, Integer>> iterator2 = next1.entrySet().iterator();
                 ImmutableList<Map<String, Integer>> maps2 = FluentIterable.from(ImmutableList.copyOf(iterator2)).transform(getRoomProcessorFunction()).filter(getNonEmpty()).toList();
                 for (Map<String, Integer> next2 : maps2) {
+                    c++;
                     Iterator<Map.Entry<String, Integer>> iterator3 = next2.entrySet().iterator();
                     ImmutableList<Map<String, Integer>> maps3 = FluentIterable.from(ImmutableList.copyOf(iterator3)).transform(getRoomProcessorFunction()).filter(getNonEmpty()).toList();
                     for (Map<String, Integer> next3 : maps3) {
+                        c++;
                         Iterator<Map.Entry<String, Integer>> iterator4 = next3.entrySet().iterator();
                         ImmutableList<Map<String, Integer>> maps4 = FluentIterable.from(ImmutableList.copyOf(iterator4)).transform(getRoomProcessorFunction()).filter(getNonEmpty()).toList();
                         for (Map<String, Integer> next4 : maps4) {
+                            c++;
                             Iterator<Map.Entry<String, Integer>> iterator5 = next4.entrySet().iterator();
                             ImmutableList<Map<String, Integer>> maps5 = FluentIterable.from(ImmutableList.copyOf(iterator5)).transform(getRoomProcessorFunction()).filter(getNonEmpty()).toList();
                             for (Map<String, Integer> next5 : maps5) {
+                                c++;
                                 Iterator<Map.Entry<String, Integer>> iterator6 = next5.entrySet().iterator();
                                 ImmutableList<Map<String, Integer>> maps6 = FluentIterable.from(ImmutableList.copyOf(iterator6)).transform(getRoomProcessorFunction()).filter(getNonEmpty()).toList();
                                 for (Map<String, Integer> next6 : maps6) {
+                                    c++;
                                     Iterator<Map.Entry<String, Integer>> iterator7 = next6.entrySet().iterator();
                                     ImmutableList<Map<String, Integer>> maps7 = FluentIterable.from(ImmutableList.copyOf(iterator7)).transform(getRoomProcessorFunction()).filter(getNonEmpty()).toList();
                                     for (Map<String, Integer> next7 : maps7) {
+                                        c++;
                                         Iterator<Map.Entry<String, Integer>> iterator8 = next7.entrySet().iterator();
                                         ImmutableList<Map<String, Integer>> maps8 = FluentIterable.from(ImmutableList.copyOf(iterator8)).transform(getRoomProcessorFunction()).filter(getNonEmpty()).toList();
                                     }
@@ -75,6 +84,7 @@ public class MapMaker {
             }
             sb.append("\r\n");
         }
+        System.out.println("Count - " + c);
         return sb.toString();
     }
 
