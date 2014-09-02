@@ -12,7 +12,6 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +20,8 @@ public class MapMaker {
 
     private final RoomManager roomManager;
     private List<List<Optional<Room>>> fullMatrix;
-    private final static int MAX_ROWS = 12;
-    private final static int MAX_COLUMNS = 12;
+    private final static int MAX_ROWS = 8;
+    private final static int MAX_COLUMNS = 8;
 
     public MapMaker(RoomManager roomManager) {
         this.roomManager = roomManager;
@@ -182,7 +181,7 @@ public class MapMaker {
     }
 
     public static List<List<Optional<Room>>> getBlankMatrix() {
-        ArrayList<List<Optional<Room>>> lists = Lists.newArrayList();
+        List<List<Optional<Room>>> lists = Lists.newArrayList();
         for (int i = 0; i <= MAX_ROWS; i++) {
             lists.add(Lists.<Optional<Room>>newArrayList());
         }
