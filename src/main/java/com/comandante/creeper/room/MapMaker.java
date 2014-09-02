@@ -66,7 +66,7 @@ public class MapMaker {
             sb.append("\r\n");
         }
         context.stop();
-        System.out.println("avg map generation time: " + timer.getMeanRate());
+        //System.out.println("avg map generation time: " + java.util.concurrent.TimeUnit.NANOSECONDS.toMillis(Math.round(timer.getMeanRate())));
         return sb.toString();
     }
 
