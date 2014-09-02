@@ -58,7 +58,16 @@ public class MapMaker {
                                                 for (Map<String, Integer> next10 : processMapCoordinates(next9)) {
                                                     for (Map<String, Integer> next11 : processMapCoordinates(next10)) {
                                                         for (Map<String, Integer> next12 : processMapCoordinates(next11)) {
-                                                            processMapCoordinates(next12);
+                                                            for (Map<String, Integer> next13 : processMapCoordinates(next12)) {
+                                                                for (Map<String, Integer> next14 : processMapCoordinates(next13)) {
+                                                                    for (Map<String, Integer> next15 : processMapCoordinates(next14)) {
+                                                                        for (Map<String, Integer> next16 : processMapCoordinates(next15)) {
+                                                                            for (Map<String, Integer> next17 : processMapCoordinates(next16)) {
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
                                                         }
                                                     }
                                                 }

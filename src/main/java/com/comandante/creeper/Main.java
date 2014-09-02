@@ -7,9 +7,9 @@ import com.comandante.creeper.npc.StreetHustler;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.room.Area;
+import com.comandante.creeper.room.RoomLayoutCsvPrototype;
 import com.comandante.creeper.room.MapMaker;
 import com.comandante.creeper.room.Room;
-import com.comandante.creeper.room.RoomBuilders;
 import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.server.CreeperCommandRegistry;
 import com.comandante.creeper.server.CreeperServer;
@@ -70,16 +70,16 @@ public class Main {
 
         // build zones
 
-        RoomBuilders.buildFedTraining(gameManager);
+       // RoomBuilders.buildFedTraining(gameManager);
 
-        RoomBuilders.buildSpacePort(entityManager);
+       // RoomBuilders.buildSpacePort(entityManager);
 
-        RoomBuilders.buildNeoPortland(entityManager);
+        //RoomBuilders.buildNeoPortland(entityManager);
 
-        RoomBuilders.buildOldTown(entityManager);
+       // RoomBuilders.buildOldTown(entityManager);
 
         // zones end
-
+        RoomLayoutCsvPrototype.buildRooms(entityManager);
         System.out.print("Building all rooms.");
         MapMaker mapMaker = new MapMaker(roomManager);
         mapMaker.generateAllMaps();

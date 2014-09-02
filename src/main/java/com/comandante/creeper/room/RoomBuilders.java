@@ -16,16 +16,7 @@ public class RoomBuilders {
     public static void buildFedTraining(GameManager gameManager) {
         EntityManager entityManager = gameManager.getEntityManager();
 
-        BasicRoom basicRoom = new BasicRoom(
-                1,
-                "Entrance to Federation Training Encampment",
-                Optional.of(2),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "You are standing before the Federation Training Encampment. A huge wall surrounds the base. To the north you see a two doors leading inside. Above the doors you sits the symbol of the Federation, a single red star with five points and a raised fist in the center. Sentries along the encampment walls begin to eye you suspiciously. You then remember that malingering in front of a Federation base could prove to be a fatal mistake.\r\n");
+        BasicRoom basicRoom = new BasicRoomBuilder().setRoomId(1).setRoomTitle("Entrance to Federation Training Encampment").setNorthId(Optional.of(2)).setSouthId(Optional.<Integer>absent()).setEastId(Optional.<Integer>absent()).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing before the Federation Training Encampment. A huge wall surrounds the base. To the north you see a two doors leading inside. Above the doors you sits the symbol of the Federation, a single red star with five points and a raised fist in the center. Sentries along the encampment walls begin to eye you suspiciously. You then remember that malingering in front of a Federation base could prove to be a fatal mistake.\r\n").createBasicRoom();
 
         basicRoom.addItemSpawner(new ItemSpawner(ItemType.BEER, new SpawnRule(20, 3, 3, 100), gameManager));
         basicRoom.addItemSpawner(new ItemSpawner(ItemType.KEY, new SpawnRule(30, 1, 10, 100), gameManager));
@@ -34,313 +25,79 @@ public class RoomBuilders {
 
         entityManager.addEntity(basicRoom);
 
-        BasicRoom room1 = new BasicRoom(
-                2,
-                "Quarter Deck",
-                Optional.of(3),
-                Optional.of(1),
-                Optional.of(4),
-                Optional.of(5),
-                Optional.of(6),
-                Optional.<Integer>absent(),
-                "You are standing on the quarter deck of the Training Encampment. Federation flags line the walls of this large room. A statue of the Grand Marshal of the Federation sit in the back. A Private on watch is behind a desk in the center of the room. To the west you hear the sounds of gun fire. To the east a sentry stands by a door waiting to scan the credentials of anyone looking for access to the armory. A staircase leads up stairs. You get the feeling only high ranking officers are allowed on the second floor. To the north is a door leading to the training fields.\r\n");
+        BasicRoom room1 = new BasicRoomBuilder().setRoomId(2).setRoomTitle("Quarter Deck").setNorthId(Optional.of(3)).setSouthId(Optional.of(1)).setEastId(Optional.of(4)).setWestId(Optional.of(5)).setUpId(Optional.of(6)).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing on the quarter deck of the Training Encampment. Federation flags line the walls of this large room. A statue of the Grand Marshal of the Federation sit in the back. A Private on watch is behind a desk in the center of the room. To the west you hear the sounds of gun fire. To the east a sentry stands by a door waiting to scan the credentials of anyone looking for access to the armory. A staircase leads up stairs. You get the feeling only high ranking officers are allowed on the second floor. To the north is a door leading to the training fields.\r\n").createBasicRoom();
         room1.setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
         entityManager.addEntity(room1);
-        BasicRoom room2 = new BasicRoom(
-                3,
-                "Training Field",
-                Optional.of(8),
-                Optional.of(2),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "You are standing on the center of a massive training field. You see a large field with a track" +
-                        " surrounding it. A main pathway connects from back gate to the north to the main Federation" +
-                        " building. Soldiers of all ranks are going about their business here.\r\n");
+        BasicRoom room2 = new BasicRoomBuilder().setRoomId(3).setRoomTitle("Training Field").setNorthId(Optional.of(8)).setSouthId(Optional.of(2)).setEastId(Optional.<Integer>absent()).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing on the center of a massive training field. You see a large field with a track" +
+                " surrounding it. A main pathway connects from back gate to the north to the main Federation" +
+                " building. Soldiers of all ranks are going about their business here.\r\n").createBasicRoom();
         room2.setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
 
         entityManager.addEntity(room2);
 
-        BasicRoom room3 = new BasicRoom(
-                4,
-                "Armory",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(2),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "You are standing in the Federation Training Encampment armory. A counter extends from wall to wall" +
-                        " separating you from the stock. A Lieutenant is standing behind the counter filling out paper" +
-                        " work. You can see shelves extending to the back of the room fully stocked with Federation" +
-                        " issued weapons. The door closes and locks behind you.\r\n");
+        BasicRoom room3 = new BasicRoomBuilder().setRoomId(4).setRoomTitle("Armory").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.<Integer>absent()).setWestId(Optional.of(2)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing in the Federation Training Encampment armory. A counter extends from wall to wall" +
+                " separating you from the stock. A Lieutenant is standing behind the counter filling out paper" +
+                " work. You can see shelves extending to the back of the room fully stocked with Federation" +
+                " issued weapons. The door closes and locks behind you.\r\n").createBasicRoom();
         room3.setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
 
         entityManager.addEntity(room3);
 
-        entityManager.addEntity(new BasicRoom(
-                5,
-                "Firing Range",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(2),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "You are standing in the Federation Training Encampment firing range. You see many rows each separated by a blaster proof divider. At the end of each row sits a target. The sounds of weapon fire fills the room. Straight ahead you see an empty row. Down Range a target is hovering, waiting to be shot.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(5).setRoomTitle("Firing Range").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(2)).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing in the Federation Training Encampment firing range. You see many rows each separated by a blaster proof divider. At the end of each row sits a target. The sounds of weapon fire fills the room. Straight ahead you see an empty row. Down Range a target is hovering, waiting to be shot.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                6,
-                "Marshal's Office",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(2),
-                "You are standing in the Marshal's office. A beautiful wooden desk sits in the center of the room. Shelves and bookcases line the walls showing off some of the Marshals accomplishments. A floor to ceiling window in the back of the room looks over the training fields. \r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(6).setRoomTitle("Marshal's Office").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.<Integer>absent()).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.of(2)).setRoomDescription("You are standing in the Marshal's office. A beautiful wooden desk sits in the center of the room. Shelves and bookcases line the walls showing off some of the Marshals accomplishments. A floor to ceiling window in the back of the room looks over the training fields. \r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                7,
-                "Emerald City Bullet Station",
-                Optional.of(100),
-                Optional.of(8),
-                Optional.of(200),
-                Optional.of(300),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "You are standing in the Emerald City bullet train station. A sign points to the north for the train to Tacoma Space Port, to the west New Portland and the east Shanty town. \r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(7).setRoomTitle("Emerald City Bullet Station").setNorthId(Optional.of(100)).setSouthId(Optional.of(8)).setEastId(Optional.of(200)).setWestId(Optional.of(300)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing in the Emerald City bullet train station. A sign points to the north for the train to Tacoma Space Port, to the west New Portland and the east Shanty town. \r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                8,
-                "Federation Encampment Back Gate",
-                Optional.of(7),
-                Optional.of(3),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "You are standing outside of the Federation Training Encampment. To the North is the Seattle train station.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(8).setRoomTitle("Federation Encampment Back Gate").setNorthId(Optional.of(7)).setSouthId(Optional.of(3)).setEastId(Optional.<Integer>absent()).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing outside of the Federation Training Encampment. To the North is the Seattle train station.\r\n").createBasicRoom());
 
     }
 
     public static void buildNeoPortland(EntityManager entityManager) {
 
-        entityManager.addEntity(new BasicRoom(
-                200,
-                "New Portland",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(7),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Start of New Portland area.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(200).setRoomTitle("New Portland").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.<Integer>absent()).setWestId(Optional.of(7)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Start of New Portland area.\r\n").createBasicRoom());
     }
 
     public static void buildOldTown(EntityManager entityManager) {
 
-        entityManager.addEntity(new BasicRoom(
-                300,
-                "Old Town",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(7),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Start of Old Town area.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(300).setRoomTitle("Old Town").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(7)).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Start of Old Town area.\r\n").createBasicRoom());
     }
 
     public static void buildSpacePort(EntityManager entityManager) {
 
-        entityManager.addEntity(new BasicRoom(
-                100,
-                "Entrance of Tacoma Space Port",
-                Optional.of(101),
-                Optional.of(7),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Entrance of Space Port area.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(100).setRoomTitle("Entrance of Tacoma Space Port").setNorthId(Optional.of(101)).setSouthId(Optional.of(7)).setEastId(Optional.<Integer>absent()).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Entrance of Space Port area.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                101,
-                "Arrival Check In",
-                Optional.of(102),
-                Optional.of(100),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Space Port area.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(101).setRoomTitle("Arrival Check In").setNorthId(Optional.of(102)).setSouthId(Optional.of(100)).setEastId(Optional.<Integer>absent()).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Space Port area.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                102,
-                "Line For Security Check",
-                Optional.of(103),
-                Optional.of(101),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Space Port area.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(102).setRoomTitle("Line For Security Check").setNorthId(Optional.of(103)).setSouthId(Optional.of(101)).setEastId(Optional.<Integer>absent()).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Space Port area.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                103,
-                "Space Station Security Check",
-                Optional.<Integer>absent(),
-                Optional.of(102),
-                Optional.of(107),
-                Optional.of(104),
-                Optional.of(110),
-                Optional.<Integer>absent(),
-                "Security Check Intersection\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(103).setRoomTitle("Space Station Security Check").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.of(102)).setEastId(Optional.of(107)).setWestId(Optional.of(104)).setUpId(Optional.of(110)).setDownId(Optional.<Integer>absent()).setRoomDescription("Security Check Intersection\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                104,
-                "Walkway of Terminal 1",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(103),
-                Optional.of(105),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Terminal 1 of the Tacoma Space Port.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(104).setRoomTitle("Walkway of Terminal 1").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(103)).setWestId(Optional.of(105)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Terminal 1 of the Tacoma Space Port.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                105,
-                "Busy Walkway of Terminal 1",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(104),
-                Optional.of(106),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Terminal 1 of the Tacoma Space Port.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(105).setRoomTitle("Busy Walkway of Terminal 1").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(104)).setWestId(Optional.of(106)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Terminal 1 of the Tacoma Space Port.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                106,
-                "Dead End of Terminal 1",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(105),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Terminal 1 of the Tacoma Space Port END.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(106).setRoomTitle("Dead End of Terminal 1").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(105)).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Terminal 1 of the Tacoma Space Port END.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                107,
-                "Walkway of Terminal 2",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(108),
-                Optional.of(103),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Terminal 2 of the Tacoma Space Port.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(107).setRoomTitle("Walkway of Terminal 2").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(108)).setWestId(Optional.of(103)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Terminal 2 of the Tacoma Space Port.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                108,
-                "Busy Walkway Terminal 2",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(109),
-                Optional.of(107),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Terminal 2 of the Tacoma Space Port.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(108).setRoomTitle("Busy Walkway Terminal 2").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(109)).setWestId(Optional.of(107)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Terminal 2 of the Tacoma Space Port.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                109,
-                "Dead End of Terminal 2",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(108),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Terminal 2 of the Tacoma Space Port END.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(109).setRoomTitle("Dead End of Terminal 2").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.<Integer>absent()).setWestId(Optional.of(108)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Terminal 2 of the Tacoma Space Port END.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                110,
-                "Space Port Lobby",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(111),
-                Optional.of(114),
-                Optional.<Integer>absent(),
-                Optional.of(103),
-                "Tacoma Space Port food court and shopping.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(110).setRoomTitle("Space Port Lobby").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(111)).setWestId(Optional.of(114)).setUpId(Optional.<Integer>absent()).setDownId(Optional.of(103)).setRoomDescription("Tacoma Space Port food court and shopping.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                111,
-                "Walkway of Terminal 3",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(112),
-                Optional.of(110),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Tacoma Space Port terminal 3.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(111).setRoomTitle("Walkway of Terminal 3").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(112)).setWestId(Optional.of(110)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Tacoma Space Port terminal 3.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                112,
-                "Busy Walkway of Terminal 3",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(113),
-                Optional.of(111),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Tacoma Space Port terminal 3.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(112).setRoomTitle("Busy Walkway of Terminal 3").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(113)).setWestId(Optional.of(111)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Tacoma Space Port terminal 3.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                113,
-                "Dead End",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(112),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Tacoma Space Port terminal 3 END.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(113).setRoomTitle("Dead End").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.<Integer>absent()).setWestId(Optional.of(112)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Tacoma Space Port terminal 3 END.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                114,
-                "Walkway of Terminal 4",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(110),
-                Optional.of(115),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Tacoma Space Port terminal 4.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(114).setRoomTitle("Walkway of Terminal 4").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(110)).setWestId(Optional.of(115)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Tacoma Space Port terminal 4.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                115,
-                "Busy Walkway of Terminal 4",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(114),
-                Optional.of(116),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "Tacoma Space Port terminal 4.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(115).setRoomTitle("Busy Walkway of Terminal 4").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(114)).setWestId(Optional.of(116)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("Tacoma Space Port terminal 4.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoom(
-                116,
-                "Dead End of Terminal 4",
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.of(115),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                Optional.<Integer>absent(),
-                "You arrive to the end of Terminal 4.\r\n"));
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(116).setRoomTitle("Dead End of Terminal 4").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(115)).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("You arrive to the end of Terminal 4.\r\n").createBasicRoom());
 
     }
 }
