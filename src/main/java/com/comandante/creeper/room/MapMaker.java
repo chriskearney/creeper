@@ -1,7 +1,5 @@
 package com.comandante.creeper.room;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.Timer;
 import com.comandante.creeper.server.Color;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
@@ -37,48 +35,12 @@ public class MapMaker {
     }
 
     public String drawMap(Integer roomId) {
-        MetricRegistry metricRegistry = new MetricRegistry();
-        Timer timer = metricRegistry.timer("draw-map");
-        final Timer.Context context = timer.time();
         fullMatrix = getBlankMatrix();
-        Room E4 = getRoom(roomId);
-        int centerRow = MAX_ROWS / 2;
-        int centerColumn = MAX_COLUMNS / 2;
-        final String coords = centerRow + "|" + centerColumn;
-        Iterator<Map.Entry<String, Integer>> iterator = getRoomIds(E4.getRoomId(), coords).entrySet().iterator();
-        setCoordinateRoom(coords, E4);
-        ImmutableList<Map<String, Integer>> maps = FluentIterable.from(ImmutableList.copyOf(iterator))
-                .transform(getRoomProcessorFunction())
-                .filter(getNonEmpty())
-                .toList();
-        // TODO : Make this less embarrassing.
-        for (Map<String, Integer> next : maps) {
-            for (Map<String, Integer> next1 : processMapCoordinates(next)) {
-                for (Map<String, Integer> next2 : processMapCoordinates(next1)) {
-                    for (Map<String, Integer> next3 : processMapCoordinates(next2)) {
-                        for (Map<String, Integer> next4 : processMapCoordinates(next3)) {
-                            for (Map<String, Integer> next5 : processMapCoordinates(next4)) {
-                                for (Map<String, Integer> next6 : processMapCoordinates(next5)) {
-                                    for (Map<String, Integer> next7 : processMapCoordinates(next6)) {
-                                        for (Map<String, Integer> next8 : processMapCoordinates(next7)) {
-                                            for (Map<String, Integer> next9 : processMapCoordinates(next8)) {
-                                                for (Map<String, Integer> next10 : processMapCoordinates(next9)) {
-                                                    for (Map<String, Integer> next11 : processMapCoordinates(next10)) {
-                                                        for (Map<String, Integer> next12 : processMapCoordinates(next11)) {
-                                                            processMapCoordinates(next12);
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        Room startingRoom = roomManager.getRoom(roomId);
+        final String startingCoords = MAX_ROWS / 2 + "|" + MAX_COLUMNS / 2;
+        Map<String, Integer> exitCoordsForRoom = getExitCoordsForRoom(startingRoom.getRoomId(), startingCoords);
+        setCoordinateRoom(startingCoords, startingRoom);
+        scanAndTraverseMap(12, (List)ImmutableList.builder().add(exitCoordsForRoom).build());
         StringBuilder sb = new StringBuilder();
         for (List<Optional<Room>> next : fullMatrix) {
             Iterator<String> transform = Iterators.transform(next.iterator(), getRendering(roomId));
@@ -88,9 +50,19 @@ public class MapMaker {
             }
             sb.append("\r\n");
         }
-        context.stop();
-        //System.out.println("avg map generation time: " + Math.round(timer.getMeanRate()) + "ns");
         return sb.toString();
+    }
+
+
+    public List<Map<String, Integer>> scanAndTraverseMap(int i, List<Map<String, Integer>> map) {
+        if (i==1) {
+            return null;
+        }
+        for (Map<String, Integer> m: map) {
+            i = i - 1;
+            return scanAndTraverseMap(i, processMapCoordinates(m)) ;
+        }
+        return null;
     }
 
     public Function<Optional<Room>, String> getRendering(final Integer currentroomId) {
@@ -137,8 +109,8 @@ public class MapMaker {
                 if (columnNumber < 0 || columnNumber > MAX_COLUMNS || row < 0 || row > MAX_ROWS) {
                     return null;
                 } else {
-                    setCoordinateRoom(coords, getRoom(stringIntegerEntry.getValue()));
-                    return getRoomIds(roomId, coords);
+                    setCoordinateRoom(coords, roomManager.getRoom(stringIntegerEntry.getValue()));
+                    return getExitCoordsForRoom(roomId, coords);
                 }
             }
         };
@@ -148,16 +120,13 @@ public class MapMaker {
         return new Predicate<Map<String, Integer>>() {
             @Override
             public boolean apply(Map<String, Integer> stringIntegerMap) {
-                if (stringIntegerMap != null) {
-                    return true;
-                }
-                return false;
+                return stringIntegerMap != null;
             }
         };
     }
 
-    public Map<String, Integer> getRoomIds(Integer roomId, String identifier) {
-        Room room = getRoom(roomId);
+    public Map<String, Integer> getExitCoordsForRoom(Integer roomId, String identifier) {
+        Room room = roomManager.getRoom(roomId);
         String[] split = identifier.split("\\|");
         int row = Integer.parseInt(split[0]);
         int columnNumber = Integer.parseInt(split[1]);
@@ -185,15 +154,7 @@ public class MapMaker {
         String[] split = coordinate.split("\\|");
         int row = Integer.parseInt(split[0]);
         int column = Integer.parseInt(split[1]);
-        getRow(row).set(column, Optional.of(room));
-    }
-
-    public List<Optional<Room>> getRow(int row) {
-        return fullMatrix.get(row);
-    }
-
-    private Room getRoom(Integer roomId) {
-        return roomManager.getRoom(roomId);
+        fullMatrix.get(row).set(column, Optional.of(room));
     }
 
     public static List<List<Optional<Room>>> getBlankMatrix() {
