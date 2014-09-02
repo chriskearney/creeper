@@ -38,9 +38,40 @@ public class MapMaker {
         fullMatrix = getBlankMatrix();
         Room startingRoom = roomManager.getRoom(roomId);
         final String startingCoords = MAX_ROWS / 2 + "|" + MAX_COLUMNS / 2;
-        Map<String, Integer> exitCoordsForRoom = getExitCoordsForRoom(startingRoom.getRoomId(), startingCoords);
+        Iterator<Map.Entry<String, Integer>> iterator = getExitCoordsForRoom(startingRoom.getRoomId(), startingCoords).entrySet().iterator();
         setCoordinateRoom(startingCoords, startingRoom);
-        scanAndTraverseMap(12, (List)ImmutableList.builder().add(exitCoordsForRoom).build());
+        ImmutableList<Map<String, Integer>> maps = FluentIterable.from(ImmutableList.copyOf(iterator))
+                .transform(getRoomProcessorFunction())
+                .filter(getNonEmpty())
+                .toList();
+        // TODO : Make this less embarrassing.
+        for (Map<String, Integer> next : maps) {
+            for (Map<String, Integer> next1 : processMapCoordinates(next)) {
+                for (Map<String, Integer> next2 : processMapCoordinates(next1)) {
+                    for (Map<String, Integer> next3 : processMapCoordinates(next2)) {
+                        for (Map<String, Integer> next4 : processMapCoordinates(next3)) {
+                            for (Map<String, Integer> next5 : processMapCoordinates(next4)) {
+                                for (Map<String, Integer> next6 : processMapCoordinates(next5)) {
+                                    for (Map<String, Integer> next7 : processMapCoordinates(next6)) {
+                                        for (Map<String, Integer> next8 : processMapCoordinates(next7)) {
+                                            for (Map<String, Integer> next9 : processMapCoordinates(next8)) {
+                                                for (Map<String, Integer> next10 : processMapCoordinates(next9)) {
+                                                    for (Map<String, Integer> next11 : processMapCoordinates(next10)) {
+                                                        for (Map<String, Integer> next12 : processMapCoordinates(next11)) {
+                                                            processMapCoordinates(next12);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         StringBuilder sb = new StringBuilder();
         for (List<Optional<Room>> next : fullMatrix) {
             Iterator<String> transform = Iterators.transform(next.iterator(), getRendering(roomId));
