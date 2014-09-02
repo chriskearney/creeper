@@ -7,6 +7,7 @@ import com.comandante.creeper.npc.StreetHustler;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.room.Area;
+import com.comandante.creeper.room.MapMaker;
 import com.comandante.creeper.room.Room;
 import com.comandante.creeper.room.RoomBuilders;
 import com.comandante.creeper.room.RoomManager;
@@ -79,13 +80,16 @@ public class Main {
 
         // zones end
 
+        System.out.print("Building all rooms.");
+        MapMaker mapMaker = new MapMaker(roomManager);
+        mapMaker.generateAllMaps();
         entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 30, 4, 100)));
         Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
         while (rooms.hasNext()) {
             Map.Entry<Integer, Room> next = rooms.next();
             next.getValue().setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
         }
-
+        System.out.println("done!");
         creeperCommandRegistry = new CreeperCommandRegistry(new UnknownCommand(gameManager));
         creeperCommandRegistry.addCommand(new DropCommand(gameManager));
         creeperCommandRegistry.addCommand(new GossipCommand(gameManager));

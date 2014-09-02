@@ -27,6 +27,15 @@ public class MapMaker {
         this.roomManager = roomManager;
     }
 
+    public void generateAllMaps() {
+        Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
+        while (rooms.hasNext()) {
+            Map.Entry<Integer, Room> next = rooms.next();
+            next.getValue().setMapData(Optional.of(drawMap(next.getValue().getRoomId())));
+            System.out.print(".");
+        }
+    }
+
     public String drawMap(Integer roomId) {
         MetricRegistry metricRegistry = new MetricRegistry();
         Timer timer = metricRegistry.timer("draw-map");
@@ -80,7 +89,7 @@ public class MapMaker {
             sb.append("\r\n");
         }
         context.stop();
-        System.out.println("avg map generation time: " + Math.round(timer.getMeanRate()) + "ns");
+        //System.out.println("avg map generation time: " + Math.round(timer.getMeanRate()) + "ns");
         return sb.toString();
     }
 
@@ -91,7 +100,14 @@ public class MapMaker {
                 if (roomOptional.isPresent()) {
                     if (roomOptional.get().getRoomId().equals(currentroomId)) {
                         return "[" + Color.BOLD_ON + Color.RED + "*" + Color.RESET + "]";
-                    } else {
+                    } else if (roomOptional.get().getRoomId().equals(1)) {
+                        return "[" + Color.BOLD_ON + Color.BLUE + "L" + Color.RESET + "]";
+                    } else if (roomOptional.get().getUpId().isPresent() && roomOptional.get().getDownId().isPresent()) {
+                        return "[" + Color.BOLD_ON + Color.GREEN + ":" + Color.RESET + "]";
+                    } else if (roomOptional.get().getUpId().isPresent() || roomOptional.get().getDownId().isPresent()) {
+                        return "[" + Color.BOLD_ON + Color.GREEN + "." + Color.RESET + "]";
+                    }
+                    else {
                         return "[ ]";
                     }
                 } else {
