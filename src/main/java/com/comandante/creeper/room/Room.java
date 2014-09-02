@@ -27,6 +27,7 @@ public abstract class Room extends CreeperEntity {
     private final Set<String> itemIds = Sets.newConcurrentHashSet();
     private List<ItemSpawner> itemSpawners = Lists.newArrayList();
     private Set<Area> areas = Sets.newHashSet(Area.DEFAULT);
+    private Optional<String> mapData = Optional.absent();
 
     public Room(Integer roomId,
                 String roomTitle,
@@ -46,6 +47,14 @@ public abstract class Room extends CreeperEntity {
         this.upId = upId;
         this.downId = downId;
         this.roomDescription = roomDescription;
+    }
+
+    public Optional<String> getMapData() {
+        return mapData;
+    }
+
+    public void setMapData(Optional<String> mapData) {
+        this.mapData = mapData;
     }
 
     public Set<Area> getAreas() {
