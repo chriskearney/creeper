@@ -1,6 +1,5 @@
 package com.comandante.creeper.room;
 
-
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
 import com.comandante.creeper.server.Color;
@@ -22,6 +21,8 @@ public class MapMaker {
 
     private final RoomManager roomManager;
     private List<List<Optional<Room>>> fullMatrix;
+    private final static int MAX_ROWS = 12;
+    private final static int MAX_COLUMNS = 12;
 
     public MapMaker(RoomManager roomManager) {
         this.roomManager = roomManager;
@@ -33,7 +34,11 @@ public class MapMaker {
         final Timer.Context context = timer.time();
         fullMatrix = getBlankMatrix();
         Room E4 = getRoom(roomId);
-        Iterator<Map.Entry<String, Integer>> iterator = getRoomIds(E4.getRoomId(), "4|4").entrySet().iterator();
+        int centerRow = MAX_ROWS / 2;
+        int centerColumn = MAX_COLUMNS / 2;
+        final String coords = centerRow + "|" + centerColumn;
+        Iterator<Map.Entry<String, Integer>> iterator = getRoomIds(E4.getRoomId(), coords).entrySet().iterator();
+        setCoordinateRoom(coords, E4);
         ImmutableList<Map<String, Integer>> maps = FluentIterable.from(ImmutableList.copyOf(iterator))
                 .transform(getRoomProcessorFunction())
                 .filter(getNonEmpty())
@@ -47,7 +52,17 @@ public class MapMaker {
                             for (Map<String, Integer> next5 : processMapCoordinates(next4)) {
                                 for (Map<String, Integer> next6 : processMapCoordinates(next5)) {
                                     for (Map<String, Integer> next7 : processMapCoordinates(next6)) {
-                                        processMapCoordinates(next7);
+                                        for (Map<String, Integer> next8 : processMapCoordinates(next7)) {
+                                            for (Map<String, Integer> next9 : processMapCoordinates(next8)) {
+                                                for (Map<String, Integer> next10 : processMapCoordinates(next9)) {
+                                                    for (Map<String, Integer> next11 : processMapCoordinates(next10)) {
+                                                        for (Map<String, Integer> next12 : processMapCoordinates(next11)) {
+                                                            processMapCoordinates(next12);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -66,7 +81,7 @@ public class MapMaker {
             sb.append("\r\n");
         }
         context.stop();
-        //System.out.println("avg map generation time: " + Math.round(timer.getMeanRate()) + "ns");
+        System.out.println("avg map generation time: " + Math.round(timer.getMeanRate()) + "ns");
         return sb.toString();
     }
 
@@ -104,7 +119,7 @@ public class MapMaker {
                 String[] split = coords.split("\\|");
                 int row = Integer.parseInt(split[0]);
                 int columnNumber = Integer.parseInt(split[1]);
-                if (columnNumber < 0 || columnNumber > 7 || row < 0 || row > 7) {
+                if (columnNumber < 0 || columnNumber > MAX_COLUMNS || row < 0 || row > MAX_ROWS) {
                     return null;
                 } else {
                     setCoordinateRoom(coords, getRoom(stringIntegerEntry.getValue()));
@@ -167,15 +182,12 @@ public class MapMaker {
     }
 
     public static List<List<Optional<Room>>> getBlankMatrix() {
-        ArrayList<List<Optional<Room>>> lists =
-                Lists.<List<Optional<Room>>>newArrayList(Lists.<Optional<Room>>newArrayList(),
-                Lists.<Optional<Room>>newArrayList(), Lists.<Optional<Room>>newArrayList(),
-                Lists.<Optional<Room>>newArrayList(), Lists.<Optional<Room>>newArrayList(),
-                Lists.<Optional<Room>>newArrayList(), Lists.<Optional<Room>>newArrayList(),
-                Lists.<Optional<Room>>newArrayList());
-
+        ArrayList<List<Optional<Room>>> lists = Lists.newArrayList();
+        for (int i = 0; i <= MAX_ROWS; i++) {
+            lists.add(Lists.<Optional<Room>>newArrayList());
+        }
         for (List<Optional<Room>> roomOpts : lists) {
-            for (int i = 0; i <= 7; i++) {
+            for (int i = 0; i <= MAX_COLUMNS; i++) {
                 roomOpts.add(Optional.<Room>absent());
             }
         }
