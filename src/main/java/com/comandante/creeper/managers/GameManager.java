@@ -9,6 +9,7 @@ import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMovement;
+import com.comandante.creeper.room.MapMaker;
 import com.comandante.creeper.room.Room;
 import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.server.ChannelUtils;
@@ -24,7 +25,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import static com.comandante.creeper.server.Color.*;
+import static com.comandante.creeper.server.Color.BOLD_OFF;
+import static com.comandante.creeper.server.Color.BOLD_ON;
+import static com.comandante.creeper.server.Color.RESET;
 
 public class GameManager {
 
@@ -43,6 +46,7 @@ public class GameManager {
     private final EntityManager entityManager;
     private final ItemDecayManager itemDecayManager;
     private final FightManager fightManager;
+    private final MapMaker mapMaker;
 
     public GameManager(RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager) {
         this.roomManager = roomManager;
@@ -53,6 +57,11 @@ public class GameManager {
         this.newUserRegistrationManager = new NewUserRegistrationManager(playerManager);
         this.channelUtils = new ChannelUtils(getPlayerManager(), getRoomManager());
         this.fightManager = new FightManager(channelUtils, entityManager, playerManager);
+        this.mapMaker = new MapMaker(roomManager);
+    }
+
+    public MapMaker getMapMaker() {
+        return mapMaker;
     }
 
     public FightManager getFightManager() {
@@ -78,7 +87,6 @@ public class GameManager {
     public RoomManager getRoomManager() {
         return roomManager;
     }
-
 
 
     public PlayerManager getPlayerManager() {
@@ -225,7 +233,7 @@ public class GameManager {
         sb.append(RESET);
         //java.lang.String wrap(java.lang.String str, int wrapLength, java.lang.String newLineStr, boolean wrapLongWords)
         sb.append(WordUtils.wrap(playerCurrentRoom.getRoomDescription(), 80, "\r\n", true)).append("\r\n");
-
+        sb.append(getMapMaker().drawMap(playerCurrentRoom.getRoomId())).append("\r\n");
         sb.append(getExits(playerCurrentRoom, player));
         for (String searchPlayerId : playerCurrentRoom.getPresentPlayerIds()) {
             if (searchPlayerId.equals(player.getPlayerId())) {
@@ -248,7 +256,6 @@ public class GameManager {
             Npc npcEntity = entityManager.getNpcEntity(npcId);
             sb.append("a ").append(npcEntity.getColorName()).append(" is here.\r\n");
         }
-
         sb.append("\r\n");
         channelUtils.write(player.getPlayerId(), sb.toString());
     }
