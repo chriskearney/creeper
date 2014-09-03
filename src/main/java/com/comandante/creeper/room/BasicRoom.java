@@ -11,6 +11,7 @@ public class BasicRoom extends Room {
 
     public BasicRoom(Integer roomId,
                      String roomTitle,
+                     Integer floorId,
                      Optional<Integer> northId,
                      Optional<Integer> southId,
                      Optional<Integer> eastId,
@@ -18,6 +19,6 @@ public class BasicRoom extends Room {
                      Optional<Integer> upId,
                      Optional<Integer> downId,
                      String roomDescription) {
-        super(roomId, roomTitle, northId, southId, eastId, westId, upId, downId, roomDescription);
+        super(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, roomDescription);
     }
 }

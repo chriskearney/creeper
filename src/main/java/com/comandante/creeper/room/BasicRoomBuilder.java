@@ -5,6 +5,7 @@ import com.google.common.base.Optional;
 public class BasicRoomBuilder {
     private Integer roomId;
     private String roomTitle;
+    private Integer floorId;
     private Optional<Integer> northId = Optional.absent();
     private Optional<Integer> southId = Optional.absent();
     private Optional<Integer> eastId = Optional.absent();
@@ -58,7 +59,12 @@ public class BasicRoomBuilder {
         return this;
     }
 
+    public BasicRoomBuilder setFloorId(Integer floorId) {
+        this.floorId = floorId;
+        return this;
+    }
+
     public BasicRoom createBasicRoom() {
-        return new BasicRoom(roomId, roomTitle, northId, southId, eastId, westId, upId, downId, roomDescription);
+        return new BasicRoom(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, roomDescription);
     }
 }

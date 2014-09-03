@@ -5,6 +5,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,52 +14,47 @@ import java.util.Map;
 public class MapMaker {
 
     private final RoomManager roomManager;
-    private List<List<Optional<Room>>> fullMatrix;
-    private final List<List<Integer>> rawCsvMatrix;
-    private final static int MAX_ROWS = 9;
-    private final static int MAX_COLUMNS = 9;
+    private final Map<Integer, List<List<Integer>>> floorMatrixMaps;
 
-    public MapMaker(RoomManager roomManager, List<List<Integer>> rawCsvMatrix) {
+    public MapMaker(RoomManager roomManager) {
         this.roomManager = roomManager;
-        this.rawCsvMatrix = rawCsvMatrix;
+        this.floorMatrixMaps = Maps.newHashMap();
     }
 
-    public void generateAllMaps() {
+    public void generateAllMaps(int maxRows, int maxColumns) {
         Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
         while (rooms.hasNext()) {
             Map.Entry<Integer, Room> next = rooms.next();
             Integer roomId = next.getValue().getRoomId();
-            String s = drawMap(roomId);
+            String s = drawMap(roomId, maxRows, maxColumns);
             next.getValue().setMapData(Optional.of(s));
         }
     }
 
-    public String drawMap(Integer roomId) {
-        fullMatrix = getBlankMatrix();
-        String coords = RoomLayoutCsvPrototype.getCoords(roomId, rawCsvMatrix);
-        String[] split = coords.split("\\|");
-        int row = Integer.parseInt(split[0]);
-        int column = Integer.parseInt(split[1]);
-        int destRow = MAX_ROWS / 2;
-        int destColumn = MAX_COLUMNS / 2;
-        int rowDifference = destRow - row;
-        int columnDifference = destColumn - column;
-        for (List<Integer> row1 : rawCsvMatrix) {
-            for (Integer id : row1) {
+    private String drawMap(Integer roomId, int maxRows, int maxColumns) {
+        List<List<Optional<Room>>> destinationMatrix = getBlankMatrix(maxRows, maxColumns);
+        List<List<Integer>> rawCsvFloorMatrix = floorMatrixMaps.get(roomManager.getRoom(roomId).getFloorId());
+        Coords coords = RoomLayoutCsvPrototype.getCoords(roomId, rawCsvFloorMatrix);
+        // find the center of the desintation matrix and determine the formula
+        int rowDifference = maxRows / 2 - coords.row;
+        int columnDifference = maxColumns / 2 - coords.column;
+        for (List<Integer> row : rawCsvFloorMatrix) {
+            for (Integer id : row) {
                 if (id == 0) {
+                    //"Blank" Room as far as CSV land goes. ex 0,0,0,54,0,0,3
                     continue;
                 }
-                String coords1 = RoomLayoutCsvPrototype.getCoords(id, rawCsvMatrix);
-                String[] split1 = coords1.split("\\|");
-                row = Integer.parseInt(split1[0]);
-                column = Integer.parseInt(split1[1]);
-                int targetRow = row + rowDifference;
-                int targetColumn = column + columnDifference;
-                setCoordinateRoom(targetRow + "|" + targetColumn, roomManager.getRoom(id));
+                Coords currentMatrixCoords = RoomLayoutCsvPrototype.getCoords(id, rawCsvFloorMatrix);
+                Coords destinationMatrixCoords = new Coords(currentMatrixCoords.row + rowDifference,
+                        currentMatrixCoords.column + columnDifference);
+                if (areCoordsWithinMatrixRange(destinationMatrixCoords, maxRows, maxColumns)) {
+                    destinationMatrix.get(destinationMatrixCoords.row).set(destinationMatrixCoords.column,
+                            Optional.of(roomManager.getRoom(id)));
+                }
             }
         }
         StringBuilder sb = new StringBuilder();
-        for (List<Optional<Room>> next : fullMatrix) {
+        for (List<Optional<Room>> next : destinationMatrix) {
             Iterator<String> transform = Iterators.transform(next.iterator(), getRendering(roomId));
             while (transform.hasNext()) {
                 String s = transform.next();
@@ -69,7 +65,14 @@ public class MapMaker {
         return sb.toString();
     }
 
-    public Function<Optional<Room>, String> getRendering(final Integer currentroomId) {
+    private boolean areCoordsWithinMatrixRange(Coords coords, int maxRow, int maxColumn) {
+        if (coords.row < 0 || coords.column < 0 || coords.row > maxRow || coords.column > maxColumn) {
+            return false;
+        }
+        return true;
+    }
+
+    private Function<Optional<Room>, String> getRendering(final Integer currentroomId) {
         return new Function<Optional<Room>, String>() {
             @Override
             public String apply(Optional<Room> roomOptional) {
@@ -93,26 +96,20 @@ public class MapMaker {
         };
     }
 
-    public void setCoordinateRoom(String coordinate, Room room) {
-        String[] split = coordinate.split("\\|");
-        int row = Integer.parseInt(split[0]);
-        int column = Integer.parseInt(split[1]);
-        if (row < 0 || column < 0 || row > MAX_ROWS || column > MAX_COLUMNS) {
-            return;
-        }
-        fullMatrix.get(row).set(column, Optional.of(room));
-    }
-
-    public static List<List<Optional<Room>>> getBlankMatrix() {
+    private List<List<Optional<Room>>> getBlankMatrix(int maxRows, int maxColumns) {
         List<List<Optional<Room>>> lists = Lists.newArrayList();
-        for (int i = 0; i <= MAX_ROWS; i++) {
+        for (int i = 0; i <= maxRows; i++) {
             lists.add(Lists.<Optional<Room>>newArrayList());
         }
         for (List<Optional<Room>> roomOpts : lists) {
-            for (int i = 0; i <= MAX_COLUMNS; i++) {
+            for (int i = 0; i <= maxColumns; i++) {
                 roomOpts.add(Optional.<Room>absent());
             }
         }
         return lists;
+    }
+
+    public void addFloorMatrix(Integer id, List<List<Integer>> floorMatrix){
+        floorMatrixMaps.put(id, floorMatrix);
     }
 }

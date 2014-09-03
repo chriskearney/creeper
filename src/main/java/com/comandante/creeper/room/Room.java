@@ -14,6 +14,7 @@ public abstract class Room extends CreeperEntity {
 
     private final Integer roomId;
     private final String roomTitle;
+    private final Integer floorId;
     private final Optional<Integer> northId;
     private final Optional<Integer> westId;
     private final Optional<Integer> eastId;
@@ -31,6 +32,7 @@ public abstract class Room extends CreeperEntity {
 
     public Room(Integer roomId,
                 String roomTitle,
+                Integer floorId,
                 Optional<Integer> northId,
                 Optional<Integer> southId,
                 Optional<Integer> eastId,
@@ -40,6 +42,7 @@ public abstract class Room extends CreeperEntity {
                 String roomDescription) {
         this.roomId = roomId;
         this.roomTitle = roomTitle;
+        this.floorId = floorId;
         this.northId = northId;
         this.westId = westId;
         this.eastId = eastId;
@@ -47,6 +50,10 @@ public abstract class Room extends CreeperEntity {
         this.upId = upId;
         this.downId = downId;
         this.roomDescription = roomDescription;
+    }
+
+    public Integer getFloorId() {
+        return floorId;
     }
 
     public Optional<String> getMapData() {

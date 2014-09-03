@@ -68,10 +68,11 @@ public class Main {
         }
 
         GameManager gameManager = new GameManager(roomManager, playerManager, entityManager);
-        List<List<Integer>> lists = RoomLayoutCsvPrototype.buildRooms(entityManager);
+        List<List<Integer>> floorCsvMatrix = RoomLayoutCsvPrototype.buildRooms(entityManager);
         System.out.print("Building all rooms.");
-        MapMaker mapMaker = new MapMaker(roomManager, lists);
-        mapMaker.generateAllMaps();
+        MapMaker mapMaker = new MapMaker(roomManager);
+        mapMaker.addFloorMatrix(1, floorCsvMatrix);
+        mapMaker.generateAllMaps(9, 9);
         entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 100, 4, 100)));
         Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
         while (rooms.hasNext()) {

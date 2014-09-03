@@ -65,6 +65,7 @@ public class RoomLayoutCsvPrototype {
                 basicRoomBuilder.setRoomId(newRoomId);
                 basicRoomBuilder.setRoomDescription("This is a temporary description.");
                 basicRoomBuilder.setRoomTitle("The generated room-" + newRoomId);
+                basicRoomBuilder.setFloorId(1);
                 if (getNorth(lists, newRoomId) > 0) {
                     basicRoomBuilder.setNorthId(Optional.of(getNorth(lists, newRoomId)));
                 }
@@ -87,42 +88,30 @@ public class RoomLayoutCsvPrototype {
     }
 
     private static Integer getNorth(List<List<Integer>> matrix, Integer sourceId) {
-        String coords = getCoords(sourceId, matrix);
-        String[] split = coords.split("\\|");
-        int row = Integer.parseInt(split[0]);
-        int column = Integer.parseInt(split[1]);
-        int rowNorth = row - 1;
-        int columnNorth = column;
+        Coords coords = getCoords(sourceId, matrix);
+        int rowNorth = coords.row - 1;
+        int columnNorth = coords.column;
         return getId(rowNorth, columnNorth, matrix);
     }
 
     private static Integer getSouth(List<List<Integer>> matrix, Integer sourceId) {
-        String coords = getCoords(sourceId, matrix);
-        String[] split = coords.split("\\|");
-        int row = Integer.parseInt(split[0]);
-        int column = Integer.parseInt(split[1]);
-        int rowSouth = row + 1;
-        int columnSouth = column;
+        Coords coords = getCoords(sourceId, matrix);
+        int rowSouth = coords.row + 1;
+        int columnSouth = coords.column;
         return getId(rowSouth, columnSouth, matrix);
     }
 
     private static Integer getEast(List<List<Integer>> matrix, Integer sourceId) {
-        String coords = getCoords(sourceId, matrix);
-        String[] split = coords.split("\\|");
-        int row = Integer.parseInt(split[0]);
-        int column = Integer.parseInt(split[1]);
-        int rowEast = row;
-        int columnEast = column + 1;
+        Coords coords = getCoords(sourceId, matrix);
+        int rowEast = coords.row;
+        int columnEast = coords.column + 1;
         return getId(rowEast, columnEast, matrix);
     }
 
     private static Integer getWest(List<List<Integer>> matrix, Integer sourceId) {
-        String coords = getCoords(sourceId, matrix);
-        String[] split = coords.split("\\|");
-        int row = Integer.parseInt(split[0]);
-        int column = Integer.parseInt(split[1]);
-        int rowWest = row;
-        int columnWest = column - 1;
+        Coords coords = getCoords(sourceId, matrix);
+        int rowWest = coords.row;
+        int columnWest = coords.column - 1;
         return getId(rowWest, columnWest, matrix);
     }
 
@@ -145,13 +134,13 @@ public class RoomLayoutCsvPrototype {
     }
 
 
-    public static String getCoords(Integer roomId, List<List<Integer>> matrix) {
+    public static Coords getCoords(Integer roomId, List<List<Integer>> matrix) {
         int row = 0;
         int column = 0;
         for (List<Integer> r : matrix) {
             for (Integer id : r) {
                 if (id.equals(roomId)) {
-                    return row + "|" + column;
+                    return new Coords(row, column);
                 } else {
                     column++;
                 }
