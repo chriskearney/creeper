@@ -68,23 +68,11 @@ public class Main {
         }
 
         GameManager gameManager = new GameManager(roomManager, playerManager, entityManager);
-
-        // build zones
-
-       // RoomBuilders.buildFedTraining(gameManager);
-
-       // RoomBuilders.buildSpacePort(entityManager);
-
-        //RoomBuilders.buildNeoPortland(entityManager);
-
-       // RoomBuilders.buildOldTown(entityManager);
-
-        // zones end
         List<List<Integer>> lists = RoomLayoutCsvPrototype.buildRooms(entityManager);
         System.out.print("Building all rooms.");
         MapMaker mapMaker = new MapMaker(roomManager, lists);
         mapMaker.generateAllMaps();
-        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 30, 4, 100)));
+        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 100, 4, 100)));
         Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
         while (rooms.hasNext()) {
             Map.Entry<Integer, Room> next = rooms.next();

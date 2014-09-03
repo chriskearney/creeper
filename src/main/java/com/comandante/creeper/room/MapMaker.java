@@ -45,6 +45,9 @@ public class MapMaker {
         int columnDifference = destColumn - column;
         for (List<Integer> row1 : rawCsvMatrix) {
             for (Integer id : row1) {
+                if (id == 0) {
+                    continue;
+                }
                 String coords1 = RoomLayoutCsvPrototype.getCoords(id, rawCsvMatrix);
                 String[] split1 = coords1.split("\\|");
                 row = Integer.parseInt(split1[0]);
@@ -84,7 +87,7 @@ public class MapMaker {
                         return "[ ]";
                     }
                 } else {
-                    return " - ";
+                    return "   ";
                 }
             }
         };
