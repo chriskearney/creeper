@@ -110,10 +110,9 @@ public class MapMatrix {
         int columnDifference = destinationMatrix.getMaxCol() / 2 - coords.column;
         Iterator<List<Integer>> rows = getRows();
         while (rows.hasNext()) {
-            Iterator<Integer> row = rows.next().iterator();
-            UnmodifiableIterator<Integer> filter = Iterators.filter(row, removeZeros());
-            while (filter.hasNext()) {
-                Integer id =  filter.next();
+            UnmodifiableIterator<Integer> ids = Iterators.filter(rows.next().iterator(), removeZeros());
+            while (ids.hasNext()) {
+                Integer id = ids.next();
                 Coords currentMatrixCoords = getCoords(id);
                 Coords destinationMatrixCoords = new Coords(currentMatrixCoords.row + rowDifference,
                         currentMatrixCoords.column + columnDifference);
