@@ -1,7 +1,9 @@
 package com.comandante.creeper.room;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+import com.google.common.collect.UnmodifiableIterator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -108,11 +110,10 @@ public class MapMatrix {
         int columnDifference = destinationMatrix.getMaxCol() / 2 - coords.column;
         Iterator<List<Integer>> rows = getRows();
         while (rows.hasNext()) {
-            List<Integer> row = rows.next();
-            for (Integer id : row) {
-                if (id == 0) {
-                    continue;
-                }
+            Iterator<Integer> row = rows.next().iterator();
+            UnmodifiableIterator<Integer> filter = Iterators.filter(row, removeZeros());
+            while (filter.hasNext()) {
+                Integer id =  filter.next();
                 Coords currentMatrixCoords = getCoords(id);
                 Coords destinationMatrixCoords = new Coords(currentMatrixCoords.row + rowDifference,
                         currentMatrixCoords.column + columnDifference);
@@ -120,6 +121,18 @@ public class MapMatrix {
             }
         }
         return destinationMatrix;
+    }
+
+    private Predicate<Integer> removeZeros(){
+        return new Predicate<Integer>() {
+            @Override
+            public boolean apply(Integer integer) {
+                if (integer > 0) {
+                    return true;
+                }
+                return false;
+            }
+        };
     }
 
     public static MapMatrix createMatrixFromCsv(String mapCSV) {
