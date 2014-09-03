@@ -7,7 +7,8 @@ import com.comandante.creeper.npc.StreetHustler;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.room.Area;
-import com.comandante.creeper.room.MapMaker;
+import com.comandante.creeper.room.MapMatrix;
+import com.comandante.creeper.room.MapsManager;
 import com.comandante.creeper.room.Room;
 import com.comandante.creeper.room.RoomLayoutCsvPrototype;
 import com.comandante.creeper.room.RoomManager;
@@ -37,7 +38,6 @@ import org.mapdb.DBMaker;
 
 import java.io.File;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 public class Main {
@@ -68,11 +68,11 @@ public class Main {
         }
 
         GameManager gameManager = new GameManager(roomManager, playerManager, entityManager);
-        List<List<Integer>> floorCsvMatrix = RoomLayoutCsvPrototype.buildRooms(entityManager);
+        MapMatrix floorMapMatrix = RoomLayoutCsvPrototype.buildRooms(entityManager);
         System.out.print("Building all rooms.");
-        MapMaker mapMaker = new MapMaker(roomManager);
-        mapMaker.addFloorMatrix(1, floorCsvMatrix);
-        mapMaker.generateAllMaps(9, 9);
+        MapsManager mapsManager = new MapsManager(roomManager);
+        mapsManager.addFloorMatrix(1, floorMapMatrix);
+        mapsManager.generateAllMaps(9, 9);
         entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 100, 4, 100)));
         Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
         while (rooms.hasNext()) {
