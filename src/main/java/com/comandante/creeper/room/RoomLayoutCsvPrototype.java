@@ -11,17 +11,27 @@ import java.util.List;
 
 public class RoomLayoutCsvPrototype {
     public static final String mapCSV =
-            ",,,,,,25,24,23,22,21,20,19,18,17,16\n" +
-                    ",,,,,,26,,,,,,,,,15\n" +
-                    ",,,,,,27,,,,,,,,,14\n" +
-                    ",,,,,,28,,,,,,,,,13\n" +
-                    ",,,,,,29,30,31,32,7,8,9,10,11,12\n" +
-                    ",,,,,,,,,,6,,,,,\n" +
-                    ",,,,,,,,,,5,,,,,\n" +
-                    ",,,,,,,,,,4,,,,,\n" +
-                    ",,,,,,,,,,3,,,,,\n" +
-                    ",,,,,,,,,,2,,,,,\n" +
-                    ",,,,,,,,,,1,,,,,\n";
+            ",,,,,,,,,,,,,,,,,,,,\n" +
+                    ",,,,,,,,,,,,,,,,,,,,\n" +
+                    ",,,,,,,,,,,,,,,,,,,,\n" +
+                    ",,,,,,,,,,,,,,,,,,,,\n" +
+                    ",,,,,,,,,,,,,,,,,,,,\n" +
+                    ",,,,,,,,,,,,,,,,,,,,\n" +
+                    ",,,,,61,60,59,58,57,53,52,51,50,49,48,47,46,45,44,43\n" +
+                    ",,,,,62,,,,,54,,,,,,,,,,42\n" +
+                    ",,,,64,63,,,,,55,,,,,,,,,,41\n" +
+                    ",,,,65,,,,,,56,,,,,,,,,,40\n" +
+                    ",,,,66,,25,24,23,22,21,20,19,18,17,16,,,,,39\n" +
+                    ",,,,67,,26,,,,,,,,,15,,,,,38\n" +
+                    ",,,,68,,27,,,,,,,,,14,33,34,35,36,37\n" +
+                    ",,71,70,69,,28,,,,,,,,,13,,,,,\n" +
+                    ",,72,,,,29,30,31,32,7,8,9,10,11,12,,,,,\n" +
+                    ",,73,,,,,,,,6,,86,,,,,,,,\n" +
+                    ",,74,,,,,,,,5,,85,,,,,,,,\n" +
+                    ",,75,76,77,78,79,80,81,82,4,83,84,,,,,,,,\n" +
+                    ",,,,,,,,,,3,,,,,,,,,,\n" +
+                    ",,,,,,,,,,2,,,,,,,,,,\n" +
+                    ",,,,,,,,,,1,,,,,,,,,,\n";
 
     public static List<List<Integer>> convertMapData(String mapCSV) {
         List<String> rows = Arrays.asList(mapCSV.split("\n"));
@@ -41,11 +51,14 @@ public class RoomLayoutCsvPrototype {
         return rowsList;
     }
 
-    public static void buildRooms(EntityManager entityManager) {
+    public static List<List<Integer>> buildRooms(EntityManager entityManager) {
         List<List<Integer>> lists = convertMapData(mapCSV);
         List<BasicRoom> rooms = Lists.newArrayList();
         for (List<Integer> list : lists) {
             for (Integer newRoomId : list) {
+                if (newRoomId == 0) {
+                    continue;
+                }
                 BasicRoomBuilder basicRoomBuilder = new BasicRoomBuilder();
                 basicRoomBuilder.setRoomId(newRoomId);
                 basicRoomBuilder.setRoomDescription("This is a temporary description.");
@@ -68,6 +81,7 @@ public class RoomLayoutCsvPrototype {
         for (Room room : rooms) {
             entityManager.addEntity(room);
         }
+        return lists;
     }
 
     private static Integer getNorth(List<List<Integer>> matrix, Integer sourceId) {
@@ -129,7 +143,7 @@ public class RoomLayoutCsvPrototype {
     }
 
 
-    private static String getCoords(Integer roomId, List<List<Integer>> matrix) {
+    public static String getCoords(Integer roomId, List<List<Integer>> matrix) {
         int row = 0;
         int column = 0;
         for (List<Integer> r : matrix) {

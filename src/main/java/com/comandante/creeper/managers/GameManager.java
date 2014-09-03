@@ -9,7 +9,6 @@ import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMovement;
-import com.comandante.creeper.room.MapMaker;
 import com.comandante.creeper.room.Room;
 import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.server.ChannelUtils;
@@ -46,7 +45,6 @@ public class GameManager {
     private final EntityManager entityManager;
     private final ItemDecayManager itemDecayManager;
     private final FightManager fightManager;
-    private final MapMaker mapMaker;
 
     public GameManager(RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager) {
         this.roomManager = roomManager;
@@ -57,11 +55,6 @@ public class GameManager {
         this.newUserRegistrationManager = new NewUserRegistrationManager(playerManager);
         this.channelUtils = new ChannelUtils(getPlayerManager(), getRoomManager());
         this.fightManager = new FightManager(channelUtils, entityManager, playerManager);
-        this.mapMaker = new MapMaker(roomManager);
-    }
-
-    public MapMaker getMapMaker() {
-        return mapMaker;
     }
 
     public FightManager getFightManager() {
