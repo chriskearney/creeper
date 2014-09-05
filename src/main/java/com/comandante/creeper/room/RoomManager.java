@@ -3,9 +3,11 @@ package com.comandante.creeper.room;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.google.common.base.Optional;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +22,31 @@ public class RoomManager {
 
     public Room getRoom(Integer roomId) {
         return rooms.get(roomId);
+    }
+
+    public Optional<List<Integer>> getRoomsForTag(String tag) {
+        List<Integer> matchedRooms = Lists.newArrayList();
+        Iterator<Map.Entry<Integer, Room>> rooms = getRooms();
+        while (rooms.hasNext()) {
+            Map.Entry<Integer, Room> next = rooms.next();
+            if (next.getValue().getRoomTags().contains(tag)) {
+                matchedRooms.add(next.getValue().getRoomId());
+            }
+        }
+
+        if (matchedRooms.size() > 0) {
+            return Optional.of(matchedRooms);
+        } else {
+            return Optional.absent();
+        }
+    }
+
+    public void tagRoom(Integer roomId, String tag) {
+        getRoom(roomId).addTag(tag);
+    }
+
+    public Set<String> getTagsForRoom(Integer roomId) {
+        return getRoom(roomId).getRoomTags();
     }
 
     public Iterator<java.util.Map.Entry<Integer, Room>> getRooms() {
@@ -45,7 +72,7 @@ public class RoomManager {
         while (rooms1.hasNext()) {
             Map.Entry<Integer, Room> next = rooms1.next();
             Room room = next.getValue();
-            for (String npcId: room.getNpcIds()) {
+            for (String npcId : room.getNpcIds()) {
                 if (npcId.equals(npc.getEntityId())) {
                     return Optional.of(next.getValue());
                 }

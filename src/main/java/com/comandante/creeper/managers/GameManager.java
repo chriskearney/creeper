@@ -14,6 +14,7 @@ import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.server.Color;
 import com.comandante.creeper.server.CreeperSession;
+import com.comandante.creeper.server.MultiLineInputManager;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interners;
@@ -45,6 +46,7 @@ public class GameManager {
     private final EntityManager entityManager;
     private final ItemDecayManager itemDecayManager;
     private final FightManager fightManager;
+    private final MultiLineInputManager multiLineInputManager;
 
     public GameManager(RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager) {
         this.roomManager = roomManager;
@@ -55,6 +57,11 @@ public class GameManager {
         this.newUserRegistrationManager = new NewUserRegistrationManager(playerManager);
         this.channelUtils = new ChannelUtils(getPlayerManager(), getRoomManager());
         this.fightManager = new FightManager(channelUtils, entityManager, playerManager);
+        this.multiLineInputManager = new MultiLineInputManager();
+    }
+
+    public MultiLineInputManager getMultiLineInputManager() {
+        return multiLineInputManager;
     }
 
     public FightManager getFightManager() {

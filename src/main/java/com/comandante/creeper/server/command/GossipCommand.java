@@ -28,7 +28,7 @@ public class GossipCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
-            CreeperSession session = getCreeperSession(e.getChannel());
+            CreeperSession session = extractCreeperSession(e.getChannel());
             String playerId = getPlayerId(session);
             List<String> origMessageParts = getOriginalMessageParts(e);
             if (origMessageParts.size() == 1) {

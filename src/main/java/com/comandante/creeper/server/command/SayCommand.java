@@ -28,7 +28,7 @@ public class SayCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
-            CreeperSession session = getCreeperSession(e.getChannel());
+            CreeperSession session = extractCreeperSession(e.getChannel());
             List<String> originalMessageParts = getOriginalMessageParts(e);
             originalMessageParts.remove(0);
             Player sourcePlayer = getGameManager().getPlayerManager().getPlayer(getPlayerId(session));

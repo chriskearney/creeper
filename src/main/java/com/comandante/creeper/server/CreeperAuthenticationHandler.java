@@ -57,6 +57,7 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
             }
             doAuthentication(ctx, e);
             if (creeperSession.isAuthed()) {
+                gameManager.getPlayerManager().getSessionManager().putSession(creeperSession);
                 gameManager.currentRoomLogic(creeperSession, e);
             }
         } else {

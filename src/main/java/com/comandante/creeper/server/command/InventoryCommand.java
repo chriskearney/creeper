@@ -27,7 +27,7 @@ public class InventoryCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
-            CreeperSession session = getCreeperSession(e.getChannel());
+            CreeperSession session = extractCreeperSession(e.getChannel());
             PlayerMetadata playerMetadata = getGameManager().getPlayerManager().getPlayerMetadata(getPlayerId(session));
             String[] inventory1 = playerMetadata.getInventory();
             if (inventory1 == null) {

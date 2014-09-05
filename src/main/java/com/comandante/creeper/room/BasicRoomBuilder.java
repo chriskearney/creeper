@@ -1,6 +1,9 @@
 package com.comandante.creeper.room;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Sets;
+
+import java.util.Set;
 
 public class BasicRoomBuilder {
     private Integer roomId;
@@ -13,6 +16,8 @@ public class BasicRoomBuilder {
     private Optional<Integer> upId = Optional.absent();
     private Optional<Integer> downId = Optional.absent();
     private String roomDescription;
+    private Set<String> roomTags = Sets.newConcurrentHashSet();
+
 
     public BasicRoomBuilder setRoomId(Integer roomId) {
         this.roomId = roomId;
@@ -64,7 +69,12 @@ public class BasicRoomBuilder {
         return this;
     }
 
+    public BasicRoomBuilder addTag(String tag) {
+        this.roomTags.add(tag);
+        return this;
+    }
+
     public BasicRoom createBasicRoom() {
-        return new BasicRoom(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, roomDescription);
+        return new BasicRoom(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, roomDescription, roomTags);
     }
 }

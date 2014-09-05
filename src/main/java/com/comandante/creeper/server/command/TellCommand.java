@@ -25,7 +25,7 @@ public class TellCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
-            CreeperSession session = getCreeperSession(e.getChannel());
+            CreeperSession session = extractCreeperSession(e.getChannel());
             Player sourcePlayer = getGameManager().getPlayerManager().getPlayer(getPlayerId(session));
             List<String> parts = getOriginalMessageParts(e);
             if (parts.size() < 3) {

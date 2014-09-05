@@ -26,7 +26,7 @@ public class PickUpCommand extends Command {
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
             List<String> originalMessageParts = getOriginalMessageParts(e);
-            CreeperSession session = getCreeperSession(e.getChannel());
+            CreeperSession session = extractCreeperSession(e.getChannel());
             Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId(session));
             Room playerCurrentRoom = getGameManager().getRoomManager().getPlayerCurrentRoom(player).get();
             Set<String> itemIds = playerCurrentRoom.getItemIds();

@@ -13,7 +13,16 @@ import java.util.Set;
 public abstract class Room extends CreeperEntity {
 
     private final Integer roomId;
-    private final String roomTitle;
+
+    public void setRoomTitle(String roomTitle) {
+        this.roomTitle = roomTitle;
+    }
+
+    public void setRoomDescription(String roomDescription) {
+        this.roomDescription = roomDescription;
+    }
+
+    private String roomTitle;
     private final Integer floorId;
     private final Optional<Integer> northId;
     private final Optional<Integer> westId;
@@ -21,7 +30,7 @@ public abstract class Room extends CreeperEntity {
     private final Optional<Integer> southId;
     private final Optional<Integer> downId;
     private final Optional<Integer> upId;
-    private final String roomDescription;
+    private String roomDescription;
     private final Set<String> presentPlayerIds = Sets.<String>newConcurrentHashSet();
     private final Set<String> afkPlayerIds = Sets.<String>newConcurrentHashSet();
     private final Set<String> npcIds = Sets.newConcurrentHashSet();
@@ -29,6 +38,7 @@ public abstract class Room extends CreeperEntity {
     private List<ItemSpawner> itemSpawners = Lists.newArrayList();
     private Set<Area> areas = Sets.newHashSet(Area.DEFAULT);
     private Optional<String> mapData = Optional.absent();
+    private final Set<String> roomTags;
 
     public Room(Integer roomId,
                 String roomTitle,
@@ -39,7 +49,7 @@ public abstract class Room extends CreeperEntity {
                 Optional<Integer> westId,
                 Optional<Integer> upId,
                 Optional<Integer> downId,
-                String roomDescription) {
+                String roomDescription, Set<String> roomTags) {
         this.roomId = roomId;
         this.roomTitle = roomTitle;
         this.floorId = floorId;
@@ -50,8 +60,17 @@ public abstract class Room extends CreeperEntity {
         this.upId = upId;
         this.downId = downId;
         this.roomDescription = roomDescription;
+        this.roomTags = roomTags;
     }
 
+    public Set<String> getRoomTags() {
+        return roomTags;
+    }
+
+
+    public void addTag(String tag) {
+        roomTags.add(tag);
+    }
     public Integer getFloorId() {
         return floorId;
     }

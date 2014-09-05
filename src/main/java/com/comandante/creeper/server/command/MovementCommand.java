@@ -44,7 +44,7 @@ public class MovementCommand extends Command {
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
             final GameManager gameManager = getGameManager();
-            CreeperSession session = getCreeperSession(e.getChannel());
+            CreeperSession session = extractCreeperSession(e.getChannel());
             Player player = gameManager.getPlayerManager().getPlayer(getPlayerId(session));
             Optional<Room> roomOptional = gameManager.getRoomManager().getPlayerCurrentRoom(player);
             ChannelUtils channelUtils = gameManager.getChannelUtils();

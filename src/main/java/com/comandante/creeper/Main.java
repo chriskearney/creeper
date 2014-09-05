@@ -14,6 +14,7 @@ import com.comandante.creeper.room.RoomLayoutCsvPrototype;
 import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.server.CreeperCommandRegistry;
 import com.comandante.creeper.server.CreeperServer;
+import com.comandante.creeper.server.command.DescriptionCommand;
 import com.comandante.creeper.server.command.DropCommand;
 import com.comandante.creeper.server.command.GossipCommand;
 import com.comandante.creeper.server.command.InventoryCommand;
@@ -93,6 +94,7 @@ public class Main {
         creeperCommandRegistry.addCommand(new UseCommand(gameManager));
         creeperCommandRegistry.addCommand(new WhoamiCommand(gameManager));
         creeperCommandRegistry.addCommand(new WhoCommand(gameManager));
+        creeperCommandRegistry.addCommand(new DescriptionCommand(gameManager));
 
         CreeperServer creeperServer = new CreeperServer(8080, db);
         creeperServer.run(gameManager);

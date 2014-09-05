@@ -40,7 +40,7 @@ public class WhoCommand extends Command {
                 t.addCell(allPlayer.getChannel().getRemoteAddress().toString());
                 t.addCell(new Date().toString());
             }
-            getGameManager().getChannelUtils().write(getPlayerId(getCreeperSession(e.getChannel())), t.render());
+            getGameManager().getChannelUtils().write(getPlayerId(extractCreeperSession(e.getChannel())), t.render());
         } finally {
             super.messageReceived(ctx, e);
         }

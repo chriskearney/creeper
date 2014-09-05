@@ -18,20 +18,32 @@ public class ChannelUtils {
     }
 
     public void writeNoPrompt(String playerId, String message) {
+        if (playerManager.getSessionManager().getSession(playerId).getGrabMultiLineInput().isPresent()) {
+            return;
+        }
         write(playerId, message, false, true);
     }
 
     public void writeNoPromptNoAfterSpace(String playerId, String message) {
+        if (playerManager.getSessionManager().getSession(playerId).getGrabMultiLineInput().isPresent()) {
+            return;
+        }
         write(playerId, message, false, false);
     }
 
     public void writeOnlyPrompt(String playerId) {
+        if (playerManager.getSessionManager().getSession(playerId).getGrabMultiLineInput().isPresent()) {
+            return;
+        }
         Player player = playerManager.getPlayer(playerId);
         Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
         player.getChannel().write(playerManager.getPrompt(playerId, playerCurrentRoom.getRoomId()));
     }
 
     public void writeToRoom(String playerId, String message) {
+        if (playerManager.getSessionManager().getSession(playerId).getGrabMultiLineInput().isPresent()) {
+            return;
+        }
         Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(playerManager.getPlayer(playerId)).get();
         Set<String> presentPlayerIds = playerCurrentRoom.getPresentPlayerIds();
         for (String id : presentPlayerIds) {
@@ -45,10 +57,16 @@ public class ChannelUtils {
 
 
     public void write(String playerId, String message) {
+        if (playerManager.getSessionManager().getSession(playerId).getGrabMultiLineInput().isPresent()) {
+            return;
+        }
         write(playerId, message, true, true);
     }
 
     public void write(String playerId, String message, boolean isPrompt, boolean isAfterSpace) {
+        if (playerManager.getSessionManager().getSession(playerId).getGrabMultiLineInput().isPresent()) {
+            return;
+        }
         Player player = playerManager.getPlayer(playerId);
         Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
         StringBuilder sb = new StringBuilder();

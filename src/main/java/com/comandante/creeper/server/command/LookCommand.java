@@ -24,7 +24,7 @@ public class LookCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
-            CreeperSession creeperSession = getCreeperSession(e.getChannel());
+            CreeperSession creeperSession = extractCreeperSession(e.getChannel());
             List<String> originalMessageParts = getOriginalMessageParts(e);
             if (originalMessageParts.size() == 1) {
                 getGameManager().currentRoomLogic(getPlayerId(creeperSession));

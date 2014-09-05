@@ -25,7 +25,7 @@ public class DropCommand extends Command {
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
             GameManager gameManager = getGameManager();
-            CreeperSession session = getCreeperSession(e.getChannel());
+            CreeperSession session = extractCreeperSession(e.getChannel());
             final String playerId = getPlayerId(session);
             List<String> origMessageParts = getOriginalMessageParts(e);
             if (origMessageParts.size() == 1) {

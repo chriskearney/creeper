@@ -19,6 +19,12 @@ public class CreeperCommandHandler extends SimpleChannelUpstreamHandler {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         String rootCommand = getRootCommand(e);
+        CreeperSession session = (CreeperSession) e.getChannel().getAttachment();
+        if (session.getGrabMultiLineInput().isPresent()) {
+            e.getChannel().getPipeline().addLast("executed_command", new MultiLineInputHandler(gameManager));
+            super.messageReceived(ctx, e);
+            return;
+        }
         Command commandByTrigger = Main.creeperCommandRegistry.getCommandByTrigger(rootCommand);
         e.getChannel().getPipeline().addLast("executed_command", commandByTrigger);
         super.messageReceived(ctx, e);
@@ -29,7 +35,7 @@ public class CreeperCommandHandler extends SimpleChannelUpstreamHandler {
     public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
         e.getCause().printStackTrace();
         e.getChannel().close();
-        CreeperSession creeperSession = (CreeperSession) ctx.getAttachment();
+        CreeperSession creeperSession = (CreeperSession) e.getChannel().getAttachment();
         gameManager.setPlayerAfk(creeperSession.getUsername().get());
         gameManager.getPlayerManager().removePlayer(creeperSession.getUsername().get());
     }

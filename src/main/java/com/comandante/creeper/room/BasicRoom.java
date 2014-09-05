@@ -2,6 +2,8 @@ package com.comandante.creeper.room;
 
 import com.google.common.base.Optional;
 
+import java.util.Set;
+
 public class BasicRoom extends Room {
     @Override
     public void run() {
@@ -18,7 +20,8 @@ public class BasicRoom extends Room {
                      Optional<Integer> westId,
                      Optional<Integer> upId,
                      Optional<Integer> downId,
-                     String roomDescription) {
-        super(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, roomDescription);
+                     String roomDescription,
+                     Set<String> roomTags) {
+        super(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, roomDescription, roomTags);
     }
 }

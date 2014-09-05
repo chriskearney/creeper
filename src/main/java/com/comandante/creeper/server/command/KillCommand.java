@@ -30,7 +30,7 @@ public class KillCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
-            CreeperSession creeperSession = getCreeperSession(e.getChannel());
+            CreeperSession creeperSession = extractCreeperSession(e.getChannel());
             Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId(creeperSession));
             if (FightManager.isActiveFight(creeperSession)) {
                 getGameManager().getChannelUtils().write(player.getPlayerId(), "You are already in a fight!");

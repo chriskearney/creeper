@@ -25,7 +25,7 @@ public class UseCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
-            CreeperSession session = getCreeperSession(e.getChannel());
+            CreeperSession session = extractCreeperSession(e.getChannel());
             List<String> originalMessageParts = getOriginalMessageParts(e);
             if (originalMessageParts.size() == 1) {
                 getGameManager().getChannelUtils().write(getPlayerId(session), "No item specified.");

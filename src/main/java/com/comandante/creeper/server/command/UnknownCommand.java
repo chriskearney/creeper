@@ -13,7 +13,7 @@ public class UnknownCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
-            getGameManager().getChannelUtils().writeOnlyPrompt(getPlayerId(getCreeperSession(e.getChannel())));
+            getGameManager().getChannelUtils().writeOnlyPrompt(getPlayerId(extractCreeperSession(e.getChannel())));
         } finally {
             super.messageReceived(ctx, e);
         }

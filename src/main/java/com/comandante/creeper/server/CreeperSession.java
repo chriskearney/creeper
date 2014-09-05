@@ -1,8 +1,11 @@
 package com.comandante.creeper.server;
 
+import com.comandante.creeper.CreeperEntry;
 import com.comandante.creeper.fight.FightResults;
+import com.comandante.creeper.server.command.Command;
 import com.google.common.base.Optional;
 
+import java.util.UUID;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -13,6 +16,7 @@ public class CreeperSession {
     private boolean isAuthed = false;
     private Optional<Future<FightResults>> activeFight = Optional.absent();
     private AtomicBoolean isAbleToDoAbility = new AtomicBoolean(false);
+    private Optional<CreeperEntry<UUID, Command>> grabMultiLineInput = Optional.absent();
 
     State state;
 
@@ -71,5 +75,13 @@ public class CreeperSession {
 
     public boolean IsAbleToDoAbility() {
         return this.isAbleToDoAbility.get();
+    }
+
+    public Optional<CreeperEntry<UUID, Command>> getGrabMultiLineInput() {
+        return grabMultiLineInput;
+    }
+
+    public void setGrabMultiLineInput(Optional<CreeperEntry<UUID, Command>> grabMultiLineInput) {
+        this.grabMultiLineInput = grabMultiLineInput;
     }
 }

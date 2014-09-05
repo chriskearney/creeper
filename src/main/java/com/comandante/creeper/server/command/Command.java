@@ -17,11 +17,20 @@ public abstract class Command extends SimpleChannelUpstreamHandler {
     private final GameManager gameManager;
     private final List<String> validTriggers;
     private final String description;
+    private final boolean isAdminCommand;
 
     protected Command(GameManager gameManager, List<String> validTriggers, String description) {
         this.gameManager = gameManager;
         this.validTriggers = validTriggers;
         this.description = description;
+        this.isAdminCommand = false;
+    }
+
+    protected Command(GameManager gameManager, List<String> validTriggers, String description, boolean isAdminCommand) {
+        this.gameManager = gameManager;
+        this.validTriggers = validTriggers;
+        this.description = description;
+        this.isAdminCommand = isAdminCommand;
     }
 
     @Override
@@ -30,7 +39,7 @@ public abstract class Command extends SimpleChannelUpstreamHandler {
         super.messageReceived(ctx, e);
     }
 
-    public CreeperSession getCreeperSession(Channel channel) {
+    public CreeperSession extractCreeperSession(Channel channel) {
         return (CreeperSession) channel.getAttachment();
     }
 

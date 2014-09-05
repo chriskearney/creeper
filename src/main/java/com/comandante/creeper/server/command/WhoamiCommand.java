@@ -19,7 +19,7 @@ public class WhoamiCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
-            Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId(getCreeperSession(e.getChannel())));
+            Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId(extractCreeperSession(e.getChannel())));
             getGameManager().getChannelUtils().write(player.getPlayerId(), player.getPlayerName());
         } finally {
             super.messageReceived(ctx, e);
