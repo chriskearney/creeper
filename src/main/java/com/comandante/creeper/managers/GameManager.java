@@ -302,7 +302,7 @@ public class GameManager {
                 channelUtils.write(playerId, message);
                 continue;
             }
-            channelUtils.writeNoPrompt(player.getPlayerId(), message);
+            channelUtils.writeNoPromptNoAfterSpace(player.getPlayerId(), message);
         }
     }
 }
