@@ -2,11 +2,29 @@ package com.comandante.creeper.room;
 
 import com.google.gson.GsonBuilder;
 
+import java.util.Set;
+
 public class RoomModel {
 
     int roomId;
     String roomDescription;
     String roomTitle;
+    Set<String> roomTags;
+
+    public RoomModel(int roomId, String roomDescription, String roomTitle, Set<String> roomTags) {
+        this.roomId = roomId;
+        this.roomDescription = roomDescription;
+        this.roomTitle = roomTitle;
+        this.roomTags = roomTags;
+    }
+
+    public Set<String> getRoomTags() {
+        return roomTags;
+    }
+
+    public void setRoomTags(Set<String> roomTags) {
+        this.roomTags = roomTags;
+    }
 
     public int getRoomId() {
         return roomId;
@@ -34,7 +52,7 @@ public class RoomModel {
 
     public static void main(String[] args) {
 
-        RoomModel roomModel = new RoomModel();
+        RoomModel roomModel = new RoomModelBuilder().build();
         roomModel.setRoomId(1);
         roomModel.setRoomDescription("A large and empty area.");
         roomModel.setRoomTitle("The flimflam.");

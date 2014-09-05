@@ -56,4 +56,8 @@ public class MapsManager {
     public void addFloorMatrix(Integer id, MapMatrix floorMatrix) {
         floorMatrixMaps.put(id, floorMatrix);
     }
+
+    public Map<Integer, MapMatrix> getFloorMatrixMaps() {
+        return floorMatrixMaps;
+    }
 }

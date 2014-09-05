@@ -1,4 +1,4 @@
-package com.comandante.creeper.server.command;
+package com.comandante.creeper.server.command.admin;
 
 import com.comandante.creeper.CreeperEntry;
 import com.comandante.creeper.managers.GameManager;
@@ -6,6 +6,7 @@ import com.comandante.creeper.player.Player;
 import com.comandante.creeper.room.Room;
 import com.comandante.creeper.server.CreeperSession;
 import com.comandante.creeper.server.MultiLineInputManager;
+import com.comandante.creeper.server.command.Command;
 import com.google.common.base.Optional;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;

@@ -53,6 +53,18 @@ public class RoomManager {
         return rooms.entrySet().iterator();
     }
 
+    public Set<Room> getRoomsByFloorId(Integer floorId) {
+        Set<Room> rooms = Sets.newHashSet();
+        Iterator<Map.Entry<Integer, Room>> rooms1 = getRooms();
+        while (rooms1.hasNext()) {
+            Map.Entry<Integer, Room> next = rooms1.next();
+            if (next.getValue().getFloorId().equals(floorId)) {
+                rooms.add(next.getValue());
+            }
+        }
+        return rooms;
+    }
+
     public Optional<Room> getPlayerCurrentRoom(Player player) {
         Iterator<Map.Entry<Integer, Room>> rooms = getRooms();
         while (rooms.hasNext()) {

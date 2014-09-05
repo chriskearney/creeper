@@ -134,6 +134,20 @@ public class MapMatrix {
         };
     }
 
+    public String getCsv() {
+        StringBuilder sb = new StringBuilder();
+        for (List<Integer> list: matrix) {
+            for (Integer roomId: list) {
+                if (!roomId.equals(0)) {
+                    sb.append(roomId);
+                }
+                sb.append(",");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
     public static MapMatrix createMatrixFromCsv(String mapCSV) {
         List<String> rows = Arrays.asList(mapCSV.split("\n"));
         ArrayList<List<Integer>> rowsList = Lists.newArrayList();

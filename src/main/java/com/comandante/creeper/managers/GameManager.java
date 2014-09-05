@@ -9,6 +9,8 @@ import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMovement;
+import com.comandante.creeper.room.FloorManager;
+import com.comandante.creeper.room.MapsManager;
 import com.comandante.creeper.room.Room;
 import com.comandante.creeper.room.RoomManager;
 import com.comandante.creeper.server.ChannelUtils;
@@ -47,8 +49,10 @@ public class GameManager {
     private final ItemDecayManager itemDecayManager;
     private final FightManager fightManager;
     private final MultiLineInputManager multiLineInputManager;
+    private final MapsManager mapsManager;
+    private final FloorManager floorManager;
 
-    public GameManager(RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager) {
+    public GameManager(RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager, MapsManager mapsManager) {
         this.roomManager = roomManager;
         this.playerManager = playerManager;
         this.entityManager = entityManager;
@@ -58,6 +62,16 @@ public class GameManager {
         this.channelUtils = new ChannelUtils(getPlayerManager(), getRoomManager());
         this.fightManager = new FightManager(channelUtils, entityManager, playerManager);
         this.multiLineInputManager = new MultiLineInputManager();
+        this.mapsManager = mapsManager;
+        this.floorManager = new FloorManager();
+    }
+
+    public FloorManager getFloorManager() {
+        return floorManager;
+    }
+
+    public MapsManager getMapsManager() {
+        return mapsManager;
     }
 
     public MultiLineInputManager getMultiLineInputManager() {
