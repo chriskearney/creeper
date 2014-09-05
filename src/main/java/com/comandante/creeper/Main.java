@@ -7,11 +7,10 @@ import com.comandante.creeper.npc.StreetHustler;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.room.Area;
-import com.comandante.creeper.room.MapMatrix;
 import com.comandante.creeper.room.MapsManager;
 import com.comandante.creeper.room.Room;
-import com.comandante.creeper.room.RoomLayoutCsvPrototype;
 import com.comandante.creeper.room.RoomManager;
+import com.comandante.creeper.room.WorldExporter;
 import com.comandante.creeper.server.CreeperCommandRegistry;
 import com.comandante.creeper.server.CreeperServer;
 import com.comandante.creeper.server.command.DropCommand;
@@ -68,16 +67,12 @@ public class Main {
             System.out.println("Creating Brian User.");
             playerManager.savePlayerMetadata(new PlayerMetadata("brian", "poop", new String(Base64.encodeBase64("brian".getBytes())), chrisBrianStats));
         }
-        MapMatrix floorMapMatrix = RoomLayoutCsvPrototype.buildRooms(entityManager);
         System.out.print("Building all rooms.");
         MapsManager mapsManager = new MapsManager(roomManager);
-        mapsManager.addFloorMatrix(1, floorMapMatrix);
-        mapsManager.generateAllMaps(9, 9);
         GameManager gameManager = new GameManager(roomManager, playerManager, entityManager, mapsManager);
-        gameManager.getFloorManager().addFloor(1, "main");
-
-
-
+        WorldExporter worldExporter = new WorldExporter(roomManager, mapsManager, gameManager.getFloorManager(), entityManager);
+        worldExporter.readWorldFromDisk();
+        mapsManager.generateAllMaps(9, 9);
         entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 100, 4, 100)));
         Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
         while (rooms.hasNext()) {
@@ -105,7 +100,6 @@ public class Main {
 
         CreeperServer creeperServer = new CreeperServer(8080, db);
         creeperServer.run(gameManager);
-
         System.out.println("Creeper started.");
     }
 

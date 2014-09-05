@@ -25,7 +25,8 @@ public class SaveWorldCommand extends Command {
         WorldExporter worldExporter = new WorldExporter(
                         getGameManager().getRoomManager(),
                         getGameManager().getMapsManager(),
-                        getGameManager().getFloorManager());
+                        getGameManager().getFloorManager(),
+                        getGameManager().getEntityManager());
 
         worldExporter.saveWorld();
         getGameManager().getChannelUtils().write(getPlayerId(extractCreeperSession(e.getChannel())), "World saved.");

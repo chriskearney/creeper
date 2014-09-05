@@ -29,7 +29,9 @@ public class MapsManager {
     }
 
     public String drawMap(Integer roomId, Coords max) {
+        Room room = roomManager.getRoom(roomId);
         MapMatrix floorMatrix = floorMatrixMaps.get(roomManager.getRoom(roomId).getFloorId());
+
         MapMatrix mapMatrix = floorMatrix.extractMatrix(roomId, max);
         return mapMatrix.renderMap(roomId);
     }

@@ -7,15 +7,25 @@ import java.util.Set;
 public class RoomModel {
 
     int roomId;
+    int floorId;
     String roomDescription;
     String roomTitle;
     Set<String> roomTags;
 
-    public RoomModel(int roomId, String roomDescription, String roomTitle, Set<String> roomTags) {
+    public RoomModel(int roomId, int floorId, String roomDescription, String roomTitle, Set<String> roomTags) {
         this.roomId = roomId;
+        this.floorId = floorId;
         this.roomDescription = roomDescription;
         this.roomTitle = roomTitle;
         this.roomTags = roomTags;
+    }
+
+    public int getFloorId() {
+        return floorId;
+    }
+
+    public void setFloorId(int floorId) {
+        this.floorId = floorId;
     }
 
     public Set<String> getRoomTags() {
