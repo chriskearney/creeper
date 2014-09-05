@@ -5,7 +5,6 @@ import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.room.Room;
 import com.comandante.creeper.server.CreeperSession;
-import com.comandante.creeper.server.MultiLineInputHandler;
 import com.comandante.creeper.server.MultiLineInputManager;
 import com.google.common.base.Optional;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -41,11 +40,10 @@ public class DescriptionCommand extends Command {
                 return;
             }
             final String playerId = getPlayerId(session);
-            List<String> origMessageParts = getOriginalMessageParts(e);
-            gameManager.getChannelUtils().write(playerId, "Starting multi line input. Type DONE in all caps when completed, on its own line");
+            gameManager.getChannelUtils().writeNoPrompt(playerId, "\n\n ENTERING MULTI LINE INPUT MODE.  TYPE \"DONE\" ON AN EMPTY LINE TO EXIT");
             session.setGrabMultiLineInput(Optional.of(
                     new CreeperEntry<UUID, Command>(gameManager.getMultiLineInputManager().createNewMultiLineInput(), this)));
-            e.getChannel().getPipeline().addLast("multi_line", new MultiLineInputHandler(gameManager));
+            //e.getChannel().getPipeline().addLast("multi_line", new MultiLineInputHandler(gameManager));
         } finally {
            super.messageReceived(ctx, e);
         }

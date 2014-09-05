@@ -24,6 +24,7 @@ import com.comandante.creeper.server.command.MovementCommand;
 import com.comandante.creeper.server.command.PickUpCommand;
 import com.comandante.creeper.server.command.SayCommand;
 import com.comandante.creeper.server.command.TellCommand;
+import com.comandante.creeper.server.command.TitleCommand;
 import com.comandante.creeper.server.command.UnknownCommand;
 import com.comandante.creeper.server.command.UseCommand;
 import com.comandante.creeper.server.command.WhoCommand;
@@ -95,6 +96,7 @@ public class Main {
         creeperCommandRegistry.addCommand(new WhoamiCommand(gameManager));
         creeperCommandRegistry.addCommand(new WhoCommand(gameManager));
         creeperCommandRegistry.addCommand(new DescriptionCommand(gameManager));
+        creeperCommandRegistry.addCommand(new TitleCommand(gameManager));
 
         CreeperServer creeperServer = new CreeperServer(8080, db);
         creeperServer.run(gameManager);

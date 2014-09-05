@@ -10,11 +10,11 @@ public class MultiLineInputManager {
     private final Map<UUID, StringBuilder> multiLineInputs = Maps.newConcurrentMap();
 
     public void addToMultiLine(UUID uuid, String input) {
-        multiLineInputs.get(uuid).append(input);
+        multiLineInputs.get(uuid).append(input).append("\r\n");
     }
 
     public String retrieveMultiLineInput(UUID uuid) {
-        return multiLineInputs.remove(uuid).toString();
+        return  multiLineInputs.remove(uuid).toString();
     }
 
     public UUID createNewMultiLineInput() {

@@ -47,7 +47,7 @@ public class MapsManager {
                         return "[ ]";
                     }
                 } else {
-                    return "   ";
+                    return " - ";
                 }
             }
         };
