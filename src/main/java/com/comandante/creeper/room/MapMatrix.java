@@ -149,7 +149,7 @@ public class MapMatrix {
     }
 
     public static MapMatrix createMatrixFromCsv(String mapCSV) {
-        List<String> rows = Arrays.asList(mapCSV.split("\n"));
+        List<String> rows = Arrays.asList(mapCSV.split("\\r?\\n"));
         ArrayList<List<Integer>> rowsList = Lists.newArrayList();
         for (String row : rows) {
             List<String> strings = Arrays.asList(row.split(",", -1));
@@ -165,7 +165,6 @@ public class MapMatrix {
         }
         return new MapMatrix(rowsList);
     }
-
 
     private static MapMatrix getBlankMatrix(int maxRows, int maxColumns) {
         List<List<Integer>> lists = Lists.newArrayList();

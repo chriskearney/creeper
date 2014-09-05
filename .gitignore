@@ -7,4 +7,4 @@ creeperDb*
 *.pyc
 *.bak
 .idea/
-world/
+*.mapdb*

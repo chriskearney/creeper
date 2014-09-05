@@ -17,6 +17,7 @@ public class BasicRoomBuilder {
     private Optional<Integer> downId = Optional.absent();
     private String roomDescription;
     private Set<String> roomTags = Sets.newConcurrentHashSet();
+    private Set<Area> areas = Sets.newConcurrentHashSet();
 
 
     public BasicRoomBuilder setRoomId(Integer roomId) {
@@ -74,7 +75,12 @@ public class BasicRoomBuilder {
         return this;
     }
 
+    public BasicRoomBuilder addArea(Area area) {
+        this.areas.add(area);
+        return this;
+    }
+
     public BasicRoom createBasicRoom() {
-        return new BasicRoom(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, roomDescription, roomTags);
+        return new BasicRoom(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, roomDescription, roomTags, areas);
     }
 }

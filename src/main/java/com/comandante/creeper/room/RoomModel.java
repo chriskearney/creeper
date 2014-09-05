@@ -11,13 +11,23 @@ public class RoomModel {
     String roomDescription;
     String roomTitle;
     Set<String> roomTags;
+    Set<String> areaNames;
 
-    public RoomModel(int roomId, int floorId, String roomDescription, String roomTitle, Set<String> roomTags) {
+    public RoomModel(int roomId, int floorId, String roomDescription, String roomTitle, Set<String> roomTags, Set<String> areaNames) {
         this.roomId = roomId;
         this.floorId = floorId;
         this.roomDescription = roomDescription;
         this.roomTitle = roomTitle;
         this.roomTags = roomTags;
+        this.areaNames = areaNames;
+    }
+
+    public Set<String> getAreaNames() {
+        return areaNames;
+    }
+
+    public void setAreaNames(Set<String> areaNames) {
+        this.areaNames = areaNames;
     }
 
     public int getFloorId() {

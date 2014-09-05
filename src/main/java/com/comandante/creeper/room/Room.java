@@ -49,7 +49,8 @@ public abstract class Room extends CreeperEntity {
                 Optional<Integer> westId,
                 Optional<Integer> upId,
                 Optional<Integer> downId,
-                String roomDescription, Set<String> roomTags) {
+                String roomDescription, Set<String> roomTags,
+                Set<Area> areas) {
         this.roomId = roomId;
         this.roomTitle = roomTitle;
         this.floorId = floorId;
@@ -61,6 +62,7 @@ public abstract class Room extends CreeperEntity {
         this.downId = downId;
         this.roomDescription = roomDescription;
         this.roomTags = roomTags;
+        this.areas = areas;
     }
 
     public Set<String> getRoomTags() {

@@ -4,6 +4,7 @@ import com.comandante.creeper.fight.FightManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.player.Player;
+import com.comandante.creeper.room.Coords;
 import com.comandante.creeper.room.Room;
 import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.server.CreeperSession;
@@ -63,6 +64,7 @@ public class MovementCommand extends Command {
             }
             if (northTriggers.contains(command.toLowerCase())) {
                 if (!currentRoom.getNorthId().isPresent()) {
+                    channelUtils.write(getPlayerId(session), gameManager.getMapsManager().drawMap(currentRoom.getRoomId(), new Coords(9,9)));
                     channelUtils.write(getPlayerId(session), "There's no northern exit.");
                     return;
                 }
@@ -71,14 +73,17 @@ public class MovementCommand extends Command {
             }
             if (southTriggers.contains(command.toLowerCase())) {
                 if (!currentRoom.getSouthId().isPresent()) {
+                    channelUtils.write(getPlayerId(session), gameManager.getMapsManager().drawMap(currentRoom.getRoomId(), new Coords(9,9)));
                     channelUtils.write(getPlayerId(session), "There's no southern exit.");
                     return;
                 }
                 Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getSouthId().get());
+                channelUtils.write(getPlayerId(session), gameManager.getMapsManager().drawMap(currentRoom.getRoomId(), new Coords(9,9)));
                 playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the south.", "north");
             }
             if (eastTriggers.contains(command.toLowerCase())) {
                 if (!currentRoom.getEastId().isPresent()) {
+                    channelUtils.write(getPlayerId(session), gameManager.getMapsManager().drawMap(currentRoom.getRoomId(), new Coords(9,9)));
                     channelUtils.write(getPlayerId(session), "There's no eastern exit.");
                     return;
                 }
@@ -87,6 +92,7 @@ public class MovementCommand extends Command {
             }
             if (westTriggers.contains(command.toLowerCase())) {
                 if (!currentRoom.getWestId().isPresent()) {
+                    channelUtils.write(getPlayerId(session), gameManager.getMapsManager().drawMap(currentRoom.getRoomId(), new Coords(9,9)));
                     channelUtils.write(getPlayerId(session), "There's no western exit.");
                     return;
                 }
@@ -95,6 +101,7 @@ public class MovementCommand extends Command {
             }
             if (upTriggers.contains(command.toLowerCase())) {
                 if (!currentRoom.getUpId().isPresent()) {
+                    channelUtils.write(getPlayerId(session), gameManager.getMapsManager().drawMap(currentRoom.getRoomId(), new Coords(9,9)));
                     channelUtils.write(getPlayerId(session), "There's no up exit.");
                     return;
                 }
@@ -103,6 +110,7 @@ public class MovementCommand extends Command {
             }
             if (downTriggers.contains(command.toLowerCase())) {
                 if (!currentRoom.getDownId().isPresent()) {
+                    channelUtils.write(getPlayerId(session), gameManager.getMapsManager().drawMap(currentRoom.getRoomId(), new Coords(9,9)));
                     channelUtils.write(getPlayerId(session), "There's no down exit.");
                     return;
                 }

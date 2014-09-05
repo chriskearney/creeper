@@ -71,6 +71,9 @@ public class WorldExporter {
                 roomModelBuilder.setRoomTitle(room.getRoomTitle());
                 roomModelBuilder.setRoomId(room.getRoomId());
                 roomModelBuilder.setRoomTags(room.getRoomTags());
+                for (Area area: room.getAreas()) {
+                    roomModelBuilder.addAreaName(area.getName());
+                }
                 return roomModelBuilder.build();
             }
         };
@@ -89,32 +92,39 @@ public class WorldExporter {
                 for (String tag : roomModel.getRoomTags()) {
                     basicRoomBuilder.addTag(tag);
                 }
-                Integer north = mapMatrix.getNorth(roomModel.getRoomId());
-                if (north > 0) {
-                    basicRoomBuilder.setNorthId(Optional.of(north));
+                for (String areaName: roomModel.getAreaNames()) {
+                    basicRoomBuilder.addArea(Area.getByName(areaName));
                 }
-                Integer east = mapMatrix.getEast(roomModel.getRoomId());
-                if (east > 0) {
-                    basicRoomBuilder.setEastId(Optional.of(east));
-                }
-                Integer south = mapMatrix.getSouth(roomModel.getRoomId());
-                if (south > 0) {
-                    basicRoomBuilder.setSouthId(Optional.of(south));
-                }
-                Integer west = mapMatrix.getWest(roomModel.getRoomId());
-                if (west > 0) {
-                    basicRoomBuilder.setWestId(Optional.of(west));
-                }
+                configureExits(basicRoomBuilder, mapMatrix, roomModel.getRoomId());
                 return basicRoomBuilder.createBasicRoom();
             }
         };
+    }
+
+    private void configureExits(BasicRoomBuilder basicRoomBuilder, MapMatrix mapMatrix, int roomId) {
+        Integer north = mapMatrix.getNorth(roomId);
+        if (north > 0) {
+            basicRoomBuilder.setNorthId(Optional.of(north));
+        }
+        Integer east = mapMatrix.getEast(roomId);
+        if (east > 0) {
+            basicRoomBuilder.setEastId(Optional.of(east));
+        }
+        Integer south = mapMatrix.getSouth(roomId);
+        if (south > 0) {
+            basicRoomBuilder.setSouthId(Optional.of(south));
+        }
+        Integer west = mapMatrix.getWest(roomId);
+        if (west > 0) {
+            basicRoomBuilder.setWestId(Optional.of(west));
+        }
     }
 
     public MapMatrix readWorldFromDisk() throws FileNotFoundException {
         FloorModel floorModel = new GsonBuilder().create().fromJson(Files.newReader(new File(("world/main_floor.json")), Charset.defaultCharset()), FloorModel.class);
         MapMatrix matrixFromCsv = MapMatrix.createMatrixFromCsv(floorModel.getRawMatrixCsv());
         Set<Room> rooms = Sets.newHashSet();
-        if (floorModel.getRoomModels().size() == 0) {
+        if (floorModel.getRoomModels() == null || floorModel.getRoomModels().size() == 0) {
             Iterator<List<Integer>> rows = matrixFromCsv.getRows();
             while (rows.hasNext()) {
                 List<Integer> row = rows.next();
@@ -127,22 +137,8 @@ public class WorldExporter {
                     basicRoomBuilder.setRoomId(roomId);
                     basicRoomBuilder.setRoomTitle("This is a blank title.");
                     basicRoomBuilder.setRoomDescription("This is a blank Description.\nWords should go here, ideally.");
-                    Integer north = matrixFromCsv.getNorth(roomId);
-                    if (north > 0) {
-                        basicRoomBuilder.setNorthId(Optional.of(north));
-                    }
-                    Integer east = matrixFromCsv.getEast(roomId);
-                    if (east > 0) {
-                        basicRoomBuilder.setEastId(Optional.of(east));
-                    }
-                    Integer south = matrixFromCsv.getSouth(roomId);
-                    if (south > 0) {
-                        basicRoomBuilder.setSouthId(Optional.of(south));
-                    }
-                    Integer west = matrixFromCsv.getWest(roomId);
-                    if (west > 0) {
-                        basicRoomBuilder.setWestId(Optional.of(west));
-                    }
+                    basicRoomBuilder.addArea(Area.DEFAULT);
+                    configureExits(basicRoomBuilder, matrixFromCsv, roomId);
                     rooms.add(basicRoomBuilder.createBasicRoom());
                 }
             }

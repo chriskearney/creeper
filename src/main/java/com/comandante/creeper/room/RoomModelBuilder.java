@@ -1,5 +1,7 @@
 package com.comandante.creeper.room;
 
+import com.google.common.collect.Sets;
+
 import java.util.Set;
 
 public class RoomModelBuilder {
@@ -7,7 +9,8 @@ public class RoomModelBuilder {
     private int floorId;
     private String roomDescription;
     private String roomTitle;
-    private Set<String> roomTags;
+    private Set<String> roomTags = Sets.newHashSet();
+    private Set<String> areaNames = Sets.newHashSet();
 
     public RoomModelBuilder setRoomId(int roomId) {
         this.roomId = roomId;
@@ -29,12 +32,21 @@ public class RoomModelBuilder {
         return this;
     }
 
-    public RoomModelBuilder setRoomTags(Set<String> roomTags) {
+    public void setRoomTags(Set<String> roomTags) {
         this.roomTags = roomTags;
+    }
+
+    public RoomModelBuilder addRoomTag(String roomTag) {
+        roomTags.add(roomTag);
+        return this;
+    }
+
+    public RoomModelBuilder addAreaName(String areaName) {
+        areaNames.add(areaName);
         return this;
     }
 
     public RoomModel build() {
-        return new RoomModel(roomId, floorId, roomDescription, roomTitle, roomTags);
+        return new RoomModel(roomId, floorId, roomDescription, roomTitle, roomTags, areaNames);
     }
 }

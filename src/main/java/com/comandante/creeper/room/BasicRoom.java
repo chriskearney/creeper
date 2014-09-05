@@ -21,7 +21,8 @@ public class BasicRoom extends Room {
                      Optional<Integer> upId,
                      Optional<Integer> downId,
                      String roomDescription,
-                     Set<String> roomTags) {
-        super(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, roomDescription, roomTags);
+                     Set<String> roomTags,
+                     Set<Area> areas) {
+        super(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, roomDescription, roomTags, areas);
     }
 }

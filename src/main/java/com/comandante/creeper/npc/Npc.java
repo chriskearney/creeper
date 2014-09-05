@@ -40,7 +40,6 @@ public abstract class Npc extends CreeperEntity {
     public void run() {
         if (randInt(0, 100) < 2) {
             if (!isInFight.get() && roamAreas.isPresent()) {
-                System.out.println("roam!" + getEntityId());
                 NpcMover npcMover = new NpcMover();
                 npcMover.roam(getGameManager(), getEntityId());
             }
