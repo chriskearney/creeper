@@ -13,15 +13,15 @@ import java.util.Set;
 import static com.comandante.creeper.server.Color.BOLD_ON;
 import static com.comandante.creeper.server.Color.RESET;
 
-public class StreetHustler extends Npc {
+public class
+        StreetHustler extends Npc {
     private final static long phraseIntervalMs = 300000;
     private final static String NAME = "street hustler";
     private final static Set<String> validTriggers = new HashSet<String>(Arrays.asList(new String[]
-            {"s", "street", "hustler", NAME}
+            {"s", "street", "hustler","h", NAME}
     ));
 
-    private final static String colorName = Color.BOLD_ON + Color.MAGENTA  + "s" + Color.YELLOW + "t" + Color.BLUE + "r" + Color.MAGENTA + "e" + Color.WHITE + "e" + Color.RED + "t" + Color.GREEN + " " +
-            Color.BOLD_ON + Color.YELLOW + "hustler" + RESET;
+    private final static String colorName = "street" + BOLD_ON + Color.MAGENTA + " hustler"  + Color.RESET ;
     private final static String dieMessage = "a " + colorName + " breathes his last breath in a pool of " + BOLD_ON + Color.RED + "blood" + RESET;
 
     public StreetHustler(GameManager gameManager) {

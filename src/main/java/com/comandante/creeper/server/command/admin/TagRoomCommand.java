@@ -36,7 +36,7 @@ public class TagRoomCommand extends Command {
                     String tag = iterator.next();
                     sb.append(tag).append("\n");
                 }
-                gameManager.getChannelUtils().writeNoPromptNoAfterSpace(player.getPlayerId(), "tag\n---");
+                gameManager.getChannelUtils().write(player.getPlayerId(), "tag\n---");
                 gameManager.getChannelUtils().write(player.getPlayerId(), sb.toString());
                 return;
             }

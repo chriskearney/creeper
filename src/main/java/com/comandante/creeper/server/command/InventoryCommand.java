@@ -51,9 +51,7 @@ public class InventoryCommand extends Command {
                         sb.append(" uses left.");
                     }
                 }
-                sb.append("\r\n");
             }
-            sb.append("\r\n");
             getGameManager().getChannelUtils().write(getPlayerId(session), sb.toString());
         } finally {
             super.messageReceived(ctx, e);

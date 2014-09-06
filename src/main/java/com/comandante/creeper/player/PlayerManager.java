@@ -113,7 +113,7 @@ public class PlayerManager {
         PlayerMetadata playerMetadata = getPlayerMetadata(player.getPlayerId());
         Stats playerStats = playerMetadata.getStats();
 
-        Table t = new Table(2, BorderStyle.UNICODE_BOX,
+        Table t = new Table(2, BorderStyle.CLASSIC_COMPATIBLE,
                 ShownBorders.HEADER_AND_FOOTER);
 
         t.setColumnWidth(0, 14, 14);
@@ -157,7 +157,7 @@ public class PlayerManager {
     }
 
 
-    public String buildPrompt(String playerId, Integer roomId) {
+    public String buildPrompt(String playerId) {
         boolean isFight = FightManager.isActiveFight(sessionManager.getSession(playerId));
         Player player = getPlayer(playerId);
         PlayerMetadata playerMetadata = getPlayerMetadata(playerId);

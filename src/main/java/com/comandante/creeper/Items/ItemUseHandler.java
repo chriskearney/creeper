@@ -63,7 +63,7 @@ public class ItemUseHandler {
     }
 
     private void writeToPlayer(String message) {
-        gameManager.getChannelUtils().writeNoPrompt(playerId, message);
+        gameManager.getChannelUtils().write(playerId, message);
     }
 
     private void incrementUses(Item item) {

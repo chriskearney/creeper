@@ -53,7 +53,13 @@
       <artifactId>metrics-core</artifactId>
       <version>3.0.2</version>
     </dependency>
+    <dependency>
+      <groupId>com.googlecode.concurrentlinkedhashmap</groupId>
+      <artifactId>concurrentlinkedhashmap-lru</artifactId>
+      <version>1.4</version>
+    </dependency>
   </dependencies>
+
 
   <build>
     <plugins>

@@ -47,7 +47,7 @@ public class SayCommand extends Command {
                 if (presentPlayer.getPlayerId().equals(sourcePlayer.getPlayerId())) {
                     getGameManager().getChannelUtils().write(sourcePlayer.getPlayerId(), stringBuilder.toString());
                 } else {
-                    getGameManager().getChannelUtils().writeNoPrompt(presentPlayer.getPlayerId(), stringBuilder.toString());
+                    getGameManager().getChannelUtils().write(presentPlayer.getPlayerId(), stringBuilder.toString());
                 }
             }
         } finally {

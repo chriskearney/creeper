@@ -18,8 +18,8 @@ public enum ItemType {
             60),
 
     BEER(2, Arrays.asList("beer", "can of beer", "b"),
-            CYAN + "a dented can of beer" + RESET,
-            CYAN + "a beer" + RESET + " lies on the ground, unopened",
+            "a dented can of " + CYAN + "beer" + RESET,
+            "a " + CYAN + "beer" + RESET + " lies on the ground, unopened",
             "This beer looks sketch but you'll probably drink it anyways.",
             true,
             2,

@@ -48,7 +48,7 @@ public class GossipCommand extends Command {
                 if (player.getPlayerId().equals(sourcePlayer.getPlayerId())) {
                     getGameManager().getChannelUtils().write(playerId, stringBuilder.toString());
                 } else {
-                    getGameManager().getChannelUtils().writeNoPrompt(player.getPlayerId(), stringBuilder.toString());
+                    getGameManager().getChannelUtils().write(player.getPlayerId(), stringBuilder.toString());
                 }
             }
         } finally {

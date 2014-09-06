@@ -32,7 +32,7 @@ public class FightRun implements Callable<FightResults> {
                 break;
             }
             gameManager.getFightManager().fightTurn(playerStats, npcStats, 3, player, npc);
-            gameManager.getChannelUtils().write(player.getPlayerId(), "Use an ability!");
+            gameManager.getChannelUtils().write(player.getPlayerId(), "Use an ability!", true);
             gameManager.getPlayerManager().getSessionManager().getSession(player.getPlayerId()).setIsAbleToDoAbility(true);
             try {
                 Thread.sleep(2200);
@@ -48,19 +48,18 @@ public class FightRun implements Callable<FightResults> {
 
 
         if (playerStats.getCurrentHealth() <= 0) {
-            gameManager.getChannelUtils().write(player.getPlayerId(), "You died.");
+            gameManager.getChannelUtils().write(player.getPlayerId(), "You died.", true);
             gameManager.getChannelUtils().writeToRoom(player.getPlayerId(), player.getPlayerName() + " is now dead.");
             npc.setIsInFight(false);
             fightResults = new FightResultsBuilder().setNpcWon(true).setPlayerWon(false).createFightResults();
         }
 
         if (npcStats.getCurrentHealth() <= 0) {
-            gameManager.getChannelUtils().writeNoPrompt(player.getPlayerId(), "You killed " + npc.getName());
+            gameManager.getChannelUtils().write(player.getPlayerId(), "You killed " + npc.getName(), true);
             gameManager.getChannelUtils().writeToRoom(player.getPlayerId(), npc.getDieMessage());
             gameManager.getEntityManager().deleteNpcEntity(npc.getEntityId());
             fightResults = new FightResultsBuilder().setNpcWon(false).setPlayerWon(true).createFightResults();
         }
-        gameManager.getChannelUtils().writeOnlyPrompt(player.getPlayerId());
         return fightResults;
     }
 }

@@ -17,29 +17,6 @@ public class ChannelUtils {
         this.roomManager = roomManager;
     }
 
-    public void writeNoPrompt(String playerId, String message) {
-        if (playerManager.getSessionManager().getSession(playerId).getGrabMultiLineInput().isPresent()) {
-            return;
-        }
-        write(playerId, message, false, true);
-    }
-
-    public void writeNoPromptNoAfterSpace(String playerId, String message) {
-        if (playerManager.getSessionManager().getSession(playerId).getGrabMultiLineInput().isPresent()) {
-            return;
-        }
-        write(playerId, message, false, false);
-    }
-
-    public void writeOnlyPrompt(String playerId) {
-        if (playerManager.getSessionManager().getSession(playerId).getGrabMultiLineInput().isPresent()) {
-            return;
-        }
-        Player player = playerManager.getPlayer(playerId);
-        Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
-        player.getChannel().write(playerManager.buildPrompt(playerId, playerCurrentRoom.getRoomId()));
-    }
-
     public void writeToRoom(String playerId, String message) {
         if (playerManager.getSessionManager().getSession(playerId).getGrabMultiLineInput().isPresent()) {
             return;
@@ -48,66 +25,29 @@ public class ChannelUtils {
         Set<String> presentPlayerIds = playerCurrentRoom.getPresentPlayerIds();
         for (String id : presentPlayerIds) {
             Player presentPlayer = playerManager.getPlayer(id);
-                writeNoPrompt(presentPlayer.getPlayerId(), message);
-            }
+            write(presentPlayer.getPlayerId(), message);
         }
-
-
-    public void write(String playerId, String message) {
-        if (playerManager.getSessionManager().getSession(playerId).getGrabMultiLineInput().isPresent()) {
-            return;
-        }
-        write(playerId, message, true, true);
     }
 
-    public void write(String playerId, String message, boolean isPrompt, boolean isAfterSpace) {
+    public void write(String playerId, String message) {
+        write(playerId, message, false);
+    }
+
+    public void write(String playerId, String message, boolean leadingBlankLine) {
         if (playerManager.getSessionManager().getSession(playerId).getGrabMultiLineInput().isPresent()) {
             return;
         }
         Player player = playerManager.getPlayer(playerId);
-        Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
+        String lastMessage = playerManager.getSessionManager().getSession(playerId).getLastMessage();
         StringBuilder sb = new StringBuilder();
-        sb.append(message);
-        if (isAfterSpace) {
-            sb.append(("\r\n"));
-        }
-        if (isPrompt) {
-            sb.append(playerManager.buildPrompt(playerId, playerCurrentRoom.getRoomId()));
-        }
-        player.getChannel().write(sb.toString());
-    }
-
-    public static String sanitze(String msg) {
-        byte[] data = msg.getBytes();
-        byte groomedData[] = new byte[data.length];
-        int bytesCopied = 0;
-
-        for (int i = 0; i < data.length; i++) {
-            switch (data[i]) {
-                case (byte) '\n':
-                    if (i == 0 || i == 1) {
-                        break;
-                    }
-                    if (i == data.length - 1 || i == data.length - 2) {
-                        break;
-                    }
-                case (byte) '\r':
-                    if (i == 0 || i == 1) {
-                        break;
-                    }
-                    if (i == data.length - 1 || i == data.length - 2) {
-                        break;
-                    }
-                default:
-                    groomedData[bytesCopied++] = data[i];
+        if (lastMessage != null && !lastMessage.substring(lastMessage.length() - 2).equals("\r\n")) {
+            if (leadingBlankLine) {
+                sb.append("\r\n");
             }
         }
-
-        byte packedData[] = new byte[bytesCopied];
-
-        System.arraycopy(groomedData, 0, packedData, 0, bytesCopied);
-
-        return new String(packedData);
+        sb.append(message);
+        playerManager.getSessionManager().getSession(playerId).setLastMessage(sb.toString());
+        player.getChannel().write(sb.toString());
     }
 }
 

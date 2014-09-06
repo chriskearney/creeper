@@ -20,6 +20,7 @@ public class CreeperSession {
     private AtomicBoolean isAbleToDoAbility = new AtomicBoolean(false);
     private Optional<CreeperEntry<UUID, Command>> grabMultiLineInput = Optional.absent();
     private final long sessionCreationTimestamp = System.currentTimeMillis();
+    private String lastMessage;
 
     State state;
 
@@ -30,6 +31,14 @@ public class CreeperSession {
         newUserPromptedForPassword,
         newUserRegCompleted,
         authed
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
     }
 
     public long getSessionCreationTimestamp() {

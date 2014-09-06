@@ -51,7 +51,7 @@ public class TellCommand extends Command {
             stringBuilder.append("*").append(sourcePlayer.getPlayerName()).append("* ");
             stringBuilder.append(tellMessage);
             stringBuilder.append(RESET);
-            getGameManager().getChannelUtils().writeNoPrompt(desintationPlayer.getPlayerId(), destinationPlayercolor + stringBuilder.toString());
+            getGameManager().getChannelUtils().write(desintationPlayer.getPlayerId(), destinationPlayercolor + stringBuilder.toString());
             getGameManager().getChannelUtils().write(sourcePlayer.getPlayerId(), stringBuilder.toString());
         } finally {
             super.messageReceived(ctx, e);

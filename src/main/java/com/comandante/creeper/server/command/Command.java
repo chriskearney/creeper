@@ -36,6 +36,9 @@ public abstract class Command extends SimpleChannelUpstreamHandler {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         e.getChannel().getPipeline().remove(ctx.getHandler());
+        String playerId = getPlayerId(extractCreeperSession(e.getChannel()));
+        String prompt = gameManager.getPlayerManager().buildPrompt(playerId);
+        gameManager.getChannelUtils().write(playerId, "\r\n" + prompt);
         super.messageReceived(ctx, e);
     }
 

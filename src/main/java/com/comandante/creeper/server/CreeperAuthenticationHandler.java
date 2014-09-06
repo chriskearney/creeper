@@ -1,5 +1,6 @@
 package com.comandante.creeper.server;
 
+import com.comandante.creeper.Main;
 import com.comandante.creeper.managers.GameManager;
 import com.google.common.base.Optional;
 import org.jboss.netty.channel.ChannelEvent;
@@ -58,10 +59,14 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
             doAuthentication(ctx, e);
             if (creeperSession.isAuthed()) {
                 gameManager.getPlayerManager().getSessionManager().putSession(creeperSession);
-                gameManager.currentRoomLogic(creeperSession, e);
+                e.getChannel().getPipeline().remove(this);
+                e.getChannel().getPipeline().addLast("server_handler", new CreeperCommandHandler(gameManager));
+                e.getChannel().setAttachment(creeperSession);
+                gameManager.currentRoomLogic(Main.createPlayerId(creeperSession.getUsername().get()));
+                gameManager.getChannelUtils().write(Main.createPlayerId(creeperSession.getUsername().get()), "\r\n" + gameManager.getPlayerManager().buildPrompt(Main.createPlayerId(creeperSession.getUsername().get())));
             }
         } else {
-            gameManager.getPlayerManager().getSessionManager().putSession(creeperSession);
+            //gameManager.getPlayerManager().getSessionManager().putSession(creeperSession);
             e.getChannel().getPipeline().addLast("server_handler", new CreeperCommandHandler(gameManager));
             e.getChannel().getPipeline().remove(this);
             e.getChannel().setAttachment(creeperSession);

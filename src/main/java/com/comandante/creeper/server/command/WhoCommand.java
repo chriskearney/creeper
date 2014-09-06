@@ -25,7 +25,7 @@ public class WhoCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
-            Table t = new Table(3, BorderStyle.UNICODE_BOX,
+            Table t = new Table(3, BorderStyle.CLASSIC_COMPATIBLE,
                     ShownBorders.HEADER_AND_FIRST_COLLUMN);
 
             t.setColumnWidth(0, 8, 14);
