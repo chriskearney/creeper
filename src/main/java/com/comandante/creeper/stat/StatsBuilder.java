@@ -12,6 +12,7 @@ public class StatsBuilder {
     private int weaponRatingMax;
     private int weaponRatingMin;
     private int numberweaponOfRolls;
+    private int experience;
 
     public StatsBuilder setStrength(int strength) {
         this.strength = strength;
@@ -68,7 +69,12 @@ public class StatsBuilder {
         return this;
     }
 
+    public StatsBuilder setExperience(int experience) {
+        this.experience = experience;
+        return this;
+    }
+
     public Stats createStats() {
-        return new Stats(strength, willpower, aim, agile, armorRating, meleSkill, currentHealth, maxHealth, weaponRatingMax, weaponRatingMin, numberweaponOfRolls);
+        return new Stats(strength, willpower, aim, agile, armorRating, meleSkill, currentHealth, maxHealth, weaponRatingMax, weaponRatingMin, numberweaponOfRolls, experience);
     }
 }

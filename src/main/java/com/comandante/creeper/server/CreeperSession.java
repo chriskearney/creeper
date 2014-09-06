@@ -5,6 +5,8 @@ import com.comandante.creeper.fight.FightResults;
 import com.comandante.creeper.server.command.Command;
 import com.google.common.base.Optional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -17,6 +19,7 @@ public class CreeperSession {
     private Optional<Future<FightResults>> activeFight = Optional.absent();
     private AtomicBoolean isAbleToDoAbility = new AtomicBoolean(false);
     private Optional<CreeperEntry<UUID, Command>> grabMultiLineInput = Optional.absent();
+    private final long sessionCreationTimestamp = System.currentTimeMillis();
 
     State state;
 
@@ -27,6 +30,14 @@ public class CreeperSession {
         newUserPromptedForPassword,
         newUserRegCompleted,
         authed
+    }
+
+    public long getSessionCreationTimestamp() {
+        return sessionCreationTimestamp;
+    }
+
+    public String getPrettyDate() {
+        return  new SimpleDateFormat("d MMM yyyy, hh:mm aaa").format(new Date(getSessionCreationTimestamp()));
     }
 
     public Optional<Future<FightResults>> getActiveFight() {

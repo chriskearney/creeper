@@ -14,6 +14,15 @@ public class Stats implements Serializable {
     private int weaponRatingMax;
     private int weaponRatingMin;
     private int numberweaponOfRolls;
+    private int experience;
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
 
     public int getStrength() {
         return strength;
@@ -113,7 +122,8 @@ public class Stats implements Serializable {
                  int maxHealth,
                  int weaponRatingMax,
                  int weaponRatingMin,
-                 int numberweaponOfRolls) {
+                 int numberweaponOfRolls,
+                 int experience) {
         this.strength = strength;
         this.willpower = willpower;
         this.aim = aim;
@@ -125,6 +135,7 @@ public class Stats implements Serializable {
         this.weaponRatingMax = weaponRatingMax;
         this.weaponRatingMin = weaponRatingMin;
         this.numberweaponOfRolls = numberweaponOfRolls;
+        this.experience = experience;
     }
 
     @Override

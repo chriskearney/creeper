@@ -14,7 +14,8 @@ public class NpcStats {
             .setMaxHealth(100)
             .setWeaponRatingMin(5)
             .setWeaponRatingMax(10)
-            .setNumberweaponOfRolls(1);
+            .setNumberweaponOfRolls(1)
+            .setExperience(100);
 
     public final static StatsBuilder DRUGGED_PIMP = new StatsBuilder()
             .setStrength(5)
@@ -27,6 +28,7 @@ public class NpcStats {
             .setMaxHealth(150)
             .setWeaponRatingMin(5)
             .setWeaponRatingMax(10)
-            .setNumberweaponOfRolls(1);
+            .setNumberweaponOfRolls(1)
+            .setExperience(100);
 
 }

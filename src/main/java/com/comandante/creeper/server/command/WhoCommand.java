@@ -10,7 +10,6 @@ import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -26,19 +25,20 @@ public class WhoCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
-            CellStyle numberStyle = new CellStyle(CellStyle.HorizontalAlign.right);
-
-            Table t = new Table(3, BorderStyle.UNICODE_BOX_DOUBLE_BORDER,
-                    ShownBorders.SURROUND_HEADER_FOOTER_AND_COLUMNS);
+            Table t = new Table(3, BorderStyle.UNICODE_BOX,
+                    ShownBorders.HEADER_AND_FIRST_COLLUMN);
 
             t.setColumnWidth(0, 8, 14);
-            t.setColumnWidth(1, 7, 16);
-            t.setColumnWidth(2, 9, 16);
+            t.setColumnWidth(1, 14, 16);
+            t.setColumnWidth(2, 26, 26);
+            t.addCell("player");
+            t.addCell("ip address");
+            t.addCell("logged in since");
             Set<Player> allPlayers = getGameManager().getAllPlayers();
             for (Player allPlayer : allPlayers) {
                 t.addCell(allPlayer.getPlayerName());
-                t.addCell(allPlayer.getChannel().getRemoteAddress().toString());
-                t.addCell(new Date().toString());
+                t.addCell(allPlayer.getChannel().getRemoteAddress().toString().substring(1).split(":")[0]);
+                t.addCell(extractCreeperSession(e.getChannel()).getPrettyDate());
             }
             getGameManager().getChannelUtils().write(getPlayerId(extractCreeperSession(e.getChannel())), t.render());
         } finally {
@@ -49,11 +49,11 @@ public class WhoCommand extends Command {
     public static void main(String[] args) {
         CellStyle numberStyle = new CellStyle(CellStyle.HorizontalAlign.right);
 
-        Table t = new Table(3, BorderStyle.DESIGN_DIM,
+        Table t = new Table(3, BorderStyle.UNICODE_BOX,
                 ShownBorders.HEADER_ONLY);
 
         t.setColumnWidth(0, 22, 28);
-        t.setColumnWidth(1, 12, 22);
+        t.setColumnWidth(1, 15, 22);
         t.setColumnWidth(2, 9, 16);
 
         t.addCell("Chrisadfasdfas");
@@ -71,4 +71,5 @@ public class WhoCommand extends Command {
 
         System.out.println("\n\n\n\n" + t.render());
     }
+
 }

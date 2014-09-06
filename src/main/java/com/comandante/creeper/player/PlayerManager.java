@@ -3,13 +3,17 @@ package com.comandante.creeper.player;
 
 import com.comandante.creeper.fight.FightManager;
 import com.comandante.creeper.managers.SessionManager;
-import com.comandante.creeper.world.Room;
+import com.comandante.creeper.server.Color;
 import com.comandante.creeper.stat.Stats;
+import com.comandante.creeper.world.Room;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import org.apache.commons.codec.binary.Base64;
 import org.mapdb.DB;
 import org.mapdb.HTreeMap;
+import org.nocrala.tools.texttablefmt.BorderStyle;
+import org.nocrala.tools.texttablefmt.ShownBorders;
+import org.nocrala.tools.texttablefmt.Table;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -108,7 +112,39 @@ public class PlayerManager {
     public String getLookString(Player player) {
         PlayerMetadata playerMetadata = getPlayerMetadata(player.getPlayerId());
         Stats playerStats = playerMetadata.getStats();
-        return playerStats.toString();
+
+        Table t = new Table(2, BorderStyle.UNICODE_BOX,
+                ShownBorders.HEADER_AND_FOOTER);
+
+        t.setColumnWidth(0, 14, 14);
+        t.setColumnWidth(1, 3, 5);
+
+        t.addCell(player.getPlayerName());
+        t.addCell("");
+        t.addCell("Strength");
+        t.addCell(Integer.toString(playerStats.getStrength()));
+
+        t.addCell("Willpower");
+        t.addCell(Integer.toString(playerStats.getWillpower()));
+
+        t.addCell("Aim");
+        t.addCell(Integer.toString(playerStats.getAim()));
+
+        t.addCell("Agile");
+        t.addCell(Integer.toString(playerStats.getAgile()));
+
+        t.addCell("Armor");
+        t.addCell(Integer.toString(playerStats.getArmorRating()));
+
+        t.addCell("Mele");
+        t.addCell(Integer.toString(playerStats.getMeleSkill()));
+
+        t.addCell("Health");
+        t.addCell(Integer.toString(playerStats.getMaxHealth()));
+
+        t.addCell(Integer.toString(playerStats.getExperience()));
+        t.addCell("XP");
+        return t.render();
     }
 
     public void updatePlayerHealth(String playerId, int amount) {
@@ -121,7 +157,7 @@ public class PlayerManager {
     }
 
 
-    public String getPrompt(String playerId, Integer roomId) {
+    public String buildPrompt(String playerId, Integer roomId) {
         boolean isFight = FightManager.isActiveFight(sessionManager.getSession(playerId));
         Player player = getPlayer(playerId);
         PlayerMetadata playerMetadata = getPlayerMetadata(playerId);
@@ -130,14 +166,10 @@ public class PlayerManager {
         StringBuilder sb = new StringBuilder()
                 .append("[")
                 .append(player.getPlayerName())
-                .append(" health: ")
-                .append(currentHealth).append("/").append(maxHealth)
-                .append(" roomId:")
-                .append(roomId)
-                .append((" users:"))
-                .append(getNumberOfLoggedInUsers());
+                .append("@creeper ")
+                .append(currentHealth).append("/").append(maxHealth);
         if (isFight) {
-            sb.append(" in battle! ");
+            sb.append(Color.RED + " ! " + Color.RESET);
         }
         sb.append("] ");
         return sb.toString();

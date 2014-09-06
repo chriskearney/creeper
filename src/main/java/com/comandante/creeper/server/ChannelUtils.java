@@ -37,7 +37,7 @@ public class ChannelUtils {
         }
         Player player = playerManager.getPlayer(playerId);
         Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
-        player.getChannel().write(playerManager.getPrompt(playerId, playerCurrentRoom.getRoomId()));
+        player.getChannel().write(playerManager.buildPrompt(playerId, playerCurrentRoom.getRoomId()));
     }
 
     public void writeToRoom(String playerId, String message) {
@@ -48,9 +48,6 @@ public class ChannelUtils {
         Set<String> presentPlayerIds = playerCurrentRoom.getPresentPlayerIds();
         for (String id : presentPlayerIds) {
             Player presentPlayer = playerManager.getPlayer(id);
-       //     if (presentPlayer.getPlayerId().equals(playerId)) {
-        //        write(playerId, message);
-         //   } else {
                 writeNoPrompt(presentPlayer.getPlayerId(), message);
             }
         }
@@ -70,13 +67,12 @@ public class ChannelUtils {
         Player player = playerManager.getPlayer(playerId);
         Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
         StringBuilder sb = new StringBuilder();
-        sb.append("\r\n");
         sb.append(sanitze(message));
         if (isAfterSpace) {
             sb.append(("\r\n"));
         }
         if (isPrompt) {
-            sb.append(playerManager.getPrompt(playerId, playerCurrentRoom.getRoomId()));
+            sb.append(playerManager.buildPrompt(playerId, playerCurrentRoom.getRoomId()));
         }
         player.getChannel().write(sb.toString());
     }
