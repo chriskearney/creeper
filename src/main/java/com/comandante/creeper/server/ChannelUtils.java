@@ -25,7 +25,7 @@ public class ChannelUtils {
         Set<String> presentPlayerIds = playerCurrentRoom.getPresentPlayerIds();
         for (String id : presentPlayerIds) {
             Player presentPlayer = playerManager.getPlayer(id);
-            write(presentPlayer.getPlayerId(), message);
+            write(presentPlayer.getPlayerId(), message, true);
         }
     }
 

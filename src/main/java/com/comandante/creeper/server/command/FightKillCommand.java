@@ -18,12 +18,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Future;
 
-public class KillCommand extends Command {
+public class FightKillCommand extends Command {
 
-    final static List<String> validTriggers = Arrays.asList("k", "kill");
-    final static String description = "Kill a mob.";
+    final static List<String> validTriggers = Arrays.asList("k", "kill", "fight", "f");
+    final static String description = "Fight a mob.";
 
-    public KillCommand(GameManager gameManager) {
+    public FightKillCommand(GameManager gameManager) {
         super(gameManager, validTriggers, description);
     }
 
@@ -38,7 +38,7 @@ public class KillCommand extends Command {
             }
             List<String> originalMessageParts = getOriginalMessageParts(e);
             if (originalMessageParts.size() == 1) {
-                getGameManager().getChannelUtils().write(player.getPlayerId(), "You need to specify who you want to kill.");
+                getGameManager().getChannelUtils().write(player.getPlayerId(), "You need to specify who you want to fight.");
                 return;
             }
             originalMessageParts.remove(0);
@@ -55,7 +55,7 @@ public class KillCommand extends Command {
                     return;
                 }
             }
-            getGameManager().getChannelUtils().write(player.getPlayerId(), "There's no NPC here to kill by that name.");
+            getGameManager().getChannelUtils().write(player.getPlayerId(), "There's no NPC here to fight by that name.");
         } finally {
             super.messageReceived(ctx, e);
         }

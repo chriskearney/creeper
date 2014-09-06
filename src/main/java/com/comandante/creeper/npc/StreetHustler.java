@@ -22,7 +22,7 @@ public class
     ));
 
     private final static String colorName = "street" + BOLD_ON + Color.MAGENTA + " hustler"  + Color.RESET ;
-    private final static String dieMessage = "a " + colorName + " breathes his last breath in a pool of " + BOLD_ON + Color.RED + "blood" + RESET;
+    private final static String dieMessage = "a " + colorName + " breathes his last breath in a pool of " + BOLD_ON + Color.RED + "blood" + RESET + ".";
 
     public StreetHustler(GameManager gameManager) {
         super(gameManager, NAME, colorName, 0, NpcStats.DRUGGED_PIMP.createStats(), dieMessage, Optional.of(Sets.newHashSet(Area.NEWBIE_ZONE)), validTriggers);
