@@ -1,11 +1,13 @@
 package com.comandante.creeper;
 
+import com.comandante.creeper.Items.ItemType;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.managers.SessionManager;
 import com.comandante.creeper.npc.StreetHustler;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.spawner.ItemSpawner;
 import com.comandante.creeper.world.Area;
 import com.comandante.creeper.world.MapsManager;
 import com.comandante.creeper.world.Room;
@@ -80,6 +82,11 @@ public class Main {
             next.getValue().setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
         }
         System.out.println("done!");
+
+        ItemSpawner itemSpawner = new ItemSpawner(ItemType.BEER, Area.NEWBIE_ZONE, new SpawnRule(20, 20, 4, 100), gameManager);
+        entityManager.addEntity(itemSpawner);
+
+
         creeperCommandRegistry = new CreeperCommandRegistry(new UnknownCommand(gameManager));
         creeperCommandRegistry.addCommand(new DropCommand(gameManager));
         creeperCommandRegistry.addCommand(new GossipCommand(gameManager));

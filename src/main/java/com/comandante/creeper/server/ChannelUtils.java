@@ -67,7 +67,7 @@ public class ChannelUtils {
         Player player = playerManager.getPlayer(playerId);
         Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
         StringBuilder sb = new StringBuilder();
-        sb.append(sanitze(message));
+        sb.append(message);
         if (isAfterSpace) {
             sb.append(("\r\n"));
         }

@@ -299,10 +299,10 @@ public class GameManager {
         for (String playerId : presentPlayerIds) {
             Player player = playerManager.getPlayer(playerId);
             if (player.getPlayerId().equals(sourcePlayerId)) {
-                channelUtils.write(playerId, message);
+                channelUtils.writeNoPrompt(playerId, message);
                 continue;
             }
-            channelUtils.writeNoPromptNoAfterSpace(player.getPlayerId(), message);
+            channelUtils.write(player.getPlayerId(), message);
         }
     }
 }

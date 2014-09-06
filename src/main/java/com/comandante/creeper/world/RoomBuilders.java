@@ -18,8 +18,8 @@ public class RoomBuilders {
 
         BasicRoom basicRoom = new BasicRoomBuilder().setRoomId(1).setRoomTitle("Entrance to Federation Training Encampment").setNorthId(Optional.of(2)).setSouthId(Optional.<Integer>absent()).setEastId(Optional.<Integer>absent()).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing before the Federation Training Encampment. A huge wall surrounds the base. To the north you see a two doors leading inside. Above the doors you sits the symbol of the Federation, a single red star with five points and a raised fist in the center. Sentries along the encampment walls begin to eye you suspiciously. You then remember that malingering in front of a Federation base could prove to be a fatal mistake.\r\n").createBasicRoom();
 
-        basicRoom.addItemSpawner(new ItemSpawner(ItemType.BEER, new SpawnRule(20, 3, 3, 100), gameManager));
-        basicRoom.addItemSpawner(new ItemSpawner(ItemType.KEY, new SpawnRule(30, 1, 10, 100), gameManager));
+        basicRoom.addItemSpawner(new ItemSpawner(ItemType.BEER,Area.NEWBIE_ZONE, new SpawnRule(20, 3, 3, 100), gameManager));
+        basicRoom.addItemSpawner(new ItemSpawner(ItemType.KEY,Area.NEWBIE_ZONE, new SpawnRule(30, 1, 10, 100), gameManager));
         basicRoom.setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
 
 

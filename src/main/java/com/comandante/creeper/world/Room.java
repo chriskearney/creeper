@@ -179,7 +179,6 @@ public abstract class Room extends CreeperEntity {
     }
 
     public void addItemSpawner(ItemSpawner itemSpawner) {
-        itemSpawner.setRoomId(roomId);
         itemSpawners.add(itemSpawner);
     }
 
