@@ -1,7 +1,7 @@
 package com.comandante.creeper.server.command.admin;
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.room.WorldExporter;
+import com.comandante.creeper.world.WorldExporter;
 import com.comandante.creeper.server.command.Command;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;

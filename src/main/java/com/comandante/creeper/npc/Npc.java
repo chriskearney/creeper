@@ -3,7 +3,7 @@ package com.comandante.creeper.npc;
 
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.room.Area;
+import com.comandante.creeper.world.Area;
 import com.comandante.creeper.stat.Stats;
 import com.google.common.base.Optional;
 

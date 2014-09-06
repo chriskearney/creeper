@@ -1,4 +1,4 @@
-package com.comandante.creeper.room;
+package com.comandante.creeper.world;
 
 public class Coords {
 

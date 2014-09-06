@@ -1,7 +1,7 @@
 package com.comandante.creeper.npc;
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.room.Area;
+import com.comandante.creeper.world.Area;
 import com.comandante.creeper.server.Color;
 import com.google.common.base.Optional;
 import com.google.common.collect.Sets;

@@ -5,8 +5,8 @@ import com.comandante.creeper.Items.ItemSerializer;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
-import com.comandante.creeper.room.Room;
-import com.comandante.creeper.room.RoomManager;
+import com.comandante.creeper.world.Room;
+import com.comandante.creeper.world.RoomManager;
 import org.mapdb.DB;
 import org.mapdb.HTreeMap;
 

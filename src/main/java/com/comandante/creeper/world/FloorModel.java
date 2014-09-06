@@ -1,4 +1,4 @@
-package com.comandante.creeper.room;
+package com.comandante.creeper.world;
 
 import java.util.Set;
 

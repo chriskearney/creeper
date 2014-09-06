@@ -2,7 +2,7 @@ package com.comandante.creeper.server.command.admin;
 
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.Player;
-import com.comandante.creeper.room.Room;
+import com.comandante.creeper.world.Room;
 import com.comandante.creeper.server.command.Command;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
@@ -14,7 +14,7 @@ import java.util.List;
 public class TagRoomCommand extends Command {
 
     final static List<String> validTriggers = Arrays.asList("tr", "tagRoom");
-    final static String description = "Sets a tag on a room.";
+    final static String description = "Sets a tag on a world.";
     final static boolean isAdminOnly = true;
 
     public TagRoomCommand(GameManager gameManager) {
@@ -41,7 +41,7 @@ public class TagRoomCommand extends Command {
                 return;
             }
             playerCurrentRoom.addTag(originalMessageParts.get(0));
-            gameManager.getChannelUtils().write(player.getPlayerId(), String.format("tagged room with tag: \"%s\".", originalMessageParts.get(0)));
+            gameManager.getChannelUtils().write(player.getPlayerId(), String.format("tagged world with tag: \"%s\".", originalMessageParts.get(0)));
         } finally {
             super.messageReceived(ctx, e);
         }

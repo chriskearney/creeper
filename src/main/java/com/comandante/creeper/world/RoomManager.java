@@ -1,4 +1,4 @@
-package com.comandante.creeper.room;
+package com.comandante.creeper.world;
 
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;

@@ -2,7 +2,7 @@ package com.comandante.creeper.server.command;
 
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.Player;
-import com.comandante.creeper.room.Room;
+import com.comandante.creeper.world.Room;
 import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
@@ -19,7 +19,7 @@ import static com.comandante.creeper.server.Color.RESET;
 public class SayCommand extends Command {
 
     final static List<String> validTriggers = Arrays.asList("say");
-    final static String description = "Say something to the room.";
+    final static String description = "Say something to the world.";
 
     public SayCommand(GameManager gameManager) {
         super(gameManager, validTriggers, description);

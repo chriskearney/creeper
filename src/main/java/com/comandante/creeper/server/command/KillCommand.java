@@ -6,7 +6,7 @@ import com.comandante.creeper.fight.FightRun;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
-import com.comandante.creeper.room.Room;
+import com.comandante.creeper.world.Room;
 import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;

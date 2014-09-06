@@ -1,4 +1,4 @@
-package com.comandante.creeper.room;
+package com.comandante.creeper.world;
 
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.spawner.ItemSpawner;

@@ -1,4 +1,4 @@
-package com.comandante.creeper.room;
+package com.comandante.creeper.world;
 
 import com.comandante.creeper.server.Color;
 import com.google.common.base.Function;

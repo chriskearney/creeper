@@ -3,7 +3,7 @@ package com.comandante.creeper.player;
 
 import com.comandante.creeper.fight.FightManager;
 import com.comandante.creeper.managers.SessionManager;
-import com.comandante.creeper.room.Room;
+import com.comandante.creeper.world.Room;
 import com.comandante.creeper.stat.Stats;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;

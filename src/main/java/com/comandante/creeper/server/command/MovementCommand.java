@@ -4,8 +4,8 @@ import com.comandante.creeper.fight.FightManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.player.Player;
-import com.comandante.creeper.room.Coords;
-import com.comandante.creeper.room.Room;
+import com.comandante.creeper.world.Coords;
+import com.comandante.creeper.world.Room;
 import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
@@ -50,7 +50,7 @@ public class MovementCommand extends Command {
             Optional<Room> roomOptional = gameManager.getRoomManager().getPlayerCurrentRoom(player);
             ChannelUtils channelUtils = gameManager.getChannelUtils();
             if (!roomOptional.isPresent()) {
-                throw new RuntimeException("Player is not in a room, movement failed!");
+                throw new RuntimeException("Player is not in a world, movement failed!");
             }
             if (FightManager.isActiveFight(session)) {
                 channelUtils.write(getPlayerId(session), "You can't not move while in a fight!");

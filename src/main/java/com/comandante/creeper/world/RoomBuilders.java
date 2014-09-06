@@ -1,4 +1,4 @@
-package com.comandante.creeper.room;
+package com.comandante.creeper.world;
 
 import com.comandante.creeper.Items.ItemType;
 import com.comandante.creeper.entity.EntityManager;
@@ -25,7 +25,7 @@ public class RoomBuilders {
 
         entityManager.addEntity(basicRoom);
 
-        BasicRoom room1 = new BasicRoomBuilder().setRoomId(2).setRoomTitle("Quarter Deck").setNorthId(Optional.of(3)).setSouthId(Optional.of(1)).setEastId(Optional.of(4)).setWestId(Optional.of(5)).setUpId(Optional.of(6)).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing on the quarter deck of the Training Encampment. Federation flags line the walls of this large room. A statue of the Grand Marshal of the Federation sit in the back. A Private on watch is behind a desk in the center of the room. To the west you hear the sounds of gun fire. To the east a sentry stands by a door waiting to scan the credentials of anyone looking for access to the armory. A staircase leads up stairs. You get the feeling only high ranking officers are allowed on the second floor. To the north is a door leading to the training fields.\r\n").createBasicRoom();
+        BasicRoom room1 = new BasicRoomBuilder().setRoomId(2).setRoomTitle("Quarter Deck").setNorthId(Optional.of(3)).setSouthId(Optional.of(1)).setEastId(Optional.of(4)).setWestId(Optional.of(5)).setUpId(Optional.of(6)).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing on the quarter deck of the Training Encampment. Federation flags line the walls of this large world. A statue of the Grand Marshal of the Federation sit in the back. A Private on watch is behind a desk in the center of the world. To the west you hear the sounds of gun fire. To the east a sentry stands by a door waiting to scan the credentials of anyone looking for access to the armory. A staircase leads up stairs. You get the feeling only high ranking officers are allowed on the second floor. To the north is a door leading to the training fields.\r\n").createBasicRoom();
         room1.setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
         entityManager.addEntity(room1);
         BasicRoom room2 = new BasicRoomBuilder().setRoomId(3).setRoomTitle("Training Field").setNorthId(Optional.of(8)).setSouthId(Optional.of(2)).setEastId(Optional.<Integer>absent()).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing on the center of a massive training field. You see a large field with a track" +
@@ -37,15 +37,15 @@ public class RoomBuilders {
 
         BasicRoom room3 = new BasicRoomBuilder().setRoomId(4).setRoomTitle("Armory").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.<Integer>absent()).setWestId(Optional.of(2)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing in the Federation Training Encampment armory. A counter extends from wall to wall" +
                 " separating you from the stock. A Lieutenant is standing behind the counter filling out paper" +
-                " work. You can see shelves extending to the back of the room fully stocked with Federation" +
+                " work. You can see shelves extending to the back of the world fully stocked with Federation" +
                 " issued weapons. The door closes and locks behind you.\r\n").createBasicRoom();
         room3.setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
 
         entityManager.addEntity(room3);
 
-        entityManager.addEntity(new BasicRoomBuilder().setRoomId(5).setRoomTitle("Firing Range").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(2)).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing in the Federation Training Encampment firing range. You see many rows each separated by a blaster proof divider. At the end of each row sits a target. The sounds of weapon fire fills the room. Straight ahead you see an empty row. Down Range a target is hovering, waiting to be shot.\r\n").createBasicRoom());
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(5).setRoomTitle("Firing Range").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.of(2)).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing in the Federation Training Encampment firing range. You see many rows each separated by a blaster proof divider. At the end of each row sits a target. The sounds of weapon fire fills the world. Straight ahead you see an empty row. Down Range a target is hovering, waiting to be shot.\r\n").createBasicRoom());
 
-        entityManager.addEntity(new BasicRoomBuilder().setRoomId(6).setRoomTitle("Marshal's Office").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.<Integer>absent()).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.of(2)).setRoomDescription("You are standing in the Marshal's office. A beautiful wooden desk sits in the center of the room. Shelves and bookcases line the walls showing off some of the Marshals accomplishments. A floor to ceiling window in the back of the room looks over the training fields. \r\n").createBasicRoom());
+        entityManager.addEntity(new BasicRoomBuilder().setRoomId(6).setRoomTitle("Marshal's Office").setNorthId(Optional.<Integer>absent()).setSouthId(Optional.<Integer>absent()).setEastId(Optional.<Integer>absent()).setWestId(Optional.<Integer>absent()).setUpId(Optional.<Integer>absent()).setDownId(Optional.of(2)).setRoomDescription("You are standing in the Marshal's office. A beautiful wooden desk sits in the center of the world. Shelves and bookcases line the walls showing off some of the Marshals accomplishments. A floor to ceiling window in the back of the world looks over the training fields. \r\n").createBasicRoom());
 
         entityManager.addEntity(new BasicRoomBuilder().setRoomId(7).setRoomTitle("Emerald City Bullet Station").setNorthId(Optional.of(100)).setSouthId(Optional.of(8)).setEastId(Optional.of(200)).setWestId(Optional.of(300)).setUpId(Optional.<Integer>absent()).setDownId(Optional.<Integer>absent()).setRoomDescription("You are standing in the Emerald City bullet train station. A sign points to the north for the train to Tacoma Space Port, to the west New Portland and the east Shanty town. \r\n").createBasicRoom());
 

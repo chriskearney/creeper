@@ -3,7 +3,7 @@ package com.comandante.creeper.server.command;
 import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.Player;
-import com.comandante.creeper.room.Room;
+import com.comandante.creeper.world.Room;
 import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Joiner;
 import org.jboss.netty.channel.ChannelHandlerContext;
