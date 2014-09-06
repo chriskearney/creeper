@@ -9,14 +9,14 @@ import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMovement;
-import com.comandante.creeper.world.FloorManager;
-import com.comandante.creeper.world.MapsManager;
-import com.comandante.creeper.world.Room;
-import com.comandante.creeper.world.RoomManager;
 import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.server.Color;
 import com.comandante.creeper.server.CreeperSession;
 import com.comandante.creeper.server.MultiLineInputManager;
+import com.comandante.creeper.world.FloorManager;
+import com.comandante.creeper.world.MapsManager;
+import com.comandante.creeper.world.Room;
+import com.comandante.creeper.world.RoomManager;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interners;
@@ -27,9 +27,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import static com.comandante.creeper.server.Color.BOLD_OFF;
-import static com.comandante.creeper.server.Color.BOLD_ON;
-import static com.comandante.creeper.server.Color.RESET;
+import static com.comandante.creeper.server.Color.*;
 
 public class GameManager {
 
@@ -305,7 +303,7 @@ public class GameManager {
         for (String playerId : presentPlayerIds) {
             Player player = playerManager.getPlayer(playerId);
             if (player.getPlayerId().equals(sourcePlayerId)) {
-                channelUtils.write(playerId, message, true);
+                channelUtils.write(playerId, message, false);
                 continue;
             }
             channelUtils.write(player.getPlayerId(), message, true);

@@ -28,10 +28,10 @@ public class InventoryCommand extends Command {
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
             CreeperSession session = extractCreeperSession(e.getChannel());
-            PlayerMetadata playerMetadata = getGameManager().getPlayerManager().getPlayerMetadata(getPlayerId(session));
+            PlayerMetadata playerMetadata = getGameManager().getPlayerManager().getPlayerMetadata(extractPlayerId(session));
             String[] inventory1 = playerMetadata.getInventory();
             if (inventory1 == null) {
-                getGameManager().getChannelUtils().write(getPlayerId(session), "You aren't carrying anything.");
+                getGameManager().getChannelUtils().write(extractPlayerId(session), "You aren't carrying anything.");
                 return;
             }
             ArrayList<String> inventory = new ArrayList<String>(Arrays.asList(playerMetadata.getInventory()));
@@ -52,7 +52,7 @@ public class InventoryCommand extends Command {
                     }
                 }
             }
-            getGameManager().getChannelUtils().write(getPlayerId(session), sb.toString());
+            getGameManager().getChannelUtils().write(extractPlayerId(session), sb.toString());
         } finally {
             super.messageReceived(ctx, e);
         }

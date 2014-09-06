@@ -31,7 +31,7 @@ public class FightKillCommand extends Command {
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
             CreeperSession creeperSession = extractCreeperSession(e.getChannel());
-            Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId(creeperSession));
+            Player player = getGameManager().getPlayerManager().getPlayer(extractPlayerId(creeperSession));
             if (FightManager.isActiveFight(creeperSession)) {
                 getGameManager().getChannelUtils().write(player.getPlayerId(), "You are already in a fight!");
                 return;
@@ -50,6 +50,7 @@ public class FightKillCommand extends Command {
                 if (npcEntity.getValidTriggers().contains(target)) {
                     npcEntity.setIsInFight(true);
                     FightRun fightRun = new FightRun(player, npcEntity, getGameManager());
+                    getGameManager().getChannelUtils().write(player.getPlayerId(), "You start a fight!", false);
                     Future<FightResults> fight = getGameManager().getFightManager().fight(fightRun);
                     creeperSession.setActiveFight(Optional.of(fight));
                     return;

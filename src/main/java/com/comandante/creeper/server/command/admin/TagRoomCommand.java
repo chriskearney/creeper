@@ -25,7 +25,7 @@ public class TagRoomCommand extends Command {
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
             GameManager gameManager = getGameManager();
-            Player player = gameManager.getPlayerManager().getPlayer(getPlayerId(extractCreeperSession(e.getChannel())));
+            Player player = gameManager.getPlayerManager().getPlayer(extractPlayerId(extractCreeperSession(e.getChannel())));
             Room playerCurrentRoom = gameManager.getRoomManager().getPlayerCurrentRoom(player).get();
             List<String> originalMessageParts = getOriginalMessageParts(e);
             originalMessageParts.remove(0);

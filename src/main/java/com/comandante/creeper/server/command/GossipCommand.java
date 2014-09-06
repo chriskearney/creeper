@@ -29,7 +29,7 @@ public class GossipCommand extends Command {
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
             CreeperSession session = extractCreeperSession(e.getChannel());
-            String playerId = getPlayerId(session);
+            String playerId = extractPlayerId(session);
             List<String> origMessageParts = getOriginalMessageParts(e);
             if (origMessageParts.size() == 1) {
                 getGameManager().getChannelUtils().write(playerId, "Nothing to gossip about?");

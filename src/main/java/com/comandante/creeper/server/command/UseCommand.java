@@ -28,19 +28,19 @@ public class UseCommand extends Command {
             CreeperSession session = extractCreeperSession(e.getChannel());
             List<String> originalMessageParts = getOriginalMessageParts(e);
             if (originalMessageParts.size() == 1) {
-                getGameManager().getChannelUtils().write(getPlayerId(session), "No item specified.");
+                getGameManager().getChannelUtils().write(extractPlayerId(session), "No item specified.");
                 return;
             }
             originalMessageParts.remove(0);
             String itemTarget = Joiner.on(" ").join(originalMessageParts);
-            for (String inventoryId : getGameManager().getPlayerManager().getPlayerMetadata(getPlayerId(session)).getInventory()) {
+            for (String inventoryId : getGameManager().getPlayerManager().getPlayerMetadata(extractPlayerId(session)).getInventory()) {
                 Item itemEntity = getGameManager().getEntityManager().getItemEntity(inventoryId);
                 if (itemEntity.getItemTriggers().contains(itemTarget)) {
-                    new ItemUseHandler(itemEntity, session, getGameManager(), getPlayerId(session)).handle();
+                    new ItemUseHandler(itemEntity, session, getGameManager(), extractPlayerId(session)).handle();
                     return;
                 }
             }
-            new ItemUseHandler(ItemType.UNKNOWN.create(), session, getGameManager(), getPlayerId(session)).handle();
+            new ItemUseHandler(ItemType.UNKNOWN.create(), session, getGameManager(), extractPlayerId(session)).handle();
         } finally {
             super.messageReceived(ctx, e);
         }

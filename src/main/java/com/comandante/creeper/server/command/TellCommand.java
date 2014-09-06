@@ -26,7 +26,7 @@ public class TellCommand extends Command {
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
             CreeperSession session = extractCreeperSession(e.getChannel());
-            Player sourcePlayer = getGameManager().getPlayerManager().getPlayer(getPlayerId(session));
+            Player sourcePlayer = getGameManager().getPlayerManager().getPlayer(extractPlayerId(session));
             List<String> parts = getOriginalMessageParts(e);
             if (parts.size() < 3) {
                 getGameManager().getChannelUtils().write(sourcePlayer.getPlayerId(), "tell failed, no message to send.");

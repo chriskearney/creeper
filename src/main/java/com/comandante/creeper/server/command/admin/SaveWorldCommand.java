@@ -29,7 +29,7 @@ public class SaveWorldCommand extends Command {
                         getGameManager().getEntityManager());
 
         worldExporter.saveWorld();
-        getGameManager().getChannelUtils().write(getPlayerId(extractCreeperSession(e.getChannel())), "World saved.");
+        getGameManager().getChannelUtils().write(extractPlayerId(extractCreeperSession(e.getChannel())), "World saved.");
         super.messageReceived(ctx, e);
     }
 }

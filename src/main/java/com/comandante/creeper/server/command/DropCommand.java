@@ -26,7 +26,7 @@ public class DropCommand extends Command {
         try {
             GameManager gameManager = getGameManager();
             CreeperSession session = extractCreeperSession(e.getChannel());
-            final String playerId = getPlayerId(session);
+            final String playerId = extractPlayerId(session);
             List<String> origMessageParts = getOriginalMessageParts(e);
             if (origMessageParts.size() == 1) {
                 gameManager.getChannelUtils().write(playerId, "No item specified.");

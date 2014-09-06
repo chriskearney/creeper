@@ -31,7 +31,7 @@ public class SayCommand extends Command {
             CreeperSession session = extractCreeperSession(e.getChannel());
             List<String> originalMessageParts = getOriginalMessageParts(e);
             originalMessageParts.remove(0);
-            Player sourcePlayer = getGameManager().getPlayerManager().getPlayer(getPlayerId(session));
+            Player sourcePlayer = getGameManager().getPlayerManager().getPlayer(extractPlayerId(session));
             String message = Joiner.on(" ").join(originalMessageParts);
             Optional<Room> playerCurrentRoomOpt = getGameManager().getRoomManager().getPlayerCurrentRoom(sourcePlayer);
             if (!playerCurrentRoomOpt.isPresent()) {

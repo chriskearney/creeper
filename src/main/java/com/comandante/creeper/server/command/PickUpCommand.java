@@ -27,7 +27,7 @@ public class PickUpCommand extends Command {
         try {
             List<String> originalMessageParts = getOriginalMessageParts(e);
             CreeperSession session = extractCreeperSession(e.getChannel());
-            Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId(session));
+            Player player = getGameManager().getPlayerManager().getPlayer(extractPlayerId(session));
             Room playerCurrentRoom = getGameManager().getRoomManager().getPlayerCurrentRoom(player).get();
             Set<String> itemIds = playerCurrentRoom.getItemIds();
             originalMessageParts.remove(0);
@@ -36,7 +36,8 @@ public class PickUpCommand extends Command {
                 Item itemEntity = getGameManager().getEntityManager().getItemEntity(next);
                 if (itemEntity.getItemTriggers().contains(desiredPickUpItem)) {
                     getGameManager().acquireItem(player, itemEntity.getItemId());
-                    getGameManager().roomSay(playerCurrentRoom.getRoomId(), getGameManager().getPlayerManager().getPlayer(getPlayerId(session)).getPlayerName() + " picked up " + itemEntity.getItemName(), getPlayerId(session));
+                    String playerName = getGameManager().getPlayerManager().getPlayer(extractPlayerId(session)).getPlayerName();
+                    getGameManager().roomSay(playerCurrentRoom.getRoomId(), playerName + " picked up " + itemEntity.getItemName(), extractPlayerId(session));
                     return;
                 }
             }

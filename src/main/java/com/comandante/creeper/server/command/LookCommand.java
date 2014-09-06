@@ -27,19 +27,19 @@ public class LookCommand extends Command {
             CreeperSession creeperSession = extractCreeperSession(e.getChannel());
             List<String> originalMessageParts = getOriginalMessageParts(e);
             if (originalMessageParts.size() == 1) {
-                getGameManager().currentRoomLogic(getPlayerId(creeperSession));
+                getGameManager().currentRoomLogic(extractPlayerId(creeperSession));
                 return;
             }
             originalMessageParts.remove(0);
             String target = Joiner.on(" ").join(originalMessageParts);
             //Players
-            Player player = getGameManager().getPlayerManager().getPlayer(getPlayerId(creeperSession));
+            Player player = getGameManager().getPlayerManager().getPlayer(extractPlayerId(creeperSession));
             Room playerCurrentRoom = getGameManager().getRoomManager().getPlayerCurrentRoom(player).get();
             Set<String> presentPlayerIds = playerCurrentRoom.getPresentPlayerIds();
             for (String presentPlayerId : presentPlayerIds) {
                 Player presentPlayer = getGameManager().getPlayerManager().getPlayer(presentPlayerId);
                 if (presentPlayer.getPlayerName().equals(target)) {
-                    getGameManager().getChannelUtils().write(getPlayerId(creeperSession),
+                    getGameManager().getChannelUtils().write(extractPlayerId(creeperSession),
                             getGameManager().getPlayerManager().getLookString(player));
                 }
             }

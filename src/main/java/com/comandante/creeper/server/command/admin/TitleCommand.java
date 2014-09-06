@@ -31,7 +31,7 @@ public class TitleCommand extends Command {
             originalMessageParts.remove(0);
             String join = Joiner.on(" ").join(originalMessageParts);
             CreeperSession session = extractCreeperSession(e.getChannel());
-            Player player = gameManager.getPlayerManager().getPlayer(getPlayerId(session));
+            Player player = gameManager.getPlayerManager().getPlayer(extractPlayerId(session));
             Room playerCurrentRoom = gameManager.getRoomManager().getPlayerCurrentRoom(player).get();
             playerCurrentRoom.setRoomTitle(join);
             gameManager.getChannelUtils().write(player.getPlayerId(), "Titled saved.");

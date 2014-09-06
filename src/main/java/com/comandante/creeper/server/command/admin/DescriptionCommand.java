@@ -30,7 +30,7 @@ public class DescriptionCommand extends Command {
         try {
             GameManager gameManager = getGameManager();
             CreeperSession session = extractCreeperSession(e.getChannel());
-            Player player = gameManager.getPlayerManager().getPlayer(getPlayerId(session));
+            Player player = gameManager.getPlayerManager().getPlayer(extractPlayerId(session));
             if (session.getGrabMultiLineInput().isPresent()) {
                 MultiLineInputManager multiLineInputManager = gameManager.getMultiLineInputManager();
                 UUID uuid = session.getGrabMultiLineInput().get().getKey();
@@ -40,7 +40,7 @@ public class DescriptionCommand extends Command {
                 session.setGrabMultiLineInput(Optional.<CreeperEntry<UUID, Command>>absent());
                 return;
             }
-            final String playerId = getPlayerId(session);
+            final String playerId = extractPlayerId(session);
             gameManager.getChannelUtils().write(playerId, "\n\n ENTERING MULTI LINE INPUT MODE.  TYPE \"DONE\" ON AN EMPTY LINE TO EXIT");
             session.setGrabMultiLineInput(Optional.of(
                     new CreeperEntry<UUID, Command>(gameManager.getMultiLineInputManager().createNewMultiLineInput(), this)));

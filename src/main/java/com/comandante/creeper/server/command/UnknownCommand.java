@@ -15,7 +15,7 @@ public class UnknownCommand extends Command {
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
             CreeperSession creeperSession = extractCreeperSession(e.getChannel());
-            String playerId = getPlayerId(creeperSession);
+            String playerId = extractPlayerId(creeperSession);
             getGameManager().getChannelUtils().write(playerId, getGameManager().getPlayerManager().buildPrompt(playerId), false);
             e.getChannel().getPipeline().remove(ctx.getHandler());
         } finally {
