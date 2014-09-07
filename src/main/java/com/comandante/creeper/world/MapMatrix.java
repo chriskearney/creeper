@@ -13,7 +13,7 @@ import java.util.List;
 public class MapMatrix {
 
     private final List<List<Integer>> matrix;
-    private final Coords max;
+    private Coords max;
 
     public MapMatrix(List<List<Integer>> matrix) {
         this.matrix = matrix;
@@ -28,8 +28,12 @@ public class MapMatrix {
         return max.column;
     }
 
+    public void setMax(Coords max) {
+        this.max = max;
+    }
+
     public java.util.Iterator<List<Integer>> getRows() {
-       return matrix.iterator();
+        return matrix.iterator();
     }
 
     public Coords getCoords(Integer roomId) {
@@ -122,7 +126,7 @@ public class MapMatrix {
         return destinationMatrix;
     }
 
-    private Predicate<Integer> removeZeros(){
+    private Predicate<Integer> removeZeros() {
         return new Predicate<Integer>() {
             @Override
             public boolean apply(Integer integer) {
@@ -136,8 +140,8 @@ public class MapMatrix {
 
     public String getCsv() {
         StringBuilder sb = new StringBuilder();
-        for (List<Integer> list: matrix) {
-            for (Integer roomId: list) {
+        for (List<Integer> list : matrix) {
+            for (Integer roomId : list) {
                 if (!roomId.equals(0)) {
                     sb.append(roomId);
                 }
@@ -192,5 +196,18 @@ public class MapMatrix {
             sb.append("\r\n");
         }
         return sb.toString();
+    }
+
+    public void addRow(boolean startOfArray) {
+        ArrayList<Integer> newRow = Lists.<Integer>newArrayList();
+        for (int i = 0; i < matrix.get(0).size(); i++) {
+            newRow.add(0);
+        }
+        if (startOfArray) {
+            matrix.add(0, newRow);
+        } else {
+            matrix.add(newRow);
+        }
+        setMax(new Coords(matrix.size(), matrix.get(0).size()));
     }
 }

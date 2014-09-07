@@ -106,4 +106,16 @@ public class RoomManager {
         return rooms;
     }
 
+    public boolean doesRoomIdExist(Integer roomId) {
+        Iterator<Map.Entry<Integer, Room>> rooms1 = getRooms();
+        Set<Integer> roomIds = Sets.newHashSet();
+        while (rooms1.hasNext()) {
+            Map.Entry<Integer, Room> next = rooms1.next();
+            if (next.getKey().equals(roomId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

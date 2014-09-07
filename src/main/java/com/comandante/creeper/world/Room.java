@@ -24,12 +24,12 @@ public abstract class Room extends CreeperEntity {
 
     private String roomTitle;
     private final Integer floorId;
-    private final Optional<Integer> northId;
-    private final Optional<Integer> westId;
-    private final Optional<Integer> eastId;
-    private final Optional<Integer> southId;
-    private final Optional<Integer> downId;
-    private final Optional<Integer> upId;
+    private Optional<Integer> northId;
+    private Optional<Integer> westId;
+    private Optional<Integer> eastId;
+    private Optional<Integer> southId;
+    private Optional<Integer> downId;
+    private Optional<Integer> upId;
     private String roomDescription;
     private final Set<String> presentPlayerIds = Sets.<String>newConcurrentHashSet();
     private final Set<String> afkPlayerIds = Sets.<String>newConcurrentHashSet();
@@ -69,6 +69,29 @@ public abstract class Room extends CreeperEntity {
         return roomTags;
     }
 
+    public void setNorthId(Optional<Integer> northId) {
+        this.northId = northId;
+    }
+
+    public void setWestId(Optional<Integer> westId) {
+        this.westId = westId;
+    }
+
+    public void setEastId(Optional<Integer> eastId) {
+        this.eastId = eastId;
+    }
+
+    public void setSouthId(Optional<Integer> southId) {
+        this.southId = southId;
+    }
+
+    public void setDownId(Optional<Integer> downId) {
+        this.downId = downId;
+    }
+
+    public void setUpId(Optional<Integer> upId) {
+        this.upId = upId;
+    }
 
     public void addTag(String tag) {
         roomTags.add(tag);
