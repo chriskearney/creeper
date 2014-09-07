@@ -24,7 +24,7 @@ import java.util.List;
 public class BuildCommand extends Command {
 
     final static List<String> validTriggers = Arrays.asList("build", "b");
-    final static String description = "Saves the current world to disk.";
+    final static String description = "Build new rooms in the world.";
     final static boolean isAdminOnly = true;
 
     public BuildCommand(GameManager gameManager) {
