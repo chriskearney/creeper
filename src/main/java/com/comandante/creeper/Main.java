@@ -8,6 +8,7 @@ import com.comandante.creeper.npc.StreetHustler;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.server.command.FightKillCommand;
+import com.comandante.creeper.server.command.admin.BuildCommand;
 import com.comandante.creeper.spawner.ItemSpawner;
 import com.comandante.creeper.world.Area;
 import com.comandante.creeper.world.MapsManager;
@@ -104,6 +105,7 @@ public class Main {
         creeperCommandRegistry.addCommand(new TitleCommand(gameManager));
         creeperCommandRegistry.addCommand(new TagRoomCommand(gameManager));
         creeperCommandRegistry.addCommand(new SaveWorldCommand(gameManager));
+        creeperCommandRegistry.addCommand(new BuildCommand(gameManager));
 
         CreeperServer creeperServer = new CreeperServer(8080, db);
         creeperServer.run(gameManager);

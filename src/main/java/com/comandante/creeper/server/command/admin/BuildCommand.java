@@ -5,6 +5,8 @@ import com.comandante.creeper.player.Player;
 import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.server.CreeperSession;
 import com.comandante.creeper.server.command.Command;
+import com.comandante.creeper.world.MapMatrix;
+import com.comandante.creeper.world.MapsManager;
 import com.comandante.creeper.world.Room;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
@@ -30,17 +32,19 @@ public class BuildCommand extends Command {
             String playerId = extractPlayerId(session);
             GameManager gameManager = getGameManager();
             Player player = gameManager.getPlayerManager().getPlayer(playerId);
-            ChannelUtils utils = gameManager.getChannelUtils();
-            List<String> originalMessageParts = getOriginalMessageParts(e);
             Room currentRoom = gameManager.getRoomManager().getPlayerCurrentRoom(player).get();
+            ChannelUtils utils = gameManager.getChannelUtils();
+            MapsManager mapsManager = gameManager.getMapsManager();
+            MapMatrix mapMatrix = mapsManager.getFloorMatrixMaps().get(currentRoom.getFloorId());
+            List<String> originalMessageParts = getOriginalMessageParts(e);
             if (originalMessageParts.size() == 1) {
                 utils.write(playerId, "You must specify a direction in which to build.");
                 return;
             }
             String desiredBuildDirection = originalMessageParts.get(1);
             if (desiredBuildDirection.equalsIgnoreCase("n") | desiredBuildDirection.equalsIgnoreCase("north")) {
-                if (!currentRoom.getNorthId().isPresent()) {
-
+                if (!currentRoom.getNorthId().isPresent() && mapMatrix.getNorth(currentRoom.getRoomId()) == 0) {
+                    utils.write(playerId, "Would be able to create.");
                 } else {
                     utils.write(playerId, "Error!  There is already a room to the North.");
                 }
@@ -55,5 +59,9 @@ public class BuildCommand extends Command {
         } finally {
             super.messageReceived(ctx, e);
         }
+    }
+
+    private void buildBasicRoom() {
+
     }
 }
