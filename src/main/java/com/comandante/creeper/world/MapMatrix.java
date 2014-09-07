@@ -210,4 +210,17 @@ public class MapMatrix {
         }
         setMax(new Coords(matrix.size(), matrix.get(0).size()));
     }
+
+    public void addColumn(boolean startOfArray) {
+        Iterator<List<Integer>> rows = getRows();
+        while (rows.hasNext()) {
+            List<Integer> next = rows.next();
+            if (startOfArray) {
+                next.add(0, 0);
+            } else {
+                next.add(0);
+            }
+        }
+        setMax(new Coords(matrix.size(), matrix.get(0).size()));
+    }
 }

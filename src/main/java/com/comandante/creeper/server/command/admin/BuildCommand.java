@@ -2,6 +2,7 @@ package com.comandante.creeper.server.command.admin;
 
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.Player;
+import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.server.CreeperSession;
 import com.comandante.creeper.server.command.Command;
@@ -56,7 +57,7 @@ public class BuildCommand extends Command {
                         mapMatrix.addRow(true);
                         coords = new Coords(0, roomCoords.column);
                     }
-                    buildBasicRoom(currentRoom, coords, mapMatrix);
+                    buildBasicRoom(player, currentRoom, coords, mapMatrix);
                     utils.write(playerId, "Room created.");
                     return;
                 } else {
@@ -68,7 +69,7 @@ public class BuildCommand extends Command {
                     if (coords.getRow() >= mapMatrix.getMaxRow()) {
                         mapMatrix.addRow(false);
                     }
-                    buildBasicRoom(currentRoom, coords, mapMatrix);
+                    buildBasicRoom(player, currentRoom, coords, mapMatrix);
                     utils.write(playerId, "Room created.");
                     return;
                 } else {
@@ -76,7 +77,12 @@ public class BuildCommand extends Command {
                 }
             } else if (desiredBuildDirection.equalsIgnoreCase("e") | desiredBuildDirection.equalsIgnoreCase("east")) {
                 if (!currentRoom.getEastId().isPresent() && mapMatrix.getEast(currentRoom.getRoomId()) == 0) {
-                    buildBasicRoom(currentRoom, new Coords(roomCoords.row, roomCoords.column + 1), mapMatrix);
+                    Coords coords = new Coords(roomCoords.row, roomCoords.column + 1);
+                    if (coords.getColumn() >= mapMatrix.getMaxCol()) {
+                        mapMatrix.addColumn(false);
+                        coords = new Coords(roomCoords.row, roomCoords.column + 1);
+                    }
+                    buildBasicRoom(player, currentRoom, coords, mapMatrix);
                     utils.write(playerId, "Room created.");
                     return;
                 } else {
@@ -84,7 +90,12 @@ public class BuildCommand extends Command {
                 }
             } else if (desiredBuildDirection.equalsIgnoreCase("w") | desiredBuildDirection.equalsIgnoreCase("west")) {
                 if (!currentRoom.getWestId().isPresent() && mapMatrix.getWest(currentRoom.getRoomId()) == 0) {
-                    buildBasicRoom(currentRoom, new Coords(roomCoords.row, roomCoords.column - 1), mapMatrix);
+                    Coords coords = new Coords(roomCoords.row, roomCoords.column - 1);
+                    if (coords.getColumn() < 0) {
+                        mapMatrix.addColumn(true);
+                        coords = new Coords(roomCoords.row, 0);
+                    }
+                    buildBasicRoom(player, currentRoom, coords, mapMatrix);
                     utils.write(playerId, "Room created.");
                     return;
                 } else {
@@ -96,7 +107,7 @@ public class BuildCommand extends Command {
         }
     }
 
-    private void buildBasicRoom(Room currentRoom, Coords newCords, MapMatrix mapMatrix) {
+    private void buildBasicRoom(Player player, Room currentRoom, Coords newCords, MapMatrix mapMatrix) {
         Integer newRroomId = findRoomId();
         mapMatrix.setCoordsValue(newCords, newRroomId);
         BasicRoomBuilder basicRoomBuilder = new BasicRoomBuilder();
@@ -124,6 +135,8 @@ public class BuildCommand extends Command {
             rebuildExits(roomManager.getRoom(basicRoom.getWestId().get()), mapMatrix);
         }
         getGameManager().getMapsManager().generateAllMaps(9, 9);
+        getGameManager().movePlayer(new PlayerMovement(player, currentRoom.getRoomId(), basicRoom.getRoomId(), null, "", ""));
+        getGameManager().currentRoomLogic(player.getPlayerId());
     }
 
     private void rebuildExits(Room room, MapMatrix mapMatrix) {
