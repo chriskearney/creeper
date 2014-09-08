@@ -38,7 +38,7 @@ public abstract class Command extends SimpleChannelUpstreamHandler {
         e.getChannel().getPipeline().remove(ctx.getHandler());
         String playerId = extractPlayerId(extractCreeperSession(e.getChannel()));
         String prompt = gameManager.getPlayerManager().buildPrompt(playerId);
-        gameManager.getChannelUtils().write(playerId, "\r\n" + prompt);
+        gameManager.getChannelUtils().write(playerId, prompt, true);
         super.messageReceived(ctx, e);
     }
 
