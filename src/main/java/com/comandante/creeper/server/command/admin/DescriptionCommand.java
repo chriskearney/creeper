@@ -41,7 +41,7 @@ public class DescriptionCommand extends Command {
                 return;
             }
             final String playerId = extractPlayerId(session);
-            gameManager.getChannelUtils().write(playerId, "\n\n ENTERING MULTI LINE INPUT MODE.  TYPE \"DONE\" ON AN EMPTY LINE TO EXIT");
+            gameManager.getChannelUtils().write(playerId, "You are now in multi-line mode.  Type \"done\" on an empty line to exit and save.\r\n");
             session.setGrabMultiLineInput(Optional.of(
                     new CreeperEntry<UUID, Command>(gameManager.getMultiLineInputManager().createNewMultiLineInput(), this)));
         } finally {

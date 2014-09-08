@@ -19,11 +19,11 @@ public class MultiLineInputHandler extends SimpleChannelUpstreamHandler {
         try {
             CreeperSession creeperSession = (CreeperSession) e.getChannel().getAttachment();
             String message = (String) e.getMessage();
-            if (message.equals("DONE")) {
+            if (message.equalsIgnoreCase("DONE")) {
                 e.getChannel().getPipeline().addLast(UUID.randomUUID().toString(), creeperSession.getGrabMultiLineInput().get().getValue());
                 return;
             }
-            gameManager.getMultiLineInputManager().addToMultiLine(creeperSession.getGrabMultiLineInput().get().getKey(), message);
+            gameManager.getMultiLineInputManager().addToMultiLine(creeperSession.getGrabMultiLineInput().get().getKey(), message + "\r\n");
         } finally {
             e.getChannel().getPipeline().remove(ctx.getHandler());
             super.messageReceived(ctx, e);
