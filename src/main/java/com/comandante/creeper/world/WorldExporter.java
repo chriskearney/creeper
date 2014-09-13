@@ -120,8 +120,7 @@ public class WorldExporter {
         }
     }
 
-    public MapMatrix readWorldFromDisk() throws FileNotFoundException {
-        FloorModel floorModel = new GsonBuilder().create().fromJson(Files.newReader(new File(("world/main_floor.json")), Charset.defaultCharset()), FloorModel.class);
+    private void buildFloor(FloorModel floorModel) {
         MapMatrix matrixFromCsv = MapMatrix.createMatrixFromCsv(floorModel.getRawMatrixCsv());
         Set<Room> rooms = Sets.newHashSet();
         if (floorModel.getRoomModels() == null || floorModel.getRoomModels().size() == 0) {
@@ -147,7 +146,7 @@ public class WorldExporter {
             }
             floorManager.addFloor(floorModel.getId(), floorModel.getName());
             mapsManager.addFloorMatrix(floorModel.getId(), matrixFromCsv);
-            return matrixFromCsv;
+            return;
         }
         Iterator<BasicRoom> transform = Iterators.transform(floorModel.getRoomModels().iterator(), getBasicRoom(matrixFromCsv));
         while (transform.hasNext()) {
@@ -156,7 +155,13 @@ public class WorldExporter {
         }
         floorManager.addFloor(floorModel.getId(), floorModel.getName());
         mapsManager.addFloorMatrix(floorModel.getId(), matrixFromCsv);
-        return matrixFromCsv;
+    }
+
+    public void readWorldFromDisk() throws FileNotFoundException {
+        WorldModel worldModel = new GsonBuilder().create().fromJson(Files.newReader(new File(("world/world.json")), Charset.defaultCharset()), WorldModel.class);
+        for (FloorModel next : worldModel.getFloorModelList()) {
+            buildFloor(next);
+        }
     }
 
 }
