@@ -62,7 +62,7 @@ public class WorldExporter {
         }
     }
 
-    public Function<Room, RoomModel> getRoomModels() {
+    public static Function<Room, RoomModel> getRoomModels() {
         return new Function<Room, RoomModel>() {
             @Override
             public RoomModel apply(Room room) {

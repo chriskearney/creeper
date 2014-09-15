@@ -31,10 +31,10 @@ public class MapsManager {
     public String drawMap(Integer roomId, Coords max) {
         MapMatrix floorMatrix = floorMatrixMaps.get(roomManager.getRoom(roomId).getFloorId());
         MapMatrix mapMatrix = floorMatrix.extractMatrix(roomId, max);
-        return mapMatrix.renderMap(roomId);
+        return mapMatrix.renderMap(roomId, roomManager);
     }
 
-    public static Function<Integer, String> render(final Integer currentroomId) {
+    public static Function<Integer, String> render(final Integer currentroomId, final RoomManager roomManager) {
         return new Function<Integer, String>() {
             @Override
             public String apply(Integer roomId) {
@@ -43,7 +43,12 @@ public class MapsManager {
                         return "[" + Color.BOLD_ON + Color.RED + "*" + Color.RESET + "]";
                     } else if (roomId.equals(1)) {
                         return "[" + Color.BOLD_ON + Color.BLUE + "L" + Color.RESET + "]";
-                    } else {
+                    } else if (roomManager.getRoom(roomId).getUpId().isPresent()) {
+                        return "[" + Color.GREEN + "^" + Color.RESET + "]";
+                    } else if (roomManager.getRoom(roomId).getDownId().isPresent()) {
+                        return "[" + Color.GREEN + "v" + Color.RESET + "]";
+                    }
+                    else {
                         return "[ ]";
                     }
                 } else {

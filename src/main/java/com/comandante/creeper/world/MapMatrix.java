@@ -183,12 +183,12 @@ public class MapMatrix {
         return new MapMatrix(lists);
     }
 
-    public String renderMap(Integer roomId) {
+    public String renderMap(Integer roomId, RoomManager roomManager) {
         StringBuilder sb = new StringBuilder();
         Iterator<List<Integer>> rows = getRows();
         while (rows.hasNext()) {
             List<Integer> next = rows.next();
-            Iterator<String> transform = Iterators.transform(next.iterator(), MapsManager.render(roomId));
+            Iterator<String> transform = Iterators.transform(next.iterator(), MapsManager.render(roomId, roomManager));
             while (transform.hasNext()) {
                 String s = transform.next();
                 sb.append(s);

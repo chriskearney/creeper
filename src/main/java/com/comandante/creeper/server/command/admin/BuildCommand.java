@@ -10,16 +10,23 @@ import com.comandante.creeper.world.Area;
 import com.comandante.creeper.world.BasicRoom;
 import com.comandante.creeper.world.BasicRoomBuilder;
 import com.comandante.creeper.world.Coords;
+import com.comandante.creeper.world.FloorModel;
 import com.comandante.creeper.world.MapMatrix;
 import com.comandante.creeper.world.MapsManager;
 import com.comandante.creeper.world.Room;
 import com.comandante.creeper.world.RoomManager;
+import com.comandante.creeper.world.RoomModel;
+import com.comandante.creeper.world.WorldExporter;
 import com.google.common.base.Optional;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Sets;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 public class BuildCommand extends Command {
 
@@ -32,7 +39,7 @@ public class BuildCommand extends Command {
     }
 
     @Override
-    public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+    public synchronized void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
             //
             CreeperSession session = extractCreeperSession(e.getChannel());
@@ -101,6 +108,34 @@ public class BuildCommand extends Command {
                 } else {
                     utils.write(playerId, "Error!  There is already a room to the West.");
                 }
+            } else if (desiredBuildDirection.equalsIgnoreCase("u") | desiredBuildDirection.equalsIgnoreCase("up")) {
+                Integer newRoomId = findRoomId();
+                Integer floorId = findFloorId();
+                FloorModel floorModel = new FloorModel();
+                floorModel.setId(floorId);
+                floorModel.setRawMatrixCsv(Integer.toString(newRoomId));
+                floorModel.setName(UUID.randomUUID().toString());
+                BasicRoomBuilder basicRoomBuilder = new BasicRoomBuilder();
+                basicRoomBuilder.addArea(Area.DEFAULT);
+                basicRoomBuilder.setRoomId(newRoomId);
+                basicRoomBuilder.setRoomDescription("Newly created room. Set a new description with the desc command.");
+                basicRoomBuilder.setRoomTitle("Default Title, change with title command");
+                basicRoomBuilder.setFloorId(floorId);
+                basicRoomBuilder.setDownId(Optional.of(currentRoom.getRoomId()));
+                currentRoom.setUpId(Optional.of(newRoomId));
+                BasicRoom basicRoom = basicRoomBuilder.createBasicRoom();
+                getGameManager().getEntityManager().addEntity(basicRoom);
+                Iterator<RoomModel> transform = Iterators.transform(Sets.newHashSet(basicRoom).iterator(), WorldExporter.getRoomModels());
+                floorModel.setRoomModels(Sets.newHashSet(transform));
+                getGameManager().getFloorManager().addFloor(floorModel.getId(), floorModel.getName());
+                getGameManager().getMapsManager().addFloorMatrix(floorModel.getId(), MapMatrix.createMatrixFromCsv(floorModel.getRawMatrixCsv()));
+                getGameManager().getMapsManager().generateAllMaps(9, 9);
+               // getGameManager().getMapsManager().drawMap(basicRoom.getRoomId(), new Coords(9, 9));
+                getGameManager().movePlayer(new PlayerMovement(player, currentRoom.getRoomId(), basicRoom.getRoomId(), null, "", ""));
+                getGameManager().currentRoomLogic(player.getPlayerId());
+                return;
+            } else {
+                utils.write(playerId, "Error!  There is already a room to the West.");
             }
         } finally {
             super.messageReceived(ctx, e);
@@ -154,9 +189,19 @@ public class BuildCommand extends Command {
         }
     }
 
-    private Integer findRoomId() {
+    private synchronized Integer findRoomId() {
         for (int i = 1; i < Integer.MAX_VALUE; i++) {
             if (!getGameManager().getRoomManager().doesRoomIdExist(i)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+
+    private synchronized Integer findFloorId() {
+        for (int i = 1; i < Integer.MAX_VALUE; i++) {
+            if (!getGameManager().getFloorManager().doesFloorIdExist(i)) {
                 return i;
             }
         }
