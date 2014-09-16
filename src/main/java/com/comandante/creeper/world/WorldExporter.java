@@ -76,7 +76,7 @@ public class WorldExporter {
                 roomModelBuilder.setRoomId(room.getRoomId());
                 roomModelBuilder.setRoomTags(room.getRoomTags());
                 roomModelBuilder.setFloorId(room.getFloorId());
-                for (Area area: room.getAreas()) {
+                for (Area area : room.getAreas()) {
                     roomModelBuilder.addAreaName(area.getName());
                 }
                 return roomModelBuilder.build();
@@ -97,7 +97,7 @@ public class WorldExporter {
                 for (String tag : roomModel.getRoomTags()) {
                     basicRoomBuilder.addTag(tag);
                 }
-                for (String areaName: roomModel.getAreaNames()) {
+                for (String areaName : roomModel.getAreaNames()) {
                     basicRoomBuilder.addArea(Area.getByName(areaName));
                 }
                 configureExits(basicRoomBuilder, mapMatrix, roomModel.getRoomId());
@@ -123,6 +123,15 @@ public class WorldExporter {
         if (west > 0) {
             basicRoomBuilder.setWestId(Optional.of(west));
         }
+        if (mapMatrix.getRemotes().containsKey(roomId)) {
+            for (RemoteExit exit : mapMatrix.getRemotes().get(roomId)) {
+                if (exit.getDirection().equals(RemoteExit.Direction.UP)) {
+                    basicRoomBuilder.setUpId(Optional.of(exit.getRoomId()));
+                } else if (exit.getDirection().equals(RemoteExit.Direction.DOWN)) {
+                    basicRoomBuilder.setDownId(Optional.of(exit.getRoomId()));
+                }
+            }
+        }
     }
 
     private void buildFloor(FloorModel floorModel) {
@@ -132,8 +141,8 @@ public class WorldExporter {
             Iterator<List<Integer>> rows = matrixFromCsv.getRows();
             while (rows.hasNext()) {
                 List<Integer> row = rows.next();
-                for (Integer roomId: row) {
-                    if (roomId.equals(0)){
+                for (Integer roomId : row) {
+                    if (roomId.equals(0)) {
                         continue;
                     }
                     BasicRoomBuilder basicRoomBuilder = new BasicRoomBuilder();
@@ -146,7 +155,7 @@ public class WorldExporter {
                     rooms.add(basicRoomBuilder.createBasicRoom());
                 }
             }
-            for (Room r: rooms) {
+            for (Room r : rooms) {
                 entityManager.addEntity(r);
             }
             floorManager.addFloor(floorModel.getId(), floorModel.getName());
