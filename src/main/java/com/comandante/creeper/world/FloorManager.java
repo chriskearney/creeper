@@ -34,4 +34,14 @@ public class FloorManager {
         }
         return ids;
     }
+
+    public boolean doesFloorIdExist(Integer floorId) {
+        Set<Integer> ids = getFloorIds();
+        for (Integer next : ids) {
+            if (next.equals(floorId)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

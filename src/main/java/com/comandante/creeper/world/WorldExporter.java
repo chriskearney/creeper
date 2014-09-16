@@ -34,13 +34,23 @@ public class WorldExporter {
     }
 
     public void saveWorld() {
+        WorldModel worldModel = new WorldModel();
+        Set<FloorModel> floors = Sets.newHashSet();
         Set<Integer> floorIds = floorManager.getFloorIds();
         for (Integer floorId : floorIds) {
-            writeFloor(floorId, mapsManager.getFloorMatrixMaps().get(floorId));
+            floors.add(generateFloorModel(floorId, mapsManager.getFloorMatrixMaps().get(floorId)));
+        }
+        worldModel.setFloorModelList(floors);
+
+        String worldJson = new GsonBuilder().setPrettyPrinting().create().toJson(worldModel, WorldModel.class);
+        try {
+            Files.write(worldJson.getBytes(), new File(WORLD_DIR + "world.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private void writeFloor(Integer floorId, MapMatrix mapMatrix) {
+    private FloorModel generateFloorModel(Integer floorId, MapMatrix mapMatrix) {
         Set<Room> rooms = roomManager.getRoomsByFloorId(floorId);
         FloorModel floorModel = new FloorModel();
         floorModel.setId(floorId);
@@ -53,16 +63,10 @@ public class WorldExporter {
             floorModel.getRoomModels().add(next);
         }
 
-        String floorjson = new GsonBuilder().setPrettyPrinting().create().toJson(floorModel, FloorModel.class);
-
-        try {
-            Files.write(floorjson.getBytes(), new File(WORLD_DIR + floorManager.getName(floorId) + "_floor.json"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return floorModel;
     }
 
-    public Function<Room, RoomModel> getRoomModels() {
+    public static Function<Room, RoomModel> getRoomModels() {
         return new Function<Room, RoomModel>() {
             @Override
             public RoomModel apply(Room room) {
@@ -71,7 +75,8 @@ public class WorldExporter {
                 roomModelBuilder.setRoomTitle(room.getRoomTitle());
                 roomModelBuilder.setRoomId(room.getRoomId());
                 roomModelBuilder.setRoomTags(room.getRoomTags());
-                for (Area area: room.getAreas()) {
+                roomModelBuilder.setFloorId(room.getFloorId());
+                for (Area area : room.getAreas()) {
                     roomModelBuilder.addAreaName(area.getName());
                 }
                 return roomModelBuilder.build();
@@ -92,7 +97,7 @@ public class WorldExporter {
                 for (String tag : roomModel.getRoomTags()) {
                     basicRoomBuilder.addTag(tag);
                 }
-                for (String areaName: roomModel.getAreaNames()) {
+                for (String areaName : roomModel.getAreaNames()) {
                     basicRoomBuilder.addArea(Area.getByName(areaName));
                 }
                 configureExits(basicRoomBuilder, mapMatrix, roomModel.getRoomId());
@@ -118,18 +123,26 @@ public class WorldExporter {
         if (west > 0) {
             basicRoomBuilder.setWestId(Optional.of(west));
         }
+        if (mapMatrix.getRemotes().containsKey(roomId)) {
+            for (RemoteExit exit : mapMatrix.getRemotes().get(roomId)) {
+                if (exit.getDirection().equals(RemoteExit.Direction.UP)) {
+                    basicRoomBuilder.setUpId(Optional.of(exit.getRoomId()));
+                } else if (exit.getDirection().equals(RemoteExit.Direction.DOWN)) {
+                    basicRoomBuilder.setDownId(Optional.of(exit.getRoomId()));
+                }
+            }
+        }
     }
 
-    public MapMatrix readWorldFromDisk() throws FileNotFoundException {
-        FloorModel floorModel = new GsonBuilder().create().fromJson(Files.newReader(new File(("world/main_floor.json")), Charset.defaultCharset()), FloorModel.class);
+    private void buildFloor(FloorModel floorModel) {
         MapMatrix matrixFromCsv = MapMatrix.createMatrixFromCsv(floorModel.getRawMatrixCsv());
         Set<Room> rooms = Sets.newHashSet();
         if (floorModel.getRoomModels() == null || floorModel.getRoomModels().size() == 0) {
             Iterator<List<Integer>> rows = matrixFromCsv.getRows();
             while (rows.hasNext()) {
                 List<Integer> row = rows.next();
-                for (Integer roomId: row) {
-                    if (roomId.equals(0)){
+                for (Integer roomId : row) {
+                    if (roomId.equals(0)) {
                         continue;
                     }
                     BasicRoomBuilder basicRoomBuilder = new BasicRoomBuilder();
@@ -142,12 +155,12 @@ public class WorldExporter {
                     rooms.add(basicRoomBuilder.createBasicRoom());
                 }
             }
-            for (Room r: rooms) {
+            for (Room r : rooms) {
                 entityManager.addEntity(r);
             }
             floorManager.addFloor(floorModel.getId(), floorModel.getName());
             mapsManager.addFloorMatrix(floorModel.getId(), matrixFromCsv);
-            return matrixFromCsv;
+            return;
         }
         Iterator<BasicRoom> transform = Iterators.transform(floorModel.getRoomModels().iterator(), getBasicRoom(matrixFromCsv));
         while (transform.hasNext()) {
@@ -156,7 +169,13 @@ public class WorldExporter {
         }
         floorManager.addFloor(floorModel.getId(), floorModel.getName());
         mapsManager.addFloorMatrix(floorModel.getId(), matrixFromCsv);
-        return matrixFromCsv;
+    }
+
+    public void readWorldFromDisk() throws FileNotFoundException {
+        WorldModel worldModel = new GsonBuilder().create().fromJson(Files.newReader(new File(("world/world.json")), Charset.defaultCharset()), WorldModel.class);
+        for (FloorModel next : worldModel.getFloorModelList()) {
+            buildFloor(next);
+        }
     }
 
 }
