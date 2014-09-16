@@ -34,13 +34,23 @@ public class WorldExporter {
     }
 
     public void saveWorld() {
+        WorldModel worldModel = new WorldModel();
+        Set<FloorModel> floors = Sets.newHashSet();
         Set<Integer> floorIds = floorManager.getFloorIds();
         for (Integer floorId : floorIds) {
-            writeFloor(floorId, mapsManager.getFloorMatrixMaps().get(floorId));
+            floors.add(generateFloorModel(floorId, mapsManager.getFloorMatrixMaps().get(floorId)));
+        }
+        worldModel.setFloorModelList(floors);
+
+        String worldJson = new GsonBuilder().setPrettyPrinting().create().toJson(worldModel, WorldModel.class);
+        try {
+            Files.write(worldJson.getBytes(), new File(WORLD_DIR + "world.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private void writeFloor(Integer floorId, MapMatrix mapMatrix) {
+    private FloorModel generateFloorModel(Integer floorId, MapMatrix mapMatrix) {
         Set<Room> rooms = roomManager.getRoomsByFloorId(floorId);
         FloorModel floorModel = new FloorModel();
         floorModel.setId(floorId);
@@ -53,13 +63,7 @@ public class WorldExporter {
             floorModel.getRoomModels().add(next);
         }
 
-        String floorjson = new GsonBuilder().setPrettyPrinting().create().toJson(floorModel, FloorModel.class);
-
-        try {
-            Files.write(floorjson.getBytes(), new File(WORLD_DIR + floorManager.getName(floorId) + "_floor.json"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return floorModel;
     }
 
     public static Function<Room, RoomModel> getRoomModels() {
@@ -71,6 +75,7 @@ public class WorldExporter {
                 roomModelBuilder.setRoomTitle(room.getRoomTitle());
                 roomModelBuilder.setRoomId(room.getRoomId());
                 roomModelBuilder.setRoomTags(room.getRoomTags());
+                roomModelBuilder.setFloorId(room.getFloorId());
                 for (Area area: room.getAreas()) {
                     roomModelBuilder.addAreaName(area.getName());
                 }

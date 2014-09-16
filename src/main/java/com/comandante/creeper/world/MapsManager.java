@@ -29,6 +29,10 @@ public class MapsManager {
     }
 
     public String drawMap(Integer roomId, Coords max) {
+        System.out.println(roomId);
+        if (roomId.equals(67)) {
+            System.out.println("hi");
+        }
         MapMatrix floorMatrix = floorMatrixMaps.get(roomManager.getRoom(roomId).getFloorId());
         MapMatrix mapMatrix = floorMatrix.extractMatrix(roomId, max);
         return mapMatrix.renderMap(roomId, roomManager);
