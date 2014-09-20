@@ -56,7 +56,7 @@ public class BuildCommand extends Command {
                     }
                 } else if (desiredBuildDirection.equalsIgnoreCase("w") | desiredBuildDirection.equalsIgnoreCase("west")) {
                     if (!currentRoom.getWestId().isPresent() && mapMatrix.isWesternMapSpaceEmpty(currentRoom.getRoomId())) {
-                        buildBasicRoomAndProcessAllExits(mapMatrix.getSouthCoords(currentRoomCoords));
+                        buildBasicRoomAndProcessAllExits(mapMatrix.getWestCoords(currentRoomCoords));
                         return;
                     }
                 } else if (desiredBuildDirection.equalsIgnoreCase("u") | desiredBuildDirection.equalsIgnoreCase("up")) {
@@ -136,6 +136,7 @@ public class BuildCommand extends Command {
                 .setRoomId(newRroomId)
                 .setFloorId(currentRoom.getFloorId())
                 .createBasicRoom();
+        roomManager.addRoom(basicRoom);
         entityManager.addEntity(basicRoom);
         rebuildExits(basicRoom, mapMatrix);
         rebuildExits(currentRoom, mapMatrix);

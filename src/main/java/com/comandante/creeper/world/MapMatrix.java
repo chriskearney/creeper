@@ -304,7 +304,7 @@ public class MapMatrix {
 
     public Coords getNorthCords(Coords coords) {
         Coords ret = new Coords(coords.row - 1, coords.column);
-        if (coords.getRow() < 0) {
+        if (ret.getRow() < 0) {
             addRow(true);
             ret = new Coords(0, coords.column);
         }
