@@ -1,5 +1,6 @@
 package com.comandante.creeper.server.command.admin;
 
+import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerMovement;
@@ -10,13 +11,13 @@ import com.comandante.creeper.world.Area;
 import com.comandante.creeper.world.BasicRoom;
 import com.comandante.creeper.world.BasicRoomBuilder;
 import com.comandante.creeper.world.Coords;
+import com.comandante.creeper.world.FloorManager;
 import com.comandante.creeper.world.FloorModel;
 import com.comandante.creeper.world.MapMatrix;
 import com.comandante.creeper.world.MapsManager;
 import com.comandante.creeper.world.RemoteExit;
 import com.comandante.creeper.world.Room;
 import com.comandante.creeper.world.RoomManager;
-import com.comandante.creeper.world.RoomModel;
 import com.comandante.creeper.world.WorldExporter;
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterators;
@@ -25,7 +26,6 @@ import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -43,7 +43,7 @@ public class BuildCommand extends Command {
     @Override
     public synchronized void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
-            //
+
             CreeperSession session = extractCreeperSession(e.getChannel());
             String playerId = extractPlayerId(session);
             GameManager gameManager = getGameManager();
@@ -52,115 +52,120 @@ public class BuildCommand extends Command {
             ChannelUtils utils = gameManager.getChannelUtils();
             MapsManager mapsManager = gameManager.getMapsManager();
             MapMatrix mapMatrix = mapsManager.getFloorMatrixMaps().get(currentRoom.getFloorId());
-            Coords roomCoords = mapMatrix.getCoords(currentRoom.getRoomId());
-            List<String> originalMessageParts = getOriginalMessageParts(e);
-            if (originalMessageParts.size() == 1) {
-                utils.write(playerId, "You must specify a direction in which to build.");
-                return;
-            }
-            String desiredBuildDirection = originalMessageParts.get(1);
-            if (desiredBuildDirection.equalsIgnoreCase("n") | desiredBuildDirection.equalsIgnoreCase("north")) {
-                if (!currentRoom.getNorthId().isPresent() && mapMatrix.getNorth(currentRoom.getRoomId()) == 0) {
-                    Coords coords = new Coords(roomCoords.row - 1, roomCoords.column);
-                    if (coords.getRow() < 0) {
-                        mapMatrix.addRow(true);
-                        coords = new Coords(0, roomCoords.column);
-                    }
-                    buildBasicRoom(player, currentRoom, coords, mapMatrix);
-                    utils.write(playerId, "Room created.");
-                    return;
-                } else {
-                    utils.write(playerId, "Error!  There is already a room to the North.");
-                }
-            } else if (desiredBuildDirection.equalsIgnoreCase("s") | desiredBuildDirection.equalsIgnoreCase("south")) {
-                if (!currentRoom.getSouthId().isPresent() && mapMatrix.getSouth(currentRoom.getRoomId()) == 0) {
-                    Coords coords = new Coords(roomCoords.row + 1, roomCoords.column);
-                    if (coords.getRow() >= mapMatrix.getMaxRow()) {
-                        mapMatrix.addRow(false);
-                    }
-                    buildBasicRoom(player, currentRoom, coords, mapMatrix);
-                    utils.write(playerId, "Room created.");
-                    return;
-                } else {
-                    utils.write(playerId, "Error!  There is already a room to the South.");
-                }
-            } else if (desiredBuildDirection.equalsIgnoreCase("e") | desiredBuildDirection.equalsIgnoreCase("east")) {
-                if (!currentRoom.getEastId().isPresent() && mapMatrix.getEast(currentRoom.getRoomId()) == 0) {
-                    Coords coords = new Coords(roomCoords.row, roomCoords.column + 1);
-                    if (coords.getColumn() >= mapMatrix.getMaxCol()) {
-                        mapMatrix.addColumn(false);
-                        coords = new Coords(roomCoords.row, roomCoords.column + 1);
-                    }
-                    buildBasicRoom(player, currentRoom, coords, mapMatrix);
-                    utils.write(playerId, "Room created.");
-                    return;
-                } else {
-                    utils.write(playerId, "Error!  There is already a room to the East.");
-                }
-            } else if (desiredBuildDirection.equalsIgnoreCase("w") | desiredBuildDirection.equalsIgnoreCase("west")) {
-                if (!currentRoom.getWestId().isPresent() && mapMatrix.getWest(currentRoom.getRoomId()) == 0) {
-                    Coords coords = new Coords(roomCoords.row, roomCoords.column - 1);
-                    if (coords.getColumn() < 0) {
-                        mapMatrix.addColumn(true);
-                        coords = new Coords(roomCoords.row, 0);
-                    }
-                    buildBasicRoom(player, currentRoom, coords, mapMatrix);
-                    utils.write(playerId, "Room created.");
-                    return;
-                } else {
-                    utils.write(playerId, "Error!  There is already a room to the West.");
-                }
-            } else if (desiredBuildDirection.equalsIgnoreCase("u") | desiredBuildDirection.equalsIgnoreCase("up")) {
+            Coords currentRoomCoords = mapMatrix.getCoords(currentRoom.getRoomId());
+            EntityManager entityManager = gameManager.getEntityManager();
+            FloorManager floorManager = gameManager.getFloorManager();
 
-                Integer newRoomId = findRoomId();
-                getGameManager().getMapsManager().getFloorMatrixMaps().get(currentRoom.getFloorId())
-                        .addRemote(currentRoom.getRoomId(), new RemoteExit(RemoteExit.Direction.UP, newRoomId));
-                Integer newFloorId = findFloorId();
-                FloorModel newFloorModel = new FloorModel();
-                newFloorModel.setId(newFloorId);
-                newFloorModel.setRawMatrixCsv(Integer.toString(newRoomId) + "d" + currentRoom.getRoomId());
-                newFloorModel.setName(UUID.randomUUID().toString());
-                BasicRoomBuilder basicRoomBuilder = new BasicRoomBuilder();
-                basicRoomBuilder.addArea(Area.DEFAULT);
-                basicRoomBuilder.setRoomId(newRoomId);
-                basicRoomBuilder.setRoomDescription("Newly created room. Set a new description with the desc command.");
-                basicRoomBuilder.setRoomTitle("Default Title, change with title command");
-                basicRoomBuilder.setFloorId(newFloorId);
-                basicRoomBuilder.setDownId(Optional.of(currentRoom.getRoomId()));
-                currentRoom.setUpId(Optional.of(newRoomId));
-                BasicRoom basicRoom = basicRoomBuilder.createBasicRoom();
-                getGameManager().getEntityManager().addEntity(basicRoom);
-                Iterator<RoomModel> transform = Iterators.transform(Sets.newHashSet(basicRoom).iterator(), WorldExporter.getRoomModels());
-                newFloorModel.setRoomModels(Sets.newHashSet(transform));
-                getGameManager().getFloorManager().addFloor(newFloorModel.getId(), newFloorModel.getName());
-                getGameManager().getMapsManager().addFloorMatrix(newFloorModel.getId(), MapMatrix.createMatrixFromCsv(newFloorModel.getRawMatrixCsv()));
-                getGameManager().getMapsManager().generateAllMaps(9, 9);
-               // getGameManager().getMapsManager().drawMap(basicRoom.getRoomId(), new Coords(9, 9));
-                getGameManager().movePlayer(new PlayerMovement(player, currentRoom.getRoomId(), basicRoom.getRoomId(), null, "", ""));
-                getGameManager().currentRoomLogic(player.getPlayerId());
-                return;
-            } else {
-                utils.write(playerId, "Error!  There is already a room to the West.");
+            if (getOriginalMessageParts(e).size() > 1) {
+                String desiredBuildDirection = getOriginalMessageParts(e).get(1);
+                if (desiredBuildDirection.equalsIgnoreCase("n") | desiredBuildDirection.equalsIgnoreCase("north")) {
+                    if (!currentRoom.getNorthId().isPresent() && mapMatrix.isNorthernMapSpaceEmpty(currentRoom.getRoomId())) {
+                        buildBasicRoomAndProcessAllExits(player, currentRoom, mapMatrix.getNorthCords(currentRoomCoords), mapMatrix);
+                        return;
+                    }
+                } else if (desiredBuildDirection.equalsIgnoreCase("s") | desiredBuildDirection.equalsIgnoreCase("south")) {
+                    if (!currentRoom.getSouthId().isPresent() && mapMatrix.isSouthernMapSpaceEmpty(currentRoom.getRoomId())) {
+                        buildBasicRoomAndProcessAllExits(player, currentRoom, mapMatrix.getSouthCoords(currentRoomCoords), mapMatrix);
+                        return;
+                    }
+                } else if (desiredBuildDirection.equalsIgnoreCase("e") | desiredBuildDirection.equalsIgnoreCase("east")) {
+                    if (!currentRoom.getEastId().isPresent() && mapMatrix.isEasternMapSpaceEmpty(currentRoom.getRoomId())) {
+                        buildBasicRoomAndProcessAllExits(player, currentRoom, mapMatrix.getEastCoords(currentRoomCoords), mapMatrix);
+                        return;
+                    }
+                } else if (desiredBuildDirection.equalsIgnoreCase("w") | desiredBuildDirection.equalsIgnoreCase("west")) {
+                    if (!currentRoom.getWestId().isPresent() && mapMatrix.isWesternMapSpaceEmpty(currentRoom.getRoomId())) {
+                        buildBasicRoomAndProcessAllExits(player, currentRoom, mapMatrix.getSouthCoords(currentRoomCoords), mapMatrix);
+                        return;
+                    }
+                } else if (desiredBuildDirection.equalsIgnoreCase("u") | desiredBuildDirection.equalsIgnoreCase("up")) {
+                    if (!currentRoom.getUpId().isPresent()) {
+                        Integer newRoomId = findRoomId();
+                        Integer newFloorId = findFloorId();
+                        mapMatrix.addRemote(currentRoom.getRoomId(), new RemoteExit(RemoteExit.Direction.UP, newRoomId));
+                        FloorModel newFloorModel = newFloorModel(newFloorId, newRoomId, currentRoom.getRoomId(), RemoteExit.Direction.DOWN);
+                        BasicRoom basicRoom = newBasic()
+                                .setRoomId(newRoomId)
+                                .setFloorId(newFloorId)
+                                .setDownId(Optional.of(currentRoom.getRoomId()))
+                                .createBasicRoom();
+                        currentRoom.setUpId(Optional.of(newRoomId));
+                        entityManager.addEntity(basicRoom);
+                        newFloorModel.setRoomModels(Sets.newHashSet(Iterators.transform(Sets.newHashSet(basicRoom).iterator(), WorldExporter.buildRoomModelsFromRooms())));
+                        floorManager.addFloor(newFloorModel.getId(), newFloorModel.getName());
+                        mapsManager.addFloorMatrix(newFloorModel.getId(), MapMatrix.createMatrixFromCsv(newFloorModel.getRawMatrixCsv()));
+                        mapsManager.generateAllMaps(9, 9);
+                        gameManager.movePlayer(new PlayerMovement(player, currentRoom.getRoomId(), basicRoom.getRoomId(), null, "", ""));
+                        gameManager.currentRoomLogic(player.getPlayerId());
+                        return;
+                    }
+                } else if (desiredBuildDirection.equalsIgnoreCase("d") | desiredBuildDirection.equalsIgnoreCase("down")) {
+                    if (!currentRoom.getDownId().isPresent()) {
+                        Integer newRoomId = findRoomId();
+                        Integer newFloorId = findFloorId();
+                        mapMatrix.addRemote(currentRoom.getRoomId(), new RemoteExit(RemoteExit.Direction.DOWN, newRoomId));
+                        FloorModel newFloorModel = newFloorModel(newFloorId, newRoomId, currentRoom.getRoomId(), RemoteExit.Direction.UP);
+                        BasicRoom basicRoom = newBasic()
+                                .setRoomId(newRoomId)
+                                .setFloorId(newFloorId)
+                                .setUpId(Optional.of(currentRoom.getRoomId()))
+                                .createBasicRoom();
+                        currentRoom.setDownId(Optional.of(newRoomId));
+                        entityManager.addEntity(basicRoom);
+                        newFloorModel.setRoomModels(Sets.newHashSet(Iterators.transform(Sets.newHashSet(basicRoom).iterator(), WorldExporter.buildRoomModelsFromRooms())));
+                        floorManager.addFloor(newFloorModel.getId(), newFloorModel.getName());
+                        mapsManager.addFloorMatrix(newFloorModel.getId(), MapMatrix.createMatrixFromCsv(newFloorModel.getRawMatrixCsv()));
+                        mapsManager.generateAllMaps(9, 9);
+                        gameManager.movePlayer(new PlayerMovement(player, currentRoom.getRoomId(), basicRoom.getRoomId(), null, "", ""));
+                        gameManager.currentRoomLogic(player.getPlayerId());
+                        return;
+                    }
+                }
+                utils.write(playerId, "Room already exists at that location.");
             }
         } finally {
             super.messageReceived(ctx, e);
         }
     }
 
-    private void buildBasicRoom(Player player, Room currentRoom, Coords newCords, MapMatrix mapMatrix) {
-        Integer newRroomId = findRoomId();
-        mapMatrix.setCoordsValue(newCords, newRroomId);
+    private FloorModel newFloorModel(Integer floorId, Integer newRoomId, Integer currentRoomId, RemoteExit.Direction returnDirection) {
+        FloorModel newFloorModel = new FloorModel();
+        newFloorModel.setId(floorId);
+        if (returnDirection.equals(RemoteExit.Direction.DOWN)) {
+            newFloorModel.setRawMatrixCsv(Integer.toString(newRoomId) + "d" + currentRoomId);
+        } else if (returnDirection.equals(RemoteExit.Direction.UP)) {
+            newFloorModel.setRawMatrixCsv(Integer.toString(newRoomId) + "u" + currentRoomId);
+        }
+        newFloorModel.setName(UUID.randomUUID().toString());
+        return newFloorModel;
+    }
+
+    private BasicRoomBuilder newBasic() {
         BasicRoomBuilder basicRoomBuilder = new BasicRoomBuilder();
         basicRoomBuilder.addArea(Area.DEFAULT);
-        basicRoomBuilder.setRoomId(newRroomId);
         basicRoomBuilder.setRoomDescription("Newly created room. Set a new description with the desc command.");
         basicRoomBuilder.setRoomTitle("Default Title, change with title command");
-        basicRoomBuilder.setFloorId(currentRoom.getFloorId());
-        BasicRoom basicRoom = basicRoomBuilder.createBasicRoom();
-        getGameManager().getRoomManager().addRoom(basicRoom);
+        return basicRoomBuilder;
+    }
+
+    private void buildBasicRoomAndProcessAllExits(Player player, Room currentRoom, Coords newCords, MapMatrix mapMatrix) {
+        Integer newRroomId = findRoomId();
+        mapMatrix.setCoordsValue(newCords, newRroomId);
+        BasicRoom basicRoom = newBasic()
+                .setRoomId(newRroomId)
+                .setFloorId(currentRoom.getFloorId())
+                .createBasicRoom();
         getGameManager().getEntityManager().addEntity(basicRoom);
         rebuildExits(basicRoom, mapMatrix);
         rebuildExits(currentRoom, mapMatrix);
+        processExits(basicRoom, mapMatrix);
+        getGameManager().getMapsManager().generateAllMaps(9, 9);
+        getGameManager().movePlayer(new PlayerMovement(player, currentRoom.getRoomId(), basicRoom.getRoomId(), null, "", ""));
+        getGameManager().currentRoomLogic(player.getPlayerId());
+        getGameManager().getChannelUtils().write(player.getPlayerId(), "Room Created.");
+    }
+
+    private void processExits(BasicRoom basicRoom, MapMatrix mapMatrix) {
         RoomManager roomManager = getGameManager().getRoomManager();
         if (basicRoom.getNorthId().isPresent()) {
             rebuildExits(roomManager.getRoom(basicRoom.getNorthId().get()), mapMatrix);
@@ -174,23 +179,20 @@ public class BuildCommand extends Command {
         if (basicRoom.getWestId().isPresent()) {
             rebuildExits(roomManager.getRoom(basicRoom.getWestId().get()), mapMatrix);
         }
-        getGameManager().getMapsManager().generateAllMaps(9, 9);
-        getGameManager().movePlayer(new PlayerMovement(player, currentRoom.getRoomId(), basicRoom.getRoomId(), null, "", ""));
-        getGameManager().currentRoomLogic(player.getPlayerId());
     }
 
     private void rebuildExits(Room room, MapMatrix mapMatrix) {
-        if (mapMatrix.getNorth(room.getRoomId()) > 0) {
-            room.setNorthId(Optional.of(mapMatrix.getNorth(room.getRoomId())));
+        if (mapMatrix.getNorthernExit(room.getRoomId()) > 0) {
+            room.setNorthId(Optional.of(mapMatrix.getNorthernExit(room.getRoomId())));
         }
-        if (mapMatrix.getSouth(room.getRoomId()) > 0) {
-            room.setSouthId(Optional.of(mapMatrix.getSouth(room.getRoomId())));
+        if (mapMatrix.getSouthernExit(room.getRoomId()) > 0) {
+            room.setSouthId(Optional.of(mapMatrix.getSouthernExit(room.getRoomId())));
         }
-        if (mapMatrix.getEast(room.getRoomId()) > 0) {
-            room.setEastId(Optional.of(mapMatrix.getEast(room.getRoomId())));
+        if (mapMatrix.getEasternExit(room.getRoomId()) > 0) {
+            room.setEastId(Optional.of(mapMatrix.getEasternExit(room.getRoomId())));
         }
-        if (mapMatrix.getWest(room.getRoomId()) > 0) {
-            room.setWestId(Optional.of(mapMatrix.getWest(room.getRoomId())));
+        if (mapMatrix.getWesternExit(room.getRoomId()) > 0) {
+            room.setWestId(Optional.of(mapMatrix.getWesternExit(room.getRoomId())));
         }
         if (mapMatrix.getRemotes().containsKey(room.getRoomId())) {
             Set<RemoteExit> remoteExits = mapMatrix.getRemotes().get(room.getRoomId());

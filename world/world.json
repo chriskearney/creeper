@@ -3,7 +3,7 @@
     {
       "name": "25c32e75-8326-46c9-a203-f9c0b06a7b02",
       "id": 2,
-      "rawMatrixCsv": "18,\n17,\n16,\n15,\n14,\n13d3,\n",
+      "rawMatrixCsv": "18,,\n17,,\n16,,\n15,,\n14,,\n13d3,,\n",
       "roomModels": [
         {
           "roomId": 16,
@@ -12,27 +12,7 @@
           "roomTitle": "Default Title, change with title command",
           "roomTags": [],
           "areaNames": [
-            "default"
-          ]
-        },
-        {
-          "roomId": 18,
-          "floorId": 2,
-          "roomDescription": "Newly created room. Set a new description with the desc command.",
-          "roomTitle": "Default Title, change with title command",
-          "roomTags": [],
-          "areaNames": [
-            "default"
-          ]
-        },
-        {
-          "roomId": 15,
-          "floorId": 2,
-          "roomDescription": "Newly created room. Set a new description with the desc command.",
-          "roomTitle": "Default Title, change with title command",
-          "roomTags": [],
-          "areaNames": [
-            "default"
+            "newbie_zone"
           ]
         },
         {
@@ -42,7 +22,17 @@
           "roomTitle": "Default Title, change with title command",
           "roomTags": [],
           "areaNames": [
-            "default"
+            "newbie_zone"
+          ]
+        },
+        {
+          "roomId": 15,
+          "floorId": 2,
+          "roomDescription": "Newly created room. Set a new description with the desc command.",
+          "roomTitle": "Default Title, change with title command",
+          "roomTags": [],
+          "areaNames": [
+            "newbie_zone"
           ]
         },
         {
@@ -52,7 +42,7 @@
           "roomTitle": "Default Title, change with title command",
           "roomTags": [],
           "areaNames": [
-            "default"
+            "newbie_zone"
           ]
         },
         {
@@ -62,7 +52,17 @@
           "roomTitle": "Default Title, change with title command",
           "roomTags": [],
           "areaNames": [
-            "default"
+            "newbie_zone"
+          ]
+        },
+        {
+          "roomId": 18,
+          "floorId": 2,
+          "roomDescription": "Newly created room. Set a new description with the desc command.",
+          "roomTitle": "Default Title, change with title command",
+          "roomTags": [],
+          "areaNames": [
+            "newbie_zone"
           ]
         }
       ]
@@ -70,23 +70,23 @@
     {
       "name": "main",
       "id": 0,
-      "rawMatrixCsv": ",2u3,,\n,1,,\n",
+      "rawMatrixCsv": ",2u3d20,,,\n,1d19,,,\n",
       "roomModels": [
         {
-          "roomId": 2,
+          "roomId": 1,
           "floorId": 0,
-          "roomDescription": "Newly created room. Set a new description with the desc command.",
-          "roomTitle": "Default Title, change with title command",
+          "roomDescription": "This is a blank Description.\nWords should go here, ideally.",
+          "roomTitle": "This is a blank title.",
           "roomTags": [],
           "areaNames": [
             "newbie_zone"
           ]
         },
         {
-          "roomId": 1,
+          "roomId": 2,
           "floorId": 0,
-          "roomDescription": "This is a blank Description.\nWords should go here, ideally.",
-          "roomTitle": "This is a blank title.",
+          "roomDescription": "Newly created room. Set a new description with the desc command.",
+          "roomTitle": "Default Title, change with title command",
           "roomTags": [],
           "areaNames": [
             "newbie_zone"
@@ -97,70 +97,10 @@
     {
       "name": "cdd3abb9-66b4-4310-a14c-b6ee5c0fbba2",
       "id": 1,
-      "rawMatrixCsv": "9,8,7,6,,\n10,,,5,,\n11,12,3d2u13,4,,\n",
+      "rawMatrixCsv": "9,8,7,6,,,\n10,,,5,,,\n11,12,3d2u13,4,,,\n",
       "roomModels": [
         {
-          "roomId": 12,
-          "floorId": 1,
-          "roomDescription": "Newly created room. Set a new description with the desc command.",
-          "roomTitle": "Default Title, change with title command",
-          "roomTags": [],
-          "areaNames": [
-            "newbie_zone"
-          ]
-        },
-        {
-          "roomId": 6,
-          "floorId": 1,
-          "roomDescription": "Newly created room. Set a new description with the desc command.",
-          "roomTitle": "Default Title, change with title command",
-          "roomTags": [],
-          "areaNames": [
-            "newbie_zone"
-          ]
-        },
-        {
-          "roomId": 5,
-          "floorId": 1,
-          "roomDescription": "Newly created room. Set a new description with the desc command.",
-          "roomTitle": "Default Title, change with title command",
-          "roomTags": [],
-          "areaNames": [
-            "newbie_zone"
-          ]
-        },
-        {
-          "roomId": 8,
-          "floorId": 1,
-          "roomDescription": "Newly created room. Set a new description with the desc command.",
-          "roomTitle": "Default Title, change with title command",
-          "roomTags": [],
-          "areaNames": [
-            "newbie_zone"
-          ]
-        },
-        {
-          "roomId": 9,
-          "floorId": 1,
-          "roomDescription": "Newly created room. Set a new description with the desc command.",
-          "roomTitle": "Default Title, change with title command",
-          "roomTags": [],
-          "areaNames": [
-            "newbie_zone"
-          ]
-        },
-        {
-          "roomId": 3,
-          "floorId": 1,
-          "roomDescription": "Newly created room. Set a new description with the desc command.",
-          "roomTitle": "Default Title, change with title command",
-          "roomTags": [],
-          "areaNames": [
-            "newbie_zone"
-          ]
-        },
-        {
-          "roomId": 11,
+          "roomId": 7,
           "floorId": 1,
           "roomDescription": "Newly created room. Set a new description with the desc command.",
           "roomTitle": "Default Title, change with title command",
@@ -180,6 +120,46 @@
           ]
         },
         {
+          "roomId": 9,
+          "floorId": 1,
+          "roomDescription": "Newly created room. Set a new description with the desc command.",
+          "roomTitle": "Default Title, change with title command",
+          "roomTags": [],
+          "areaNames": [
+            "newbie_zone"
+          ]
+        },
+        {
+          "roomId": 12,
+          "floorId": 1,
+          "roomDescription": "Newly created room. Set a new description with the desc command.",
+          "roomTitle": "Default Title, change with title command",
+          "roomTags": [],
+          "areaNames": [
+            "newbie_zone"
+          ]
+        },
+        {
+          "roomId": 5,
+          "floorId": 1,
+          "roomDescription": "Newly created room. Set a new description with the desc command.",
+          "roomTitle": "Default Title, change with title command",
+          "roomTags": [],
+          "areaNames": [
+            "newbie_zone"
+          ]
+        },
+        {
+          "roomId": 6,
+          "floorId": 1,
+          "roomDescription": "Newly created room. Set a new description with the desc command.",
+          "roomTitle": "Default Title, change with title command",
+          "roomTags": [],
+          "areaNames": [
+            "newbie_zone"
+          ]
+        },
+        {
           "roomId": 10,
           "floorId": 1,
           "roomDescription": "Newly created room. Set a new description with the desc command.",
@@ -190,13 +170,67 @@
           ]
         },
         {
-          "roomId": 7,
+          "roomId": 3,
           "floorId": 1,
           "roomDescription": "Newly created room. Set a new description with the desc command.",
           "roomTitle": "Default Title, change with title command",
           "roomTags": [],
           "areaNames": [
             "newbie_zone"
+          ]
+        },
+        {
+          "roomId": 8,
+          "floorId": 1,
+          "roomDescription": "Newly created room. Set a new description with the desc command.",
+          "roomTitle": "Default Title, change with title command",
+          "roomTags": [],
+          "areaNames": [
+            "newbie_zone"
+          ]
+        },
+        {
+          "roomId": 11,
+          "floorId": 1,
+          "roomDescription": "Newly created room. Set a new description with the desc command.",
+          "roomTitle": "Default Title, change with title command",
+          "roomTags": [],
+          "areaNames": [
+            "newbie_zone"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dd206ce6-18f7-47ad-a806-74a47181d04a",
+      "id": 3,
+      "rawMatrixCsv": "19u1,\n",
+      "roomModels": [
+        {
+          "roomId": 19,
+          "floorId": 3,
+          "roomDescription": "Newly created room. Set a new description with the desc command.",
+          "roomTitle": "Default Title, change with title command",
+          "roomTags": [],
+          "areaNames": [
+            "default"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "31146a6b-8e5c-4113-841c-c4d486de4556",
+      "id": 4,
+      "rawMatrixCsv": "20u2,\n",
+      "roomModels": [
+        {
+          "roomId": 20,
+          "floorId": 4,
+          "roomDescription": "Newly created room. Set a new description with the desc command.",
+          "roomTitle": "Default Title, change with title command",
+          "roomTags": [],
+          "areaNames": [
+            "default"
           ]
         }
       ]

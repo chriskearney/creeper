@@ -87,32 +87,48 @@ public class MapMatrix {
     }
 
 
-    public Integer getNorth(Integer sourceId) {
+    public Integer getNorthernExit(Integer sourceId) {
         Coords coords = getCoords(sourceId);
         int rowNorth = coords.row - 1;
         int columnNorth = coords.column;
         return getId(rowNorth, columnNorth);
     }
 
-    public Integer getSouth(Integer sourceId) {
+    public Integer getSouthernExit(Integer sourceId) {
         Coords coords = getCoords(sourceId);
         int rowSouth = coords.row + 1;
         int columnSouth = coords.column;
         return getId(rowSouth, columnSouth);
     }
 
-    public Integer getEast(Integer sourceId) {
+    public Integer getEasternExit(Integer sourceId) {
         Coords coords = getCoords(sourceId);
         int rowEast = coords.row;
         int columnEast = coords.column + 1;
         return getId(rowEast, columnEast);
     }
 
-    public Integer getWest(Integer sourceId) {
+    public Integer getWesternExit(Integer sourceId) {
         Coords coords = getCoords(sourceId);
         int rowWest = coords.row;
         int columnWest = coords.column - 1;
         return getId(rowWest, columnWest);
+    }
+
+    public boolean isNorthernMapSpaceEmpty(Integer sourceId) {
+        return (getNorthernExit(sourceId) == 0);
+    }
+
+    public boolean isSouthernMapSpaceEmpty(Integer sourceId) {
+        return (getSouthernExit(sourceId) == 0);
+    }
+
+    public boolean isEasternMapSpaceEmpty(Integer sourceId) {
+        return (getEasternExit(sourceId) == 0);
+    }
+
+    public boolean isWesternMapSpaceEmpty(Integer sourceId) {
+        return (getWesternExit(sourceId) == 0);
     }
 
     private Integer getId(int row, int column) {
@@ -284,5 +300,39 @@ public class MapMatrix {
             }
         }
         setMax(new Coords(matrix.size(), matrix.get(0).size()));
+    }
+
+    public Coords getNorthCords(Coords coords) {
+        Coords ret = new Coords(coords.row - 1, coords.column);
+        if (coords.getRow() < 0) {
+            addRow(true);
+            ret = new Coords(0, coords.column);
+        }
+        return ret;
+    }
+
+    public Coords getSouthCoords(Coords coords) {
+        Coords ret = new Coords(coords.row + 1, coords.column);
+        if (ret.getRow() >= getMaxRow()) {
+            addRow(false);
+        }
+        return ret;
+    }
+
+    public Coords getEastCoords(Coords coords) {
+        Coords ret = new Coords(coords.row, coords.column + 1);
+        if (ret.getColumn() >= getMaxCol()) {
+            addColumn(false);
+        }
+        return ret;
+    }
+
+    public Coords getWestCoords(Coords coords) {
+        Coords ret = new Coords(coords.row, coords.column - 1);
+        if (ret.getColumn() < 0) {
+            addColumn(true);
+            ret = new Coords(coords.row, 0);
+        }
+        return ret;
     }
 }

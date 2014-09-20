@@ -57,7 +57,7 @@ public class WorldExporter {
         floorModel.setRawMatrixCsv(mapMatrix.getCsv());
         floorModel.setRoomModels((new HashSet<RoomModel>()));
         floorModel.setName(floorManager.getName(floorId));
-        Iterator<RoomModel> roomModels = Iterators.transform(rooms.iterator(), getRoomModels());
+        Iterator<RoomModel> roomModels = Iterators.transform(rooms.iterator(), buildRoomModelsFromRooms());
         while (roomModels.hasNext()) {
             RoomModel next = roomModels.next();
             floorModel.getRoomModels().add(next);
@@ -66,7 +66,7 @@ public class WorldExporter {
         return floorModel;
     }
 
-    public static Function<Room, RoomModel> getRoomModels() {
+    public static Function<Room, RoomModel> buildRoomModelsFromRooms() {
         return new Function<Room, RoomModel>() {
             @Override
             public RoomModel apply(Room room) {
@@ -107,19 +107,19 @@ public class WorldExporter {
     }
 
     private void configureExits(BasicRoomBuilder basicRoomBuilder, MapMatrix mapMatrix, int roomId) {
-        Integer north = mapMatrix.getNorth(roomId);
+        Integer north = mapMatrix.getNorthernExit(roomId);
         if (north > 0) {
             basicRoomBuilder.setNorthId(Optional.of(north));
         }
-        Integer east = mapMatrix.getEast(roomId);
+        Integer east = mapMatrix.getEasternExit(roomId);
         if (east > 0) {
             basicRoomBuilder.setEastId(Optional.of(east));
         }
-        Integer south = mapMatrix.getSouth(roomId);
+        Integer south = mapMatrix.getSouthernExit(roomId);
         if (south > 0) {
             basicRoomBuilder.setSouthId(Optional.of(south));
         }
-        Integer west = mapMatrix.getWest(roomId);
+        Integer west = mapMatrix.getWesternExit(roomId);
         if (west > 0) {
             basicRoomBuilder.setWestId(Optional.of(west));
         }
