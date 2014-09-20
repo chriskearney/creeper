@@ -2,9 +2,6 @@ package com.comandante.creeper.server.command;
 
 import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.player.PlayerMetadata;
-import com.comandante.creeper.world.Room;
-import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Joiner;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
@@ -23,29 +20,24 @@ public class DropCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        configure(e);
         try {
-            GameManager gameManager = getGameManager();
-            CreeperSession session = extractCreeperSession(e.getChannel());
-            final String playerId = extractPlayerId(session);
-            List<String> origMessageParts = getOriginalMessageParts(e);
-            if (origMessageParts.size() == 1) {
-                gameManager.getChannelUtils().write(playerId, "No item specified.");
+            if (originalMessageParts.size() == 1) {
+                channelUtils.write(playerId, "No item specified.");
                 return;
             }
-            origMessageParts.remove(0);
-            String itemTarget = Joiner.on(" ").join(origMessageParts);
-            for (String inventoryId : gameManager.getPlayerManager().getPlayerMetadata(playerId).getInventory()) {
-                Item itemEntity = gameManager.getEntityManager().getItemEntity(inventoryId);
+            originalMessageParts.remove(0);
+            String itemTarget = Joiner.on(" ").join(originalMessageParts);
+            for (String inventoryId : playerManager.getPlayerMetadata(playerId).getInventory()) {
+                Item itemEntity = entityManager.getItemEntity(inventoryId);
                 if (itemEntity.getItemTriggers().contains(itemTarget)) {
                     itemEntity.setWithPlayer(false);
-                    Room playerCurrentRoom = gameManager.getRoomManager().getPlayerCurrentRoom(gameManager.getPlayerManager().getPlayer(playerId)).get();
-                    gameManager.placeItemInRoom(playerCurrentRoom.getRoomId(), itemEntity.getItemId());
-                    PlayerMetadata playerMetadata = gameManager.getPlayerManager().getPlayerMetadata(playerId);
+                    gameManager.placeItemInRoom(currentRoom.getRoomId(), itemEntity.getItemId());
                     playerMetadata.removeInventoryEntityId(itemEntity.getItemId());
-                    gameManager.getPlayerManager().savePlayerMetadata(playerMetadata);
+                    playerManager.savePlayerMetadata(playerMetadata);
                     gameManager.getItemDecayManager().addItem(itemEntity);
-                    gameManager.getEntityManager().addItem(itemEntity);
-                    gameManager.roomSay(playerCurrentRoom.getRoomId(), gameManager.getPlayerManager().getPlayer(playerId).getPlayerName() + " dropped " + itemEntity.getItemName(), playerId);
+                    entityManager.addItem(itemEntity);
+                    gameManager.roomSay(currentRoom.getRoomId(), player.getPlayerName() + " dropped " + itemEntity.getItemName(), playerId);
                     return;
                 }
             }

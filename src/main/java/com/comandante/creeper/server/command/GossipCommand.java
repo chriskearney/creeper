@@ -3,7 +3,6 @@ package com.comandante.creeper.server.command;
 
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.Player;
-import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Joiner;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
@@ -27,28 +26,26 @@ public class GossipCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        configure(e);
         try {
-            CreeperSession session = extractCreeperSession(e.getChannel());
-            String playerId = extractPlayerId(session);
-            List<String> origMessageParts = getOriginalMessageParts(e);
-            if (origMessageParts.size() == 1) {
-                getGameManager().getChannelUtils().write(playerId, "Nothing to gossip about?");
+            if (originalMessageParts.size() == 1) {
+                write("Nothing to gossip about?");
                 return;
             }
-            origMessageParts.remove(0);
-            final String msg = Joiner.on(" ").join(origMessageParts);
-            Player sourcePlayer = getGameManager().getPlayerManager().getPlayer(playerId);
-            Iterator<Map.Entry<String, Player>> players = getGameManager().getPlayerManager().getPlayers();
+            originalMessageParts.remove(0);
+            final String msg = Joiner.on(" ").join(originalMessageParts);
+            Iterator<Map.Entry<String, Player>> players = playerManager.getPlayers();
             while (players.hasNext()) {
-                StringBuilder stringBuilder = new StringBuilder();
-                Player player = players.next().getValue();
-                stringBuilder.append(MAGENTA);
-                stringBuilder.append("[").append(sourcePlayer.getPlayerName()).append("] ").append(msg);
-                stringBuilder.append(RESET);
-                if (player.getPlayerId().equals(sourcePlayer.getPlayerId())) {
-                    getGameManager().getChannelUtils().write(playerId, stringBuilder.toString());
+                final Player next = players.next().getValue();
+                final String gossipMessage = new StringBuilder()
+                        .append(MAGENTA).append("[")
+                        .append(player.getPlayerName()).append("] ")
+                        .append(msg).append(RESET)
+                        .toString();
+                if (next.getPlayerId().equals(playerId)) {
+                    write(gossipMessage);
                 } else {
-                    getGameManager().getChannelUtils().write(player.getPlayerId(), stringBuilder.toString());
+                    channelUtils.write(next.getPlayerId(), gossipMessage);
                 }
             }
         } finally {

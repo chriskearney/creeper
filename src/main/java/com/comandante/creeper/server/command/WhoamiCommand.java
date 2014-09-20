@@ -1,7 +1,6 @@
 package com.comandante.creeper.server.command;
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.player.Player;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 
@@ -18,9 +17,9 @@ public class WhoamiCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        configure(e);
         try {
-            Player player = getGameManager().getPlayerManager().getPlayer(extractPlayerId(extractCreeperSession(e.getChannel())));
-            getGameManager().getChannelUtils().write(player.getPlayerId(), player.getPlayerName());
+            write(player.getPlayerName());
         } finally {
             super.messageReceived(ctx, e);
         }

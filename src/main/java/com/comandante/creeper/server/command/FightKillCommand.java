@@ -5,9 +5,6 @@ import com.comandante.creeper.fight.FightResults;
 import com.comandante.creeper.fight.FightRun;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.npc.Npc;
-import com.comandante.creeper.player.Player;
-import com.comandante.creeper.world.Room;
-import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -29,34 +26,31 @@ public class FightKillCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        configure(e);
         try {
-            CreeperSession creeperSession = extractCreeperSession(e.getChannel());
-            Player player = getGameManager().getPlayerManager().getPlayer(extractPlayerId(creeperSession));
             if (FightManager.isActiveFight(creeperSession)) {
-                getGameManager().getChannelUtils().write(player.getPlayerId(), "You are already in a fight!");
+                write("You are already in a fight!");
                 return;
             }
-            List<String> originalMessageParts = getOriginalMessageParts(e);
             if (originalMessageParts.size() == 1) {
-                getGameManager().getChannelUtils().write(player.getPlayerId(), "You need to specify who you want to fight.");
+                write("You need to specify who you want to fight.");
                 return;
             }
             originalMessageParts.remove(0);
             String target = Joiner.on(" ").join(originalMessageParts);
-            Room playerCurrentRoom = getGameManager().getRoomManager().getPlayerCurrentRoom(player).get();
-            Set<String> npcIds = playerCurrentRoom.getNpcIds();
+            Set<String> npcIds = currentRoom.getNpcIds();
             for (String npcId : npcIds) {
-                Npc npcEntity = getGameManager().getEntityManager().getNpcEntity(npcId);
+                Npc npcEntity = entityManager.getNpcEntity(npcId);
                 if (npcEntity.getValidTriggers().contains(target)) {
                     npcEntity.setIsInFight(true);
-                    FightRun fightRun = new FightRun(player, npcEntity, getGameManager());
-                    getGameManager().getChannelUtils().write(player.getPlayerId(), "You start a fight!", false);
-                    Future<FightResults> fight = getGameManager().getFightManager().fight(fightRun);
+                    FightRun fightRun = new FightRun(player, npcEntity, gameManager);
+                    write("You start a fight!", false);
+                    Future<FightResults> fight = fightManager.fight(fightRun);
                     creeperSession.setActiveFight(Optional.of(fight));
                     return;
                 }
             }
-            getGameManager().getChannelUtils().write(player.getPlayerId(), "There's no NPC here to fight by that name.");
+            write("There's no NPC here to fight by that name.");
         } finally {
             super.messageReceived(ctx, e);
         }

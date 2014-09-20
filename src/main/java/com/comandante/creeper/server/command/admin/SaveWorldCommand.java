@@ -1,7 +1,6 @@
 package com.comandante.creeper.server.command.admin;
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.world.WorldExporter;
 import com.comandante.creeper.server.command.Command;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
@@ -22,14 +21,12 @@ public class SaveWorldCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
-        WorldExporter worldExporter = new WorldExporter(
-                        getGameManager().getRoomManager(),
-                        getGameManager().getMapsManager(),
-                        getGameManager().getFloorManager(),
-                        getGameManager().getEntityManager());
-
-        worldExporter.saveWorld();
-        getGameManager().getChannelUtils().write(extractPlayerId(extractCreeperSession(e.getChannel())), "World saved.");
-        super.messageReceived(ctx, e);
+        configure(e);
+        try {
+            worldExporter.saveWorld();
+            write("World saved.");
+        } finally {
+            super.messageReceived(ctx, e);
+        }
     }
 }

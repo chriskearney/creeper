@@ -24,6 +24,7 @@ public class WhoCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        configure(e);
         try {
             Table t = new Table(3, BorderStyle.CLASSIC_COMPATIBLE,
                     ShownBorders.HEADER_AND_FIRST_COLLUMN);
@@ -34,13 +35,13 @@ public class WhoCommand extends Command {
             t.addCell("player");
             t.addCell("ip address");
             t.addCell("logged in since");
-            Set<Player> allPlayers = getGameManager().getAllPlayers();
+            Set<Player> allPlayers = gameManager.getAllPlayers();
             for (Player allPlayer : allPlayers) {
                 t.addCell(allPlayer.getPlayerName());
                 t.addCell(allPlayer.getChannel().getRemoteAddress().toString().substring(1).split(":")[0]);
                 t.addCell(extractCreeperSession(e.getChannel()).getPrettyDate());
             }
-            getGameManager().getChannelUtils().write(extractPlayerId(extractCreeperSession(e.getChannel())), t.render());
+            write(t.render());
         } finally {
             super.messageReceived(ctx, e);
         }

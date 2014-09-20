@@ -19,7 +19,7 @@ public class MultiLineInputHandler extends SimpleChannelUpstreamHandler {
         try {
             CreeperSession creeperSession = (CreeperSession) e.getChannel().getAttachment();
             String message = (String) e.getMessage();
-            if (message.equalsIgnoreCase("DONE")) {
+            if (message.equalsIgnoreCase("done")) {
                 e.getChannel().getPipeline().addLast(UUID.randomUUID().toString(), creeperSession.getGrabMultiLineInput().get().getValue());
                 return;
             }

@@ -17,7 +17,7 @@ public class CreeperCommandRegistry {
     private final HashMap<String, Command> creeperCommands = new HashMap<>();
 
     public void addCommand(Command command) {
-        List<String> validTriggers = command.getValidTriggers();
+        List<String> validTriggers = command.validTriggers;
         for (String trigger: validTriggers) {
             creeperCommands.put(trigger, command);
         }

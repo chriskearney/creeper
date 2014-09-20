@@ -1,9 +1,6 @@
 package com.comandante.creeper.server.command.admin;
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.player.Player;
-import com.comandante.creeper.world.Room;
-import com.comandante.creeper.server.CreeperSession;
 import com.comandante.creeper.server.command.Command;
 import com.google.common.base.Joiner;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -25,16 +22,11 @@ public class TitleCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        configure(e);
         try {
-            GameManager gameManager = getGameManager();
-            List<String> originalMessageParts = getOriginalMessageParts(e);
             originalMessageParts.remove(0);
-            String join = Joiner.on(" ").join(originalMessageParts);
-            CreeperSession session = extractCreeperSession(e.getChannel());
-            Player player = gameManager.getPlayerManager().getPlayer(extractPlayerId(session));
-            Room playerCurrentRoom = gameManager.getRoomManager().getPlayerCurrentRoom(player).get();
-            playerCurrentRoom.setRoomTitle(join);
-            gameManager.getChannelUtils().write(player.getPlayerId(), "Titled saved.");
+            currentRoom.setRoomTitle(Joiner.on(" ").join(originalMessageParts));
+            write("Titled saved.");
         } finally {
             super.messageReceived(ctx, e);
         }

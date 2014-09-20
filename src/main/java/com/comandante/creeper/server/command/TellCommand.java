@@ -2,7 +2,6 @@ package com.comandante.creeper.server.command;
 
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.Player;
-import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Joiner;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
@@ -24,35 +23,33 @@ public class TellCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        configure(e);
         try {
-            CreeperSession session = extractCreeperSession(e.getChannel());
-            Player sourcePlayer = getGameManager().getPlayerManager().getPlayer(extractPlayerId(session));
-            List<String> parts = getOriginalMessageParts(e);
-            if (parts.size() < 3) {
-                getGameManager().getChannelUtils().write(sourcePlayer.getPlayerId(), "tell failed, no message to send.");
+            if (originalMessageParts.size() < 3) {
+                write("tell failed, no message to send.");
                 return;
             }
             //remove the literal 'tell'
-            parts.remove(0);
-            String destinationUsername = parts.get(0);
-            Player desintationPlayer = getGameManager().getPlayerManager().getPlayerByUsername(destinationUsername);
+            originalMessageParts.remove(0);
+            String destinationUsername = originalMessageParts.get(0);
+            Player desintationPlayer = playerManager.getPlayerByUsername(destinationUsername);
             if (desintationPlayer == null) {
-                getGameManager().getChannelUtils().write(sourcePlayer.getPlayerId(), "tell failed, unknown user.");
+                write("tell failed, unknown user.");
                 return;
             }
-            if (desintationPlayer.getPlayerId().equals(sourcePlayer.getPlayerId())) {
-                getGameManager().getChannelUtils().write(sourcePlayer.getPlayerId(), "tell failed, you're talking to yourself.");
+            if (desintationPlayer.getPlayerId().equals(playerId)) {
+                write("tell failed, you're talking to yourself.");
                 return;
             }
-            parts.remove(0);
-            String tellMessage = Joiner.on(" ").join(parts);
+            originalMessageParts.remove(0);
+            String tellMessage = Joiner.on(" ").join(originalMessageParts);
             StringBuilder stringBuilder = new StringBuilder();
             String destinationPlayercolor = YELLOW;
-            stringBuilder.append("*").append(sourcePlayer.getPlayerName()).append("* ");
+            stringBuilder.append("*").append(player.getPlayerName()).append("* ");
             stringBuilder.append(tellMessage);
             stringBuilder.append(RESET);
-            getGameManager().getChannelUtils().write(desintationPlayer.getPlayerId(), destinationPlayercolor + stringBuilder.toString());
-            getGameManager().getChannelUtils().write(sourcePlayer.getPlayerId(), stringBuilder.toString());
+            channelUtils.write(desintationPlayer.getPlayerId(), destinationPlayercolor + stringBuilder.toString());
+            write(stringBuilder.toString());
         } finally {
             super.messageReceived(ctx, e);
         }

@@ -1,7 +1,6 @@
 package com.comandante.creeper.server.command;
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.server.CreeperSession;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 
@@ -13,13 +12,11 @@ public class UnknownCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        configure(e);
         try {
-            CreeperSession creeperSession = extractCreeperSession(e.getChannel());
-            String playerId = extractPlayerId(creeperSession);
-            getGameManager().getChannelUtils().write(playerId, getGameManager().getPlayerManager().buildPrompt(playerId), false);
+            write(getPrompt(), false);
             e.getChannel().getPipeline().remove(ctx.getHandler());
         } finally {
-            //super.messageReceived(ctx, e);
         }
     }
 }

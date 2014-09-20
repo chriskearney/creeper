@@ -2,9 +2,6 @@ package com.comandante.creeper.server.command.admin;
 
 import com.comandante.creeper.CreeperEntry;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.player.Player;
-import com.comandante.creeper.world.Room;
-import com.comandante.creeper.server.CreeperSession;
 import com.comandante.creeper.server.MultiLineInputManager;
 import com.comandante.creeper.server.command.Command;
 import com.google.common.base.Optional;
@@ -27,22 +24,18 @@ public class DescriptionCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        configure(e);
         try {
-            GameManager gameManager = getGameManager();
-            CreeperSession session = extractCreeperSession(e.getChannel());
-            Player player = gameManager.getPlayerManager().getPlayer(extractPlayerId(session));
-            if (session.getGrabMultiLineInput().isPresent()) {
+            if (creeperSession.getGrabMultiLineInput().isPresent()) {
                 MultiLineInputManager multiLineInputManager = gameManager.getMultiLineInputManager();
-                UUID uuid = session.getGrabMultiLineInput().get().getKey();
+                UUID uuid = creeperSession.getGrabMultiLineInput().get().getKey();
                 String multiLineInput = multiLineInputManager.retrieveMultiLineInput(uuid);
-                Room playerCurrentRoom = gameManager.getRoomManager().getPlayerCurrentRoom(player).get();
-                playerCurrentRoom.setRoomDescription(multiLineInput);
-                session.setGrabMultiLineInput(Optional.<CreeperEntry<UUID, Command>>absent());
+                currentRoom.setRoomDescription(multiLineInput);
+                creeperSession.setGrabMultiLineInput(Optional.<CreeperEntry<UUID, Command>>absent());
                 return;
             }
-            final String playerId = extractPlayerId(session);
-            gameManager.getChannelUtils().write(playerId, "You are now in multi-line mode.  Type \"done\" on an empty line to exit and save.\r\n");
-            session.setGrabMultiLineInput(Optional.of(
+            write("You are now in multi-line mode.  Type \"done\" on an empty line to exit and save.\r\n");
+            creeperSession.setGrabMultiLineInput(Optional.of(
                     new CreeperEntry<UUID, Command>(gameManager.getMultiLineInputManager().createNewMultiLineInput(), this)));
         } finally {
            super.messageReceived(ctx, e);

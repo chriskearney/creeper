@@ -1,9 +1,8 @@
+
 package com.comandante.creeper.server.command;
 
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.Player;
-import com.comandante.creeper.world.Room;
-import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Joiner;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
@@ -23,24 +22,20 @@ public class LookCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        configure(e);
         try {
-            CreeperSession creeperSession = extractCreeperSession(e.getChannel());
-            List<String> originalMessageParts = getOriginalMessageParts(e);
             if (originalMessageParts.size() == 1) {
-                getGameManager().currentRoomLogic(extractPlayerId(creeperSession));
+                currentRoomLogic();
                 return;
             }
             originalMessageParts.remove(0);
             String target = Joiner.on(" ").join(originalMessageParts);
             //Players
-            Player player = getGameManager().getPlayerManager().getPlayer(extractPlayerId(creeperSession));
-            Room playerCurrentRoom = getGameManager().getRoomManager().getPlayerCurrentRoom(player).get();
-            Set<String> presentPlayerIds = playerCurrentRoom.getPresentPlayerIds();
+            Set<String> presentPlayerIds = currentRoom.getPresentPlayerIds();
             for (String presentPlayerId : presentPlayerIds) {
-                Player presentPlayer = getGameManager().getPlayerManager().getPlayer(presentPlayerId);
+                Player presentPlayer = gameManager.getPlayerManager().getPlayer(presentPlayerId);
                 if (presentPlayer.getPlayerName().equals(target)) {
-                    getGameManager().getChannelUtils().write(extractPlayerId(creeperSession),
-                            getGameManager().getPlayerManager().getLookString(player));
+                    write(playerManager.getLookString(player));
                 }
             }
         } finally {

@@ -5,7 +5,6 @@ import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.Items.ItemType;
 import com.comandante.creeper.Items.ItemUseHandler;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Joiner;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
@@ -24,23 +23,22 @@ public class UseCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        configure(e);
         try {
-            CreeperSession session = extractCreeperSession(e.getChannel());
-            List<String> originalMessageParts = getOriginalMessageParts(e);
             if (originalMessageParts.size() == 1) {
-                getGameManager().getChannelUtils().write(extractPlayerId(session), "No item specified.");
+                write("No item specified.");
                 return;
             }
             originalMessageParts.remove(0);
             String itemTarget = Joiner.on(" ").join(originalMessageParts);
-            for (String inventoryId : getGameManager().getPlayerManager().getPlayerMetadata(extractPlayerId(session)).getInventory()) {
-                Item itemEntity = getGameManager().getEntityManager().getItemEntity(inventoryId);
+            for (String inventoryId : playerMetadata.getInventory()) {
+                Item itemEntity = entityManager.getItemEntity(inventoryId);
                 if (itemEntity.getItemTriggers().contains(itemTarget)) {
-                    new ItemUseHandler(itemEntity, session, getGameManager(), extractPlayerId(session)).handle();
+                    new ItemUseHandler(itemEntity, creeperSession, gameManager, playerId).handle();
                     return;
                 }
             }
-            new ItemUseHandler(ItemType.UNKNOWN.create(), session, getGameManager(), extractPlayerId(session)).handle();
+            new ItemUseHandler(ItemType.UNKNOWN.create(), creeperSession, gameManager, playerId).handle();
         } finally {
             super.messageReceived(ctx, e);
         }

@@ -4,8 +4,6 @@ package com.comandante.creeper.server.command;
 import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.Items.ItemType;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.player.PlayerMetadata;
-import com.comandante.creeper.server.CreeperSession;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 
@@ -26,12 +24,11 @@ public class InventoryCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        configure(e);
         try {
-            CreeperSession session = extractCreeperSession(e.getChannel());
-            PlayerMetadata playerMetadata = getGameManager().getPlayerManager().getPlayerMetadata(extractPlayerId(session));
             String[] inventory1 = playerMetadata.getInventory();
             if (inventory1 == null) {
-                getGameManager().getChannelUtils().write(extractPlayerId(session), "You aren't carrying anything.");
+                write("You aren't carrying anything.");
                 return;
             }
             ArrayList<String> inventory = new ArrayList<String>(Arrays.asList(playerMetadata.getInventory()));
@@ -39,7 +36,7 @@ public class InventoryCommand extends Command {
             sb.append("You are carrying:\r\n");
             sb.append(RESET);
             for (String inventoryId : inventory) {
-                Item item = getGameManager().getEntityManager().getItemEntity(inventoryId);
+                Item item = entityManager.getItemEntity(inventoryId);
                 sb.append(item.getItemName());
                 int maxUses = ItemType.itemTypeFromCode(item.getItemTypeId()).getMaxUses();
                 if (maxUses > 0) {
@@ -52,7 +49,7 @@ public class InventoryCommand extends Command {
                     }
                 }
             }
-            getGameManager().getChannelUtils().write(extractPlayerId(session), sb.toString());
+            write(sb.toString());
         } finally {
             super.messageReceived(ctx, e);
         }

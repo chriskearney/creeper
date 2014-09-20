@@ -3,11 +3,7 @@ package com.comandante.creeper.server.command;
 import com.comandante.creeper.fight.FightManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.PlayerMovement;
-import com.comandante.creeper.player.Player;
-import com.comandante.creeper.world.Coords;
 import com.comandante.creeper.world.Room;
-import com.comandante.creeper.server.ChannelUtils;
-import com.comandante.creeper.server.CreeperSession;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -43,20 +39,12 @@ public class MovementCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        configure(e);
         try {
-            final GameManager gameManager = getGameManager();
-            CreeperSession session = extractCreeperSession(e.getChannel());
-            Player player = gameManager.getPlayerManager().getPlayer(extractPlayerId(session));
-            Optional<Room> roomOptional = gameManager.getRoomManager().getPlayerCurrentRoom(player);
-            ChannelUtils channelUtils = gameManager.getChannelUtils();
-            if (!roomOptional.isPresent()) {
-                throw new RuntimeException("Player is not in a world, movement failed!");
-            }
-            if (FightManager.isActiveFight(session)) {
-                channelUtils.write(extractPlayerId(session), "You can't not move while in a fight!");
+            if (FightManager.isActiveFight(creeperSession)) {
+                write("You can't not move while in a fight!");
                 return;
             }
-            Room currentRoom = roomOptional.get();
             final String command = getRootCommand(e);
             PlayerMovement playerMovement = null;
             if (!validTriggers.contains(command.toLowerCase())) {
@@ -64,63 +52,63 @@ public class MovementCommand extends Command {
             }
             if (northTriggers.contains(command.toLowerCase())) {
                 if (!currentRoom.getNorthId().isPresent()) {
-                    channelUtils.write(extractPlayerId(session), gameManager.getMapsManager().drawMap(currentRoom.getRoomId(), new Coords(9,9)));
-                    channelUtils.write(extractPlayerId(session), "There's no northern exit.\r\n");
+                    printMap();
+                    write("There's no northern exit.\r\n");
                     return;
                 }
-                Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getNorthId().get());
+                Room destinationRoom = roomManager.getRoom(currentRoom.getNorthId().get());
                 playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the north.", "south");
             }
             if (southTriggers.contains(command.toLowerCase())) {
                 if (!currentRoom.getSouthId().isPresent()) {
-                    channelUtils.write(extractPlayerId(session), gameManager.getMapsManager().drawMap(currentRoom.getRoomId(), new Coords(9,9)));
-                    channelUtils.write(extractPlayerId(session), "There's no southern exit.\r\n");
+                    printMap();
+                    write("There's no southern exit.\r\n");
                     return;
                 }
-                Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getSouthId().get());
-                channelUtils.write(extractPlayerId(session), gameManager.getMapsManager().drawMap(currentRoom.getRoomId(), new Coords(9,9)));
+                Room destinationRoom = roomManager.getRoom(currentRoom.getSouthId().get());
+                printMap();
                 playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the south.", "north");
             }
             if (eastTriggers.contains(command.toLowerCase())) {
                 if (!currentRoom.getEastId().isPresent()) {
-                    channelUtils.write(extractPlayerId(session), gameManager.getMapsManager().drawMap(currentRoom.getRoomId(), new Coords(9,9)));
-                    channelUtils.write(extractPlayerId(session), "There's no eastern exit.\r\n");
+                    printMap();
+                    write("There's no eastern exit.\r\n");
                     return;
                 }
-                Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getEastId().get());
+                Room destinationRoom = roomManager.getRoom(currentRoom.getEastId().get());
                 playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the east.", "west");
             }
             if (westTriggers.contains(command.toLowerCase())) {
                 if (!currentRoom.getWestId().isPresent()) {
-                    channelUtils.write(extractPlayerId(session), gameManager.getMapsManager().drawMap(currentRoom.getRoomId(), new Coords(9,9)));
-                    channelUtils.write(extractPlayerId(session), "There's no western exit.\r\n");
+                    printMap();
+                    write("There's no western exit.\r\n");
                     return;
                 }
-                Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getWestId().get());
+                Room destinationRoom = roomManager.getRoom(currentRoom.getWestId().get());
                 playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "east");
             }
             if (upTriggers.contains(command.toLowerCase())) {
                 if (!currentRoom.getUpId().isPresent()) {
-                    channelUtils.write(extractPlayerId(session), gameManager.getMapsManager().drawMap(currentRoom.getRoomId(), new Coords(9,9)));
-                    channelUtils.write(extractPlayerId(session), "There's no up exit.\r\n");
+                    printMap();
+                    write("There's no up exit.\r\n");
                     return;
                 }
-                Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getUpId().get());
+                Room destinationRoom = roomManager.getRoom(currentRoom.getUpId().get());
                 playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "down");
             }
             if (downTriggers.contains(command.toLowerCase())) {
                 if (!currentRoom.getDownId().isPresent()) {
-                    channelUtils.write(extractPlayerId(session), gameManager.getMapsManager().drawMap(currentRoom.getRoomId(), new Coords(9,9)));
-                    channelUtils.write(extractPlayerId(session), "There's no down exit.\r\n");
+                    printMap();
+                    write("There's no down exit.\r\n");
                     return;
                 }
-                Room destinationRoom = gameManager.getRoomManager().getRoom(currentRoom.getDownId().get());
+                Room destinationRoom = roomManager.getRoom(currentRoom.getDownId().get());
                 playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "up");
             }
             gameManager.movePlayer(playerMovement);
             if (playerMovement != null) {
                 player.setReturnDirection(Optional.of(playerMovement.getReturnDirection()));
-                gameManager.currentRoomLogic(playerMovement.getPlayer().getPlayerId());
+                currentRoomLogic();
             }
         } finally {
             super.messageReceived(ctx, e);
