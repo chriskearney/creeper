@@ -23,7 +23,7 @@ public class DropCommand extends Command {
         configure(e);
         try {
             if (originalMessageParts.size() == 1) {
-                channelUtils.write(playerId, "No item specified.");
+                write("No item specified.");
                 return;
             }
             originalMessageParts.remove(0);
