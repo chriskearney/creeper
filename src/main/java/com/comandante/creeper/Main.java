@@ -62,32 +62,35 @@ public class Main {
         PlayerManager playerManager = new PlayerManager(db, new SessionManager());
         EntityManager entityManager = new EntityManager(roomManager, playerManager, db);
         Stats chrisBrianStats = new StatsBuilder().setStrength(7).setWillpower(8).setAim(6).setAgile(5).setArmorRating(4).setMeleSkill(10).setCurrentHealth(100).setMaxHealth(100).setWeaponRatingMin(10).setWeaponRatingMax(20).setNumberweaponOfRolls(1).createStats();
+        startUpMessage("Configuring default admins.");
         if (playerManager.getPlayerMetadata(createPlayerId("chris")) == null) {
-            System.out.println("Creating Chris User.");
+            startUpMessage("Creating Chris User.");
             playerManager.savePlayerMetadata(new PlayerMetadata("chris", "poop", new String(Base64.encodeBase64("chris".getBytes())), chrisBrianStats));
         }
         if (playerManager.getPlayerMetadata(createPlayerId("brian")) == null) {
-            System.out.println("Creating Brian User.");
+            startUpMessage("Creating Brian User.");
             playerManager.savePlayerMetadata(new PlayerMetadata("brian", "poop", new String(Base64.encodeBase64("brian".getBytes())), chrisBrianStats));
         }
-        System.out.print("Building all rooms.");
         MapsManager mapsManager = new MapsManager(roomManager);
         GameManager gameManager = new GameManager(roomManager, playerManager, entityManager, mapsManager);
+        startUpMessage("Reading world from disk.");
         WorldExporter worldExporter = new WorldExporter(roomManager, mapsManager, gameManager.getFloorManager(), entityManager);
         worldExporter.readWorldFromDisk();
+        startUpMessage("Generating maps");
         mapsManager.generateAllMaps(9, 9);
+        startUpMessage("Adding Street Hustlers");
         entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 100, 4, 100)));
         Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
         while (rooms.hasNext()) {
             Map.Entry<Integer, Room> next = rooms.next();
             next.getValue().setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
         }
-        System.out.println("done!");
 
+        startUpMessage("Adding beer");
         ItemSpawner itemSpawner = new ItemSpawner(ItemType.BEER, Area.NEWBIE_ZONE, new SpawnRule(20, 20, 4, 100), gameManager);
         entityManager.addEntity(itemSpawner);
 
-
+        startUpMessage("Configuring Creeper Commmands");
         creeperCommandRegistry = new CreeperCommandRegistry(new UnknownCommand(gameManager));
         creeperCommandRegistry.addCommand(new DropCommand(gameManager));
         creeperCommandRegistry.addCommand(new GossipCommand(gameManager));
@@ -108,8 +111,13 @@ public class Main {
         creeperCommandRegistry.addCommand(new BuildCommand(gameManager));
 
         CreeperServer creeperServer = new CreeperServer(8080, db);
+        startUpMessage("Creeper engine started");
         creeperServer.run(gameManager);
-        System.out.println("Creeper started.");
+        startUpMessage("Creeper online");
+    }
+
+    private static void startUpMessage(String message) {
+        System.out.println("[STARTUP] " + message);
     }
 
     private static void checkAndCreateWorld() throws IOException {
