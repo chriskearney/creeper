@@ -90,7 +90,7 @@ public class StatsTester {
     private static int getAttack(Stats challenger, Stats victim) {
         int rolls = 0;
         int totDamage = 0;
-        while (rolls <= challenger.getNumberweaponOfRolls()) {
+        while (rolls <= challenger.getNumberOfWeaponRolls()) {
             rolls++;
             totDamage = totDamage + randInt(challenger.getWeaponRatingMin(), challenger.getWeaponRatingMax());
         }

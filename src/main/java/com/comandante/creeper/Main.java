@@ -7,17 +7,10 @@ import com.comandante.creeper.managers.SessionManager;
 import com.comandante.creeper.npc.StreetHustler;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMetadata;
-import com.comandante.creeper.server.command.FightKillCommand;
-import com.comandante.creeper.server.command.admin.BuildCommand;
-import com.comandante.creeper.spawner.ItemSpawner;
-import com.comandante.creeper.world.Area;
-import com.comandante.creeper.world.MapsManager;
-import com.comandante.creeper.world.Room;
-import com.comandante.creeper.world.RoomManager;
-import com.comandante.creeper.world.WorldExporter;
 import com.comandante.creeper.server.CreeperCommandRegistry;
 import com.comandante.creeper.server.CreeperServer;
 import com.comandante.creeper.server.command.DropCommand;
+import com.comandante.creeper.server.command.FightKillCommand;
 import com.comandante.creeper.server.command.GossipCommand;
 import com.comandante.creeper.server.command.InventoryCommand;
 import com.comandante.creeper.server.command.LookCommand;
@@ -29,17 +22,25 @@ import com.comandante.creeper.server.command.UnknownCommand;
 import com.comandante.creeper.server.command.UseCommand;
 import com.comandante.creeper.server.command.WhoCommand;
 import com.comandante.creeper.server.command.WhoamiCommand;
+import com.comandante.creeper.server.command.admin.BuildCommand;
 import com.comandante.creeper.server.command.admin.DescriptionCommand;
 import com.comandante.creeper.server.command.admin.SaveWorldCommand;
 import com.comandante.creeper.server.command.admin.TagRoomCommand;
 import com.comandante.creeper.server.command.admin.TitleCommand;
+import com.comandante.creeper.spawner.ItemSpawner;
 import com.comandante.creeper.spawner.NpcSpawner;
 import com.comandante.creeper.spawner.SpawnRule;
 import com.comandante.creeper.stat.Stats;
 import com.comandante.creeper.stat.StatsBuilder;
+import com.comandante.creeper.world.Area;
+import com.comandante.creeper.world.MapsManager;
+import com.comandante.creeper.world.Room;
+import com.comandante.creeper.world.RoomManager;
+import com.comandante.creeper.world.WorldExporter;
 import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.Logger;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 
@@ -51,6 +52,7 @@ import java.util.Map;
 public class Main {
 
     public static CreeperCommandRegistry creeperCommandRegistry;
+    private static final Logger log = Logger.getLogger(Main.class);
 
     public static void main(String[] args) throws Exception {
 
@@ -118,6 +120,7 @@ public class Main {
 
     private static void startUpMessage(String message) {
         System.out.println("[STARTUP] " + message);
+        log.info(message);
     }
 
     private static void checkAndCreateWorld() throws IOException {

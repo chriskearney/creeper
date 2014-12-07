@@ -16,7 +16,7 @@ public class MultiLineInputManager {
     }
 
     public String retrieveMultiLineInput(UUID uuid) {
-        return  removeTrailingBlankLines(multiLineInputs.remove(uuid).toString());
+        return removeTrailingBlankLines(multiLineInputs.remove(uuid).toString());
     }
 
     public UUID createNewMultiLineInput() {

@@ -13,7 +13,7 @@ public class Stats implements Serializable {
     private int maxHealth;
     private int weaponRatingMax;
     private int weaponRatingMin;
-    private int numberweaponOfRolls;
+    private int numberOfWeaponRolls;
     private int experience;
 
     public int getExperience() {
@@ -104,12 +104,12 @@ public class Stats implements Serializable {
         this.weaponRatingMin = weaponRatingMin;
     }
 
-    public int getNumberweaponOfRolls() {
-        return numberweaponOfRolls;
+    public int getNumberOfWeaponRolls() {
+        return numberOfWeaponRolls;
     }
 
-    public void setNumberweaponOfRolls(int numberweaponOfRolls) {
-        this.numberweaponOfRolls = numberweaponOfRolls;
+    public void setNumberOfWeaponRolls(int numberOfWeaponRolls) {
+        this.numberOfWeaponRolls = numberOfWeaponRolls;
     }
 
     public Stats(int strength,
@@ -122,7 +122,7 @@ public class Stats implements Serializable {
                  int maxHealth,
                  int weaponRatingMax,
                  int weaponRatingMin,
-                 int numberweaponOfRolls,
+                 int numberOfWeaponRolls,
                  int experience) {
         this.strength = strength;
         this.willpower = willpower;
@@ -134,7 +134,7 @@ public class Stats implements Serializable {
         this.maxHealth = maxHealth;
         this.weaponRatingMax = weaponRatingMax;
         this.weaponRatingMin = weaponRatingMin;
-        this.numberweaponOfRolls = numberweaponOfRolls;
+        this.numberOfWeaponRolls = numberOfWeaponRolls;
         this.experience = experience;
     }
 
@@ -151,7 +151,7 @@ public class Stats implements Serializable {
                 ", maxHealth=" + maxHealth +
                 ", weaponRatingMax=" + weaponRatingMax +
                 ", weaponRatingMin=" + weaponRatingMin +
-                ", numberweaponOfRolls=" + numberweaponOfRolls +
+                ", numberOfWeaponRolls=" + numberOfWeaponRolls +
                 '}';
     }
 }
