@@ -31,14 +31,18 @@ public class UseCommand extends Command {
             }
             originalMessageParts.remove(0);
             String itemTarget = Joiner.on(" ").join(originalMessageParts);
-            for (String inventoryId : playerMetadata.getInventory()) {
-                Item itemEntity = entityManager.getItemEntity(inventoryId);
-                if (itemEntity.getItemTriggers().contains(itemTarget)) {
-                    new ItemUseHandler(itemEntity, creeperSession, gameManager, playerId).handle();
-                    return;
+            if (playerMetadata.getInventory() != null) {
+                for (String inventoryId : playerMetadata.getInventory()) {
+                    Item itemEntity = entityManager.getItemEntity(inventoryId);
+                    if (itemEntity.getItemTriggers().contains(itemTarget)) {
+                        new ItemUseHandler(itemEntity, creeperSession, gameManager, playerId).handle();
+                        return;
+                    }
                 }
+                new ItemUseHandler(ItemType.UNKNOWN.create(), creeperSession, gameManager, playerId).handle();
+            } else {
+                write("Your inventory is empty.");
             }
-            new ItemUseHandler(ItemType.UNKNOWN.create(), creeperSession, gameManager, playerId).handle();
         } finally {
             super.messageReceived(ctx, e);
         }
