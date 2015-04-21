@@ -9,19 +9,7 @@ import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.server.CreeperCommandRegistry;
 import com.comandante.creeper.server.CreeperServer;
-import com.comandante.creeper.server.command.DropCommand;
-import com.comandante.creeper.server.command.FightKillCommand;
-import com.comandante.creeper.server.command.GossipCommand;
-import com.comandante.creeper.server.command.InventoryCommand;
-import com.comandante.creeper.server.command.LookCommand;
-import com.comandante.creeper.server.command.MovementCommand;
-import com.comandante.creeper.server.command.PickUpCommand;
-import com.comandante.creeper.server.command.SayCommand;
-import com.comandante.creeper.server.command.TellCommand;
-import com.comandante.creeper.server.command.UnknownCommand;
-import com.comandante.creeper.server.command.UseCommand;
-import com.comandante.creeper.server.command.WhoCommand;
-import com.comandante.creeper.server.command.WhoamiCommand;
+import com.comandante.creeper.server.command.*;
 import com.comandante.creeper.server.command.admin.BuildCommand;
 import com.comandante.creeper.server.command.admin.DescriptionCommand;
 import com.comandante.creeper.server.command.admin.SaveWorldCommand;
@@ -81,7 +69,7 @@ public class Main {
         startUpMessage("Generating maps");
         mapsManager.generateAllMaps(9, 9);
         startUpMessage("Adding Street Hustlers");
-        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 100, 4, 100)));
+        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 3, 4, 100)));
         Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
         while (rooms.hasNext()) {
             Map.Entry<Integer, Room> next = rooms.next();
@@ -89,7 +77,7 @@ public class Main {
         }
 
         startUpMessage("Adding beer");
-        ItemSpawner itemSpawner = new ItemSpawner(ItemType.BEER, Area.NEWBIE_ZONE, new SpawnRule(20, 20, 4, 100), gameManager);
+        ItemSpawner itemSpawner = new ItemSpawner(ItemType.BEER, Area.NEWBIE_ZONE, new SpawnRule(20, 1, 4, 100), gameManager);
         entityManager.addEntity(itemSpawner);
 
         startUpMessage("Configuring Creeper Commmands");
@@ -111,6 +99,8 @@ public class Main {
         creeperCommandRegistry.addCommand(new TagRoomCommand(gameManager));
         creeperCommandRegistry.addCommand(new SaveWorldCommand(gameManager));
         creeperCommandRegistry.addCommand(new BuildCommand(gameManager));
+        creeperCommandRegistry.addCommand(new MapCommand(gameManager));
+
 
         CreeperServer creeperServer = new CreeperServer(8080, db);
         startUpMessage("Creeper engine started");

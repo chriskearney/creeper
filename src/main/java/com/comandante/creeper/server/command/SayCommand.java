@@ -37,7 +37,7 @@ public class SayCommand extends Command {
                 if (presentPlayer.getPlayerId().equals(playerId)) {
                     write(stringBuilder.toString());
                 } else {
-                    channelUtils.write(presentPlayer.getPlayerId(), stringBuilder.toString());
+                    channelUtils.write(presentPlayer.getPlayerId(), stringBuilder.append("\r\n").toString(), true);
                 }
             }
         } finally {
