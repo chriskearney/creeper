@@ -102,7 +102,7 @@ public class Main {
         creeperCommandRegistry.addCommand(new MapCommand(gameManager));
 
 
-        CreeperServer creeperServer = new CreeperServer(8080, db);
+        CreeperServer creeperServer = new CreeperServer(8081, db);
         startUpMessage("Creeper engine started");
         creeperServer.run(gameManager);
         startUpMessage("Creeper online");

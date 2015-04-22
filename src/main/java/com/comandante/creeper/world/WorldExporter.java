@@ -129,6 +129,8 @@ public class WorldExporter {
                     basicRoomBuilder.setUpId(Optional.of(exit.getRoomId()));
                 } else if (exit.getDirection().equals(RemoteExit.Direction.DOWN)) {
                     basicRoomBuilder.setDownId(Optional.of(exit.getRoomId()));
+                } else if (exit.getDirection().equals(RemoteExit.Direction.ENTER)) {
+                    basicRoomBuilder.addEnterExit(exit);
                 }
             }
         }

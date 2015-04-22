@@ -2,6 +2,7 @@ package com.comandante.creeper.world;
 
 import com.google.common.base.Optional;
 
+import java.util.List;
 import java.util.Set;
 
 public class BasicRoom extends Room {
@@ -20,9 +21,10 @@ public class BasicRoom extends Room {
                      Optional<Integer> westId,
                      Optional<Integer> upId,
                      Optional<Integer> downId,
+                     List<RemoteExit> enterExits,
                      String roomDescription,
                      Set<String> roomTags,
                      Set<Area> areas) {
-        super(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, roomDescription, roomTags, areas);
+        super(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, enterExits, roomDescription, roomTags, areas);
     }
 }

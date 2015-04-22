@@ -13,10 +13,7 @@ import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.server.Color;
 import com.comandante.creeper.server.CreeperSession;
 import com.comandante.creeper.server.MultiLineInputManager;
-import com.comandante.creeper.world.FloorManager;
-import com.comandante.creeper.world.MapsManager;
-import com.comandante.creeper.world.Room;
-import com.comandante.creeper.world.RoomManager;
+import com.comandante.creeper.world.*;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interners;
@@ -24,6 +21,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.jboss.netty.channel.MessageEvent;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -225,6 +223,22 @@ public class GameManager {
                 sb.append("Down ");
             }
             numExits++;
+        }
+        if (room.getDownId().isPresent()) {
+            if (player.getReturnDirection().get().equalsIgnoreCase("down")) {
+                sb.append(BOLD_OFF);
+                sb.append("Down ");
+                sb.append(BOLD_ON);
+            } else {
+                sb.append("Down ");
+            }
+            numExits++;
+        }
+        if (room.getEnterExits() != null && room.getEnterExits().size() > 0) {
+            List<RemoteExit> enters = room.getEnterExits();
+            for (RemoteExit enter: enters) {
+                sb.append("e-" + enter.getExitDetail() + " ");
+            }
         }
         String fin = null;
         if (numExits == 1) {

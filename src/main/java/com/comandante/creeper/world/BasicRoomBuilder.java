@@ -1,8 +1,10 @@
 package com.comandante.creeper.world;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import java.util.List;
 import java.util.Set;
 
 public class BasicRoomBuilder {
@@ -15,6 +17,7 @@ public class BasicRoomBuilder {
     private Optional<Integer> westId = Optional.absent();
     private Optional<Integer> upId = Optional.absent();
     private Optional<Integer> downId = Optional.absent();
+    private List<RemoteExit> enterExits = Lists.newArrayList();
     private String roomDescription;
     private Set<String> roomTags = Sets.newConcurrentHashSet();
     private Set<Area> areas = Sets.newConcurrentHashSet();
@@ -80,7 +83,12 @@ public class BasicRoomBuilder {
         return this;
     }
 
+    public BasicRoomBuilder addEnterExit(RemoteExit remoteExit) {
+        this.enterExits.add(remoteExit);
+        return this;
+    }
+
     public BasicRoom createBasicRoom() {
-        return new BasicRoom(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, roomDescription, roomTags, areas);
+        return new BasicRoom(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, enterExits, roomDescription, roomTags, areas);
     }
 }

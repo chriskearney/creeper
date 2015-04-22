@@ -190,9 +190,12 @@ public class MapMatrix {
                     if (remotes.containsKey(roomId)) {
                         for (RemoteExit exit : remotes.get(roomId)) {
                             if (exit.getDirection().equals(RemoteExit.Direction.UP)) {
-                                sb.append("u").append(exit.getRoomId());
+                                sb.append("u|").append(exit.getRoomId());
                             } else if (exit.getDirection().equals(RemoteExit.Direction.DOWN)) {
-                                sb.append("d").append(exit.getRoomId());
+                                sb.append("d|").append(exit.getRoomId());
+                            }else if (exit.getDirection().equals(RemoteExit.Direction.ENTER)) {
+                                sb.append("e|").append(exit.getRoomId());
+                                sb.append("ee").append(exit.getExitDetail());
                             }
                         }
                     }
@@ -205,7 +208,7 @@ public class MapMatrix {
     }
 
     private static Integer getUp(String csvInputCell) {
-        String[] us = csvInputCell.split("u");
+        String[] us = csvInputCell.split("u|");
         if (us[1].matches(".*[a-zA-Z]+.*")) {
             return Integer.valueOf(us[1].split("[a-zA-Z]")[0]);
         }
@@ -213,11 +216,24 @@ public class MapMatrix {
     }
 
     private static Integer getDown(String csvInputCell) {
-        String[] us = csvInputCell.split("d");
+        String[] us = csvInputCell.split("d|");
         if (us[1].matches(".*[a-zA-Z]+.*")) {
             return Integer.valueOf(us[1].split("[a-zA-Z]")[0]);
         }
         return Integer.valueOf(us[1]);
+    }
+
+    private static Integer getEnter(String csvInputCell) {
+        String[] us = csvInputCell.split("e|");
+        if (us[1].matches(".*[a-zA-Z]+.*")) {
+            return Integer.valueOf(us[1].split("[a-zA-Z]")[0]);
+        }
+        return Integer.valueOf(us[1]);
+    }
+
+    private static String getEnterDescription(String csvInputCell) {
+        String[] us = csvInputCell.split("ee");
+        return us[1];
     }
 
     public static MapMatrix createMatrixFromCsv(String mapCSV) {
@@ -230,13 +246,17 @@ public class MapMatrix {
             for (String string : strings) {
                 if (!string.isEmpty()) {
                     Integer roomId = Integer.parseInt(string.split("[a-zA-Z]")[0]);
-                    if (string.contains("u")) {
+                    if (string.contains("u|")) {
                         Integer up = getUp(string);
-                        addRemote(roomId, new RemoteExit(RemoteExit.Direction.UP, up), remotes);
+                        addRemote(roomId, new RemoteExit(RemoteExit.Direction.UP, up, ""), remotes);
                     }
-                    if (string.contains("d")) {
+                    if (string.contains("d|")) {
                         Integer down = getDown(string);
-                        addRemote(roomId, new RemoteExit(RemoteExit.Direction.DOWN, down), remotes);
+                        addRemote(roomId, new RemoteExit(RemoteExit.Direction.DOWN, down, ""), remotes);
+                    }
+                    if (string.contains("e|")) {
+                        Integer enter = getEnter(string);
+                        addRemote(roomId, new RemoteExit(RemoteExit.Direction.ENTER, enter, getEnterDescription(string)), remotes);
                     }
                     data.add(roomId);
                 } else {
