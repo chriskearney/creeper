@@ -72,7 +72,9 @@ public class Main {
         startUpMessage("Generating maps");
         mapsManager.generateAllMaps(9, 9);
         startUpMessage("Adding Street Hustlers");
-        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 3, 4, 100)));
+        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 30, 3, 25)));
+        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.DEFAULT, gameManager, new SpawnRule(10, 3, 4, 25)));
+
         Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
         while (rooms.hasNext()) {
             Map.Entry<Integer, Room> next = rooms.next();
@@ -80,7 +82,7 @@ public class Main {
         }
 
         startUpMessage("Adding beer");
-        ItemSpawner itemSpawner = new ItemSpawner(ItemType.BEER, Area.NEWBIE_ZONE, new SpawnRule(20, 1, 4, 100), gameManager);
+        ItemSpawner itemSpawner = new ItemSpawner(ItemType.BEER, Area.NEWBIE_ZONE, new SpawnRule(20, 20, 2, 25), gameManager);
         entityManager.addEntity(itemSpawner);
 
         startUpMessage("Configuring Creeper Commmands");
@@ -105,7 +107,7 @@ public class Main {
         creeperCommandRegistry.addCommand(new MapCommand(gameManager));
 
 
-        CreeperServer creeperServer = new CreeperServer(8081, db);
+        CreeperServer creeperServer = new CreeperServer(PORT, db);
         startUpMessage("Creeper engine started");
         creeperServer.run(gameManager);
         startUpMessage("Creeper online");

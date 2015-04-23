@@ -195,7 +195,7 @@ public class MapMatrix {
                                 sb.append("d|").append(exit.getRoomId());
                             }else if (exit.getDirection().equals(RemoteExit.Direction.ENTER)) {
                                 sb.append("e|").append(exit.getRoomId());
-                                sb.append("ee").append(exit.getExitDetail());
+                                sb.append("||").append(exit.getExitDetail());
                             }
                         }
                     }
@@ -225,14 +225,14 @@ public class MapMatrix {
 
     private static Integer getEnter(String csvInputCell) {
         String[] us = csvInputCell.split("e\\|");
-        if (us[1].matches(".*[a-zA-Z]+.*")) {
-            return Integer.valueOf(us[1].split("[a-zA-Z]")[0]);
+        if (us[1].matches(".*\\|\\|.*")) {
+            return Integer.valueOf(us[1].split("\\|\\|")[0]);
         }
         return Integer.valueOf(us[1]);
     }
 
     private static String getEnterDescription(String csvInputCell) {
-        String[] us = csvInputCell.split("ee");
+        String[] us = csvInputCell.split("\\|\\|");
         return us[1];
     }
 
