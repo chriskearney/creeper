@@ -3,36 +3,6 @@
     {
       "name": "main",
       "id": 0,
-      "rawMatrixCsv": ",1u|2,\n",
-      "roomModels": [
-        {
-          "roomId": 1,
-          "floorId": 0,
-          "roomDescription": "This is a blank Description.\nWords should go here, ideally.",
-          "roomTitle": "This is a blank title.",
-          "roomTags": [],
-          "areaNames": [
-            "newbie_zone"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "785c3189-93d9-45e1-97b8-38dda8b1745a",
-      "id": 1,
-      "rawMatrixCsv": "2,\n",
-      "roomModels": [
-        {
-          "roomId": 2,
-          "floorId": 1,
-          "roomDescription": "Newly created room. Set a new description with the desc command.",
-          "roomTitle": "Default Title, change with title command",
-          "roomTags": [],
-          "areaNames": [
-            "default"
-          ]
-        }
-      ]
-    }
-  ]
+      "rawMatrixCsv": "0,1"
+}]
 }

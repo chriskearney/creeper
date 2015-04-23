@@ -224,20 +224,11 @@ public class GameManager {
             }
             numExits++;
         }
-        if (room.getDownId().isPresent()) {
-            if (player.getReturnDirection().get().equalsIgnoreCase("down")) {
-                sb.append(BOLD_OFF);
-                sb.append("Down ");
-                sb.append(BOLD_ON);
-            } else {
-                sb.append("Down ");
-            }
-            numExits++;
-        }
         if (room.getEnterExits() != null && room.getEnterExits().size() > 0) {
             List<RemoteExit> enters = room.getEnterExits();
             for (RemoteExit enter: enters) {
                 sb.append("e-" + enter.getExitDetail() + " ");
+                numExits++;
             }
         }
         String fin = null;

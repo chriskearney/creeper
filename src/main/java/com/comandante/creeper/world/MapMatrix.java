@@ -208,7 +208,7 @@ public class MapMatrix {
     }
 
     private static Integer getUp(String csvInputCell) {
-        String[] us = csvInputCell.split("u|");
+        String[] us = csvInputCell.split("u\\|");
         if (us[1].matches(".*[a-zA-Z]+.*")) {
             return Integer.valueOf(us[1].split("[a-zA-Z]")[0]);
         }
@@ -216,7 +216,7 @@ public class MapMatrix {
     }
 
     private static Integer getDown(String csvInputCell) {
-        String[] us = csvInputCell.split("d|");
+        String[] us = csvInputCell.split("d\\|");
         if (us[1].matches(".*[a-zA-Z]+.*")) {
             return Integer.valueOf(us[1].split("[a-zA-Z]")[0]);
         }
@@ -224,7 +224,7 @@ public class MapMatrix {
     }
 
     private static Integer getEnter(String csvInputCell) {
-        String[] us = csvInputCell.split("e|");
+        String[] us = csvInputCell.split("e\\|");
         if (us[1].matches(".*[a-zA-Z]+.*")) {
             return Integer.valueOf(us[1].split("[a-zA-Z]")[0]);
         }

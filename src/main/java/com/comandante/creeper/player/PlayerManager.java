@@ -1,6 +1,7 @@
 package com.comandante.creeper.player;
 
 
+import com.comandante.creeper.Main;
 import com.comandante.creeper.fight.FightManager;
 import com.comandante.creeper.managers.SessionManager;
 import com.comandante.creeper.server.Color;
@@ -166,7 +167,9 @@ public class PlayerManager {
         StringBuilder sb = new StringBuilder()
                 .append("[")
                 .append(player.getPlayerName())
-                .append("@creeper ")
+                .append("@")
+                .append(Main.MUD_NAME)
+                .append(" ")
                 .append(currentHealth).append("/").append(maxHealth);
         if (isFight) {
             sb.append(Color.RED + " ! " + Color.RESET);

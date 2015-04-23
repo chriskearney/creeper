@@ -65,8 +65,9 @@ public class BuildCommand extends Command {
                         Integer newRoomId = findUnusedRoomId();
                         Integer newFloorId = findUnusedFloorId();
                         RemoteExit remoteExit = new RemoteExit(RemoteExit.Direction.UP, newRoomId, "");
+                        RemoteExit returnRemoteExit = new RemoteExit(RemoteExit.Direction.DOWN, currentRoom.getRoomId(), "");
                         mapMatrix.addRemote(currentRoom.getRoomId(), remoteExit);
-                        FloorModel newFloorModel = newFloorModel(newFloorId, newRoomId, currentRoom.getRoomId(), remoteExit);
+                        FloorModel newFloorModel = newFloorModel(newFloorId, newRoomId, currentRoom.getRoomId(), returnRemoteExit);
                         BasicRoom basicRoom = newBasic()
                                 .setRoomId(newRoomId)
                                 .setFloorId(newFloorId)
@@ -87,8 +88,9 @@ public class BuildCommand extends Command {
                         Integer newRoomId = findUnusedRoomId();
                         Integer newFloorId = findUnusedFloorId();
                         RemoteExit remoteExit = new RemoteExit(RemoteExit.Direction.DOWN, newRoomId, "");
+                        RemoteExit returnRemoteExit = new RemoteExit(RemoteExit.Direction.UP, currentRoom.getRoomId(), "");
                         mapMatrix.addRemote(currentRoom.getRoomId(), remoteExit);
-                        FloorModel newFloorModel = newFloorModel(newFloorId, newRoomId, currentRoom.getRoomId(), remoteExit);
+                        FloorModel newFloorModel = newFloorModel(newFloorId, newRoomId, currentRoom.getRoomId(), returnRemoteExit);
                         BasicRoom basicRoom = newBasic()
                                 .setRoomId(newRoomId)
                                 .setFloorId(newFloorId)
@@ -109,12 +111,13 @@ public class BuildCommand extends Command {
                     Integer newRoomId = findUnusedRoomId();
                     Integer newFloorId = findUnusedFloorId();
                     RemoteExit remoteExit = new RemoteExit(RemoteExit.Direction.ENTER, newRoomId, enterName);
+                    RemoteExit returnRemoteExit = new RemoteExit(RemoteExit.Direction.ENTER, currentRoom.getRoomId(), "Leave");
                     mapMatrix.addRemote(currentRoom.getRoomId(),remoteExit );
-                    FloorModel newFloorModel = newFloorModel(newFloorId, newRoomId, currentRoom.getRoomId(), remoteExit);
+                    FloorModel newFloorModel = newFloorModel(newFloorId, newRoomId, currentRoom.getRoomId(), returnRemoteExit);
                     BasicRoom basicRoom = newBasic()
                             .setRoomId(newRoomId)
                             .setFloorId(newFloorId)
-                            .addEnterExit(new RemoteExit(RemoteExit.Direction.ENTER, currentRoom.getRoomId(), "Leave"))
+                            .addEnterExit(returnRemoteExit)
                             .createBasicRoom();
                     currentRoom.addEnterExit(remoteExit);
                     entityManager.addEntity(basicRoom);
@@ -138,11 +141,11 @@ public class BuildCommand extends Command {
         RemoteExit.Direction returnDirection = remoteExit.getDirection();
         newFloorModel.setId(floorId);
         if (returnDirection.equals(RemoteExit.Direction.DOWN)) {
-            newFloorModel.setRawMatrixCsv(Integer.toString(newRoomId) + "d" + currentRoomId);
+            newFloorModel.setRawMatrixCsv(Integer.toString(newRoomId) + "d|" + currentRoomId);
         } else if (returnDirection.equals(RemoteExit.Direction.UP)) {
-            newFloorModel.setRawMatrixCsv(Integer.toString(newRoomId) + "u" + currentRoomId);
+            newFloorModel.setRawMatrixCsv(Integer.toString(newRoomId) + "u|" + currentRoomId);
         } else if (returnDirection.equals(RemoteExit.Direction.ENTER)) {
-            newFloorModel.setRawMatrixCsv(Integer.toString(newRoomId) + "e" + currentRoomId + "ee" + remoteExit.getExitDetail());
+            newFloorModel.setRawMatrixCsv(Integer.toString(newRoomId) + "e|" + currentRoomId + "ee" + remoteExit.getExitDetail());
         }
         newFloorModel.setName(UUID.randomUUID().toString());
         return newFloorModel;
