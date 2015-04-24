@@ -2,9 +2,7 @@ package com.comandante.creeper.server;
 
 import com.comandante.creeper.server.command.Command;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CreeperCommandRegistry {
 
@@ -30,5 +28,10 @@ public class CreeperCommandRegistry {
             }
         }
         return unknownCommand;
+    }
+
+    public Set<Command> getCreeperCommands() {
+        Set<Command> creeperCommandUniq = new HashSet<Command>(creeperCommands.values());
+        return creeperCommandUniq;
     }
 }

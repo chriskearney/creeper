@@ -113,6 +113,8 @@ public class Main {
         creeperCommandRegistry.addCommand(new BuildCommand(gameManager));
         creeperCommandRegistry.addCommand(new MapCommand(gameManager));
         creeperCommandRegistry.addCommand(new AreaCommand(gameManager));
+        creeperCommandRegistry.addCommand(new HelpCommand(gameManager));
+
 
 
         CreeperServer creeperServer = new CreeperServer(PORT, db);
