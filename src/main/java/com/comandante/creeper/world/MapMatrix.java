@@ -193,9 +193,6 @@ public class MapMatrix {
                                 sb.append("u|").append(exit.getRoomId());
                             } else if (exit.getDirection().equals(RemoteExit.Direction.DOWN)) {
                                 sb.append("d|").append(exit.getRoomId());
-                            }else if (exit.getDirection().equals(RemoteExit.Direction.ENTER)) {
-                                sb.append("e|").append(exit.getRoomId());
-                                sb.append("||").append(exit.getExitDetail());
                             }
                         }
                     }
@@ -253,10 +250,6 @@ public class MapMatrix {
                     if (string.contains("d|")) {
                         Integer down = getDown(string);
                         addRemote(roomId, new RemoteExit(RemoteExit.Direction.DOWN, down, ""), remotes);
-                    }
-                    if (string.contains("e|")) {
-                        Integer enter = getEnter(string);
-                        addRemote(roomId, new RemoteExit(RemoteExit.Direction.ENTER, enter, getEnterDescription(string)), remotes);
                     }
                     data.add(roomId);
                 } else {

@@ -2,6 +2,7 @@ package com.comandante.creeper.world;
 
 import com.google.gson.GsonBuilder;
 
+import java.util.Map;
 import java.util.Set;
 
 public class RoomModel {
@@ -12,14 +13,16 @@ public class RoomModel {
     String roomTitle;
     Set<String> roomTags;
     Set<String> areaNames;
+    Map<String, String> enterExitNames;
 
-    public RoomModel(int roomId, int floorId, String roomDescription, String roomTitle, Set<String> roomTags, Set<String> areaNames) {
+    public RoomModel(int roomId, int floorId, String roomDescription, String roomTitle, Set<String> roomTags, Set<String> areaNames, Map<String, String> enterExitNames) {
         this.roomId = roomId;
         this.floorId = floorId;
         this.roomDescription = roomDescription;
         this.roomTitle = roomTitle;
         this.roomTags = roomTags;
         this.areaNames = areaNames;
+        this.enterExitNames = enterExitNames;
     }
 
     public Set<String> getAreaNames() {
@@ -68,6 +71,14 @@ public class RoomModel {
 
     public void setRoomTitle(String roomTitle) {
         this.roomTitle = roomTitle;
+    }
+
+    public Map<String, String> getEnterExitNames() {
+        return enterExitNames;
+    }
+
+    public void setEnterExitNames(Map<String, String> enterExitNames) {
+        this.enterExitNames = enterExitNames;
     }
 
     public static void main(String[] args) {

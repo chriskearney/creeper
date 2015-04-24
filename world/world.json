@@ -1,26 +1,9 @@
 {
   "floorModelList": [
     {
-      "name": "65aac77e-98aa-46cf-aa1c-a0083c82e44c",
-      "id": 1,
-      "rawMatrixCsv": "2d|1,\n",
-      "roomModels": [
-        {
-          "roomId": 2,
-          "floorId": 1,
-          "roomDescription": "Newly created room. Set a new description with the desc command.",
-          "roomTitle": "Default Title, change with title command",
-          "roomTags": [],
-          "areaNames": [
-            "default"
-          ]
-        }
-      ]
-    },
-    {
       "name": "main",
       "id": 0,
-      "rawMatrixCsv": ",1d|3u|2,\n",
+      "rawMatrixCsv": ",1,,\n",
       "roomModels": [
         {
           "roomId": 1,
@@ -29,25 +12,11 @@
           "roomTitle": "This is a blank title.",
           "roomTags": [],
           "areaNames": [
-            "newbie_zone"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "a96d76e4-89e6-4348-af82-f44990c33b82",
-      "id": 2,
-      "rawMatrixCsv": "3u|1,\n",
-      "roomModels": [
-        {
-          "roomId": 3,
-          "floorId": 2,
-          "roomDescription": "Newly created room. Set a new description with the desc command.",
-          "roomTitle": "Default Title, change with title command",
-          "roomTags": [],
-          "areaNames": [
-            "default"
-          ]
+            "north2_zone",
+            "house_zone",
+            "north1_zone"
+          ],
+          "enterExitNames": {}
         }
       ]
     }

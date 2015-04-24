@@ -4,7 +4,10 @@ import com.comandante.creeper.Items.ItemType;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.managers.SessionManager;
+import com.comandante.creeper.npc.BergOrc;
 import com.comandante.creeper.npc.StreetHustler;
+import com.comandante.creeper.npc.SwampBerserker;
+import com.comandante.creeper.npc.TreeBerserker;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.server.CreeperCommandRegistry;
@@ -42,8 +45,8 @@ public class Main {
     public static CreeperCommandRegistry creeperCommandRegistry;
     private static final Logger log = Logger.getLogger(Main.class);
 
-    private static final int PORT = 8081;
-    public static final String MUD_NAME = "creeperBETA";
+    private static final int PORT = 8080;
+    public static final String MUD_NAME = "creeper";
 
     public static void main(String[] args) throws Exception {
 
@@ -75,15 +78,19 @@ public class Main {
         entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 30, 3, 25)));
         entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.DEFAULT, gameManager, new SpawnRule(10, 3, 4, 25)));
 
-        Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRooms();
-        while (rooms.hasNext()) {
-            Map.Entry<Integer, Room> next = rooms.next();
-            next.getValue().setAreas(Sets.newHashSet(Area.NEWBIE_ZONE));
-        }
-
         startUpMessage("Adding beer");
         ItemSpawner itemSpawner = new ItemSpawner(ItemType.BEER, Area.NEWBIE_ZONE, new SpawnRule(20, 20, 2, 25), gameManager);
         entityManager.addEntity(itemSpawner);
+
+        startUpMessage("Adding Tree Berserkers");
+        entityManager.addEntity(new NpcSpawner(new TreeBerserker(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 6, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(new TreeBerserker(gameManager), Area.NORTH1_ZONE, gameManager, new SpawnRule(10, 14, 2, 100)));
+
+        startUpMessage("Adding Swamp Berserkers");
+        entityManager.addEntity(new NpcSpawner(new SwampBerserker(gameManager), Area.NORTH2_ZONE, gameManager, new SpawnRule(10, 8, 2, 100)));
+
+        startUpMessage("Adding Berg Orcs");
+        entityManager.addEntity(new NpcSpawner(new BergOrc(gameManager), Area.BLOODRIDGE1_ZONE, gameManager, new SpawnRule(10, 8, 2, 100)));
 
         startUpMessage("Configuring Creeper Commmands");
         creeperCommandRegistry = new CreeperCommandRegistry(new UnknownCommand(gameManager));
@@ -105,6 +112,7 @@ public class Main {
         creeperCommandRegistry.addCommand(new SaveWorldCommand(gameManager));
         creeperCommandRegistry.addCommand(new BuildCommand(gameManager));
         creeperCommandRegistry.addCommand(new MapCommand(gameManager));
+        creeperCommandRegistry.addCommand(new AreaCommand(gameManager));
 
 
         CreeperServer creeperServer = new CreeperServer(PORT, db);

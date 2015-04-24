@@ -43,9 +43,9 @@ public class InventoryCommand extends Command {
                     int remainingUses = maxUses - item.getNumberOfUses();
                     sb.append(" - ").append(remainingUses);
                     if (remainingUses == 1) {
-                        sb.append(" use left.");
+                        sb.append(" use left.").append("\r\n");
                     } else {
-                        sb.append(" uses left.");
+                        sb.append(" uses left.").append("\r\n");
                     }
                 }
             }

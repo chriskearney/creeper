@@ -37,7 +37,7 @@ public abstract class Room extends CreeperEntity {
     private final Set<String> npcIds = Sets.newConcurrentHashSet();
     private final Set<String> itemIds = Sets.newConcurrentHashSet();
     private List<ItemSpawner> itemSpawners = Lists.newArrayList();
-    private Set<Area> areas = Sets.newHashSet(Area.DEFAULT);
+    private Set<Area> areas = Sets.newConcurrentHashSet();
     private Optional<String> mapData = Optional.absent();
     private final Set<String> roomTags;
 
@@ -219,6 +219,8 @@ public abstract class Room extends CreeperEntity {
     public void addItemSpawner(ItemSpawner itemSpawner) {
         itemSpawners.add(itemSpawner);
     }
+
+
 
     @Override
     public void run() {

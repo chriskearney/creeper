@@ -145,7 +145,7 @@ public class BuildCommand extends Command {
         } else if (returnDirection.equals(RemoteExit.Direction.UP)) {
             newFloorModel.setRawMatrixCsv(Integer.toString(newRoomId) + "u|" + currentRoomId);
         } else if (returnDirection.equals(RemoteExit.Direction.ENTER)) {
-            newFloorModel.setRawMatrixCsv(Integer.toString(newRoomId) + "e|" + currentRoomId + "||" + remoteExit.getExitDetail());
+            newFloorModel.setRawMatrixCsv(Integer.toString(newRoomId));
         }
         newFloorModel.setName(UUID.randomUUID().toString());
         return newFloorModel;

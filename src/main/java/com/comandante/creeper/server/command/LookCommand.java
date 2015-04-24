@@ -35,7 +35,7 @@ public class LookCommand extends Command {
             for (String presentPlayerId : presentPlayerIds) {
                 Player presentPlayer = gameManager.getPlayerManager().getPlayer(presentPlayerId);
                 if (presentPlayer.getPlayerName().equals(target)) {
-                    write(playerManager.getLookString(player));
+                    write(playerManager.getLookString(presentPlayer));
                 }
             }
         } finally {
