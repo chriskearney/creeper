@@ -15,7 +15,7 @@ public class NpcStats {
             .setWeaponRatingMin(5)
             .setWeaponRatingMax(10)
             .setNumberweaponOfRolls(1)
-            .setExperience(100);
+            .setExperience(3);
 
     public final static StatsBuilder DRUGGED_PIMP = new StatsBuilder()
             .setStrength(5)
@@ -29,6 +29,49 @@ public class NpcStats {
             .setWeaponRatingMin(5)
             .setWeaponRatingMax(10)
             .setNumberweaponOfRolls(1)
-            .setExperience(100);
+            .setExperience(3);
+
+    public final static StatsBuilder TREE_BERSERKER = new StatsBuilder()
+            .setStrength(8)
+            .setWillpower(1)
+            .setAim(1)
+            .setAgile(1)
+            .setArmorRating(8)
+            .setMeleSkill(6)
+            .setCurrentHealth(200)
+            .setMaxHealth(200)
+            .setWeaponRatingMin(8)
+            .setWeaponRatingMax(13)
+            .setNumberweaponOfRolls(1)
+            .setExperience(150);
+
+
+    public final static StatsBuilder SWAMP_BERSERKER = new StatsBuilder()
+            .setStrength(11)
+            .setWillpower(2)
+            .setAim(2)
+            .setAgile(1)
+            .setArmorRating(8)
+            .setMeleSkill(6)
+            .setCurrentHealth(230)
+            .setMaxHealth(230)
+            .setWeaponRatingMin(10)
+            .setWeaponRatingMax(13)
+            .setNumberweaponOfRolls(1)
+            .setExperience(190);
+
+    public final static StatsBuilder BERG_ORC = new StatsBuilder()
+            .setStrength(11)
+            .setWillpower(2)
+            .setAim(2)
+            .setAgile(1)
+            .setArmorRating(8)
+            .setMeleSkill(6)
+            .setCurrentHealth(230)
+            .setMaxHealth(230)
+            .setWeaponRatingMin(10)
+            .setWeaponRatingMax(13)
+            .setNumberweaponOfRolls(1)
+            .setExperience(190);
 
 }

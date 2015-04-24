@@ -1,7 +1,9 @@
 package com.comandante.creeper.world;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import java.util.Map;
 import java.util.Set;
 
 public class RoomModelBuilder {
@@ -11,6 +13,7 @@ public class RoomModelBuilder {
     private String roomTitle;
     private Set<String> roomTags = Sets.newHashSet();
     private Set<String> areaNames = Sets.newHashSet();
+    private Map<String, String> enterExitNames =Maps.newHashMap();
 
     public RoomModelBuilder setRoomId(int roomId) {
         this.roomId = roomId;
@@ -46,7 +49,12 @@ public class RoomModelBuilder {
         return this;
     }
 
+    public RoomModelBuilder addEnterExitName(Integer roomId, String enterExitName) {
+        enterExitNames.put(String.valueOf(roomId), enterExitName);
+        return this;
+    }
+
     public RoomModel build() {
-        return new RoomModel(roomId, floorId, roomDescription, roomTitle, roomTags, areaNames);
+        return new RoomModel(roomId, floorId, roomDescription, roomTitle, roomTags, areaNames, enterExitNames);
     }
 }

@@ -4,6 +4,7 @@ import com.comandante.creeper.entity.EntityManager;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterators;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 import com.google.gson.GsonBuilder;
@@ -12,10 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class WorldExporter {
 
@@ -62,7 +60,6 @@ public class WorldExporter {
             RoomModel next = roomModels.next();
             floorModel.getRoomModels().add(next);
         }
-
         return floorModel;
     }
 
@@ -71,6 +68,9 @@ public class WorldExporter {
             @Override
             public RoomModel apply(Room room) {
                 RoomModelBuilder roomModelBuilder = new RoomModelBuilder();
+                for (RemoteExit remoteExit : room.getEnterExits()) {
+                    roomModelBuilder.addEnterExitName(remoteExit.getRoomId(), remoteExit.getExitDetail());
+                }
                 roomModelBuilder.setRoomDescription(room.getRoomDescription());
                 roomModelBuilder.setRoomTitle(room.getRoomTitle());
                 roomModelBuilder.setRoomId(room.getRoomId());
@@ -99,6 +99,15 @@ public class WorldExporter {
                 }
                 for (String areaName : roomModel.getAreaNames()) {
                     basicRoomBuilder.addArea(Area.getByName(areaName));
+                }
+                Map<String, String> enterExitNames = roomModel.getEnterExitNames();
+                if (enterExitNames != null) {
+                    Iterator<Map.Entry<String, String>> iterator = enterExitNames.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Map.Entry<String, String> next = iterator.next();
+                        RemoteExit remoteExit = new RemoteExit(RemoteExit.Direction.ENTER, Integer.parseInt(next.getKey()), next.getValue());
+                        basicRoomBuilder.addEnterExit(remoteExit);
+                    }
                 }
                 configureExits(basicRoomBuilder, mapMatrix, roomModel.getRoomId());
                 return basicRoomBuilder.createBasicRoom();

@@ -3,6 +3,7 @@ package com.comandante.creeper.server.command;
 import com.comandante.creeper.fight.FightManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.player.PlayerMovement;
+import com.comandante.creeper.world.RemoteExit;
 import com.comandante.creeper.world.Room;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -22,8 +23,9 @@ public class MovementCommand extends Command {
     public final static List<String> westTriggers = Arrays.asList("w", "west".toLowerCase());
     public final static List<String> upTriggers = Arrays.asList("u", "up".toLowerCase());
     public final static List<String> downTriggers = Arrays.asList("d", "down".toLowerCase());
+    public final static List<String> enterTriggers = Arrays.asList("enter", "enter".toLowerCase());
 
-    public final static ImmutableList validTriggers = new ImmutableList.Builder<String>().addAll(northTriggers).addAll(southTriggers).addAll(eastTriggers).addAll(westTriggers).addAll(upTriggers).addAll(downTriggers).build();
+    public final static ImmutableList validTriggers = new ImmutableList.Builder<String>().addAll(northTriggers).addAll(southTriggers).addAll(eastTriggers).addAll(westTriggers).addAll(upTriggers).addAll(downTriggers).addAll(enterTriggers).build();
 
     public MovementCommand(GameManager gameManager) {
         super(gameManager, validTriggers, description);
@@ -59,6 +61,15 @@ public class MovementCommand extends Command {
             } else if (downTriggers.contains(command.toLowerCase()) && currentRoom.getDownId().isPresent()) {
                 Room destinationRoom = roomManager.getRoom(currentRoom.getDownId().get());
                 playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "exited to the west.", "up");
+            } else if (enterTriggers.contains(command.toLowerCase())) {
+                Optional<RemoteExit> remoteExitOptional = doesEnterExitExist();
+                if (remoteExitOptional.isPresent()) {
+                    Room destinationRoom = roomManager.getRoom(remoteExitOptional.get().getRoomId());
+                    playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), this, "entered " + remoteExitOptional.get().getDirection() + ".", "N/A");
+                } else {
+                    write("There's no where to go with that name. (" + command + ")");
+                    return;
+                }
             } else {
                 write("There's no exit in that direction. (" + command + ")");
                 return;
@@ -71,5 +82,15 @@ public class MovementCommand extends Command {
         } finally {
             super.messageReceived(ctx, e);
         }
+    }
+
+    private Optional<RemoteExit> doesEnterExitExist() {
+        String enterExitName = originalMessageParts.get(1);
+        for (RemoteExit remoteExit : currentRoom.getEnterExits()) {
+            if (remoteExit.getExitDetail().equals(enterExitName)) {
+                return Optional.of(remoteExit);
+            }
+        }
+        return Optional.absent();
     }
 }
