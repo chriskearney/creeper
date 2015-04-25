@@ -38,9 +38,9 @@ public class NpcSpawner extends CreeperEntity {
 
     @Override
     public void run() {
-        for (Area spawnArea: spawnAreas) {
-            incTicks();
-            if (noTicks >= spawnRule.getSpawnIntervalTicks()) {
+        incTicks();
+        if (noTicks >= spawnRule.getSpawnIntervalTicks()) {
+            for (Area spawnArea : spawnAreas) {
                 int randomPercentage = spawnRule.getRandomChance();
                 int numberOfAttempts = spawnRule.getMaxInstances() - counterNumberInArea(spawnArea);
                 for (int i = 0; i < numberOfAttempts; i++) {

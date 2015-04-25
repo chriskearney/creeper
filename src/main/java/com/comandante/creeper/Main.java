@@ -43,7 +43,7 @@ public class Main {
     public static CreeperCommandRegistry creeperCommandRegistry;
     private static final Logger log = Logger.getLogger(Main.class);
 
-    private static final int PORT = 8081;
+    private static final int PORT = 8080;
     public static final String MUD_NAME = "creeper";
 
     public static void main(String[] args) throws Exception {
@@ -96,7 +96,7 @@ public class Main {
         creeperCommandRegistry.addCommand(new AreaCommand(gameManager));
         creeperCommandRegistry.addCommand(new HelpCommand(gameManager));
 
-
+        createNpcs(entityManager, gameManager);
 
         CreeperServer creeperServer = new CreeperServer(PORT, db);
         startUpMessage("Creeper engine started");
@@ -121,26 +121,26 @@ public class Main {
 
     private static void createNpcs(EntityManager entityManager, GameManager gameManager) {
         startUpMessage("Adding Street Hustlers");
-        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Sets.newHashSet(Area.NEWBIE_ZONE), gameManager, new SpawnRule(10, 5, 3, 1)));
+        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Sets.newHashSet(Area.NEWBIE_ZONE), gameManager, new SpawnRule(10, 5, 3, 100)));
 
         startUpMessage("Adding beer");
         ItemSpawner itemSpawner = new ItemSpawner(ItemType.BEER, Area.NEWBIE_ZONE, new SpawnRule(20, 20, 2, 25), gameManager);
         entityManager.addEntity(itemSpawner);
 
         startUpMessage("Adding Tree Berserkers");
-        entityManager.addEntity(new NpcSpawner(new TreeBerserker(gameManager), Sets.newHashSet(Area.NEWBIE_ZONE, Area.NORTH1_ZONE), gameManager, new SpawnRule(10, 6, 2, 2)));
+        entityManager.addEntity(new NpcSpawner(new TreeBerserker(gameManager), Sets.newHashSet(Area.NEWBIE_ZONE, Area.NORTH1_ZONE), gameManager, new SpawnRule(10, 6, 2, 100)));
 
         startUpMessage("Adding Swamp Berserkers");
-        entityManager.addEntity(new NpcSpawner(new SwampBerserker(gameManager), Sets.newHashSet(Area.NORTH2_ZONE), gameManager, new SpawnRule(10, 8, 2, 2)));
+        entityManager.addEntity(new NpcSpawner(new SwampBerserker(gameManager), Sets.newHashSet(Area.NORTH2_ZONE), gameManager, new SpawnRule(10, 8, 2, 100)));
 
         startUpMessage("Adding Berg Orcs");
-        entityManager.addEntity(new NpcSpawner(new BergOrc(gameManager), Sets.newHashSet(Area.BLOODRIDGE1_ZONE), gameManager, new SpawnRule(10, 8, 2, 2)));
+        entityManager.addEntity(new NpcSpawner(new BergOrc(gameManager), Sets.newHashSet(Area.BLOODRIDGE1_ZONE), gameManager, new SpawnRule(10, 8, 2, 100)));
 
         startUpMessage("Adding Red-Eyed Bears");
-        entityManager.addEntity(new NpcSpawner(new RedEyedBear(gameManager), Sets.newHashSet(Area.TOFT1_ZONE, Area.TOFT2_ZONE), gameManager, new SpawnRule(10, 14, 2, 2)));
+        entityManager.addEntity(new NpcSpawner(new RedEyedBear(gameManager), Sets.newHashSet(Area.TOFT1_ZONE, Area.TOFT2_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
 
         startUpMessage("Adding Swamp Bears");
 
-        entityManager.addEntity(new NpcSpawner(new RedEyedBear(gameManager), Sets.newHashSet(Area.NORTH3_ZONE, Area.NORTH4_ZONE), gameManager, new SpawnRule(10, 12, 2, 2)));
+        entityManager.addEntity(new NpcSpawner(new RedEyedBear(gameManager), Sets.newHashSet(Area.NORTH3_ZONE, Area.NORTH4_ZONE), gameManager, new SpawnRule(10, 12, 2,100)));
     }
 }

@@ -153,7 +153,6 @@ public class BuildCommand extends Command {
 
     private BasicRoomBuilder newBasic() {
         BasicRoomBuilder basicRoomBuilder = new BasicRoomBuilder();
-        basicRoomBuilder.addArea(Area.DEFAULT);
         basicRoomBuilder.setRoomDescription("Newly created room. Set a new description with the desc command.");
         basicRoomBuilder.setRoomTitle("Default Title, change with title command");
         return basicRoomBuilder;

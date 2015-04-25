@@ -98,7 +98,10 @@ public class WorldExporter {
                     basicRoomBuilder.addTag(tag);
                 }
                 for (String areaName : roomModel.getAreaNames()) {
-                    basicRoomBuilder.addArea(Area.getByName(areaName));
+                    Area byName = Area.getByName(areaName);
+                    if (byName != null) {
+                        basicRoomBuilder.addArea(byName);
+                    }
                 }
                 Map<String, String> enterExitNames = roomModel.getEnterExitNames();
                 if (enterExitNames != null) {
@@ -159,7 +162,6 @@ public class WorldExporter {
                     basicRoomBuilder.setRoomId(roomId);
                     basicRoomBuilder.setRoomTitle("This is a blank title.");
                     basicRoomBuilder.setRoomDescription("This is a blank Description.\nWords should go here, ideally.");
-                    basicRoomBuilder.addArea(Area.DEFAULT);
                     configureExits(basicRoomBuilder, matrixFromCsv, roomId);
                     rooms.add(basicRoomBuilder.createBasicRoom());
                 }
