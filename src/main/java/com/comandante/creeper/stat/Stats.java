@@ -15,6 +15,7 @@ public class Stats implements Serializable {
     private int weaponRatingMin;
     private int numberOfWeaponRolls;
     private int experience;
+    private int gold;
 
     public int getExperience() {
         return experience;
@@ -80,6 +81,10 @@ public class Stats implements Serializable {
         this.currentHealth = currentHealth;
     }
 
+    synchronized  public void incrementHealth(int incrementHealth) {
+        this.currentHealth = currentHealth + incrementHealth;
+    }
+
     public int getMaxHealth() {
         return maxHealth;
     }
@@ -123,7 +128,8 @@ public class Stats implements Serializable {
                  int weaponRatingMax,
                  int weaponRatingMin,
                  int numberOfWeaponRolls,
-                 int experience) {
+                 int experience,
+                 int gold) {
         this.strength = strength;
         this.willpower = willpower;
         this.aim = aim;
@@ -136,6 +142,7 @@ public class Stats implements Serializable {
         this.weaponRatingMin = weaponRatingMin;
         this.numberOfWeaponRolls = numberOfWeaponRolls;
         this.experience = experience;
+        this.gold = gold;
     }
 
     @Override
@@ -152,6 +159,8 @@ public class Stats implements Serializable {
                 ", weaponRatingMax=" + weaponRatingMax +
                 ", weaponRatingMin=" + weaponRatingMin +
                 ", numberOfWeaponRolls=" + numberOfWeaponRolls +
+                ", experience=" + experience +
+                ", gold=" + gold +
                 '}';
     }
 }

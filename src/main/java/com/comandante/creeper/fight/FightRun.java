@@ -55,12 +55,6 @@ public class FightRun implements Callable<FightResults> {
         }
 
         if (npcStats.getCurrentHealth() <= 0) {
-            int experience = gameManager.getPlayerManager().getPlayerMetadata(player.getPlayerId()).getStats().getExperience();
-            experience += npc.getStats().getExperience();
-            gameManager.getChannelUtils().write(player.getPlayerId(), "You killed " + npc.getName() + " (" + npc.getStats().getExperience() + "exp)", true);
-            gameManager.getChannelUtils().writeToRoom(player.getPlayerId(), npc.getDieMessage());
-            gameManager.getPlayerManager().getPlayerMetadata(player.getPlayerId()).getStats().setExperience(experience);
-            gameManager.getEntityManager().deleteNpcEntity(npc.getEntityId());
             fightResults = new FightResultsBuilder().setNpcWon(false).setPlayerWon(true).createFightResults();
         }
         return fightResults;

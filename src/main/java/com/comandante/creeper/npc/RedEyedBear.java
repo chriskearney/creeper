@@ -1,5 +1,6 @@
 package com.comandante.creeper.npc;
 
+import com.comandante.creeper.Items.Loot;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.world.Area;
 import com.comandante.creeper.server.Color;
@@ -23,12 +24,12 @@ public class RedEyedBear extends Npc {
     private final static String colorName = "red-eyed" + BOLD_ON + Color.MAGENTA + " bear"  + Color.RESET ;
     private final static String dieMessage = "a " + colorName + " breathes his last breath in a pool of " + BOLD_ON + Color.RED + "blood" + RESET + ".";
 
-    public RedEyedBear(GameManager gameManager) {
-        super(gameManager, NAME, colorName, 0, NpcStats.REDEYED_BEAR.createStats(), dieMessage, Optional.<HashSet<Area>>absent(), validTriggers);
+    public RedEyedBear(GameManager gameManager, Loot loot) {
+        super(gameManager, NAME, colorName, 0, NpcStats.REDEYED_BEAR.createStats(), dieMessage, Optional.<HashSet<Area>>absent(), validTriggers, loot);
     }
 
     @Override
-    public RedEyedBear create(GameManager gameManager) {
-        return new RedEyedBear(gameManager);
+    public RedEyedBear create(GameManager gameManager, Loot loot) {
+        return new RedEyedBear(gameManager, loot);
     }
 }

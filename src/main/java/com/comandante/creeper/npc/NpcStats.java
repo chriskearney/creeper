@@ -29,7 +29,8 @@ public class NpcStats {
             .setWeaponRatingMin(5)
             .setWeaponRatingMax(10)
             .setNumberweaponOfRolls(1)
-            .setExperience(3);
+            .setExperience(3)
+            .setGoldDrop(5);
 
     public final static StatsBuilder TREE_BERSERKER = new StatsBuilder()
             .setStrength(8)
@@ -43,7 +44,8 @@ public class NpcStats {
             .setWeaponRatingMin(8)
             .setWeaponRatingMax(13)
             .setNumberweaponOfRolls(1)
-            .setExperience(150);
+            .setExperience(150)
+            .setGoldDrop(12);
 
 
     public final static StatsBuilder SWAMP_BERSERKER = new StatsBuilder()
@@ -58,7 +60,8 @@ public class NpcStats {
             .setWeaponRatingMin(10)
             .setWeaponRatingMax(13)
             .setNumberweaponOfRolls(1)
-            .setExperience(190);
+            .setExperience(190)
+            .setGoldDrop(20);
 
     public final static StatsBuilder BERG_ORC = new StatsBuilder()
             .setStrength(11)
@@ -72,7 +75,8 @@ public class NpcStats {
             .setWeaponRatingMin(10)
             .setWeaponRatingMax(13)
             .setNumberweaponOfRolls(1)
-            .setExperience(190);
+            .setExperience(190)
+            .setGoldDrop(20);
 
     public final static StatsBuilder SWAMP_BEAR = new StatsBuilder()
             .setStrength(15)
@@ -86,7 +90,8 @@ public class NpcStats {
             .setWeaponRatingMin(10)
             .setWeaponRatingMax(16)
             .setNumberweaponOfRolls(1)
-            .setExperience(300);
+            .setExperience(300)
+            .setGoldDrop(40);
 
     public final static StatsBuilder REDEYED_BEAR = new StatsBuilder()
             .setStrength(15)
@@ -100,7 +105,8 @@ public class NpcStats {
             .setWeaponRatingMin(10)
             .setWeaponRatingMax(16)
             .setNumberweaponOfRolls(1)
-            .setExperience(300);
+            .setExperience(300)
+            .setGoldDrop(40);
 
 
 }

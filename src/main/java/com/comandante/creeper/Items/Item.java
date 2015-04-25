@@ -1,6 +1,8 @@
 package com.comandante.creeper.Items;
 
 
+import com.google.common.base.Optional;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,8 +16,13 @@ public class Item implements Serializable {
     private Integer itemTypeId;
     private int numberOfUses;
     private boolean isWithPlayer;
+    private Loot loot;
+    private final int itemHalfLifeTicks;
 
-    protected Item(String itemName, String itemDescription, List<String> itemTriggers, String restingName, String itemId, Integer itemTypeId, int numberOfUses, boolean isWithPlayer) {
+    public static final int CORPSE_ID_RESERVED = 100;
+
+
+    public Item(String itemName, String itemDescription, List<String> itemTriggers, String restingName, String itemId, Integer itemTypeId, int numberOfUses, boolean isWithPlayer, int itemHalfLifeTicks) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.itemTriggers = itemTriggers;
@@ -23,6 +30,22 @@ public class Item implements Serializable {
         this.itemId = itemId;
         this.itemTypeId = itemTypeId;
         this.numberOfUses = numberOfUses;
+        this.loot = null;
+        this.itemHalfLifeTicks = itemHalfLifeTicks;
+    }
+
+    public
+    Item(String itemName, String itemDescription, List<String> itemTriggers, String restingName, String itemId, Integer itemTypeId, int numberOfUses, boolean isWithPlayer,int itemHalfLifeTicks, Loot loot) {
+        this.itemName = itemName;
+        this.itemDescription = itemDescription;
+        this.itemTriggers = itemTriggers;
+        this.restingName = restingName;
+        this.itemId = itemId;
+        this.itemTypeId = itemTypeId;
+        this.numberOfUses = numberOfUses;
+        this.isWithPlayer = isWithPlayer;
+        this.loot = loot;
+        this.itemHalfLifeTicks = itemHalfLifeTicks;
     }
 
     public boolean isWithPlayer() {
@@ -87,5 +110,13 @@ public class Item implements Serializable {
 
     public void setRestingName(String restingName) {
         this.restingName = restingName;
+    }
+
+    public int getItemHalfLifeTicks() {
+        return itemHalfLifeTicks;
+    }
+
+    public Loot getLoot() {
+        return loot;
     }
 }

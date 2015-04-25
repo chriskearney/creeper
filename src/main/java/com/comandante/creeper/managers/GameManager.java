@@ -48,18 +48,18 @@ public class GameManager {
     private final MapsManager mapsManager;
     private final FloorManager floorManager;
 
-    public GameManager(RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager, MapsManager mapsManager) {
+    public GameManager(RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager, MapsManager mapsManager, ChannelUtils channelUtils) {
         this.roomManager = roomManager;
         this.playerManager = playerManager;
         this.entityManager = entityManager;
         this.itemDecayManager = new ItemDecayManager(entityManager);
         this.entityManager.addEntity(itemDecayManager);
         this.newUserRegistrationManager = new NewUserRegistrationManager(playerManager);
-        this.channelUtils = new ChannelUtils(getPlayerManager(), getRoomManager());
         this.fightManager = new FightManager(channelUtils, entityManager, playerManager);
         this.multiLineInputManager = new MultiLineInputManager();
         this.mapsManager = mapsManager;
         this.floorManager = new FloorManager();
+        this.channelUtils = channelUtils;
     }
 
     public FloorManager getFloorManager() {

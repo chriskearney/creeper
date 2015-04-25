@@ -1,12 +1,15 @@
 package com.comandante.creeper;
 
+import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.Items.ItemType;
+import com.comandante.creeper.Items.Loot;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.managers.SessionManager;
 import com.comandante.creeper.npc.*;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.server.CreeperCommandRegistry;
 import com.comandante.creeper.server.CreeperServer;
 import com.comandante.creeper.server.command.*;
@@ -25,6 +28,7 @@ import com.comandante.creeper.world.MapsManager;
 import com.comandante.creeper.world.Room;
 import com.comandante.creeper.world.RoomManager;
 import com.comandante.creeper.world.WorldExporter;
+import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 import org.apache.commons.codec.binary.Base64;
@@ -54,24 +58,25 @@ public class Main {
 
         RoomManager roomManager = new RoomManager();
         PlayerManager playerManager = new PlayerManager(db, new SessionManager());
-        EntityManager entityManager = new EntityManager(roomManager, playerManager, db);
         Stats chrisBrianStats = new StatsBuilder().setStrength(7).setWillpower(8).setAim(6).setAgile(5).setArmorRating(4).setMeleSkill(10).setCurrentHealth(100).setMaxHealth(100).setWeaponRatingMin(10).setWeaponRatingMax(20).setNumberweaponOfRolls(1).createStats();
         startUpMessage("Configuring default admins.");
         if (playerManager.getPlayerMetadata(createPlayerId("chris")) == null) {
             startUpMessage("Creating Chris User.");
-            playerManager.savePlayerMetadata(new PlayerMetadata("chris", "poop", new String(Base64.encodeBase64("chris".getBytes())), chrisBrianStats));
+            playerManager.savePlayerMetadata(new PlayerMetadata("chris", "poop", new String(Base64.encodeBase64("chris".getBytes())), chrisBrianStats, 100));
         }
         if (playerManager.getPlayerMetadata(createPlayerId("brian")) == null) {
             startUpMessage("Creating Brian User.");
-            playerManager.savePlayerMetadata(new PlayerMetadata("brian", "poop", new String(Base64.encodeBase64("brian".getBytes())), chrisBrianStats));
+            playerManager.savePlayerMetadata(new PlayerMetadata("brian", "poop", new String(Base64.encodeBase64("brian".getBytes())), chrisBrianStats, 100));
         }
         MapsManager mapsManager = new MapsManager(roomManager);
-        GameManager gameManager = new GameManager(roomManager, playerManager, entityManager, mapsManager);
+        ChannelUtils channelUtils = new ChannelUtils(playerManager, roomManager);
+        EntityManager entityManager = new EntityManager(roomManager, playerManager, db, channelUtils);
+        GameManager gameManager = new GameManager(roomManager, playerManager, entityManager, mapsManager, channelUtils);
         startUpMessage("Reading world from disk.");
         WorldExporter worldExporter = new WorldExporter(roomManager, mapsManager, gameManager.getFloorManager(), entityManager);
         worldExporter.readWorldFromDisk();
         startUpMessage("Generating maps");
-        mapsManager.generateAllMaps(9, 9);
+        mapsManager.generateAllMaps(14, 14);
 
         startUpMessage("Configuring Creeper Commmands");
         creeperCommandRegistry = new CreeperCommandRegistry(new UnknownCommand(gameManager));
@@ -95,6 +100,9 @@ public class Main {
         creeperCommandRegistry.addCommand(new MapCommand(gameManager));
         creeperCommandRegistry.addCommand(new AreaCommand(gameManager));
         creeperCommandRegistry.addCommand(new HelpCommand(gameManager));
+        creeperCommandRegistry.addCommand(new LootCommand(gameManager));
+        creeperCommandRegistry.addCommand(new GoldCommand(gameManager));
+
 
         createNpcs(entityManager, gameManager);
 
@@ -120,27 +128,30 @@ public class Main {
     }
 
     private static void createNpcs(EntityManager entityManager, GameManager gameManager) {
+
+
         startUpMessage("Adding Street Hustlers");
-        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Sets.newHashSet(Area.NEWBIE_ZONE), gameManager, new SpawnRule(10, 5, 3, 100)));
+        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager, new Loot(10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NEWBIE_ZONE), gameManager, new SpawnRule(10, 5, 3, 100)));
 
         startUpMessage("Adding beer");
-        ItemSpawner itemSpawner = new ItemSpawner(ItemType.BEER, Area.NEWBIE_ZONE, new SpawnRule(20, 20, 2, 25), gameManager);
+        ItemSpawner itemSpawner = new ItemSpawner(ItemType.BEER, Area.NEWBIE_ZONE, new SpawnRule(10, 50, 2, 25), gameManager);
+
         entityManager.addEntity(itemSpawner);
 
         startUpMessage("Adding Tree Berserkers");
-        entityManager.addEntity(new NpcSpawner(new TreeBerserker(gameManager), Sets.newHashSet(Area.NEWBIE_ZONE, Area.NORTH1_ZONE), gameManager, new SpawnRule(10, 6, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(new TreeBerserker(gameManager, new Loot(10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NEWBIE_ZONE, Area.NORTH1_ZONE), gameManager, new SpawnRule(10, 6, 2, 100)));
 
         startUpMessage("Adding Swamp Berserkers");
-        entityManager.addEntity(new NpcSpawner(new SwampBerserker(gameManager), Sets.newHashSet(Area.NORTH2_ZONE), gameManager, new SpawnRule(10, 8, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(new SwampBerserker(gameManager, new Loot(10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH2_ZONE), gameManager, new SpawnRule(10, 8, 2, 100)));
 
         startUpMessage("Adding Berg Orcs");
-        entityManager.addEntity(new NpcSpawner(new BergOrc(gameManager), Sets.newHashSet(Area.BLOODRIDGE1_ZONE), gameManager, new SpawnRule(10, 8, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(new BergOrc(gameManager, new Loot(10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.BLOODRIDGE1_ZONE), gameManager, new SpawnRule(10, 8, 2, 100)));
 
         startUpMessage("Adding Red-Eyed Bears");
-        entityManager.addEntity(new NpcSpawner(new RedEyedBear(gameManager), Sets.newHashSet(Area.TOFT1_ZONE, Area.TOFT2_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(new RedEyedBear(gameManager, new Loot(10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.TOFT1_ZONE, Area.TOFT2_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
 
         startUpMessage("Adding Swamp Bears");
 
-        entityManager.addEntity(new NpcSpawner(new SwampBear(gameManager), Sets.newHashSet(Area.NORTH3_ZONE, Area.NORTH4_ZONE), gameManager, new SpawnRule(10, 12, 2,100)));
+        entityManager.addEntity(new NpcSpawner(new SwampBear(gameManager, new Loot(10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH3_ZONE, Area.NORTH4_ZONE), gameManager, new SpawnRule(10, 12, 2, 100)));
     }
 }

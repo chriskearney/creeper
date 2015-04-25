@@ -8,6 +8,7 @@ import static com.comandante.creeper.server.Color.*;
 
 public enum ItemType {
 
+
     UNKNOWN(0, Arrays.asList(""), "", "", "", false, 0, 0),
     KEY(1, Arrays.asList("key", "gold key", "shiny gold key"),
             YELLOW + "a shiny gold key" + RESET,
@@ -58,7 +59,7 @@ public enum ItemType {
     }
 
     public Item create() {
-        return new Item(getItemName(), getItemDescription(), getItemTriggers(), getRestingName(), UUID.randomUUID().toString(), getItemTypeCode(), 0, false);
+        return new Item(getItemName(), getItemDescription(), getItemTriggers(), getRestingName(), UUID.randomUUID().toString(), getItemTypeCode(), 0, false, itemHalfLifeTicks);
     }
 
 
@@ -88,10 +89,6 @@ public enum ItemType {
 
     public int getMaxUses() {
         return maxUses;
-    }
-
-    public int getItemHalfLifeTicks() {
-        return itemHalfLifeTicks;
     }
 
     public static ItemType itemTypeFromCode(Integer code) {

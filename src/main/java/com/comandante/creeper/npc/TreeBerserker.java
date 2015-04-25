@@ -1,5 +1,6 @@
 package com.comandante.creeper.npc;
 
+import com.comandante.creeper.Items.Loot;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.world.Area;
 import com.comandante.creeper.server.Color;
@@ -23,12 +24,12 @@ public class TreeBerserker extends Npc {
     private final static String colorName = "tree" + BOLD_ON + Color.MAGENTA + " berserker" + Color.RESET;
     private final static String dieMessage = "a " + colorName + " breathes his last breath in a pool of " + BOLD_ON + Color.RED + "blood" + RESET + ".";
 
-    public TreeBerserker(GameManager gameManager) {
-        super(gameManager, NAME, colorName, 0, NpcStats.TREE_BERSERKER.createStats(), dieMessage, Optional.<HashSet<Area>>absent(), validTriggers);
+    public TreeBerserker(GameManager gameManager, Loot loot) {
+        super(gameManager, NAME, colorName, 0, NpcStats.TREE_BERSERKER.createStats(), dieMessage, Optional.<HashSet<Area>>absent(), validTriggers, loot);
     }
 
     @Override
-    public TreeBerserker create(GameManager gameManager) {
-        return new TreeBerserker(gameManager);
+    public TreeBerserker create(GameManager gameManager, Loot loot) {
+        return new TreeBerserker(gameManager, loot);
     }
 }

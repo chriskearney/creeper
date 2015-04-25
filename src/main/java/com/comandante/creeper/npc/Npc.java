@@ -1,6 +1,7 @@
 package com.comandante.creeper.npc;
 
 
+import com.comandante.creeper.Items.Loot;
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.world.Area;
@@ -30,11 +31,12 @@ public abstract class Npc extends CreeperEntity {
     private final String dieMessage;
     private Optional<HashSet<Area>> roamAreas;
     private final Set<String> validTriggers;
+    private final Loot loot;
 
     private AtomicBoolean isInFight = new AtomicBoolean(false);
     Random random = new Random();
 
-    public abstract Npc create(GameManager gameManager);
+    public abstract Npc create(GameManager gameManager, Loot loot);
 
     @Override
     public void run() {
@@ -50,7 +52,7 @@ public abstract class Npc extends CreeperEntity {
         return colorName;
     }
 
-    protected Npc(GameManager gameManager, String name, String colorName, long lastPhraseTimestamp, Stats stats, String dieMessage, Optional<HashSet<Area>> roamAreas, Set<String> validTriggers) {
+    protected Npc(GameManager gameManager, String name, String colorName, long lastPhraseTimestamp, Stats stats, String dieMessage, Optional<HashSet<Area>> roamAreas, Set<String> validTriggers, Loot loot) {
         this.gameManager = gameManager;
         this.name = name;
         this.colorName = colorName;
@@ -59,6 +61,7 @@ public abstract class Npc extends CreeperEntity {
         this.dieMessage = dieMessage;
         this.roamAreas = roamAreas;
         this.validTriggers = validTriggers;
+        this.loot = loot;
     }
 
     public Set<String> getValidTriggers() {
@@ -106,6 +109,10 @@ public abstract class Npc extends CreeperEntity {
         sb.append(RED);
         sb.append(name).append(": ").append(message);
         sb.append(RESET);
+    }
+
+    public Loot getLoot() {
+        return loot;
     }
 
     private int randInt(int min, int max) {

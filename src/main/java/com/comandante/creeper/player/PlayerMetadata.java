@@ -15,12 +15,14 @@ public class PlayerMetadata implements Serializable {
     private String playerId;
     Stats stats;
     String[] inventory;
+    private int gold;
 
-    public PlayerMetadata(String playerName, String password, String playerId, Stats stats) {
+    public PlayerMetadata(String playerName, String password, String playerId, Stats stats, int gold) {
         this.playerName = playerName;
         this.password = password;
         this.playerId = playerId;
         this.stats = stats;
+        this.gold = gold;
     }
 
     public String[] getInventory() {
@@ -78,5 +80,13 @@ public class PlayerMetadata implements Serializable {
 
     public Stats getStats() {
         return stats;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void incrementGold(int amt) {
+        this.gold = gold + amt;
     }
 }

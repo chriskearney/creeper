@@ -1,17 +1,22 @@
 package com.comandante.creeper.entity;
 
 import com.comandante.creeper.Items.Item;
+import com.comandante.creeper.Items.ItemDecayManager;
 import com.comandante.creeper.Items.ItemSerializer;
+import com.comandante.creeper.fight.FightResultsBuilder;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
+import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.world.Room;
 import com.comandante.creeper.world.RoomManager;
 import org.mapdb.DB;
 import org.mapdb.HTreeMap;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,8 +31,10 @@ public class EntityManager {
     private final RoomManager roomManager;
     private final PlayerManager playerManager;
     private final DB db;
+    private final ChannelUtils channelUtils;
+    private final ItemDecayManager itemDecayManager;
 
-    public EntityManager(RoomManager roomManager, PlayerManager playerManager, DB db) {
+    public EntityManager(RoomManager roomManager, PlayerManager playerManager, DB db, ChannelUtils channelUtils) {
         this.roomManager = roomManager;
         if (db.exists("itemMap")) {
             this.items = db.get("itemMap");
@@ -37,6 +44,8 @@ public class EntityManager {
         this.playerManager = playerManager;
         this.db = db;
         tickService.submit(new Ticker());
+        this.channelUtils = channelUtils;
+        this.itemDecayManager = new ItemDecayManager(this);
     }
 
     public void addEntity(CreeperEntity creeperEntity) {
@@ -69,10 +78,25 @@ public class EntityManager {
         return npcs.get(npcId);
     }
 
-    public void updateNpcHealth(String npcId, int amt) {
+    public void updateNpcHealth(String npcId, int amt, String playerId) {
+        Player player = playerManager.getPlayer(playerId);
         synchronized (npcId){
-            Npc npcEntity = getNpcEntity(npcId);
-            npcEntity.getStats().setCurrentHealth(npcEntity.getStats().getCurrentHealth() + amt);
+            Npc npc = getNpcEntity(npcId);
+            if (npc != null) {
+                npc.getStats().setCurrentHealth(npc.getStats().getCurrentHealth() + amt);
+                if (npc.getStats().getCurrentHealth() <= 0) {
+                    int experience = playerManager.getPlayerMetadata(playerId).getStats().getExperience();
+                    experience += npc.getStats().getExperience();
+                    channelUtils.write(playerId, "You killed " + npc.getName() + " (" + npc.getStats().getExperience() + "exp)", true);
+                    channelUtils.writeToRoom(playerId, npc.getDieMessage());
+                    playerManager.getPlayerMetadata(playerId).getStats().setExperience(experience);
+                    Item corpse = new Item(npc.getName() + " corpse", "a bloody corpse.", Arrays.asList("corpse"), "a corpse lies on the ground.", UUID.randomUUID().toString(), Item.CORPSE_ID_RESERVED, 0, false, 120, npc.getLoot());
+                    addItem(corpse);
+                    roomManager.getRoom(roomManager.getPlayerCurrentRoom(player).get().getRoomId()).addPresentItem(getItemEntity(corpse.getItemId()).getItemId());
+                    itemDecayManager.addItem(corpse);
+                    deleteNpcEntity(npc.getEntityId());
+                }
+            }
         }
     }
 

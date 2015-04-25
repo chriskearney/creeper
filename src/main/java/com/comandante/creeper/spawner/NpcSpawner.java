@@ -72,7 +72,7 @@ public class NpcSpawner extends CreeperEntity {
     private void createAndAddItem(Area spawnArea) {
         ArrayList<Room> rooms = Lists.newArrayList(Iterators.filter(gameManager.getRoomManager().getRoomsByArea(spawnArea).iterator(), getRoomsWithRoom()));
         Room room = rooms.get(random.nextInt(rooms.size()));
-        Npc newNpc = npc.create(gameManager);
+        Npc newNpc = npc.create(gameManager, npc.getLoot());
         gameManager.getEntityManager().addEntity(newNpc);
         room.addPresentNpc(newNpc.getEntityId());
     }

@@ -1,5 +1,6 @@
 package com.comandante.creeper.npc;
 
+import com.comandante.creeper.Items.Loot;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.world.Area;
 import com.comandante.creeper.server.Color;
@@ -24,12 +25,12 @@ public class
     private final static String colorName = "street" + BOLD_ON + Color.MAGENTA + " hustler"  + Color.RESET ;
     private final static String dieMessage = "a " + colorName + " breathes his last breath in a pool of " + BOLD_ON + Color.RED + "blood" + RESET + ".";
 
-    public StreetHustler(GameManager gameManager) {
-        super(gameManager, NAME, colorName, 0, NpcStats.DRUGGED_PIMP.createStats(), dieMessage, Optional.<HashSet<Area>>absent(), validTriggers);
+    public StreetHustler(GameManager gameManager, Loot loot) {
+        super(gameManager, NAME, colorName, 0, NpcStats.DRUGGED_PIMP.createStats(), dieMessage, Optional.<HashSet<Area>>absent(), validTriggers, loot);
     }
 
     @Override
-    public StreetHustler create(GameManager gameManager) {
-        return new StreetHustler(gameManager);
+    public StreetHustler create(GameManager gameManager, Loot loot) {
+        return new StreetHustler(gameManager, loot);
     }
 }

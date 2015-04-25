@@ -40,7 +40,7 @@ public class FightManager {
             if (challenger.getCurrentHealth() <= 0 || victim.getCurrentHealth() <= 0) {
                 return;
             }
-            fightRound(challenger, victim, player, npc);
+             fightRound(challenger, victim, player, npc);
         }
     }
 
@@ -51,8 +51,8 @@ public class FightManager {
             damageToVictim = getAttack(challenger, victim);
         }
         if (damageToVictim > 0) {
-            doNpcDamage(npc.getEntityId(), damageToVictim);
             channelUtils.write(player.getPlayerId(), damageToVictim + Color.BOLD_ON + Color.RED + " DAMAGE" + Color.RESET + " done to " + npc.getColorName(), true);
+            doNpcDamage(npc.getEntityId(), damageToVictim, player.getPlayerId());
         } else {
             channelUtils.write(player.getPlayerId(), "You MISS " + npc.getName() + "!", true);
         }
@@ -83,8 +83,8 @@ public class FightManager {
         playerManager.updatePlayerHealth(playerId, -damageAmount);
     }
 
-    private void doNpcDamage(String npcId, int damageAmount) {
-        entityManager.updateNpcHealth(npcId, -damageAmount);
+    private void doNpcDamage(String npcId, int damageAmount, String playerId) {
+        entityManager.updateNpcHealth(npcId, -damageAmount, playerId);
     }
 
     private static int getChanceToHit(Stats challenger, Stats victim) {

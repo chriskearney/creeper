@@ -18,7 +18,6 @@ public class ItemUseHandler {
         this.gameManager = gameManager;
         this.playerId = playerId;
         this.itemType = ItemType.itemTypeFromCode(item.getItemTypeId());
-
     }
 
     private void processKey() {
@@ -27,7 +26,9 @@ public class ItemUseHandler {
     }
 
     private void processBeer() {
-        writeToPlayer("You open the beer and take a sip, Ahh, refreshing.");
+        writeToRoom(gameManager.getPlayerManager().getPlayer(playerId).getPlayerName() + " drinks an ice cold cruiser." + "\r\n");
+        writeToPlayer("20 health is restored.");
+        gameManager.getPlayerManager().getPlayerMetadata(playerId).getStats().incrementHealth(20);
     }
 
     private void processBook() {
@@ -35,36 +36,43 @@ public class ItemUseHandler {
     }
 
     public void handle() {
-        switch (itemType) {
-            case KEY:
-                processKey();
-                break;
-            case BOOK:
-                processBook();
-                break;
-            case BEER:
-                processBeer();
-                break;
-            case UNKNOWN:
-                writeToPlayer("Item not found.");
-                return;
-        }
-
-        incrementUses(item);
-
-        if (itemType.isDisposable()) {
-            if (item.getNumberOfUses() < itemType.getMaxUses()) {
-                gameManager.getEntityManager().addItem(item);
-                return;
+        if (itemType != null) {
+            switch (itemType) {
+                case KEY:
+                    processKey();
+                    break;
+                case BOOK:
+                    processBook();
+                    break;
+                case BEER:
+                    processBeer();
+                    break;
+                case UNKNOWN:
+                    writeToPlayer("Item not found.");
+                    return;
             }
-            gameManager.getPlayerManager().removeInventoryId(playerId, item.getItemId());
-            gameManager.getEntityManager().removeItem(item);
+
+            incrementUses(item);
+
+            if (itemType.isDisposable()) {
+                if (item.getNumberOfUses() < itemType.getMaxUses()) {
+                    gameManager.getEntityManager().addItem(item);
+                    return;
+                }
+                gameManager.getPlayerManager().removeInventoryId(playerId, item.getItemId());
+                gameManager.getEntityManager().removeItem(item);
+            }
         }
     }
 
     private void writeToPlayer(String message) {
         gameManager.getChannelUtils().write(playerId, message);
     }
+
+    private void writeToRoom(String message) {
+        gameManager.getChannelUtils().writeToRoom(playerId, message);
+    }
+
 
     private void incrementUses(Item item) {
         item.setNumberOfUses(item.getNumberOfUses() + 1);

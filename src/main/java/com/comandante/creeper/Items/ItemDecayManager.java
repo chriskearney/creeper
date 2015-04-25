@@ -18,7 +18,7 @@ public class ItemDecayManager extends CreeperEntity {
     }
 
     public void addItem(Item item) {
-        itemDecayTracker.put(item.getItemId(), new DecayProgress(ItemType.itemTypeFromCode(item.getItemTypeId()).getItemHalfLifeTicks()));
+        itemDecayTracker.put(item.getItemId(), new DecayProgress(item.getItemHalfLifeTicks()));
     }
 
     public void removeItem(Item item) {

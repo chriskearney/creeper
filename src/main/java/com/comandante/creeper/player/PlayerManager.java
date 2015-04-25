@@ -73,6 +73,12 @@ public class PlayerManager {
         savePlayerMetadata(playerMetadata);
     }
 
+    public void incrementGold(String playerId, int amt) {
+        PlayerMetadata playerMetadata = playerMetadataStore.get(playerId);
+        playerMetadata.incrementGold(amt);
+        savePlayerMetadata(playerMetadata);
+    }
+
     public PlayerMetadata getPlayerMetadata(String playerId) {
         return playerMetadataStore.get(playerId);
     }
