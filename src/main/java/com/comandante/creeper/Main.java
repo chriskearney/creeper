@@ -58,16 +58,7 @@ public class Main {
 
         RoomManager roomManager = new RoomManager();
         PlayerManager playerManager = new PlayerManager(db, new SessionManager());
-        Stats chrisBrianStats = new StatsBuilder().setStrength(7).setWillpower(8).setAim(6).setAgile(5).setArmorRating(4).setMeleSkill(10).setCurrentHealth(100).setMaxHealth(100).setWeaponRatingMin(10).setWeaponRatingMax(20).setNumberweaponOfRolls(1).createStats();
         startUpMessage("Configuring default admins.");
-        if (playerManager.getPlayerMetadata(createPlayerId("chris")) == null) {
-            startUpMessage("Creating Chris User.");
-            playerManager.savePlayerMetadata(new PlayerMetadata("chris", "poop", new String(Base64.encodeBase64("chris".getBytes())), chrisBrianStats, 100));
-        }
-        if (playerManager.getPlayerMetadata(createPlayerId("brian")) == null) {
-            startUpMessage("Creating Brian User.");
-            playerManager.savePlayerMetadata(new PlayerMetadata("brian", "poop", new String(Base64.encodeBase64("brian".getBytes())), chrisBrianStats, 100));
-        }
         MapsManager mapsManager = new MapsManager(roomManager);
         ChannelUtils channelUtils = new ChannelUtils(playerManager, roomManager);
         EntityManager entityManager = new EntityManager(roomManager, playerManager, db, channelUtils);

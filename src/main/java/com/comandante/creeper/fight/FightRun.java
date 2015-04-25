@@ -4,9 +4,12 @@ import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.stat.Stats;
+import com.google.common.base.Optional;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 
 public class FightRun implements Callable<FightResults> {
@@ -32,14 +35,16 @@ public class FightRun implements Callable<FightResults> {
                 break;
             }
             gameManager.getFightManager().fightTurn(playerStats, npcStats, 3, player, npc);
-            gameManager.getChannelUtils().write(player.getPlayerId(), "Use an ability!", true);
-            gameManager.getPlayerManager().getSessionManager().getSession(player.getPlayerId()).setIsAbleToDoAbility(true);
-            try {
-                Thread.sleep(2200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (FightManager.isActiveFight(gameManager.getPlayerManager().getSessionManager().getSession(player.getPlayerId()))) {
+                gameManager.getChannelUtils().write(player.getPlayerId(), "Use an ability!", true);
+                gameManager.getPlayerManager().getSessionManager().getSession(player.getPlayerId()).setIsAbleToDoAbility(true);
+                try {
+                    Thread.sleep(2200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                gameManager.getPlayerManager().getSessionManager().getSession(player.getPlayerId()).setIsAbleToDoAbility(false);
             }
-            gameManager.getPlayerManager().getSessionManager().getSession(player.getPlayerId()).setIsAbleToDoAbility(false);
         }
 
         gameManager.getPlayerManager().savePlayerMetadata(playerMetadata);
@@ -48,8 +53,13 @@ public class FightRun implements Callable<FightResults> {
 
 
         if (playerStats.getCurrentHealth() <= 0) {
-            gameManager.getChannelUtils().write(player.getPlayerId(), "You died.", true);
-            gameManager.getChannelUtils().writeToRoom(player.getPlayerId(), player.getPlayerName() + " is now dead.");
+            gameManager.getChannelUtils().writeToRoom(player.getPlayerId(), player.getPlayerName() + " is now dead." + "\r\n");
+            PlayerMovement playerMovement = new PlayerMovement(player, gameManager.getRoomManager().getPlayerCurrentRoom(player).get().getRoomId(), GameManager.LOBBY_ID, null, "vanished into the ether.", "");
+            gameManager.movePlayer(playerMovement);
+            gameManager.currentRoomLogic(player.getPlayerId());
+            gameManager.getPlayerManager().getSessionManager().getSession(player.getPlayerId()).setActiveFight(Optional.<Future<FightResults>>absent());
+            String prompt = gameManager.getPlayerManager().buildPrompt(player.getPlayerId());
+            gameManager.getChannelUtils().write(player.getPlayerId(), prompt, true);
             npc.setIsInFight(false);
             fightResults = new FightResultsBuilder().setNpcWon(true).setPlayerWon(false).createFightResults();
         }

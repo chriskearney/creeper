@@ -37,10 +37,15 @@ public class AreaCommand extends Command {
             Set<Area> newAreas = Sets.newConcurrentHashSet();
             for (String string: strings) {
                 String trim = string.trim();
-                newAreas.add(Area.getByName(trim));
-                write("Added: " + trim + "\r\n");
+                Area byName = Area.getByName(trim);
+                if (byName != null) {
+                    newAreas.add(byName);
+                    write("added area: " + trim + "\r\n");
+                    currentRoom.setAreas(newAreas);
+                } else {
+                    write(byName + " is not a known area in the code base.");
+                }
             }
-            currentRoom.setAreas(newAreas);
         } finally {
             super.messageReceived(ctx, e);
         }

@@ -25,7 +25,6 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
 
     @Override
     public void handleUpstream(ChannelHandlerContext ctx, ChannelEvent e) throws Exception {
-        System.out.println();
         if (e instanceof ChannelStateEvent) {
             System.err.println(e);
         }
@@ -36,9 +35,9 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
     public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
-                .append("\r\n\r\n\r\n\r\n" + GameManager.LOGO + "\r\n")
+                .append(GameManager.LOGO + "\r\n")
                 .append(RESET + "\r\n")
-                .append("First time here? Type \"new\".\r\n")
+               // .append("First time here? Type \"new\".\r\n")
                 .append("username: ");
         e.getChannel().write(stringBuilder.toString());
         CreeperSession creeperSession = new CreeperSession();
@@ -85,7 +84,7 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
         CreeperSession creeperSession = (CreeperSession) ctx.getAttachment();
         if (creeperSession.getState().equals(CreeperSession.State.promptedForUsername)) {
             creeperSession.setUsername(Optional.of(message.replaceAll("[^a-zA-Z0-9]", "")));
-            if (creeperSession.getUsername().isPresent() && creeperSession.getUsername().get().equals("new")) {
+            if (creeperSession.getUsername().isPresent() && creeperSession.getUsername().get().equals("tupac")) {
                 gameManager.getNewUserRegistrationManager().newUserRegistrationFlow(creeperSession, e);
                 return;
             }

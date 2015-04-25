@@ -29,11 +29,16 @@ import static com.comandante.creeper.server.Color.*;
 
 public class GameManager {
 
-    public static String LOGO = "  _____                           ___   __     __       \r\n" +
-            " / ___/______ ___ ___  ___ ____  / _ | / /__  / /  ___ _\r\n" +
-            "/ /__/ __/ -_) -_) _ \\/ -_) __/ / __ |/ / _ \\/ _ \\/ _ `/\r\n" +
-            "\\___/_/  \\__/\\__/ .__/\\__/_/   /_/ |_/_/ .__/_//_/\\_,_/ \r\n" +
-            "               /_/                    /_/               \r\n";
+    public static String LOGO = " ▄████▄   ██▀███  ▓█████ ▓█████  ██▓███  ▓█████  ██▀███  \n" +
+            "▒██▀ ▀█  ▓██ ▒ ██▒▓█   ▀ ▓█   ▀ ▓██░  ██▒▓█   ▀ ▓██ ▒ ██▒\n" +
+            "▒▓█    ▄ ▓██ ░▄█ ▒▒███   ▒███   ▓██░ ██▓▒▒███   ▓██ ░▄█ ▒\n" +
+            "▒▓▓▄ ▄██▒▒██▀▀█▄  ▒▓█  ▄ ▒▓█  ▄ ▒██▄█▓▒ ▒▒▓█  ▄ ▒██▀▀█▄  \n" +
+            "▒ ▓███▀ ░░██▓ ▒██▒░▒████▒░▒████▒▒██▒ ░  ░░▒████▒░██▓ ▒██▒\n" +
+            "░ ░▒ ▒  ░░ ▒▓ ░▒▓░░░ ▒░ ░░░ ▒░ ░▒▓▒░ ░  ░░░ ▒░ ░░ ▒▓ ░▒▓░\n" +
+            "  ░  ▒     ░▒ ░ ▒░ ░ ░  ░ ░ ░  ░░▒ ░      ░ ░  ░  ░▒ ░ ▒░\n" +
+            "░          ░░   ░    ░      ░   ░░          ░     ░░   ░ \n" +
+            "░ ░         ░        ░  ░   ░  ░            ░  ░   ░     \n" +
+            "░                                                        ";
 
     public static String VERSION = "0.1-SNAPSHOT";
 
@@ -103,7 +108,7 @@ public class GameManager {
         return playerManager;
     }
 
-    private static final Integer LOBBY_ID = 1;
+    public static final Integer LOBBY_ID = 1;
 
     public Set<Player> getAllPlayers() {
         ImmutableSet.Builder<Player> builder = ImmutableSet.builder();

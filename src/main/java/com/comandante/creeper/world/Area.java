@@ -1,6 +1,7 @@
 package com.comandante.creeper.world;
 
 public enum Area {
+    LOBBY("lobby"),
     NEWBIE_ZONE("newbie_zone"),
     HOUSE_ZONE("house_zone"),
     NORTH1_ZONE("north1_zone"),

@@ -3,6 +3,7 @@ package com.comandante.creeper.entity;
 import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.Items.ItemDecayManager;
 import com.comandante.creeper.Items.ItemSerializer;
+import com.comandante.creeper.fight.FightResults;
 import com.comandante.creeper.fight.FightResultsBuilder;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
@@ -10,6 +11,7 @@ import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.world.Room;
 import com.comandante.creeper.world.RoomManager;
+import com.google.common.base.Optional;
 import org.mapdb.DB;
 import org.mapdb.HTreeMap;
 
@@ -20,6 +22,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class EntityManager {
 
@@ -85,6 +88,7 @@ public class EntityManager {
             if (npc != null) {
                 npc.getStats().setCurrentHealth(npc.getStats().getCurrentHealth() + amt);
                 if (npc.getStats().getCurrentHealth() <= 0) {
+                    playerManager.getSessionManager().getSession(playerId).setActiveFight(Optional.<Future<FightResults>>absent());
                     int experience = playerManager.getPlayerMetadata(playerId).getStats().getExperience();
                     experience += npc.getStats().getExperience();
                     channelUtils.write(playerId, "You killed " + npc.getName() + " (" + npc.getStats().getExperience() + "exp)", true);
