@@ -141,6 +141,6 @@ public class Main {
 
         startUpMessage("Adding Swamp Bears");
 
-        entityManager.addEntity(new NpcSpawner(new RedEyedBear(gameManager), Sets.newHashSet(Area.NORTH3_ZONE, Area.NORTH4_ZONE), gameManager, new SpawnRule(10, 12, 2,100)));
+        entityManager.addEntity(new NpcSpawner(new SwampBear(gameManager), Sets.newHashSet(Area.NORTH3_ZONE, Area.NORTH4_ZONE), gameManager, new SpawnRule(10, 12, 2,100)));
     }
 }
