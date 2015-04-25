@@ -45,7 +45,7 @@ public class Main {
     public static CreeperCommandRegistry creeperCommandRegistry;
     private static final Logger log = Logger.getLogger(Main.class);
 
-    private static final int PORT = 8080;
+    private static final int PORT = 8081;
     public static final String MUD_NAME = "creeper";
 
     public static void main(String[] args) throws Exception {
