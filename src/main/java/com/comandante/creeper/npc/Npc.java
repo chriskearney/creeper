@@ -28,7 +28,7 @@ public abstract class Npc extends CreeperEntity {
     private final String colorName;
     private final Stats stats;
     private final String dieMessage;
-    private final Optional<HashSet<Area>> roamAreas;
+    private Optional<HashSet<Area>> roamAreas;
     private final Set<String> validTriggers;
 
     private AtomicBoolean isInFight = new AtomicBoolean(false);
@@ -38,7 +38,7 @@ public abstract class Npc extends CreeperEntity {
 
     @Override
     public void run() {
-        if (randInt(0, 100) < 2) {
+        if (randInt(0, 100) < 1) {
             if (!isInFight.get() && roamAreas.isPresent()) {
                 NpcMover npcMover = new NpcMover();
                 npcMover.roam(getGameManager(), getEntityId());
@@ -95,6 +95,10 @@ public abstract class Npc extends CreeperEntity {
 
     public String getDieMessage() {
         return dieMessage;
+    }
+
+    public void setRoamAreas(Optional<HashSet<Area>> roamAreas) {
+        this.roamAreas = roamAreas;
     }
 
     public void npcSay(Integer roomId, String message) {

@@ -21,12 +21,12 @@ public class NpcSpawner extends CreeperEntity {
     private final SpawnRule spawnRule;
     private int noTicks;
     private final Random random = new Random();
-    private final Area spawnArea;
+    private final Set<Area> spawnAreas;
 
 
-    public NpcSpawner(Npc npc, Area area, GameManager gameManager, SpawnRule spawnRule) {
+    public NpcSpawner(Npc npc, Set<Area> area, GameManager gameManager, SpawnRule spawnRule) {
         this.npc = npc;
-        this.spawnArea = area;
+        this.spawnAreas = area;
         this.gameManager = gameManager;
         this.spawnRule = spawnRule;
         this.noTicks = spawnRule.getSpawnIntervalTicks();
@@ -38,20 +38,22 @@ public class NpcSpawner extends CreeperEntity {
 
     @Override
     public void run() {
-        incTicks();
-        if (noTicks >= spawnRule.getSpawnIntervalTicks()) {
-            int randomPercentage = spawnRule.getRandomChance();
-            int numberOfAttempts = spawnRule.getMaxInstances() - counterNumberInArea();
-            for (int i = 0; i < numberOfAttempts; i++) {
-                if (random.nextInt(100) < randomPercentage || randomPercentage == 100) {
-                    createAndAddItem();
+        for (Area spawnArea: spawnAreas) {
+            incTicks();
+            if (noTicks >= spawnRule.getSpawnIntervalTicks()) {
+                int randomPercentage = spawnRule.getRandomChance();
+                int numberOfAttempts = spawnRule.getMaxInstances() - counterNumberInArea(spawnArea);
+                for (int i = 0; i < numberOfAttempts; i++) {
+                    if (random.nextInt(100) < randomPercentage || randomPercentage == 100) {
+                        createAndAddItem(spawnArea);
+                    }
                 }
+                noTicks = 0;
             }
-            noTicks = 0;
         }
     }
 
-    private int counterNumberInArea() {
+    private int counterNumberInArea(Area spawnArea) {
         int numberCurrentlyInArea = 0;
         Set<Room> roomsByArea = gameManager.getRoomManager().getRoomsByArea(spawnArea);
         for (Room room : roomsByArea) {
@@ -67,7 +69,7 @@ public class NpcSpawner extends CreeperEntity {
         return numberCurrentlyInArea;
     }
 
-    private void createAndAddItem() {
+    private void createAndAddItem(Area spawnArea) {
         ArrayList<Room> rooms = Lists.newArrayList(Iterators.filter(gameManager.getRoomManager().getRoomsByArea(spawnArea).iterator(), getRoomsWithRoom()));
         Room room = rooms.get(random.nextInt(rooms.size()));
         Npc newNpc = npc.create(gameManager);

@@ -74,4 +74,33 @@ public class NpcStats {
             .setNumberweaponOfRolls(1)
             .setExperience(190);
 
+    public final static StatsBuilder SWAMP_BEAR = new StatsBuilder()
+            .setStrength(15)
+            .setWillpower(3)
+            .setAim(3)
+            .setAgile(3)
+            .setArmorRating(8)
+            .setMeleSkill(6)
+            .setCurrentHealth(300)
+            .setMaxHealth(300)
+            .setWeaponRatingMin(10)
+            .setWeaponRatingMax(16)
+            .setNumberweaponOfRolls(1)
+            .setExperience(300);
+
+    public final static StatsBuilder REDEYED_BEAR = new StatsBuilder()
+            .setStrength(15)
+            .setWillpower(3)
+            .setAim(3)
+            .setAgile(3)
+            .setArmorRating(8)
+            .setMeleSkill(6)
+            .setCurrentHealth(300)
+            .setMaxHealth(300)
+            .setWeaponRatingMin(10)
+            .setWeaponRatingMax(16)
+            .setNumberweaponOfRolls(1)
+            .setExperience(300);
+
+
 }

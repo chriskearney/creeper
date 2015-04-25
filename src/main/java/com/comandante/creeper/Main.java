@@ -4,10 +4,7 @@ import com.comandante.creeper.Items.ItemType;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.managers.SessionManager;
-import com.comandante.creeper.npc.BergOrc;
-import com.comandante.creeper.npc.StreetHustler;
-import com.comandante.creeper.npc.SwampBerserker;
-import com.comandante.creeper.npc.TreeBerserker;
+import com.comandante.creeper.npc.*;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.server.CreeperCommandRegistry;
@@ -39,6 +36,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public class Main {
 
@@ -74,23 +72,6 @@ public class Main {
         worldExporter.readWorldFromDisk();
         startUpMessage("Generating maps");
         mapsManager.generateAllMaps(9, 9);
-        startUpMessage("Adding Street Hustlers");
-        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 30, 3, 25)));
-        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Area.DEFAULT, gameManager, new SpawnRule(10, 3, 4, 25)));
-
-        startUpMessage("Adding beer");
-        ItemSpawner itemSpawner = new ItemSpawner(ItemType.BEER, Area.NEWBIE_ZONE, new SpawnRule(20, 20, 2, 25), gameManager);
-        entityManager.addEntity(itemSpawner);
-
-        startUpMessage("Adding Tree Berserkers");
-        entityManager.addEntity(new NpcSpawner(new TreeBerserker(gameManager), Area.NEWBIE_ZONE, gameManager, new SpawnRule(10, 6, 2, 100)));
-        entityManager.addEntity(new NpcSpawner(new TreeBerserker(gameManager), Area.NORTH1_ZONE, gameManager, new SpawnRule(10, 14, 2, 100)));
-
-        startUpMessage("Adding Swamp Berserkers");
-        entityManager.addEntity(new NpcSpawner(new SwampBerserker(gameManager), Area.NORTH2_ZONE, gameManager, new SpawnRule(10, 8, 2, 100)));
-
-        startUpMessage("Adding Berg Orcs");
-        entityManager.addEntity(new NpcSpawner(new BergOrc(gameManager), Area.BLOODRIDGE1_ZONE, gameManager, new SpawnRule(10, 8, 2, 100)));
 
         startUpMessage("Configuring Creeper Commmands");
         creeperCommandRegistry = new CreeperCommandRegistry(new UnknownCommand(gameManager));
@@ -136,5 +117,30 @@ public class Main {
 
     public static String createPlayerId(String playerName) {
         return new String(Base64.encodeBase64(playerName.getBytes()));
+    }
+
+    private static void createNpcs(EntityManager entityManager, GameManager gameManager) {
+        startUpMessage("Adding Street Hustlers");
+        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager), Sets.newHashSet(Area.NEWBIE_ZONE), gameManager, new SpawnRule(10, 5, 3, 1)));
+
+        startUpMessage("Adding beer");
+        ItemSpawner itemSpawner = new ItemSpawner(ItemType.BEER, Area.NEWBIE_ZONE, new SpawnRule(20, 20, 2, 25), gameManager);
+        entityManager.addEntity(itemSpawner);
+
+        startUpMessage("Adding Tree Berserkers");
+        entityManager.addEntity(new NpcSpawner(new TreeBerserker(gameManager), Sets.newHashSet(Area.NEWBIE_ZONE, Area.NORTH1_ZONE), gameManager, new SpawnRule(10, 6, 2, 2)));
+
+        startUpMessage("Adding Swamp Berserkers");
+        entityManager.addEntity(new NpcSpawner(new SwampBerserker(gameManager), Sets.newHashSet(Area.NORTH2_ZONE), gameManager, new SpawnRule(10, 8, 2, 2)));
+
+        startUpMessage("Adding Berg Orcs");
+        entityManager.addEntity(new NpcSpawner(new BergOrc(gameManager), Sets.newHashSet(Area.BLOODRIDGE1_ZONE), gameManager, new SpawnRule(10, 8, 2, 2)));
+
+        startUpMessage("Adding Red-Eyed Bears");
+        entityManager.addEntity(new NpcSpawner(new RedEyedBear(gameManager), Sets.newHashSet(Area.TOFT1_ZONE, Area.TOFT2_ZONE), gameManager, new SpawnRule(10, 14, 2, 2)));
+
+        startUpMessage("Adding Swamp Bears");
+
+        entityManager.addEntity(new NpcSpawner(new RedEyedBear(gameManager), Sets.newHashSet(Area.NORTH3_ZONE, Area.NORTH4_ZONE), gameManager, new SpawnRule(10, 12, 2, 2)));
     }
 }

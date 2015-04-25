@@ -24,7 +24,7 @@ public class TreeBerserker extends Npc {
     private final static String dieMessage = "a " + colorName + " breathes his last breath in a pool of " + BOLD_ON + Color.RED + "blood" + RESET + ".";
 
     public TreeBerserker(GameManager gameManager) {
-        super(gameManager, NAME, colorName, 0, NpcStats.TREE_BERSERKER.createStats(), dieMessage, Optional.of(Sets.newHashSet(Area.NEWBIE_ZONE)), validTriggers);
+        super(gameManager, NAME, colorName, 0, NpcStats.TREE_BERSERKER.createStats(), dieMessage, Optional.<HashSet<Area>>absent(), validTriggers);
     }
 
     @Override

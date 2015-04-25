@@ -13,22 +13,22 @@ import java.util.Set;
 import static com.comandante.creeper.server.Color.BOLD_ON;
 import static com.comandante.creeper.server.Color.RESET;
 
-public class SwampBerserker extends Npc {
+public class RedEyedBear extends Npc {
     private final static long phraseIntervalMs = 300000;
-    private final static String NAME = "swamp berserker";
+    private final static String NAME = "red-eyed bear";
     private final static Set<String> validTriggers = new HashSet<String>(Arrays.asList(new String[]
-                    {"s", "swamp", "berserker","b", NAME}
+                    {"r", "red-eyed", "bear","b", NAME}
     ));
 
-    private final static String colorName = "swamp" + BOLD_ON + Color.MAGENTA + " berserker"  + Color.RESET ;
+    private final static String colorName = "red-eyed" + BOLD_ON + Color.MAGENTA + " bear"  + Color.RESET ;
     private final static String dieMessage = "a " + colorName + " breathes his last breath in a pool of " + BOLD_ON + Color.RED + "blood" + RESET + ".";
 
-    public SwampBerserker(GameManager gameManager) {
-        super(gameManager, NAME, colorName, 0, NpcStats.SWAMP_BERSERKER.createStats(), dieMessage, Optional.<HashSet<Area>>absent(), validTriggers);
+    public RedEyedBear(GameManager gameManager) {
+        super(gameManager, NAME, colorName, 0, NpcStats.REDEYED_BEAR.createStats(), dieMessage, Optional.<HashSet<Area>>absent(), validTriggers);
     }
 
     @Override
-    public SwampBerserker create(GameManager gameManager) {
-        return new SwampBerserker(gameManager);
+    public RedEyedBear create(GameManager gameManager) {
+        return new RedEyedBear(gameManager);
     }
 }
