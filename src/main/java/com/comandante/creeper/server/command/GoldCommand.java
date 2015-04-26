@@ -13,7 +13,7 @@ import java.util.List;
 
 public class GoldCommand extends Command {
 
-    final static List<String> validTriggers = Arrays.asList("gold", "g");
+    final static List<String> validTriggers = Arrays.asList("gold");
     final static String description = "Prints the amount of gold you hold.";
 
     public GoldCommand(GameManager gameManager) {

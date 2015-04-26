@@ -170,7 +170,7 @@ public class BuildCommand extends Command {
         rebuildExits(basicRoom, mapMatrix);
         rebuildExits(currentRoom, mapMatrix);
         processExits(basicRoom, mapMatrix);
-        mapsManager.generateAllMaps(9, 9);
+        mapsManager.generateAllMaps(14, 14);
         gameManager.movePlayer(new PlayerMovement(player, currentRoom.getRoomId(), basicRoom.getRoomId(), null, "", ""));
         gameManager.currentRoomLogic(player.getPlayerId());
         write("Room Created.");

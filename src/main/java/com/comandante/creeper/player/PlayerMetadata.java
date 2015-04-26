@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class PlayerMetadata implements Serializable {
 
@@ -16,13 +17,15 @@ public class PlayerMetadata implements Serializable {
     Stats stats;
     String[] inventory;
     private int gold;
+    private Set<PlayerRoles> rolesSet;
 
-    public PlayerMetadata(String playerName, String password, String playerId, Stats stats, int gold) {
+    public PlayerMetadata(String playerName, String password, String playerId, Stats stats, int gold, Set<PlayerRoles> playerRolesSet) {
         this.playerName = playerName;
         this.password = password;
         this.playerId = playerId;
         this.stats = stats;
         this.gold = gold;
+        this.rolesSet = playerRolesSet;
     }
 
     public String[] getInventory() {

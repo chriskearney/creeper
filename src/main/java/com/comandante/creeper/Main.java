@@ -13,11 +13,7 @@ import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.server.CreeperCommandRegistry;
 import com.comandante.creeper.server.CreeperServer;
 import com.comandante.creeper.server.command.*;
-import com.comandante.creeper.server.command.admin.BuildCommand;
-import com.comandante.creeper.server.command.admin.DescriptionCommand;
-import com.comandante.creeper.server.command.admin.SaveWorldCommand;
-import com.comandante.creeper.server.command.admin.TagRoomCommand;
-import com.comandante.creeper.server.command.admin.TitleCommand;
+import com.comandante.creeper.server.command.admin.*;
 import com.comandante.creeper.spawner.ItemSpawner;
 import com.comandante.creeper.spawner.NpcSpawner;
 import com.comandante.creeper.spawner.SpawnRule;
@@ -93,6 +89,9 @@ public class Main {
         creeperCommandRegistry.addCommand(new HelpCommand(gameManager));
         creeperCommandRegistry.addCommand(new LootCommand(gameManager));
         creeperCommandRegistry.addCommand(new GoldCommand(gameManager));
+        creeperCommandRegistry.addCommand(new InfoCommand(gameManager));
+        creeperCommandRegistry.addCommand(new TeleportCommand(gameManager));
+
 
 
         createNpcs(entityManager, gameManager);
