@@ -3,6 +3,7 @@ package com.comandante.creeper.managers;
 
 import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.Items.ItemDecayManager;
+import com.comandante.creeper.Items.LootManager;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.fight.FightManager;
 import com.comandante.creeper.npc.Npc;
@@ -52,6 +53,7 @@ public class GameManager {
     private final MultiLineInputManager multiLineInputManager;
     private final MapsManager mapsManager;
     private final FloorManager floorManager;
+    private final LootManager lootManager;
 
     public GameManager(RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager, MapsManager mapsManager, ChannelUtils channelUtils) {
         this.roomManager = roomManager;
@@ -65,6 +67,12 @@ public class GameManager {
         this.mapsManager = mapsManager;
         this.floorManager = new FloorManager();
         this.channelUtils = channelUtils;
+        this.lootManager = new LootManager();
+
+    }
+
+    public LootManager getLootManager() {
+        return lootManager;
     }
 
     public FloorManager getFloorManager() {

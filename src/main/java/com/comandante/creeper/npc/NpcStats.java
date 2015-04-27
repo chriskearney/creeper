@@ -108,5 +108,33 @@ public class NpcStats {
             .setExperience(300)
             .setGoldDrop(40);
 
+    public final static StatsBuilder GRAY_EKIMMU = new StatsBuilder()
+            .setStrength(20)
+            .setWillpower(4)
+            .setAim(4)
+            .setAgile(5)
+            .setArmorRating(11)
+            .setMeleSkill(8)
+            .setCurrentHealth(450)
+            .setMaxHealth(450)
+            .setWeaponRatingMin(12)
+            .setWeaponRatingMax(18)
+            .setNumberweaponOfRolls(1)
+            .setExperience(450);
+
+    public final static StatsBuilder STEALTH_PANTHER = new StatsBuilder()
+            .setStrength(23)
+            .setWillpower(4)
+            .setAim(5)
+            .setAgile(6)
+            .setArmorRating(11)
+            .setMeleSkill(8)
+            .setCurrentHealth(500)
+            .setMaxHealth(500)
+            .setWeaponRatingMin(10)
+            .setWeaponRatingMax(20)
+            .setNumberweaponOfRolls(1)
+            .setExperience(510);
+
 
 }

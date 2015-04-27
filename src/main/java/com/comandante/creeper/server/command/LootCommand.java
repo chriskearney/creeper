@@ -3,10 +3,7 @@ package com.comandante.creeper.server.command;
 import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.Items.Loot;
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.player.Player;
 import com.comandante.creeper.server.Color;
-import com.comandante.creeper.world.Coords;
-import com.comandante.creeper.world.Room;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 
@@ -33,9 +30,10 @@ public class LootCommand extends Command {
                         if (itemEntity.getItemTypeId() == Item.CORPSE_ID_RESERVED) {
                             Loot loot = itemEntity.getLoot();
                             if (loot != null) {
-                                if (loot.getLootGold() > 0) {
-                                    write("You looted " + loot.getLootGold() + Color.YELLOW + " gold." + Color.RESET);
-                                    playerManager.incrementGold(playerId, loot.getLootGold());
+                                int gold = lootManager.lootGoldAmountReturn(loot);
+                                if (gold > 0) {
+                                    write("You looted " + gold + Color.YELLOW + " gold." + Color.RESET);
+                                    playerManager.incrementGold(playerId, gold);
                                 }
                             }
                             playerManager.removeInventoryId(playerId, itemEntity.getItemId());

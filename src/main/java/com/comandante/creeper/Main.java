@@ -121,7 +121,7 @@ public class Main {
 
 
         startUpMessage("Adding Street Hustlers");
-        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager, new Loot(10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NEWBIE_ZONE), gameManager, new SpawnRule(10, 5, 3, 100)));
+        entityManager.addEntity(new NpcSpawner(new StreetHustler(gameManager, new Loot(1, 3, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NEWBIE_ZONE), gameManager, new SpawnRule(10, 5, 3, 100)));
 
         startUpMessage("Adding beer");
         ItemSpawner itemSpawner = new ItemSpawner(ItemType.BEER, Area.NEWBIE_ZONE, new SpawnRule(10, 50, 2, 25), gameManager);
@@ -129,19 +129,24 @@ public class Main {
         entityManager.addEntity(itemSpawner);
 
         startUpMessage("Adding Tree Berserkers");
-        entityManager.addEntity(new NpcSpawner(new TreeBerserker(gameManager, new Loot(10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NEWBIE_ZONE, Area.NORTH1_ZONE), gameManager, new SpawnRule(10, 6, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(new TreeBerserker(gameManager, new Loot(2, 5, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NEWBIE_ZONE, Area.NORTH1_ZONE), gameManager, new SpawnRule(10, 6, 2, 100)));
 
         startUpMessage("Adding Swamp Berserkers");
-        entityManager.addEntity(new NpcSpawner(new SwampBerserker(gameManager, new Loot(10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH2_ZONE), gameManager, new SpawnRule(10, 8, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(new SwampBerserker(gameManager, new Loot(4, 10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH2_ZONE), gameManager, new SpawnRule(10, 8, 2, 100)));
 
         startUpMessage("Adding Berg Orcs");
-        entityManager.addEntity(new NpcSpawner(new BergOrc(gameManager, new Loot(10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.BLOODRIDGE1_ZONE), gameManager, new SpawnRule(10, 8, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(new BergOrc(gameManager, new Loot(4, 10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.BLOODRIDGE1_ZONE), gameManager, new SpawnRule(10, 8, 2, 100)));
 
         startUpMessage("Adding Red-Eyed Bears");
-        entityManager.addEntity(new NpcSpawner(new RedEyedBear(gameManager, new Loot(10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.TOFT1_ZONE, Area.TOFT2_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(new RedEyedBear(gameManager, new Loot(8, 13, Sets.<Item>newHashSet())), Sets.newHashSet(Area.TOFT1_ZONE, Area.TOFT2_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
 
         startUpMessage("Adding Swamp Bears");
+        entityManager.addEntity(new NpcSpawner(new SwampBear(gameManager, new Loot(9, 14, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH3_ZONE, Area.NORTH4_ZONE), gameManager, new SpawnRule(10, 12, 2, 100)));
 
-        entityManager.addEntity(new NpcSpawner(new SwampBear(gameManager, new Loot(10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH3_ZONE, Area.NORTH4_ZONE), gameManager, new SpawnRule(10, 12, 2, 100)));
+        startUpMessage("Adding Stealth Panthers");
+        entityManager.addEntity(new NpcSpawner(new StealthPanther(gameManager, new Loot(14, 22, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH5_ZONE, Area.NORTH6_ZONE), gameManager, new SpawnRule(10, 12, 2, 100)));
+
+        startUpMessage("Adding Gray Ekimmus");
+        entityManager.addEntity(new NpcSpawner(new GrayEkimmu(gameManager, new Loot(14, 17, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH4_ZONE, Area.NORTH5_ZONE), gameManager, new SpawnRule(10, 12, 2, 100)));
     }
 }

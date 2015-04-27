@@ -1,5 +1,6 @@
 package com.comandante.creeper.server.command;
 
+import com.comandante.creeper.Items.LootManager;
 import com.comandante.creeper.Main;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.fight.FightManager;
@@ -39,6 +40,7 @@ public abstract class Command extends SimpleChannelUpstreamHandler {
     public final PlayerManager playerManager;
     public final ChannelUtils channelUtils;
     public final FightManager fightManager;
+    public final LootManager lootManager;
     public CreeperSession creeperSession;
     public Player player;
     public Room currentRoom;
@@ -67,6 +69,7 @@ public abstract class Command extends SimpleChannelUpstreamHandler {
         this.channelUtils = gameManager.getChannelUtils();
         this.fightManager = gameManager.getFightManager();
         this.worldExporter = new WorldExporter(roomManager, mapsManager, floorManager, entityManager);
+        this.lootManager = gameManager.getLootManager();
     }
 
     public void configure(MessageEvent e) {
