@@ -123,7 +123,9 @@ public class BuildCommand extends Command {
                     entityManager.addEntity(basicRoom);
                     newFloorModel.setRoomModels(Sets.newHashSet(Iterators.transform(Sets.newHashSet(basicRoom).iterator(), WorldExporter.buildRoomModelsFromRooms())));
                     floorManager.addFloor(newFloorModel.getId(), newFloorModel.getName());
-                    mapsManager.addFloorMatrix(newFloorModel.getId(), MapMatrix.createMatrixFromCsv(newFloorModel.getRawMatrixCsv()));
+                    MapMatrix matrixFromCsv = MapMatrix.createMatrixFromCsv(newFloorModel.getRawMatrixCsv());
+                    matrixFromCsv.addRemote(basicRoom.getRoomId(), returnRemoteExit);
+                    mapsManager.addFloorMatrix(newFloorModel.getId(), matrixFromCsv);
                     mapsManager.generateAllMaps(9, 9);
                     gameManager.movePlayer(new PlayerMovement(player, currentRoom.getRoomId(), basicRoom.getRoomId(), null, "", ""));
                     gameManager.currentRoomLogic(player.getPlayerId());

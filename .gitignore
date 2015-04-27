@@ -1,4 +1,5 @@
 world.json
+.DS_Store
 target
 creeperDb*
 *.swp
