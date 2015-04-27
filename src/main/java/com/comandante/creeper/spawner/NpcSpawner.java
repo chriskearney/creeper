@@ -48,8 +48,8 @@ public class NpcSpawner extends CreeperEntity {
                         createAndAddItem(spawnArea);
                     }
                 }
-                noTicks = 0;
             }
+            noTicks = 0;
         }
     }
 

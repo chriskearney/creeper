@@ -44,7 +44,7 @@ public class FightKillCommand extends Command {
                 if (npcEntity.getValidTriggers().contains(target)) {
                     npcEntity.setIsInFight(true);
                     FightRun fightRun = new FightRun(player, npcEntity, gameManager);
-                    write("You start a fight!", false);
+                    writeToRoom(player.getPlayerName() + " has attacked a " + npcEntity.getColorName());
                     Future<FightResults> fight = fightManager.fight(fightRun);
                     creeperSession.setActiveFight(Optional.of(fight));
                     return;

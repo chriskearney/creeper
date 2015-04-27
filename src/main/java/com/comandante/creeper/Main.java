@@ -92,8 +92,6 @@ public class Main {
         creeperCommandRegistry.addCommand(new InfoCommand(gameManager));
         creeperCommandRegistry.addCommand(new TeleportCommand(gameManager));
 
-
-
         createNpcs(entityManager, gameManager);
 
         CreeperServer creeperServer = new CreeperServer(PORT, db);
@@ -138,15 +136,20 @@ public class Main {
         entityManager.addEntity(new NpcSpawner(new BergOrc(gameManager, new Loot(4, 10, Sets.<Item>newHashSet())), Sets.newHashSet(Area.BLOODRIDGE1_ZONE), gameManager, new SpawnRule(10, 8, 2, 100)));
 
         startUpMessage("Adding Red-Eyed Bears");
-        entityManager.addEntity(new NpcSpawner(new RedEyedBear(gameManager, new Loot(8, 13, Sets.<Item>newHashSet())), Sets.newHashSet(Area.TOFT1_ZONE, Area.TOFT2_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(new RedEyedBear(gameManager, new Loot(8, 13, Sets.<Item>newHashSet())), Sets.newHashSet(Area.TOFT1_ZONE), gameManager, new SpawnRule(10, 14, 3, 100)));
+        entityManager.addEntity(new NpcSpawner(new RedEyedBear(gameManager, new Loot(8, 13, Sets.<Item>newHashSet())), Sets.newHashSet(Area.TOFT2_ZONE), gameManager, new SpawnRule(10, 14, 3, 100)));
 
         startUpMessage("Adding Swamp Bears");
-        entityManager.addEntity(new NpcSpawner(new SwampBear(gameManager, new Loot(9, 14, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH3_ZONE, Area.NORTH4_ZONE), gameManager, new SpawnRule(10, 12, 2, 100)));
-
-        startUpMessage("Adding Stealth Panthers");
-        entityManager.addEntity(new NpcSpawner(new StealthPanther(gameManager, new Loot(14, 22, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH5_ZONE, Area.NORTH6_ZONE), gameManager, new SpawnRule(10, 12, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(new SwampBear(gameManager, new Loot(9, 14, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH3_ZONE), gameManager, new SpawnRule(10, 12, 3, 100)));
+        entityManager.addEntity(new NpcSpawner(new SwampBear(gameManager, new Loot(9, 14, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH4_ZONE), gameManager, new SpawnRule(10, 12, 3, 100)));
 
         startUpMessage("Adding Gray Ekimmus");
-        entityManager.addEntity(new NpcSpawner(new GrayEkimmu(gameManager, new Loot(14, 17, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH4_ZONE, Area.NORTH5_ZONE), gameManager, new SpawnRule(10, 12, 2, 100)));
-    }
+        entityManager.addEntity(new NpcSpawner(new GrayEkimmu(gameManager, new Loot(14, 17, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH4_ZONE), gameManager, new SpawnRule(10, 12, 3, 100)));
+        entityManager.addEntity(new NpcSpawner(new GrayEkimmu(gameManager, new Loot(14, 17, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH5_ZONE), gameManager, new SpawnRule(10, 12, 3, 100)));
+
+        startUpMessage("Adding Stealth Panthers");
+        entityManager.addEntity(new NpcSpawner(new StealthPanther(gameManager, new Loot(14, 22, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH5_ZONE), gameManager, new SpawnRule(10, 12, 3, 100)));
+        entityManager.addEntity(new NpcSpawner(new StealthPanther(gameManager, new Loot(14, 22, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH6_ZONE), gameManager, new SpawnRule(10, 12, 3, 100)));
+
+  }
 }

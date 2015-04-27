@@ -40,9 +40,12 @@ public class CreeperCommandHandler extends SimpleChannelUpstreamHandler {
         gameManager.getPlayerManager().removePlayer(creeperSession.getUsername().get());
     }
 
-    private String getRootCommand(MessageEvent e){
+    private String getRootCommand(MessageEvent e) {
         String origMessage = (String) e.getMessage();
-        return origMessage.split(" ")[0].toLowerCase();
+        if (origMessage.contains(" ")) {
+            return origMessage.split(" ")[0].toLowerCase();
+        } else {
+            return origMessage;
+        }
     }
-
 }

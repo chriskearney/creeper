@@ -17,15 +17,13 @@ public class PlayerMetadata implements Serializable {
     Stats stats;
     String[] inventory;
     private int gold;
-    private Set<PlayerRoles> rolesSet;
 
-    public PlayerMetadata(String playerName, String password, String playerId, Stats stats, int gold, Set<PlayerRoles> playerRolesSet) {
+    public PlayerMetadata(String playerName, String password, String playerId, Stats stats, int gold) {
         this.playerName = playerName;
         this.password = password;
         this.playerId = playerId;
         this.stats = stats;
         this.gold = gold;
-        this.rolesSet = playerRolesSet;
     }
 
     public String[] getInventory() {
