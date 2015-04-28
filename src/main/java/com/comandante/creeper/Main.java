@@ -216,7 +216,7 @@ public class Main {
         entityManager.addEntity(new NpcSpawner(razorClawWolf, Sets.newHashSet(Area.TOFT3_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
 
         Map<Integer, MerchantItemForSale> itemsForSale = Maps.newHashMap();
-        MerchantItemForSale merchantItemForSale = new MerchantItemForSale(ItemType.BEER, 2);
+        MerchantItemForSale merchantItemForSale = new MerchantItemForSale(ItemType.BEER, 1);
         itemsForSale.put(1, merchantItemForSale);
         LloydBartender lloydBartender = new LloydBartender(gameManager, new Loot(18, 26, Sets.<Item>newHashSet()), itemsForSale);
         gameManager.getRoomManager().addMerchant(64, lloydBartender);

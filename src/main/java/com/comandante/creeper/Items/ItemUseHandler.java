@@ -30,8 +30,8 @@ public class ItemUseHandler {
     private void processBeer() {
         String playerName = gameManager.getPlayerManager().getPlayer(playerId).getPlayerName();
         writeToRoom(playerName + " drinks an ice cold cruiser." + "\r\n");
-        writeToPlayer("20 health is restored.");
-        gameManager.getPlayerManager().getPlayerMetadata(playerId).getStats().incrementHealth(20);
+        writeToPlayer("50 health is restored.");
+        gameManager.getPlayerManager().getPlayerMetadata(playerId).getStats().incrementHealth(50);
         Main.metrics.counter(MetricRegistry.name(ItemUseHandler.class, playerName + "-beer-drank")).inc();
     }
 
