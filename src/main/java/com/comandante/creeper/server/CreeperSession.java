@@ -2,6 +2,7 @@ package com.comandante.creeper.server;
 
 import com.comandante.creeper.CreeperEntry;
 import com.comandante.creeper.fight.FightResults;
+import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.server.command.Command;
 import com.google.common.base.Optional;
 
@@ -19,6 +20,7 @@ public class CreeperSession {
     private Optional<Future<FightResults>> activeFight = Optional.absent();
     private AtomicBoolean isAbleToDoAbility = new AtomicBoolean(false);
     private Optional<CreeperEntry<UUID, Command>> grabMultiLineInput = Optional.absent();
+    private Optional<CreeperEntry<Merchant, Command>> grabMerchant = Optional.absent();
     private final long sessionCreationTimestamp = System.currentTimeMillis();
     private String lastMessage;
 
@@ -103,5 +105,21 @@ public class CreeperSession {
 
     public void setGrabMultiLineInput(Optional<CreeperEntry<UUID, Command>> grabMultiLineInput) {
         this.grabMultiLineInput = grabMultiLineInput;
+    }
+
+    public AtomicBoolean getIsAbleToDoAbility() {
+        return isAbleToDoAbility;
+    }
+
+    public void setIsAbleToDoAbility(AtomicBoolean isAbleToDoAbility) {
+        this.isAbleToDoAbility = isAbleToDoAbility;
+    }
+
+    public Optional<CreeperEntry<Merchant, Command>> getGrabMerchant() {
+        return grabMerchant;
+    }
+
+    public void setGrabMerchant(Optional<CreeperEntry<Merchant, Command>> grabMerchant) {
+        this.grabMerchant = grabMerchant;
     }
 }

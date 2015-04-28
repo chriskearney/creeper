@@ -1,6 +1,7 @@
 package com.comandante.creeper.world;
 
 import com.comandante.creeper.entity.CreeperEntity;
+import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.spawner.ItemSpawner;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
@@ -40,6 +41,7 @@ public abstract class Room extends CreeperEntity {
     private Set<Area> areas = Sets.newConcurrentHashSet();
     private Optional<String> mapData = Optional.absent();
     private final Set<String> roomTags;
+    private final Set<Merchant> merchants = Sets.newConcurrentHashSet();
 
     public Room(Integer roomId,
                 String roomTitle,
@@ -66,6 +68,22 @@ public abstract class Room extends CreeperEntity {
         this.roomTags = roomTags;
         this.areas = areas;
         this.enterExits = enterExits;
+    }
+
+    public List<ItemSpawner> getItemSpawners() {
+        return itemSpawners;
+    }
+
+    public void setItemSpawners(List<ItemSpawner> itemSpawners) {
+        this.itemSpawners = itemSpawners;
+    }
+
+    public Set<Merchant> getMerchants() {
+        return merchants;
+    }
+
+    public void addMerchant(Merchant merchant) {
+        merchants.add(merchant);
     }
 
     public Set<String> getRoomTags() {

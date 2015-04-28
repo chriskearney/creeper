@@ -110,6 +110,7 @@ public class WorldExporter {
                         Map.Entry<String, String> next = iterator.next();
                         RemoteExit remoteExit = new RemoteExit(RemoteExit.Direction.ENTER, Integer.parseInt(next.getKey()), next.getValue());
                         basicRoomBuilder.addEnterExit(remoteExit);
+                        mapMatrix.addRemote(roomModel.getRoomId(), remoteExit);
                     }
                 }
                 configureExits(basicRoomBuilder, mapMatrix, roomModel.getRoomId());

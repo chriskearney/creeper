@@ -1,14 +1,22 @@
 package com.comandante.creeper;
 
+import com.codahale.metrics.JmxReporter;
+import com.codahale.metrics.MetricFilter;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.graphite.Graphite;
+import com.codahale.metrics.graphite.GraphiteReporter;
+import com.codahale.metrics.graphite.PickledGraphite;
 import com.comandante.creeper.Items.Item;
 import com.comandante.creeper.Items.ItemType;
 import com.comandante.creeper.Items.Loot;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.managers.SessionManager;
+import com.comandante.creeper.merchant.LloydBartender;
+import com.comandante.creeper.merchant.Merchant;
+import com.comandante.creeper.merchant.MerchantItemForSale;
 import com.comandante.creeper.npc.*;
 import com.comandante.creeper.player.PlayerManager;
-import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.server.ChannelUtils;
 import com.comandante.creeper.server.CreeperCommandRegistry;
 import com.comandante.creeper.server.CreeperServer;
@@ -17,14 +25,11 @@ import com.comandante.creeper.server.command.admin.*;
 import com.comandante.creeper.spawner.ItemSpawner;
 import com.comandante.creeper.spawner.NpcSpawner;
 import com.comandante.creeper.spawner.SpawnRule;
-import com.comandante.creeper.stat.Stats;
-import com.comandante.creeper.stat.StatsBuilder;
 import com.comandante.creeper.world.Area;
 import com.comandante.creeper.world.MapsManager;
-import com.comandante.creeper.world.Room;
 import com.comandante.creeper.world.RoomManager;
 import com.comandante.creeper.world.WorldExporter;
-import com.google.common.base.Optional;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 import org.apache.commons.codec.binary.Base64;
@@ -34,9 +39,9 @@ import org.mapdb.DBMaker;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
+import java.net.InetSocketAddress;
 import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
@@ -46,7 +51,21 @@ public class Main {
     private static final int PORT = 8080;
     public static final String MUD_NAME = "creeper";
 
+    final public static MetricRegistry metrics = new MetricRegistry();
+
     public static void main(String[] args) throws Exception {
+
+        final JmxReporter jmxReporter = JmxReporter.forRegistry(metrics).build();
+        jmxReporter.start();
+
+        final PickledGraphite pickledGraphite = new PickledGraphite(new InetSocketAddress("192.168.1.11", 2004));
+        final GraphiteReporter reporter = GraphiteReporter.forRegistry(metrics)
+                .prefixedWith(MUD_NAME)
+                .convertRatesTo(TimeUnit.SECONDS)
+                .convertDurationsTo(TimeUnit.MILLISECONDS)
+                .filter(MetricFilter.ALL)
+                .build(pickledGraphite);
+        reporter.start(1, TimeUnit.MINUTES);
 
         checkAndCreateWorld();
 
@@ -91,6 +110,8 @@ public class Main {
         creeperCommandRegistry.addCommand(new GoldCommand(gameManager));
         creeperCommandRegistry.addCommand(new InfoCommand(gameManager));
         creeperCommandRegistry.addCommand(new TeleportCommand(gameManager));
+        creeperCommandRegistry.addCommand(new TalkCommand(gameManager));
+
 
         createNpcs(entityManager, gameManager);
 
@@ -101,7 +122,7 @@ public class Main {
     }
 
     private static void startUpMessage(String message) {
-        System.out.println("[STARTUP] " + message);
+        //System.out.println("[STARTUP] " + message);
         log.info(message);
     }
 
@@ -151,5 +172,54 @@ public class Main {
         entityManager.addEntity(new NpcSpawner(new StealthPanther(gameManager, new Loot(14, 22, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH5_ZONE), gameManager, new SpawnRule(10, 12, 3, 100)));
         entityManager.addEntity(new NpcSpawner(new StealthPanther(gameManager, new Loot(14, 22, Sets.<Item>newHashSet())), Sets.newHashSet(Area.NORTH6_ZONE), gameManager, new SpawnRule(10, 12, 3, 100)));
 
-  }
+        startUpMessage("Adding Phantom Knights");
+
+        PhantomKnight phantomKnight = new PhantomKnight(gameManager, new Loot(18, 26, Sets.<Item>newHashSet()));
+        entityManager.addEntity(new NpcSpawner(phantomKnight, Sets.newHashSet(Area.BLOODRIDGE5_ZONE), gameManager, new SpawnRule(10, 6, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(phantomKnight, Sets.newHashSet(Area.BLOODRIDGE6_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(phantomKnight, Sets.newHashSet(Area.BLOODRIDGE7_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
+
+
+        PhantomOrc phantomOrc = new PhantomOrc(gameManager, new Loot(16, 24, Sets.<Item>newHashSet()));
+        startUpMessage("Adding Phantom Orcs");
+        entityManager.addEntity(new NpcSpawner(phantomOrc, Sets.newHashSet(Area.BLOODRIDGE4_ZONE), gameManager, new SpawnRule(10, 6, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(phantomOrc, Sets.newHashSet(Area.BLOODRIDGE4_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
+
+        PhantomWizard phantomWizard = new PhantomWizard(gameManager, new Loot(16, 24, Sets.<Item>newHashSet()));
+        startUpMessage("Adding Phantom Wizards");
+        entityManager.addEntity(new NpcSpawner(phantomWizard, Sets.newHashSet(Area.BLOODRIDGE4_ZONE), gameManager, new SpawnRule(10, 6, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(phantomWizard, Sets.newHashSet(Area.BLOODRIDGE5_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
+
+        startUpMessage("Adding Demon Succubi");
+        DemonSuccubus demonSuccubus = new DemonSuccubus(gameManager, new Loot(80, 100, Sets.<Item>newHashSet()));
+        entityManager.addEntity(new NpcSpawner(demonSuccubus, Sets.newHashSet(Area.WESTERN9_ZONE), gameManager, new SpawnRule(10, 6, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(demonSuccubus, Sets.newHashSet(Area.WESTERN10_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
+
+        startUpMessage("Adding Death Griffins");
+        DeathGriffin deathGriffin = new DeathGriffin(gameManager, new Loot(60, 80, Sets.<Item>newHashSet()));
+        entityManager.addEntity(new NpcSpawner(deathGriffin, Sets.newHashSet(Area.WESTERN8_ZONE), gameManager, new SpawnRule(10, 6, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(deathGriffin, Sets.newHashSet(Area.WESTERN9_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
+
+        startUpMessage("Adding Nightmare Trolls");
+        NightmareTroll nightmareTroll = new NightmareTroll(gameManager, new Loot(18, 26, Sets.<Item>newHashSet()));
+        entityManager.addEntity(new NpcSpawner(nightmareTroll, Sets.newHashSet(Area.NORTH7_ZONE), gameManager, new SpawnRule(10, 6, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(nightmareTroll, Sets.newHashSet(Area.NORTH8_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
+
+        startUpMessage("Adding Tiger Monoceruses");
+        TigerMonocerus tigerMonocerus = new TigerMonocerus(gameManager, new Loot(20, 29, Sets.<Item>newHashSet()));
+        entityManager.addEntity(new NpcSpawner(tigerMonocerus, Sets.newHashSet(Area.NORTH8_ZONE), gameManager, new SpawnRule(10, 6, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(tigerMonocerus, Sets.newHashSet(Area.NORTH9_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
+
+        startUpMessage("Adding Razor-claw Wolves");
+        RazorClawWolf razorClawWolf = new RazorClawWolf(gameManager, new Loot(18, 26, Sets.<Item>newHashSet()));
+        entityManager.addEntity(new NpcSpawner(razorClawWolf, Sets.newHashSet(Area.TOFT2_ZONE), gameManager, new SpawnRule(10, 6, 2, 100)));
+        entityManager.addEntity(new NpcSpawner(razorClawWolf, Sets.newHashSet(Area.TOFT3_ZONE), gameManager, new SpawnRule(10, 14, 2, 100)));
+
+        Map<Integer, MerchantItemForSale> itemsForSale = Maps.newHashMap();
+        MerchantItemForSale merchantItemForSale = new MerchantItemForSale(ItemType.BEER, 2);
+        itemsForSale.put(1, merchantItemForSale);
+        LloydBartender lloydBartender = new LloydBartender(gameManager, new Loot(18, 26, Sets.<Item>newHashSet()), itemsForSale);
+        gameManager.getRoomManager().addMerchant(64, lloydBartender);
+
+    }
 }

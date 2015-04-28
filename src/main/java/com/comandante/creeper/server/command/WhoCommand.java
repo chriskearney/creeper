@@ -28,7 +28,6 @@ public class WhoCommand extends Command {
         try {
             Table t = new Table(3, BorderStyle.CLASSIC_COMPATIBLE,
                     ShownBorders.HEADER_AND_FIRST_COLLUMN);
-
             t.setColumnWidth(0, 8, 14);
             t.setColumnWidth(1, 14, 16);
             t.setColumnWidth(2, 26, 26);

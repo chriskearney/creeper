@@ -6,6 +6,7 @@ import com.comandante.creeper.Items.ItemDecayManager;
 import com.comandante.creeper.Items.LootManager;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.fight.FightManager;
+import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
@@ -30,15 +31,15 @@ import static com.comandante.creeper.server.Color.*;
 
 public class GameManager {
 
-    public static String LOGO = " ▄████▄   ██▀███  ▓█████ ▓█████  ██▓███  ▓█████  ██▀███  \n" +
-            "▒██▀ ▀█  ▓██ ▒ ██▒▓█   ▀ ▓█   ▀ ▓██░  ██▒▓█   ▀ ▓██ ▒ ██▒\n" +
-            "▒▓█    ▄ ▓██ ░▄█ ▒▒███   ▒███   ▓██░ ██▓▒▒███   ▓██ ░▄█ ▒\n" +
-            "▒▓▓▄ ▄██▒▒██▀▀█▄  ▒▓█  ▄ ▒▓█  ▄ ▒██▄█▓▒ ▒▒▓█  ▄ ▒██▀▀█▄  \n" +
-            "▒ ▓███▀ ░░██▓ ▒██▒░▒████▒░▒████▒▒██▒ ░  ░░▒████▒░██▓ ▒██▒\n" +
-            "░ ░▒ ▒  ░░ ▒▓ ░▒▓░░░ ▒░ ░░░ ▒░ ░▒▓▒░ ░  ░░░ ▒░ ░░ ▒▓ ░▒▓░\n" +
-            "  ░  ▒     ░▒ ░ ▒░ ░ ░  ░ ░ ░  ░░▒ ░      ░ ░  ░  ░▒ ░ ▒░\n" +
-            "░          ░░   ░    ░      ░   ░░          ░     ░░   ░ \n" +
-            "░ ░         ░        ░  ░   ░  ░            ░  ░   ░     \n" +
+    public static String LOGO = " ▄████▄   ██▀███  ▓█████ ▓█████  ██▓███  ▓█████  ██▀███  \r\n" +
+            "▒██▀ ▀█  ▓██ ▒ ██▒▓█   ▀ ▓█   ▀ ▓██░  ██▒▓█   ▀ ▓██ ▒ ██▒\r\n" +
+            "▒▓█    ▄ ▓██ ░▄█ ▒▒███   ▒███   ▓██░ ██▓▒▒███   ▓██ ░▄█ ▒\r\n" +
+            "▒▓▓▄ ▄██▒▒██▀▀█▄  ▒▓█  ▄ ▒▓█  ▄ ▒██▄█▓▒ ▒▒▓█  ▄ ▒██▀▀█▄  \r\n" +
+            "▒ ▓███▀ ░░██▓ ▒██▒░▒████▒░▒████▒▒██▒ ░  ░░▒████▒░██▓ ▒██▒\r\n" +
+            "░ ░▒ ▒  ░░ ▒▓ ░▒▓░░░ ▒░ ░░░ ▒░ ░▒▓▒░ ░  ░░░ ▒░ ░░ ▒▓ ░▒▓░\r\n" +
+            "  ░  ▒     ░▒ ░ ▒░ ░ ░  ░ ░ ░  ░░▒ ░      ░ ░  ░  ░▒ ░ ▒░\r\n" +
+            "░          ░░   ░    ░      ░   ░░          ░     ░░   ░ \r\n" +
+            "░ ░         ░        ░  ░   ░  ░            ░  ░   ░     \r\n" +
             "░                                                        ";
 
     public static String VERSION = "0.1-SNAPSHOT";
@@ -267,6 +268,11 @@ public class GameManager {
         //      sb.append(playerCurrentRoom.getMapData().get()).append("\r\n");
         //  }
         sb.append(getExits(playerCurrentRoom, player)).append("\r\n");
+
+        Set<Merchant> merchants = playerCurrentRoom.getMerchants();
+        for (Merchant merchant: merchants) {
+            sb.append(merchant.getColorName()).append(" is here.").append(RESET).append("\r\n");
+        }
         for (String searchPlayerId : playerCurrentRoom.getPresentPlayerIds()) {
             if (searchPlayerId.equals(player.getPlayerId())) {
                 continue;
@@ -309,7 +315,9 @@ public class GameManager {
 
     public void acquireItem(Player player, String itemId) {
         Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(player).get();
-        playerCurrentRoom.getItemIds().remove(itemId);
+        if (playerCurrentRoom.getItemIds().contains(itemId)) {
+            playerCurrentRoom.getItemIds().remove(itemId);
+        }
         playerManager.addInventoryId(player.getPlayerId(), itemId);
         Item itemEntity = entityManager.getItemEntity(itemId);
         itemEntity.setWithPlayer(true);

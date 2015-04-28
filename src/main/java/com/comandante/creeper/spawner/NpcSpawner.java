@@ -1,6 +1,8 @@
 package com.comandante.creeper.spawner;
 
 
+import com.codahale.metrics.MetricRegistry;
+import com.comandante.creeper.Main;
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.npc.Npc;
@@ -75,6 +77,7 @@ public class NpcSpawner extends CreeperEntity {
         Npc newNpc = npc.create(gameManager, npc.getLoot());
         gameManager.getEntityManager().addEntity(newNpc);
         room.addPresentNpc(newNpc.getEntityId());
+        Main.metrics.counter(MetricRegistry.name(NpcSpawner.class, npc.getName() + "-spawn")).inc();
     }
 
     private Predicate<Room> getRoomsWithRoom() {

@@ -1,6 +1,8 @@
 package com.comandante.creeper.Items;
 
 
+import com.codahale.metrics.MetricRegistry;
+import com.comandante.creeper.Main;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.server.CreeperSession;
 
@@ -26,9 +28,11 @@ public class ItemUseHandler {
     }
 
     private void processBeer() {
-        writeToRoom(gameManager.getPlayerManager().getPlayer(playerId).getPlayerName() + " drinks an ice cold cruiser." + "\r\n");
+        String playerName = gameManager.getPlayerManager().getPlayer(playerId).getPlayerName();
+        writeToRoom(playerName + " drinks an ice cold cruiser." + "\r\n");
         writeToPlayer("20 health is restored.");
         gameManager.getPlayerManager().getPlayerMetadata(playerId).getStats().incrementHealth(20);
+        Main.metrics.counter(MetricRegistry.name(ItemUseHandler.class, playerName + "-beer-drank")).inc();
     }
 
     private void processBook() {

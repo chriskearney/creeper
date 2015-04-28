@@ -1,5 +1,6 @@
 package com.comandante.creeper.world;
 
+import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
 import com.google.common.base.Optional;
@@ -39,6 +40,10 @@ public class RoomManager {
         } else {
             return Optional.absent();
         }
+    }
+
+    public void addMerchant(Integer roomId, Merchant merchant) {
+        getRoom(roomId).addMerchant(merchant);
     }
 
     public void tagRoom(Integer roomId, String tag) {

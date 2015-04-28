@@ -21,7 +21,7 @@ public enum ItemType {
     BEER(2, Arrays.asList("beer", "can of beer", "b"),
             "a dented can of " + CYAN + "beer" + RESET,
             "a " + CYAN + "beer" + RESET + " lies on the ground, unopened",
-            "This beer looks sketch but you'll probably drink it anyways.",
+            "an ice cold " + CYAN + "beer" + RESET + " that restores 20 health" + RESET,
             true,
             2,
             60),

@@ -77,7 +77,7 @@ public abstract class Command extends SimpleChannelUpstreamHandler {
         this.player = playerManager.getPlayer(extractPlayerId(creeperSession));
         this.playerId = player.getPlayerId();
         this.currentRoom = gameManager.getRoomManager().getPlayerCurrentRoom(player).get();
-        this.mapMatrix  = mapsManager.getFloorMatrixMaps().get(currentRoom.getFloorId());
+        this.mapMatrix = mapsManager.getFloorMatrixMaps().get(currentRoom.getFloorId());
         this.currentRoomCoords = mapMatrix.getCoords(currentRoom.getRoomId());
         this.originalMessageParts = getOriginalMessageParts(e);
         this.playerMetadata = gameManager.getPlayerManager().getPlayerMetadata(playerId);
@@ -85,11 +85,18 @@ public abstract class Command extends SimpleChannelUpstreamHandler {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
-        e.getChannel().getPipeline().remove(ctx.getHandler());
-        String playerId = extractPlayerId(extractCreeperSession(e.getChannel()));
-        String prompt = gameManager.getPlayerManager().buildPrompt(playerId);
-        gameManager.getChannelUtils().write(playerId, prompt, true);
-        super.messageReceived(ctx, e);
+        try {
+            CreeperSession creeperSession = extractCreeperSession(e.getChannel());
+            e.getChannel().getPipeline().remove(ctx.getHandler());
+            if (creeperSession.getGrabMerchant().isPresent()) {
+                return;
+            }
+            String playerId = extractPlayerId(creeperSession);
+            String prompt = gameManager.getPlayerManager().buildPrompt(playerId);
+            gameManager.getChannelUtils().write(playerId, prompt, true);
+        } finally {
+            super.messageReceived(ctx, e);
+        }
     }
 
     public CreeperSession extractCreeperSession(Channel channel) {
@@ -101,7 +108,7 @@ public abstract class Command extends SimpleChannelUpstreamHandler {
         return Main.createPlayerId(creeperSession.getUsername().get());
     }
 
-    public String getRootCommand(MessageEvent e){
+    public String getRootCommand(MessageEvent e) {
         String origMessage = (String) e.getMessage();
         return origMessage.split(" ")[0].toLowerCase();
     }
@@ -123,7 +130,7 @@ public abstract class Command extends SimpleChannelUpstreamHandler {
         channelUtils.writeToRoom(playerId, msg);
     }
 
-    public void currentRoomLogic(){
+    public void currentRoomLogic() {
         gameManager.currentRoomLogic(playerId);
     }
 
@@ -133,5 +140,9 @@ public abstract class Command extends SimpleChannelUpstreamHandler {
 
     public String getPrompt() {
         return playerManager.buildPrompt(playerId);
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
