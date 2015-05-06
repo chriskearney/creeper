@@ -89,7 +89,7 @@ public class MovementCommand extends Command {
         if (originalMessageParts.size() > 1) {
             String enterExitName = originalMessageParts.get(1);
             for (RemoteExit remoteExit : currentRoom.getEnterExits()) {
-                if (remoteExit.getExitDetail().equals(enterExitName)) {
+                if (remoteExit.getExitDetail().equalsIgnoreCase(enterExitName)) {
                     return Optional.of(remoteExit);
                 }
             }
