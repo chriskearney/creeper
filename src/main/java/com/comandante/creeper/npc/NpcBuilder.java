@@ -11,6 +11,7 @@ import java.util.Set;
 public class NpcBuilder {
     private GameManager gameManager;
     private String name;
+    private long level;
     private String colorName;
     private long lastPhraseTimestamp;
     private Stats stats;
@@ -25,6 +26,7 @@ public class NpcBuilder {
 
     public NpcBuilder(Npc npc) {
         this.name = npc.getName();
+        this.level = npc.getLevel();
         this.colorName = npc.getColorName();
         this.lastPhraseTimestamp = npc.getLastPhraseTimestamp();
         this.stats = new Stats(npc.getStats());
@@ -43,6 +45,11 @@ public class NpcBuilder {
 
     public NpcBuilder setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public NpcBuilder setLevel(long level) {
+        this.level = level;
         return this;
     }
 
@@ -87,6 +94,6 @@ public class NpcBuilder {
     }
 
     public Npc createNpc() {
-        return new Npc(gameManager, name, colorName, lastPhraseTimestamp, stats, dieMessage, roamAreas, validTriggers, loot, spawnRules);
+        return new Npc(gameManager, name, level, colorName, lastPhraseTimestamp, stats, dieMessage, roamAreas, validTriggers, loot, spawnRules);
     }
 }

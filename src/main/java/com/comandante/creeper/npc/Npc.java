@@ -41,6 +41,7 @@ public class Npc extends CreeperEntity {
     private long lastPhraseTimestamp;
     private final GameManager gameManager;
     private final String name;
+    private final long level;
     private final String colorName;
     private final Stats stats;
     private final String dieMessage;
@@ -60,9 +61,10 @@ public class Npc extends CreeperEntity {
     private final Random random = new Random();
 
 
-    protected Npc(GameManager gameManager, String name, String colorName, long lastPhraseTimestamp, Stats stats, String dieMessage, Set<Area> roamAreas, Set<String> validTriggers, Loot loot, Set<SpawnRule> spawnRules) {
+    protected Npc(GameManager gameManager, String name, long level, String colorName, long lastPhraseTimestamp, Stats stats, String dieMessage, Set<Area> roamAreas, Set<String> validTriggers, Loot loot, Set<SpawnRule> spawnRules) {
         this.gameManager = gameManager;
         this.name = name;
+        this.level = level;
         this.colorName = colorName;
         this.lastPhraseTimestamp = lastPhraseTimestamp;
         this.stats = stats;
@@ -119,6 +121,10 @@ public class Npc extends CreeperEntity {
         }
     }
 
+    public long getLevel() {
+        return level;
+    }
+
     private boolean getRandPercent(double percent) {
         double rangeMin = 0;
         double rangeMax = 100;
@@ -164,6 +170,10 @@ public class Npc extends CreeperEntity {
     }
 
     public Stats getStats() {
+        return gameManager.getStatsModifierFactory().getStatsModifier(this);
+    }
+
+    public Stats getBaseStats(){
         return stats;
     }
 
@@ -293,19 +303,19 @@ public class Npc extends CreeperEntity {
                             gameManager.getChannelUtils().write(npcStatsChange.getPlayer().getPlayerId(), message + "\r\n", true);
                         }
                     }
-                    StatsHelper.combineStats(getStats(), npcStatsChange.getStats());
+                    StatsHelper.combineStats(getBaseStats(), npcStatsChange.getStats());
                     long amt = npcStatsChange.getStats().getCurrentHealth();
                     long damageReportAmt = -npcStatsChange.getStats().getCurrentHealth();
-                    if (getStats().getCurrentHealth() < 0) {
-                        damageReportAmt = -amt + getStats().getCurrentHealth();
-                        getStats().setCurrentHealth(0);
+                    if (getBaseStats().getCurrentHealth() < 0) {
+                        damageReportAmt = -amt + getBaseStats().getCurrentHealth();
+                        getBaseStats().setCurrentHealth(0);
                     }
                     long damage = 0;
                     if (getPlayerDamageMap().containsKey(npcStatsChange.getPlayer().getPlayerId())) {
                         damage = getPlayerDamageMap().get(npcStatsChange.getPlayer().getPlayerId());
                     }
                     addDamageToMap(npcStatsChange.getPlayer().getPlayerId(), damage + damageReportAmt);
-                    if (getStats().getCurrentHealth() == 0) {
+                    if (getBaseStats().getCurrentHealth() == 0) {
                         killNpc(npcStatsChange.getPlayer());
                         return;
                     }

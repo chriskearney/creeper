@@ -1,5 +1,6 @@
 {
   "name": "tree berserker",
+  "level": 5,
   "colorName": "tree \u001B[1m\u001B[35mberserker\u001B[0m",
   "dieMessage": "a tree \u001B[1m\u001B[35mberserker\u001B[0m breathes his last breath in a pool of \u001B[1m\u001B[31mblood\u001B[0m",
   "loot": {

@@ -28,6 +28,7 @@ public class NpcAdapter extends TypeAdapter<Npc> {
     public void write(JsonWriter jsonWriter, Npc npc) throws IOException {
         jsonWriter.beginObject();
         jsonWriter.name("name").value(npc.getName());
+        jsonWriter.name("level").value(npc.getLevel());
         jsonWriter.name("colorName").value(npc.getColorName());
         jsonWriter.name("dieMessage").value(npc.getDieMessage());
 
@@ -101,6 +102,8 @@ public class NpcAdapter extends TypeAdapter<Npc> {
         jsonReader.beginObject();
         jsonReader.nextName();
         final String npcName = jsonReader.nextString();
+        jsonReader.nextName();
+        final long level = jsonReader.nextLong();
         jsonReader.nextName();
         final String npcColorName = jsonReader.nextString();
         jsonReader.nextName();
@@ -207,6 +210,7 @@ public class NpcAdapter extends TypeAdapter<Npc> {
                 .setDieMessage(npcDieMessage)
                 .setLoot(loot)
                 .setName(npcName)
+                .setLevel(level)
                 .setRoamAreas(roamAreas)
                 .setSpawnRules(spawnRules)
                 .setStats(statsBuilder.createStats())

@@ -728,6 +728,11 @@ public class Player extends CreeperEntity {
         }
     }
 
+    public long getLevel() {
+        Stats origStats = gameManager.getStatsModifierFactory().getStatsModifier(this);
+        return Levels.getLevel(origStats.getExperience());
+    }
+
     public String getLookString() {
         StringBuilder sb = new StringBuilder();
         Stats origStats = gameManager.getStatsModifierFactory().getStatsModifier(this);

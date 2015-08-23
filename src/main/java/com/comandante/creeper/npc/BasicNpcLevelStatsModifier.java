@@ -1,18 +1,22 @@
-package com.comandante.creeper.player;
+package com.comandante.creeper.npc;
 
 import com.comandante.creeper.managers.GameManager;
-import com.comandante.creeper.npc.Npc;
+import com.comandante.creeper.player.Levels;
+import com.comandante.creeper.player.Player;
+import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.player.StatsModifier;
 import com.comandante.creeper.stat.Stats;
 import com.comandante.creeper.stat.StatsBuilder;
 
 import static java.lang.Math.pow;
 import static java.lang.StrictMath.sqrt;
 
-public class BasicPlayerLevelStatsModifier implements StatsModifier {
+
+public class BasicNpcLevelStatsModifier  implements StatsModifier {
 
     private final GameManager gameManager;
 
-    public BasicPlayerLevelStatsModifier(GameManager gameManager) {
+    public BasicNpcLevelStatsModifier(GameManager gameManager) {
         this.gameManager = gameManager;
     }
 
@@ -66,9 +70,8 @@ public class BasicPlayerLevelStatsModifier implements StatsModifier {
     }
 
     @Override
-    public Stats modify(Player player) {
-        PlayerMetadata playerMetadata = gameManager.getPlayerManager().getPlayerMetadata(player.getPlayerId());
-        Stats baseStats = playerMetadata.getStats();
+    public Stats modify(Npc npc) {
+        Stats baseStats = npc.getBaseStats();
         long level = Levels.getLevel(baseStats.getExperience());
         long newMaxHealth = getHealthForLevel(baseStats.getMaxHealth(), level);
         long newArmorRating = getArmorForLevel(baseStats.getArmorRating(), level);
@@ -93,7 +96,7 @@ public class BasicPlayerLevelStatsModifier implements StatsModifier {
     }
 
     @Override
-    public Stats modify(Npc npc) {
+    public Stats modify(Player player) {
         return null;
     }
 }
