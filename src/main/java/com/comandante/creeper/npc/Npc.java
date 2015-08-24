@@ -9,6 +9,7 @@ import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.managers.SentryManager;
 import com.comandante.creeper.player.CoolDown;
 import com.comandante.creeper.player.CoolDownType;
+import com.comandante.creeper.player.ExperienceManager;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.server.Color;
 import com.comandante.creeper.spawner.SpawnRule;
@@ -232,12 +233,12 @@ public class Npc extends CreeperEntity {
         return effects;
     }
 
-    public long getExperience() {
-        return getStats().getExperience();
+    public long getExperience(Player player) {
+        return ExperienceManager.getXp(this, player);
     }
 
-    public double getPctOFExperience(double pct, long playerLevel) {
-        return getExperience() * pct;
+    public double getPctOFExperience(double pct, Player player) {
+        return getExperience(player) * pct;
     }
 
     public void addDamageToMap(String playerId, long amt) {

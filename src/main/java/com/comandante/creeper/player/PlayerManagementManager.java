@@ -24,7 +24,10 @@ public class PlayerManagementManager {
             String playerId = entry.getKey();
             PlayerMetadata playerMetadata = entry.getValue();
             PlayerManagement playerManagement = new PlayerManagement(gameManager, playerId);
-            mbs.registerMBean(playerManagement, new ObjectName("CreeperManagement:00=Players,name=" + playerMetadata.getPlayerName()));
+            ObjectName objectName = new ObjectName("CreeperManagement:00=Players,name=" + playerMetadata.getPlayerName());
+            if (!mbs.isRegistered(objectName)) {
+                mbs.registerMBean(playerManagement, objectName);
+            }
         }
     }
 

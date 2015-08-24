@@ -30,6 +30,10 @@ public class LookCommand extends Command {
             }
             originalMessageParts.remove(0);
             String target = Joiner.on(" ").join(originalMessageParts);
+            if (target.equalsIgnoreCase("self")) {
+                write(player.getLookString() + "\r\n");
+                return;
+            }
             //Notables
             for (Map.Entry<String, String> notable : currentRoom.getNotables().entrySet()) {
                 if (notable.getKey().equalsIgnoreCase(target)) {
@@ -39,7 +43,7 @@ public class LookCommand extends Command {
             //Players
             Set<Player> presentPlayers = roomManager.getPresentPlayers(currentRoom);
             for (Player presentPlayer : presentPlayers) {
-                if (presentPlayer != null && presentPlayer.getPlayerName().equals(target)) {
+                if (presentPlayer != null && presentPlayer.getPlayerName().equalsIgnoreCase(target)) {
                     write(presentPlayer.getLookString() + "\r\n");
                     if (!presentPlayer.getPlayerId().equals(playerId)) {
                         channelUtils.write(presentPlayer.getPlayerId(), player.getPlayerName() + " looks at you.", true);
@@ -50,7 +54,7 @@ public class LookCommand extends Command {
             for (String npcId : npcIds) {
                 Npc currentNpc = gameManager.getEntityManager().getNpcEntity(npcId);
                 if (currentNpc.getValidTriggers().contains(target)) {
-                    write(gameManager.getLookString(currentNpc) + "\r\n");
+                    write(gameManager.getLookString(currentNpc, player) + "\r\n");
                 }
             }
         } finally {

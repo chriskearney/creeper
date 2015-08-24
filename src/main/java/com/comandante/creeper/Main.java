@@ -99,9 +99,8 @@ public class Main {
         worldExporter.readWorldFromDisk();
 
         startUpMessage("Creating and registering Player Management MBeans.");
-        PlayerManagementManager playerManagementManager = new PlayerManagementManager(gameManager);
-        playerManagementManager.processPlayersMarkedForDeletion();
-        playerManagementManager.createAndRegisterAllPlayerManagementMBeans();
+        gameManager.getPlayerManagementManager().processPlayersMarkedForDeletion();
+        gameManager.getPlayerManagementManager().createAndRegisterAllPlayerManagementMBeans();
 
         startUpMessage("Configuring commands");
         ConfigureCommands.configure(gameManager);
@@ -139,6 +138,10 @@ public class Main {
             startUpMessage("Starting irc server.");
             configureIrc(gameManager);
         }
+
+        MBeanRefresherService mBeanRefresherService = new MBeanRefresherService(gameManager);
+        mBeanRefresherService.startAsync();
+        startUpMessage("MBean Refresher Service started.");
     }
 
     public static void startUpMessage(String message) {

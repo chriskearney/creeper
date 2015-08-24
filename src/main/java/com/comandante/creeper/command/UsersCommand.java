@@ -1,4 +1,4 @@
-package com.comandante.creeper.command.admin;
+package com.comandante.creeper.command;
 
 import com.comandante.creeper.command.Command;
 import com.comandante.creeper.managers.GameManager;
@@ -25,10 +25,9 @@ public class UsersCommand extends Command {
     final static List<String> validTriggers = Arrays.asList("users");
     final static String description = "Display extended inforation about who is logged in.";
     final static String correctUsage = "users";
-    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.ADMIN);
 
     public UsersCommand(GameManager gameManager) {
-        super(gameManager, validTriggers, description, correctUsage, roles);
+        super(gameManager, validTriggers, description, correctUsage);
     }
 
     @Override

@@ -1,26 +1,47 @@
 package com.comandante.creeper.player;
 
 import com.comandante.creeper.npc.Npc;
+import com.comandante.creeper.server.Color;
 
 public class ExperienceManager {
 
     // http://wowwiki.wikia.com/wiki/Formulas:Mob_XP
 
-    enum ExperienceType {
-        RED,
-        ORANGE,
-        YELLOW,
-        GREEN,
-        GRAY;
+    public enum ExperienceType {
+        RED(Color.RED),
+        CYAN(Color.CYAN),
+        YELLOW(Color.YELLOW),
+        GREEN(Color.GREEN),
+        GRAY(Color.WHITE);
+
+        String color;
+
+        ExperienceType(String color) {
+            this.color = color;
+        }
+
+        public String getColor() {
+            return color;
+        }
     }
 
-    private ExperienceType getExperienceType(Npc npc, Player player) {
+    public static long getXp(Npc npc, Player player) {
+        if (player.getLevel() == npc.getLevel()) {
+            return getBaseXp(player.getLevel());
+        } else if (player.getLevel() < npc.getLevel()) {
+            return getHigherLevelNpcXp(npc.getLevel(), player.getLevel());
+        } else {
+            return getLowerLevelNpcXp(npc.getLevel(), player.getLevel());
+        }
+    }
+
+    public static ExperienceType getExperienceType(Npc npc, Player player) {
         long npcLevel = npc.getLevel();
         long playerLevel = player.getLevel();
         if (npcLevel >= (playerLevel + 5)) {
             return ExperienceType.RED;
         } else if ((npcLevel == (playerLevel + 3)) || npcLevel == (playerLevel + 4)) {
-            return ExperienceType.ORANGE;
+            return ExperienceType.CYAN;
         } else if ((npcLevel == (playerLevel + 2)) || (npcLevel == (playerLevel - 2))) {
             return ExperienceType.YELLOW;
         } else if ((npcLevel <= (playerLevel - 3)) && npcLevel > getGrayLevel(playerLevel)) {
@@ -76,19 +97,26 @@ public class ExperienceManager {
         } else {
             return 18;
         }
-
     }
 
+    public static long getBaseXp(long playerLevel) {
+        return (playerLevel * 5) + 235;
+    }
+
+    public static long getHigherLevelNpcXp(long npcLevel, long playerLevel) {
+        return (long) (getBaseXp(playerLevel) * (1 + .05 * (npcLevel - playerLevel)));
+    }
+
+    public static long getLowerLevelNpcXp(long npcLevel, long playerLevel) {
+        if (getGrayLevel(playerLevel) >= npcLevel) {
+            return 0;
+        }
+        return getBaseXp(playerLevel) * (1 - (playerLevel - npcLevel)/getZeroDifference(playerLevel));
+    }
 
     public static void main(String[] args) {
         for (int i = 0; i < 70; i++) {
             System.out.println("Level: " + i + " Gray Level: " + getGrayLevel(i) + " zero-difference:" + getZeroDifference(i) );
         }
     }
-
-    //public long getBasicExperienceGained(Npc npc, Player player) {
-     //   long level = player.getLevel();
-
-//    }
-
 }

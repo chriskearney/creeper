@@ -1,4 +1,4 @@
-package com.comandante.creeper.command.admin;
+package com.comandante.creeper.command;
 
 import com.comandante.creeper.Main;
 import com.comandante.creeper.command.Command;
@@ -21,10 +21,9 @@ public class SystemInfo extends Command {
     final static List<String> validTriggers = Arrays.asList("sysinfo", "systeminfo", "sys");
     final static String description = "Display System information.";
     final static String correctUsage = "systeminfo";
-    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.ADMIN);
 
     public SystemInfo(GameManager gameManager) {
-        super(gameManager, validTriggers, description, correctUsage, roles);
+        super(gameManager, validTriggers, description, correctUsage);
     }
 
     @Override

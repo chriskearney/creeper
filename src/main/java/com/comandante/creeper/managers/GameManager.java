@@ -67,6 +67,7 @@ public class GameManager {
     private final TimeTracker timeTracker;
     private final ItemUseHandler itemUseHandler;
     private final NpcMover npcMover;
+    private final PlayerManagementManager playerManagementManager;
 
     public GameManager(CreeperConfiguration creeperConfiguration, RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager, MapsManager mapsManager, ChannelUtils channelUtils) {
         this.roomManager = roomManager;
@@ -92,6 +93,11 @@ public class GameManager {
         this.entityManager.addEntity(itemDecayManager);
         this.itemUseHandler = new ItemUseHandler(this);
         this.npcMover = new NpcMover(this);
+        this.playerManagementManager = new PlayerManagementManager(this);
+    }
+
+    public PlayerManagementManager getPlayerManagementManager() {
+        return playerManagementManager;
     }
 
     public NpcMover getNpcMover() {
@@ -410,11 +416,15 @@ public class GameManager {
         }
     }
 
-    public String getLookString(Npc npc) {
+    public String getLookString(Npc npc, Player player) {
         StringBuilder sb = new StringBuilder();
         // passing an empty createState because of the "difference calculation"
         sb.append(Color.MAGENTA + "-+=[ " + Color.RESET).append(npc.getColorName()).append(Color.MAGENTA + " ]=+- " + Color.RESET).append("\r\n");
-        sb.append("Level: " + npc.getLevel()).append("\r\n");
+        ExperienceManager.ExperienceType experienceType = ExperienceManager.getExperienceType(npc, player);
+        sb.append(experienceType.getColor());
+        sb.append("Level: ").append(npc.getLevel());
+        sb.append(Color.RESET);
+        sb.append("\r\n");
         sb.append(Color.MAGENTA + "Stats--------------------------------" + Color.RESET).append("\r\n");
         sb.append(buildLookString(npc.getColorName(), npc.getStats(), new StatsBuilder().createStats())).append("\r\n");
         if (npc.getEffects() != null && npc.getEffects().size() > 0) {
@@ -616,14 +626,15 @@ public class GameManager {
             PlayerMetadata playerMetadata = getPlayerManager().getPlayerMetadata(playerId);
             long amount = damageEntry.getValue();
             double pct = (double) amount / totalDamageDone;
+            Player player = getPlayerManager().getPlayer(playerId);
             if (pct >= .90) {
-                damagePcts.put(playerId, npc.getPctOFExperience(1, Levels.getLevel(playerMetadata.getStats().getExperience())));
+                damagePcts.put(playerId, npc.getPctOFExperience(1, player));
             } else if (pct >= 0.25) {
-                damagePcts.put(playerId, npc.getPctOFExperience(.8, Levels.getLevel(playerMetadata.getStats().getExperience())));
+                damagePcts.put(playerId, npc.getPctOFExperience(.8, player));
             } else if (pct >= 0.10) {
-                damagePcts.put(playerId, npc.getPctOFExperience(.5, Levels.getLevel(playerMetadata.getStats().getExperience())));
+                damagePcts.put(playerId, npc.getPctOFExperience(.5, player));
             } else {
-                damagePcts.put(playerId, npc.getPctOFExperience(.25, Levels.getLevel(playerMetadata.getStats().getExperience())));
+                damagePcts.put(playerId, npc.getPctOFExperience(.25, player));
             }
         }
         return damagePcts;

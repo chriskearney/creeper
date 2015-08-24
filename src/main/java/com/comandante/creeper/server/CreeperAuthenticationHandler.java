@@ -15,37 +15,6 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
     private final CreeperAuthenticator creeperAuthenticator;
     private static final Logger log = Logger.getLogger(CreeperAuthenticationHandler.class);
 
-
-
-    private static final String LOGO = "        ,---__,------__---.\r\n" +
-            "      ,'////<: =     ]\\\\\\\\\\`.\r\n" +
-            "     ///__---^~~\"\"\"~~^---__\\\\\\\r\n" +
-            "    //,' D E T E C T I V E `.\\\\\r\n" +
-            "   /  \\   __---^~~~^---__   /  \\\r\n" +
-            "  /,.  \\,'   /.-----.\\   `./  ,.\\\r\n" +
-            " //  `.     MMM ,^. MMM     ,'  \\\\\r\n" +
-            "//.--. ~~^^---^~   ~^---^^~~ .--.\\\\\r\n" +
-            "/  '> \\  __--'^^~~~^^`--__  / <'   \\\r\n" +
-            "\\   / _-^  o   L   I   c  ^-_ \\   /\r\n" +
-            " \\  ,'  P  __--^^^^^--__  E  `.  /\r\n" +
-            "  \\ \\   ,-^             ^-.   / /\r\n" +
-            "  i  \\,' ,^-__-^~/\\^-__-^. `./  i\r\n" +
-            "  |     /|#`|`.| ||**\\ */-\\     |\r\n" +
-            "  !     '>#| `|`.||--/* \\*<'    !\r\n" +
-            "  /     /|#|_|#_|||________\\    \\    - Creeper Rule Violators -\r\n" +
-            " /      \\   *   *||.| |#| |/     \\   - WILL BE PLACED IN MUD JAIL-\r\n" +
-            "i        \\**\\ */-[]|`.|#| /       i\r\n" +
-            "|         \\-/* \\/~~\\`|`.|/        |\r\n" +
-            "|   /`.    `. ./_[]_\\.`,'   ,'\\   |\r\n" +
-            "!  /   `-.   ^|______|^  ,-'   \\  !\r\n" +
-            " \\ `.     ~~^--_____--^~~     ,' /\r\n" +
-            "  \\  `-_      CREEPER      _-'  /\r\n" +
-            "   `.   ^~--._________.--~^   ,'\r\n" +
-            "     ^-_                   _-^\r\n" +
-            "        ^~--__ 4 2 0 __--~^\r\n" +
-            "              `.   ,'\r\n" +
-            "                `-'\r\n";
-
     public CreeperAuthenticationHandler(GameManager gameManager) {
         this.gameManager = gameManager;
         this.creeperAuthenticator = new GameAuth(gameManager);
@@ -64,7 +33,6 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
     public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
-                .append(LOGO)
                 .append(RESET + "\r\n")
                 .append("First time here? Type \"tupac\".\r\n")
                 .append("username: ");
