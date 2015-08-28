@@ -2,10 +2,15 @@ package com.comandante.creeper.player;
 
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.server.Color;
+import com.google.api.client.util.Maps;
+import com.google.common.collect.Range;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public class ExperienceManager {
 
-    // http://wowwiki.wikia.com/wiki/Formulas:Mob_XP
+    public static final Map<Range<Long>, Long> rangeMap = Maps.newHashMap();
 
     public enum ExperienceType {
         RED(Color.RED),
@@ -70,7 +75,7 @@ public class ExperienceManager {
     }
 
     private static long getZeroDifference(long playerLevel) {
-        if (playerLevel >= 1 && playerLevel <= 7){
+        if (playerLevel >= 1 && playerLevel <= 7) {
             return 5;
         } else if (playerLevel >= 8 && playerLevel <= 9) {
             return 6;
@@ -100,7 +105,7 @@ public class ExperienceManager {
     }
 
     public static long getBaseXp(long playerLevel) {
-        return (playerLevel * 5) + 235;
+        return (playerLevel * 5) + 45;
     }
 
     public static long getHigherLevelNpcXp(long npcLevel, long playerLevel) {
@@ -111,12 +116,66 @@ public class ExperienceManager {
         if (getGrayLevel(playerLevel) >= npcLevel) {
             return 0;
         }
-        return getBaseXp(playerLevel) * (1 - (playerLevel - npcLevel)/getZeroDifference(playerLevel));
+        return getBaseXp(playerLevel) * (1 - (playerLevel - npcLevel) / getZeroDifference(playerLevel));
     }
 
     public static void main(String[] args) {
-        for (int i = 0; i < 70; i++) {
-            System.out.println("Level: " + i + " Gray Level: " + getGrayLevel(i) + " zero-difference:" + getZeroDifference(i) );
+        calculateXpRanges();
+        for (int i = 1; i <= 80; i++) {
+            System.out.println("Level: " + i + " Gray Level: " + getGrayLevel(i) + " zero-difference:" + getZeroDifference(i) + " xp to next level: " + getXpToNextLevel(i) + " total xp: " + totalXpNeeded(i));
+       }
+    }
+
+    private static long getXpToNextLevel(long playerLevel) {
+        if (playerLevel <= 10) {
+            return (long) ((40 * Math.pow(playerLevel, 2)) + (360 * playerLevel));
+        } else if (playerLevel >= 11 && playerLevel <= 30) {
+            return (long) ((-.4 * Math.pow(playerLevel, 3)) + (40.4 * Math.pow(playerLevel, 2)) + (396 * playerLevel));
+        } else if (playerLevel >= 31 && playerLevel <= 69) {
+            return (long) ((65 * Math.pow(playerLevel, 2) - (165 * playerLevel) - 6750) * .82);
+        } else if (playerLevel == 70) {
+            return 155 + getBaseXp(playerLevel) * (1344 - 79 - ((79 - playerLevel) * (3 + (79 - playerLevel) * 4)));
+        } else {
+            return 155 + getBaseXp(playerLevel) * (1344 - ((79 - playerLevel) * (3 + (79 - playerLevel) * 4)));
         }
+    }
+
+    public static long totalXpNeeded(long playerLevel) {
+        long totalXp = 0;
+        if (playerLevel == 1) {
+            return 0;
+        }
+        for (int i = 1; i <= playerLevel; i++) {
+            totalXp += getXpToNextLevel(i);
+        }
+        return totalXp;
+    }
+
+    public static void calculateXpRanges() {
+        for (int i = 1; i <= 80; i++) {
+            rangeMap.put(Range.closedOpen(totalXpNeeded(i), totalXpNeeded(i + 1)), (long) i);
+        }
+    }
+
+    public static long getLevel(long experience) {
+        for (Map.Entry<Range<Long>, Long> next : rangeMap.entrySet()) {
+            if (next.getKey().contains(experience)) {
+                return next.getValue();
+            }
+        }
+        return 80;
+    }
+
+    public static Range<Long> getRange(long experience) {
+        for (Map.Entry<Range<Long>, Long> next : rangeMap.entrySet()) {
+            if (next.getKey().contains(experience)) {
+                return next.getKey();
+            }
+        }
+        return Range.closedOpen(0L,0L);
+    }
+
+    public static long getXpToLevel(long experience) {
+        return getRange(experience).upperEndpoint() - experience;
     }
 }

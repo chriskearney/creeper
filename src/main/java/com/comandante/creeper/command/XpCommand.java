@@ -3,6 +3,7 @@ package com.comandante.creeper.command;
 import com.codahale.metrics.Meter;
 import com.comandante.creeper.Main;
 import com.comandante.creeper.managers.GameManager;
+import com.comandante.creeper.player.ExperienceManager;
 import com.comandante.creeper.player.Levels;
 import com.comandante.creeper.player.PlayerMetadata;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -35,7 +36,7 @@ public class XpCommand extends Command {
         try {
             PlayerMetadata playerMetadata = playerManager.getPlayerMetadata(player.getPlayerId());
             long nextLevel = Levels.getLevel(playerMetadata.getStats().getExperience()) + 1;
-            long expToNextLevel = Levels.getXp(nextLevel) - playerMetadata.getStats().getExperience();
+            long expToNextLevel = ExperienceManager.getXpToLevel(playerMetadata.getStats().getExperience());
             Meter meter = Main.metrics.meter("experience-" + player.getPlayerName());
             StringBuilder sb = new StringBuilder();
             sb.append(NumberFormat.getNumberInstance(Locale.US).format(expToNextLevel)).append(" experience to level ").append(nextLevel).append(".\r\n");

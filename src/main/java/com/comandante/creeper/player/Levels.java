@@ -8,8 +8,7 @@ public class Levels {
     private static double CONSTANT_MODIFIER = 0.005;
 
     public static long getLevel(long experience) {
-        double v = CONSTANT_MODIFIER * sqrt(experience);
-        return (long) Math.floor(v);
+        return ExperienceManager.getLevel(experience);
     }
 
     public static long getXp(long level) {

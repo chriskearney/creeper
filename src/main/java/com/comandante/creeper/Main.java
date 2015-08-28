@@ -7,6 +7,7 @@ import com.codahale.metrics.graphite.GraphiteReporter;
 import com.codahale.metrics.graphite.PickledGraphite;
 import com.comandante.creeper.Items.ItemUseRegistry;
 import com.comandante.creeper.entity.EntityManager;
+import com.comandante.creeper.player.ExperienceManager;
 import com.comandante.creeper.player.PlayerManagementManager;
 import com.comandante.creeper.managers.GameManager;
 import com.comandante.creeper.managers.SessionManager;
@@ -128,6 +129,9 @@ public class Main {
         BackportCommands.configureDefaultMaxEffectSize(entityManager, gameManager);
 
         BackportCommands.configureFibsHealth(entityManager, gameManager);
+
+        ExperienceManager.calculateXpRanges();
+        startUpMessage("Calculated XP Ranges");
 
         startUpMessage("Creeper MUD engine started");
 
