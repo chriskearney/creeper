@@ -92,7 +92,7 @@ public class Main {
         MapsManager mapsManager = new MapsManager(creeperConfiguration, roomManager);
         ChannelUtils channelUtils = new ChannelUtils(playerManager, roomManager);
         EntityManager entityManager = new EntityManager(roomManager, playerManager, db);
-        GameManager gameManager = new GameManager(creeperConfiguration, roomManager, playerManager, entityManager, mapsManager, channelUtils);
+        GameManager gameManager = new GameManager(creeperConfiguration, roomManager, playerManager, entityManager, mapsManager, channelUtils, db);
 
         startUpMessage("Reading world from disk.");
         WorldExporter worldExporter = new WorldExporter(roomManager, mapsManager, gameManager.getFloorManager(), entityManager, gameManager);

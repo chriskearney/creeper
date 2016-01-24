@@ -31,6 +31,7 @@ import com.google.common.collect.Interners;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.log4j.Logger;
+import org.mapdb.DB;
 import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;
@@ -68,7 +69,7 @@ public class GameManager {
     private final ItemUseHandler itemUseHandler;
     private final NpcMover npcMover;
 
-    public GameManager(CreeperConfiguration creeperConfiguration, RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager, MapsManager mapsManager, ChannelUtils channelUtils) {
+    public GameManager(CreeperConfiguration creeperConfiguration, RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager, MapsManager mapsManager, ChannelUtils channelUtils, DB db) {
         this.roomManager = roomManager;
         this.playerManager = playerManager;
         this.entityManager = entityManager;
@@ -82,7 +83,7 @@ public class GameManager {
         this.creeperConfiguration = creeperConfiguration;
         this.forageManager = new ForageManager(this);
         this.effectsManager = new EffectsManager(this);
-        this.botCommandManager = new BotCommandManager(this);
+        this.botCommandManager = new BotCommandManager(db, this);
         this.botCommandFactory = new BotCommandFactory(botCommandManager);
         this.statsModifierFactory = new StatsModifierFactory(this);
         this.gossipCache = new GossipCache(this);
