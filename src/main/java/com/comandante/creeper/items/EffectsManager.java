@@ -2,7 +2,7 @@ package com.comandante.creeper.items;
 
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.npc.Npc;
-import com.comandante.creeper.npc.NpcStatsChange;
+import com.comandante.creeper.npc.StatsChange;
 import com.comandante.creeper.npc.NpcStatsChangeBuilder;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerMetadata;
@@ -75,7 +75,7 @@ public class EffectsManager {
                 }
                 //applyStatsOnTick = new StatsBuilder(applyStatsOnTick).setCurrentHealth(0).createStats();
             }
-            //  StatsHelper.combineStats(playerMetadata.getStats(), applyStatsOnTick);
+            //  StatsHelper.combineStats(playerMetadata.getTargetStatsChange(), applyStatsOnTick);
         }
     }
 
@@ -85,7 +85,7 @@ public class EffectsManager {
         // if there are effecst that modify npc health, deal with it here, you can't rely on combine stats.
         if (effect.getApplyStatsOnTick().getCurrentHealth() < 0) {
             String s = Color.BOLD_ON + Color.GREEN + "[effect] " + Color.RESET + npc.getColorName() + " is affected by " + effect.getEffectDescription() + " " + Color.RED + applyStats.getCurrentHealth() + Color.RESET + Color.CYAN + Color.RESET;
-            NpcStatsChange npcStatsChange = new NpcStatsChangeBuilder()
+            StatsChange npcStatsChange = new NpcStatsChangeBuilder()
                     .setStats(applyStats)
                     .setDamageStrings(Arrays.asList(s))
                     .setPlayer(player)

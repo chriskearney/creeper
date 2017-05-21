@@ -9,6 +9,7 @@ import com.comandante.creeper.core_game.SentryManager;
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.items.*;
 import com.comandante.creeper.npc.Npc;
+import com.comandante.creeper.npc.StatsChange;
 import com.comandante.creeper.npc.NpcStatsChangeBuilder;
 import com.comandante.creeper.npc.Temperament;
 import com.comandante.creeper.server.player_communication.Color;
@@ -27,6 +28,7 @@ import org.nocrala.tools.texttablefmt.Table;
 
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -50,6 +52,10 @@ public class Player extends CreeperEntity {
     private Optional<Room> previousRoom = Optional.empty();
     private final ScheduledThreadPoolExecutor scheduledExecutor = new ScheduledThreadPoolExecutor(1000);
     private AtomicBoolean isChatMode = new AtomicBoolean(false);
+
+    private final ArrayBlockingQueue<StatsChange> playerStatChanges = new ArrayBlockingQueue<>(3000);
+    private Map<String, Long> playerDamageMap = Maps.newHashMap();
+
 
     public static final int FIGHT_TICK_BUCKET_SIZE = 4;
 
@@ -198,6 +204,36 @@ public class Player extends CreeperEntity {
         }
     }
 
+    public void killPlayer(Player sourcePlayer) {
+        resetEffects();
+        synchronized (interner.intern(playerId)) {
+            if (npc != null && doesActiveFightExist(npc)) {
+                removeAllActiveFights();
+            }
+            if (!isActive(CoolDownType.DEATH)) {
+                Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+                if (!playerMetadataOptional.isPresent()) {
+                    return;
+                }
+                PlayerMetadata playerMetadata = playerMetadataOptional.get();
+                long newGold = playerMetadata.getGold() / 2;
+                playerMetadata.setGold(newGold);
+                gameManager.getPlayerManager().savePlayerMetadata(playerMetadata);
+                if (newGold > 0) {
+                    gameManager.getChannelUtils().write(getPlayerId(), "You just " + Color.BOLD_ON + Color.RED + "lost " + Color.RESET + newGold + Color.YELLOW + " gold" + Color.RESET + "!\r\n");
+                }
+                removeActiveAlertStatus();
+                CoolDown death = new CoolDown(CoolDownType.DEATH);
+                addCoolDown(death);
+                gameManager.writeToPlayerCurrentRoom(getPlayerId(), getPlayerName() + " is now dead." + "\r\n");
+                PlayerMovement playerMovement = new PlayerMovement(this, gameManager.getRoomManager().getPlayerCurrentRoom(this).get().getRoomId(), GameManager.LOBBY_ID, "vanished into the ether.", "");
+                movePlayer(playerMovement);
+                String prompt = gameManager.buildPrompt(playerId);
+                gameManager.getChannelUtils().write(getPlayerId(), prompt, true);
+            }
+        }
+    }
+
 
     public boolean updatePlayerHealth(long amount, Npc npc) {
         synchronized (interner.intern(playerId)) {
@@ -225,6 +261,64 @@ public class Player extends CreeperEntity {
             }
         }
         return false;
+    }
+
+    private void processStatsChange(StatsChange statsChange) {
+        try {
+            Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+            Optional<PlayerMetadata> sourcePlayerMetadataOptional = gameManager.getPlayerManager().getPlayerMetadata(statsChange.getSourcePlayer().getPlayerId());
+            if (!playerMetadataOptional.isPresent() || !sourcePlayerMetadataOptional.isPresent()) {
+                return;
+            }
+            PlayerMetadata targetPlayerMetadata = playerMetadataOptional.get();
+            PlayerMetadata sourcePlayerMetadata = sourcePlayerMetadataOptional.get();
+            if (statsChange.getSourcePlayer().isActive(CoolDownType.DEATH) && !statsChange.isItemDamage()) {
+                return;
+            }
+            if (!isAlive.get()) {
+                return;
+            }
+            if (statsChange.getTargetStatsChange() == null) {
+                return;
+            }
+            for (String message : statsChange.getDamageStrings()) {
+                if (!statsChange.getSourcePlayer().isActive(CoolDownType.DEATH)) {
+                    gameManager.getChannelUtils().write(statsChange.getSourcePlayer().getPlayerId(), message + "\r\n", true);
+                }
+            }
+            Stats stats = targetPlayerMetadata.getStats();
+            StatsHelper.combineStats(stats, statsChange.getTargetStatsChange());
+            long amt = statsChange.getTargetStatsChange().getCurrentHealth();
+            long damageReportAmt = -statsChange.getTargetStatsChange().getCurrentHealth();
+
+            if (stats.getCurrentHealth() < 0) {
+                damageReportAmt = -amt + stats.getCurrentHealth();
+                stats.setCurrentHealth(0);
+            }
+            long damage = 0;
+            if (playerDamageMap.containsKey(statsChange.getSourcePlayer().getPlayerId())) {
+                damage = playerDamageMap.get(statsChange.getSourcePlayer().getPlayerId());
+            }
+            addDamageToMap(statsChange.getSourcePlayer().getPlayerId(), damage + damageReportAmt);
+            if (stats.getCurrentHealth() == 0) {
+                killPlayer(statsChange.getSourcePlayer());
+                return;
+            }
+            if (statsChange.getSourcePlayerStatsChange() != null) {
+                for (String message : statsChange.getPlayerDamageStrings()) {
+                    if (!statsChange.getSourcePlayer().isActive(CoolDownType.DEATH)) {
+                        gameManager.getChannelUtils().write(statsChange.getSourcePlayer().getPlayerId(), message + "\r\n", true);
+                        statsChange.getSourcePlayer().updatePlayerHealth(statsChange.getSourcePlayerStatsChange().getCurrentHealth(), this);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            SentryManager.logSentry(this.getClass(), e, "Problem processing NPC Stat Change!");
+        }
+    }
+
+    public void addDamageToMap(String playerId, long amt) {
+        playerDamageMap.put(playerId, amt);
     }
 
     public Optional<Room> getPreviousRoom() {

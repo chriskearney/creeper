@@ -57,7 +57,7 @@ public class Npc extends CreeperEntity {
     private final Set<Area> roamAreas;
     private final Set<String> validTriggers;
     private final Set<SpawnRule> spawnRules;
-    private final ArrayBlockingQueue<NpcStatsChange> npcStatsChanges = new ArrayBlockingQueue<>(3000);
+    private final ArrayBlockingQueue<StatsChange> npcStatsChanges = new ArrayBlockingQueue<>(3000);
     private final AtomicBoolean isAlive = new AtomicBoolean(true);
     private final Random random = new Random();
     private long lastPhraseTimestamp;
@@ -145,9 +145,9 @@ public class Npc extends CreeperEntity {
                         effectsTickBucket++;
                     }
 
-                    List<NpcStatsChange> npcStatsChangeList = Lists.newArrayList();
+                    List<StatsChange> npcStatsChangeList = Lists.newArrayList();
                     npcStatsChanges.drainTo(npcStatsChangeList);
-                    for (NpcStatsChange npcStatsChange : npcStatsChangeList) {
+                    for (StatsChange npcStatsChange : npcStatsChangeList) {
                         processNpcStatChange(npcStatsChange);
                     }
                     if (!isActiveCooldown(CoolDownType.NPC_FIGHT) && !isActiveCooldown(CoolDownType.NPC_ROAM) && currentRoom != null) {
@@ -168,43 +168,43 @@ public class Npc extends CreeperEntity {
         return name;
     }
 
-    private void processNpcStatChange(NpcStatsChange npcStatsChange) {
+    private void processNpcStatChange(StatsChange npcStatsChange) {
         try {
-            if (npcStatsChange.getPlayer().isActive(CoolDownType.DEATH) && !npcStatsChange.isItemDamage()) {
+            if (npcStatsChange.getSourcePlayer().isActive(CoolDownType.DEATH) && !npcStatsChange.isItemDamage()) {
                 return;
             }
             if (!isAlive.get()) {
                 return;
             }
-            if (npcStatsChange.getStats() == null) {
+            if (npcStatsChange.getTargetStatsChange() == null) {
                 return;
             }
             for (String message : npcStatsChange.getDamageStrings()) {
-                if (!npcStatsChange.getPlayer().isActive(CoolDownType.DEATH)) {
-                    gameManager.getChannelUtils().write(npcStatsChange.getPlayer().getPlayerId(), message + "\r\n", true);
+                if (!npcStatsChange.getSourcePlayer().isActive(CoolDownType.DEATH)) {
+                    gameManager.getChannelUtils().write(npcStatsChange.getSourcePlayer().getPlayerId(), message + "\r\n", true);
                 }
             }
-            StatsHelper.combineStats(getStats(), npcStatsChange.getStats());
-            long amt = npcStatsChange.getStats().getCurrentHealth();
-            long damageReportAmt = -npcStatsChange.getStats().getCurrentHealth();
+            StatsHelper.combineStats(getStats(), npcStatsChange.getTargetStatsChange());
+            long amt = npcStatsChange.getTargetStatsChange().getCurrentHealth();
+            long damageReportAmt = -npcStatsChange.getTargetStatsChange().getCurrentHealth();
             if (getStats().getCurrentHealth() < 0) {
                 damageReportAmt = -amt + getStats().getCurrentHealth();
                 getStats().setCurrentHealth(0);
             }
             long damage = 0;
-            if (getPlayerDamageMap().containsKey(npcStatsChange.getPlayer().getPlayerId())) {
-                damage = getPlayerDamageMap().get(npcStatsChange.getPlayer().getPlayerId());
+            if (getPlayerDamageMap().containsKey(npcStatsChange.getSourcePlayer().getPlayerId())) {
+                damage = getPlayerDamageMap().get(npcStatsChange.getSourcePlayer().getPlayerId());
             }
-            addDamageToMap(npcStatsChange.getPlayer().getPlayerId(), damage + damageReportAmt);
+            addDamageToMap(npcStatsChange.getSourcePlayer().getPlayerId(), damage + damageReportAmt);
             if (getStats().getCurrentHealth() == 0) {
-                killNpc(npcStatsChange.getPlayer());
+                killNpc(npcStatsChange.getSourcePlayer());
                 return;
             }
-            if (npcStatsChange.getPlayerStatsChange() != null) {
+            if (npcStatsChange.getSourcePlayerStatsChange() != null) {
                 for (String message : npcStatsChange.getPlayerDamageStrings()) {
-                    if (!npcStatsChange.getPlayer().isActive(CoolDownType.DEATH)) {
-                        gameManager.getChannelUtils().write(npcStatsChange.getPlayer().getPlayerId(), message + "\r\n", true);
-                        npcStatsChange.getPlayer().updatePlayerHealth(npcStatsChange.getPlayerStatsChange().getCurrentHealth(), this);
+                    if (!npcStatsChange.getSourcePlayer().isActive(CoolDownType.DEATH)) {
+                        gameManager.getChannelUtils().write(npcStatsChange.getSourcePlayer().getPlayerId(), message + "\r\n", true);
+                        npcStatsChange.getSourcePlayer().updatePlayerHealth(npcStatsChange.getSourcePlayerStatsChange().getCurrentHealth(), this);
                     }
                 }
             }
@@ -422,12 +422,12 @@ public class Npc extends CreeperEntity {
     }
 
     public void doHealthDamage(Player player, List<String> damageStrings, long amt) {
-        NpcStatsChange npcStatsChange =
+        StatsChange npcStatsChange =
                 new NpcStatsChangeBuilder().setStats(new StatsBuilder().setCurrentHealth(amt).createStats()).setDamageStrings(damageStrings).setPlayer(player).createNpcStatsChange();
         addNpcDamage(npcStatsChange);
     }
 
-    public void addNpcDamage(NpcStatsChange npcStatsChange) {
+    public void addNpcDamage(StatsChange npcStatsChange) {
         if (!isActiveCooldown(CoolDownType.NPC_FIGHT)) {
             addCoolDown(new CoolDown(CoolDownType.NPC_FIGHT));
         } else {

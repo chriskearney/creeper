@@ -43,7 +43,7 @@ public class NpcStatsChangeBuilder {
         return this;
     }
 
-    public NpcStatsChange createNpcStatsChange() {
-        return new NpcStatsChange(stats, damageStrings, player, playerStatsChange, playerDamageStrings, isItemDamage);
+    public StatsChange createNpcStatsChange() {
+        return new StatsChange(stats, damageStrings, player, playerStatsChange, playerDamageStrings, isItemDamage);
     }
 }
