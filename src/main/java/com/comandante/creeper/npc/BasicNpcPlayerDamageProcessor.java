@@ -42,6 +42,21 @@ public class BasicNpcPlayerDamageProcessor implements DamageProcessor {
         return (int) (5 + (.20f * npc.getStats().getAim()));
     }
 
+    @Override
+    public long getAttackAmount(Player player, Player targetPlayer) {
+        throw new RuntimeException("Invalid! Npc damage processor can't calculate PVP damage.");
+    }
+
+    @Override
+    public int getChanceToHit(Player player, Player targetPlayer) {
+        throw new RuntimeException("Invalid! Npc damage processor can't calculate PVP damage.");
+    }
+
+    @Override
+    public int getCriticalChance(Player player, Player targetPlayer) {
+        throw new RuntimeException("Invalid! Npc damage processor can't calculate PVP damage.");
+    }
+
     private int randInt(int min, int max) {
         return random.nextInt((max - min) + 1) + min;
     }

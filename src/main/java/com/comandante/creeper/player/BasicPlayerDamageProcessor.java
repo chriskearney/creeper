@@ -40,6 +40,37 @@ public class BasicPlayerDamageProcessor implements DamageProcessor {
         return (int) (5 + (.20f * player.getPlayerStatsWithEquipmentAndLevel().getAim()));
     }
 
+    @Override
+    public long getAttackAmount(Player player, Player targetPlayer) {
+        Stats playerStats = player.getPlayerStatsWithEquipmentAndLevel();
+        Stats targetPlayerStats = targetPlayer.getPlayerStatsWithEquipmentAndLevel();
+        long rolls = 0;
+        long totDamage = 0;
+        while (rolls <= playerStats.getNumberOfWeaponRolls()) {
+            rolls++;
+            totDamage = totDamage + randInt((int) playerStats.getWeaponRatingMin(), (int) playerStats.getWeaponRatingMax());
+        }
+        long i = playerStats.getStrength() + totDamage - targetPlayerStats.getArmorRating();
+        if (i < 0) {
+            return 0;
+        } else {
+            return i;
+        }
+    }
+
+    @Override
+    public int getChanceToHit(Player player, Player targetPlayer) {
+        Stats playerStats = player.getPlayerStatsWithEquipmentAndLevel();
+        Stats targetPlayerStats = targetPlayer.getPlayerStatsWithEquipmentAndLevel();
+        return (int) ((playerStats.getStrength() + playerStats.getMeleSkill()) * 5 - targetPlayerStats.getAgile() * 5);
+    }
+
+    @Override
+    public int getCriticalChance(Player player, Player targetPlayer) {
+        //y =.20({x}) + 0
+        return (int) (5 + (.20f * player.getPlayerStatsWithEquipmentAndLevel().getAim()));
+    }
+
     private int randInt(int min, int max) {
         return random.nextInt((max - min) + 1) + min;
     }

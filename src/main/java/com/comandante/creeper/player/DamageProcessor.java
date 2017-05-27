@@ -9,4 +9,10 @@ public interface DamageProcessor {
     int getChanceToHit(Player player, Npc npc);
 
     int getCriticalChance(Player player, Npc npc);
+
+    long getAttackAmount(Player player, Player targetPlayer);
+
+    int getChanceToHit(Player player, Player targetPlayer);
+
+    int getCriticalChance(Player player, Player targetPlayer);
 }

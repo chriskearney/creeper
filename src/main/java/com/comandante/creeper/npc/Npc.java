@@ -204,7 +204,7 @@ public class Npc extends CreeperEntity {
                 for (String message : npcStatsChange.getPlayerDamageStrings()) {
                     if (!npcStatsChange.getSourcePlayer().isActive(CoolDownType.DEATH)) {
                         gameManager.getChannelUtils().write(npcStatsChange.getSourcePlayer().getPlayerId(), message + "\r\n", true);
-                        npcStatsChange.getSourcePlayer().updatePlayerHealth(npcStatsChange.getSourcePlayerStatsChange().getCurrentHealth(), this);
+                        npcStatsChange.getSourcePlayer().updatePlayerHealth(npcStatsChange.getSourcePlayerStatsChange().getCurrentHealth(), Optional.empty(), Optional.of(this));
                     }
                 }
             }
@@ -423,7 +423,7 @@ public class Npc extends CreeperEntity {
 
     public void doHealthDamage(Player player, List<String> damageStrings, long amt) {
         StatsChange npcStatsChange =
-                new NpcStatsChangeBuilder().setStats(new StatsBuilder().setCurrentHealth(amt).createStats()).setDamageStrings(damageStrings).setPlayer(player).createNpcStatsChange();
+                new StatsChangeBuilder().setStats(new StatsBuilder().setCurrentHealth(amt).createStats()).setDamageStrings(damageStrings).setPlayer(player).createNpcStatsChange();
         addNpcDamage(npcStatsChange);
     }
 

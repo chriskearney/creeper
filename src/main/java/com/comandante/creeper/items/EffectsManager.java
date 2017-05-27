@@ -3,7 +3,7 @@ package com.comandante.creeper.items;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.npc.StatsChange;
-import com.comandante.creeper.npc.NpcStatsChangeBuilder;
+import com.comandante.creeper.npc.StatsChangeBuilder;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.server.player_communication.Color;
@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 
 public class EffectsManager {
@@ -65,7 +66,7 @@ public class EffectsManager {
         Stats applyStatsOnTick = effect.getApplyStatsOnTick();
         if (effect.getApplyStatsOnTick() != null) {
             if (effect.getApplyStatsOnTick().getCurrentHealth() != 0) {
-                gameManager.getPlayerManager().getPlayer(player.getPlayerId()).updatePlayerHealth(effect.getApplyStatsOnTick().getCurrentHealth(), null);
+                gameManager.getPlayerManager().getPlayer(player.getPlayerId()).updatePlayerHealth(effect.getApplyStatsOnTick().getCurrentHealth(), Optional.empty(), Optional.empty());
                 for (String message : effect.getEffectApplyMessages()) {
                     if (effect.getApplyStatsOnTick().getCurrentHealth() > 0) {
                         gameManager.getChannelUtils().write(player.getPlayerId(), Color.BOLD_ON + Color.GREEN + "[effect] " + Color.RESET + message + " +" + Color.GREEN + NumberFormat.getNumberInstance(Locale.US).format(effect.getApplyStatsOnTick().getCurrentHealth()) + Color.RESET + "\r\n", true);
@@ -85,7 +86,7 @@ public class EffectsManager {
         // if there are effecst that modify npc health, deal with it here, you can't rely on combine stats.
         if (effect.getApplyStatsOnTick().getCurrentHealth() < 0) {
             String s = Color.BOLD_ON + Color.GREEN + "[effect] " + Color.RESET + npc.getColorName() + " is affected by " + effect.getEffectDescription() + " " + Color.RED + applyStats.getCurrentHealth() + Color.RESET + Color.CYAN + Color.RESET;
-            StatsChange npcStatsChange = new NpcStatsChangeBuilder()
+            StatsChange npcStatsChange = new StatsChangeBuilder()
                     .setStats(applyStats)
                     .setDamageStrings(Arrays.asList(s))
                     .setPlayer(player)

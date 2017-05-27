@@ -10,7 +10,7 @@ import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.items.*;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.npc.StatsChange;
-import com.comandante.creeper.npc.NpcStatsChangeBuilder;
+import com.comandante.creeper.npc.StatsChangeBuilder;
 import com.comandante.creeper.npc.Temperament;
 import com.comandante.creeper.server.player_communication.Color;
 import com.comandante.creeper.stats.Levels;
@@ -53,6 +53,8 @@ public class Player extends CreeperEntity {
     private final ScheduledThreadPoolExecutor scheduledExecutor = new ScheduledThreadPoolExecutor(1000);
     private AtomicBoolean isChatMode = new AtomicBoolean(false);
 
+
+    private final AtomicBoolean isAlive = new AtomicBoolean(true);
     private final ArrayBlockingQueue<StatsChange> playerStatChanges = new ArrayBlockingQueue<>(3000);
     private Map<String, Long> playerDamageMap = Maps.newHashMap();
 
@@ -76,6 +78,11 @@ public class Player extends CreeperEntity {
                     if (activeFights.size() > 0) {
                         writePrompt();
                     }
+                }
+                List<StatsChange> statsChanges = Lists.newArrayList();
+                playerStatChanges.drainTo(statsChanges);
+                for (StatsChange npcStatsChange : statsChanges) {
+                    processStatsChange(npcStatsChange);
                 }
                 tickAllActiveCoolDowns();
                 activateNextPrimaryActiveFight();
@@ -140,7 +147,7 @@ public class Player extends CreeperEntity {
                 return;
             }
             if (playerMetadata.getStats().getCurrentHealth() < stats.getMaxHealth()) {
-                updatePlayerHealth((int) (stats.getMaxHealth() * .05), null);
+                updatePlayerHealth((int) (stats.getMaxHealth() * .05), Optional.empty(), Optional.empty());
             }
             if (playerMetadata.getStats().getCurrentMana() < stats.getMaxMana()) {
                 addMana((int) (stats.getMaxMana() * .03));
@@ -175,6 +182,7 @@ public class Player extends CreeperEntity {
     }
 
     public void killPlayer(Npc npc) {
+        isAlive.set(false);
         resetEffects();
         synchronized (interner.intern(playerId)) {
             if (npc != null && doesActiveFightExist(npc)) {
@@ -205,9 +213,10 @@ public class Player extends CreeperEntity {
     }
 
     public void killPlayer(Player sourcePlayer) {
+        isAlive.set(false);
         resetEffects();
         synchronized (interner.intern(playerId)) {
-            if (npc != null && doesActiveFightExist(npc)) {
+            if (doesActiveFightExist(sourcePlayer)) {
                 removeAllActiveFights();
             }
             if (!isActive(CoolDownType.DEATH)) {
@@ -235,7 +244,7 @@ public class Player extends CreeperEntity {
     }
 
 
-    public boolean updatePlayerHealth(long amount, Npc npc) {
+    public boolean updatePlayerHealth(long amount, Optional<Player> sourcePlayer, Optional<Npc> sourceNpc) {
         synchronized (interner.intern(playerId)) {
             Optional<PlayerMetadata> playerMetadataOptional = gameManager.getPlayerManager().getPlayerMetadata(playerId);
             if (!playerMetadataOptional.isPresent()) {
@@ -255,7 +264,8 @@ public class Player extends CreeperEntity {
                 }
                 gameManager.getPlayerManager().savePlayerMetadata(playerMetadata);
                 if (playerMetadata.getStats().getCurrentHealth() == 0) {
-                    killPlayer(npc);
+                    sourceNpc.ifPresent(this::killPlayer);
+                    sourcePlayer.ifPresent(this::killPlayer);
                     return true;
                 }
             }
@@ -308,7 +318,7 @@ public class Player extends CreeperEntity {
                 for (String message : statsChange.getPlayerDamageStrings()) {
                     if (!statsChange.getSourcePlayer().isActive(CoolDownType.DEATH)) {
                         gameManager.getChannelUtils().write(statsChange.getSourcePlayer().getPlayerId(), message + "\r\n", true);
-                        statsChange.getSourcePlayer().updatePlayerHealth(statsChange.getSourcePlayerStatsChange().getCurrentHealth(), this);
+                        statsChange.getSourcePlayer().updatePlayerHealth(statsChange.getSourcePlayerStatsChange().getCurrentHealth(), Optional.of(this), Optional.empty());
                     }
                 }
             }
@@ -472,7 +482,7 @@ public class Player extends CreeperEntity {
     }
 
     public void resetEffects() {
-        synchronized (interner) {
+        synchronized (interner.intern(playerId)) {
             Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
             if (!playerMetadataOptional.isPresent()) {
                 return;
@@ -1379,6 +1389,22 @@ public class Player extends CreeperEntity {
         }
     }
 
+    public boolean doesActiveFightExist(Player player) {
+        synchronized (interner.intern(playerId)) {
+//            if (gameManager.getEntityManager().getNpcEntity(npc.getEntityId()) == null) {
+//                removeActiveFight(npc);
+//            }
+            for (Map.Entry<Long, ActiveFight> entry : activeFights.entrySet()) {
+                ActiveFight fight = entry.getValue();
+                Optional<String> playerIdOptional = fight.getPlayerId();
+                if (playerIdOptional.isPresent() && playerIdOptional.get().equals(player.getPlayerId())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
     public void removeActiveFight(Npc npc) {
         synchronized (interner.intern(playerId)) {
             Iterator<Map.Entry<Long, ActiveFight>> iterator = activeFights.entrySet().iterator();
@@ -1416,6 +1442,19 @@ public class Player extends CreeperEntity {
         }
     }
 
+    public boolean isValidPrimaryActiveFight(Player player) {
+        synchronized (interner.intern(playerId)) {
+            for (Map.Entry<Long, ActiveFight> entry : activeFights.entrySet()) {
+                ActiveFight fight = entry.getValue();
+                Optional<String> playerIdOptional = fight.getPlayerId();
+                if (playerIdOptional.isPresent() && fight.getPlayerId().get().equals(player.getPlayerId()) && fight.isPrimary()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
     public Optional<ActiveFight> getPrimaryActiveFight() {
         synchronized (interner.intern(playerId)) {
             for (Map.Entry<Long, ActiveFight> entry : activeFights.entrySet()) {
@@ -1442,28 +1481,75 @@ public class Player extends CreeperEntity {
         removeActiveAlertStatus();
 
         // IF FIGHTING NPC
-        Optional<String> npcIdOptional = activeFight.getNpcId();
-        if (npcIdOptional.isPresent()) {
-            String npcId = npcIdOptional.get();
-            Npc npc = gameManager.getEntityManager().getNpcEntity(npcId);
-            if (npc == null) {
-                return;
-            }
+        {
+            Optional<String> npcIdOptional = activeFight.getNpcId();
+            if (npcIdOptional.isPresent()) {
+                String npcId = npcIdOptional.get();
+                Npc npc = gameManager.getEntityManager().getNpcEntity(npcId);
+                if (npc == null) {
+                    return;
+                }
 
-            NpcStatsChangeBuilder npcStatsChangeBuilder = new NpcStatsChangeBuilder().setPlayer(this);
-            if (this.isValidPrimaryActiveFight(npc)) {
-                calculatePlayerDamageToNpc(playerDamageProcessor, npc, npcStatsChangeBuilder);
-            }
+                StatsChangeBuilder statsChangeBuilder = new StatsChangeBuilder().setPlayer(this);
+                if (this.isValidPrimaryActiveFight(npc)) {
+                    calculatePlayerDamageToNpc(playerDamageProcessor, npc, statsChangeBuilder);
+                }
 
-            if (this.doesActiveFightExist(npc)) {
-                calculateNpcDamageToPlayer(npcDamageProcessor, npc, npcStatsChangeBuilder);
+                if (this.doesActiveFightExist(npc)) {
+                    calculateNpcDamageToPlayer(npcDamageProcessor, npc, statsChangeBuilder);
+                }
             }
         }
 
         // IF FIGHTING PLAYER?
+        {
+            Optional<String> playerIdOptional = activeFight.getPlayerId();
+            if (playerIdOptional.isPresent()) {
+                String playerId = playerIdOptional.get();
+                Player targetPlayer = gameManager.getPlayerManager().getPlayer(playerId);
+//                if (player.isA) {
+//                    return;
+//                }
+
+                StatsChangeBuilder statsChangeBuilder = new StatsChangeBuilder().setPlayer(this);
+                if (this.isValidPrimaryActiveFight(targetPlayer)) {
+                    calculatePlayerDamageToTargetPlayer(playerDamageProcessor, targetPlayer, statsChangeBuilder);
+                }
+
+                if (this.doesActiveFightExist(targetPlayer)) {
+                    calculateTargetPlayerDamageToPlayer(npcDamageProcessor, targetPlayer, statsChangeBuilder);
+                }
+            }
+        }
+
     }
 
-    private void calculatePlayerDamageToNpc(DamageProcessor playerDamageProcessor, Npc npc, NpcStatsChangeBuilder npcStatsChangeBuilder) {
+    private void calculatePlayerDamageToTargetPlayer(DamageProcessor playerDamageProcessor, Player targetPlayer, StatsChangeBuilder statsChangeBuilder) {
+        long damageToVictim = 0;
+        long chanceToHit = playerDamageProcessor.getChanceToHit(this, targetPlayer);
+        if (randInt(0, 100) < chanceToHit) {
+            damageToVictim = playerDamageProcessor.getAttackAmount(this, targetPlayer);
+        }
+        if (damageToVictim > 0) {
+            if (randInt(0, 100) > (100 - playerDamageProcessor.getCriticalChance(this, targetPlayer))) {
+                long criticalDamage = damageToVictim * 3;
+                final String fightMsg = Color.BOLD_ON + Color.RED + "[attack] " + Color.RESET + Color.YELLOW + "The " + targetPlayer.getPlayerName() + " was caught off guard by the attack! " + "+" + NumberFormat.getNumberInstance(Locale.US).format(criticalDamage) + Color.RESET + Color.BOLD_ON + Color.RED + " DAMAGE" + Color.RESET + " done to " + targetPlayer.getPlayerName();
+                statsChangeBuilder.setStats(new StatsBuilder().setCurrentHealth(-(criticalDamage)).createStats());
+                statsChangeBuilder.setDamageStrings(Collections.singletonList(fightMsg));
+            } else {
+                final String fightMsg = Color.BOLD_ON + Color.RED + "[attack] " + Color.RESET + Color.YELLOW + "+" + NumberFormat.getNumberInstance(Locale.US).format(damageToVictim) + Color.RESET + Color.BOLD_ON + Color.RED + " DAMAGE" + Color.RESET + " done to " + targetPlayer.getPlayerName();
+                statsChangeBuilder.setStats(new StatsBuilder().setCurrentHealth(-damageToVictim).createStats());
+                statsChangeBuilder.setDamageStrings(Collections.singletonList(fightMsg));
+            }
+        } else {
+            final String fightMsg = Color.BOLD_ON + Color.RED + "[attack] " + Color.RESET + "You MISS " + targetPlayer.getPlayerName() + "!";
+            statsChangeBuilder.setStats(new StatsBuilder().setCurrentHealth(-damageToVictim).createStats());
+            statsChangeBuilder.setDamageStrings(Collections.singletonList(fightMsg));
+        }
+    }
+
+
+    private void calculatePlayerDamageToNpc(DamageProcessor playerDamageProcessor, Npc npc, StatsChangeBuilder statsChangeBuilder) {
         long damageToVictim = 0;
         long chanceToHit = playerDamageProcessor.getChanceToHit(this, npc);
         if (randInt(0, 100) < chanceToHit) {
@@ -1473,36 +1559,71 @@ public class Player extends CreeperEntity {
             if (randInt(0, 100) > (100 - playerDamageProcessor.getCriticalChance(this, npc))) {
                 long criticalDamage = damageToVictim * 3;
                 final String fightMsg = Color.BOLD_ON + Color.RED + "[attack] " + Color.RESET + Color.YELLOW + "The " + npc.getColorName() + " was caught off guard by the attack! " + "+" + NumberFormat.getNumberInstance(Locale.US).format(criticalDamage) + Color.RESET + Color.BOLD_ON + Color.RED + " DAMAGE" + Color.RESET + " done to " + npc.getColorName();
-                npcStatsChangeBuilder.setStats(new StatsBuilder().setCurrentHealth(-(criticalDamage)).createStats());
-                npcStatsChangeBuilder.setDamageStrings(Collections.singletonList(fightMsg));
+                statsChangeBuilder.setStats(new StatsBuilder().setCurrentHealth(-(criticalDamage)).createStats());
+                statsChangeBuilder.setDamageStrings(Collections.singletonList(fightMsg));
             } else {
                 final String fightMsg = Color.BOLD_ON + Color.RED + "[attack] " + Color.RESET + Color.YELLOW + "+" + NumberFormat.getNumberInstance(Locale.US).format(damageToVictim) + Color.RESET + Color.BOLD_ON + Color.RED + " DAMAGE" + Color.RESET + " done to " + npc.getColorName();
-                npcStatsChangeBuilder.setStats(new StatsBuilder().setCurrentHealth(-damageToVictim).createStats());
-                npcStatsChangeBuilder.setDamageStrings(Collections.singletonList(fightMsg));
+                statsChangeBuilder.setStats(new StatsBuilder().setCurrentHealth(-damageToVictim).createStats());
+                statsChangeBuilder.setDamageStrings(Collections.singletonList(fightMsg));
             }
         } else {
             final String fightMsg = Color.BOLD_ON + Color.RED + "[attack] " + Color.RESET + "You MISS " + npc.getName() + "!";
-            npcStatsChangeBuilder.setStats(new StatsBuilder().setCurrentHealth(-damageToVictim).createStats());
-            npcStatsChangeBuilder.setDamageStrings(Collections.singletonList(fightMsg));
+            statsChangeBuilder.setStats(new StatsBuilder().setCurrentHealth(-damageToVictim).createStats());
+            statsChangeBuilder.setDamageStrings(Collections.singletonList(fightMsg));
         }
     }
 
-    private void calculateNpcDamageToPlayer(DamageProcessor npcDamageProcessor, Npc npc, NpcStatsChangeBuilder npcStatsChangeBuilder) {
+
+    private void calculateTargetPlayerDamageToPlayer(DamageProcessor npcDamageProcessor, Player targetPlayer, StatsChangeBuilder statsChangeBuilder) {
+        int chanceToHitBack = npcDamageProcessor.getChanceToHit(this, targetPlayer);
+        long damageBack = npcDamageProcessor.getAttackAmount(this, targetPlayer);
+        if (randInt(0, 100) < chanceToHitBack) {
+            final String fightMsg = Color.BOLD_ON + Color.RED + "[attack] " + Color.RESET + "STRIKES" + " -" + NumberFormat.getNumberInstance(Locale.US).format(damageBack) + Color.RESET;
+            statsChangeBuilder.setPlayerStatsChange(new StatsBuilder().setCurrentHealth(-damageBack).createStats());
+            statsChangeBuilder.setPlayerDamageStrings(Collections.singletonList(fightMsg));
+
+        } else {
+            final String fightMsg = Color.BOLD_ON + Color.RED + "[attack] " + Color.RESET + targetPlayer.getPlayerName() + Color.BOLD_ON + Color.CYAN + " MISSES" + Color.RESET + " you!";
+            statsChangeBuilder.setPlayerStatsChange(new StatsBuilder().setCurrentHealth(0).createStats());
+            statsChangeBuilder.setPlayerDamageStrings(Collections.singletonList(fightMsg));
+        }
+        targetPlayer.addDamage(statsChangeBuilder.createNpcStatsChange());
+    }
+
+
+    private void calculateNpcDamageToPlayer(DamageProcessor npcDamageProcessor, Npc npc, StatsChangeBuilder statsChangeBuilder) {
         int chanceToHitBack = npcDamageProcessor.getChanceToHit(this, npc);
         long damageBack = npcDamageProcessor.getAttackAmount(this, npc);
         if (randInt(0, 100) < chanceToHitBack) {
             final String fightMsg = Color.BOLD_ON + Color.RED + "[attack] " + Color.RESET + npc.buildAttackMessage(this.getPlayerName()) + " -" + NumberFormat.getNumberInstance(Locale.US).format(damageBack) + Color.RESET;
-            npcStatsChangeBuilder.setPlayerStatsChange(new StatsBuilder().setCurrentHealth(-damageBack).createStats());
-            npcStatsChangeBuilder.setPlayerDamageStrings(Collections.singletonList(fightMsg));
+            statsChangeBuilder.setPlayerStatsChange(new StatsBuilder().setCurrentHealth(-damageBack).createStats());
+            statsChangeBuilder.setPlayerDamageStrings(Collections.singletonList(fightMsg));
 
         } else {
             final String fightMsg = Color.BOLD_ON + Color.RED + "[attack] " + Color.RESET + npc.getColorName() + Color.BOLD_ON + Color.CYAN + " MISSES" + Color.RESET + " you!";
-            npcStatsChangeBuilder.setPlayerStatsChange(new StatsBuilder().setCurrentHealth(0).createStats());
-            npcStatsChangeBuilder.setPlayerDamageStrings(Collections.singletonList(fightMsg));
+            statsChangeBuilder.setPlayerStatsChange(new StatsBuilder().setCurrentHealth(0).createStats());
+            statsChangeBuilder.setPlayerDamageStrings(Collections.singletonList(fightMsg));
         }
-        npc.addNpcDamage(npcStatsChangeBuilder.createNpcStatsChange());
+        npc.addNpcDamage(statsChangeBuilder.createNpcStatsChange());
     }
 
+
+    public void addDamage(StatsChange playerStatsChange) {
+        if (!isActive(CoolDownType.PVP_FIGHT)) {
+            addCoolDown(new CoolDown(CoolDownType.PVP_FIGHT));
+        } else {
+            Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+            if (!playerMetadataOptional.isPresent()){
+                return;
+            }
+            for (CoolDown coolDown: playerMetadataOptional.get().getCoolDowns()) {
+                if (coolDown.getCoolDownType().equals(CoolDownType.NPC_FIGHT)) {
+                    coolDown.setNumberOfTicks(coolDown.getOriginalNumberOfTicks());
+                }
+            }
+        }
+        this.playerStatChanges.add(playerStatsChange);
+    }
 
     public SortedMap<Long, ActiveFight> getActiveFights() {
         return activeFights;

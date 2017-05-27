@@ -10,6 +10,7 @@ public enum CoolDownType {
     FORAGE_SUPERSHORT("forage-supershort", 1),
     SPELL("",0),
     NPC_FIGHT("fight",30),
+    PVP_FIGHT("pvp-fight",30),
     NPC_ROAM("npc-roam", 1200),
     NPC_ALERTED("npc-alerted", 30),
     PLAYER_RECALL("recall", 600),

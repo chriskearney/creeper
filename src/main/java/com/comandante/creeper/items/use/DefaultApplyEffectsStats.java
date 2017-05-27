@@ -7,6 +7,7 @@ import com.comandante.creeper.player.Player;
 import com.comandante.creeper.stats.Stats;
 import org.apache.log4j.Logger;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class DefaultApplyEffectsStats implements ItemUseAction {
@@ -39,7 +40,7 @@ public class DefaultApplyEffectsStats implements ItemUseAction {
             gameManager.getChannelUtils().write(player.getPlayerId(), itemApplyStats.getCurrentHealth() + " health is restored." + "\r\n");
         }
         player.addMana(itemApplyStats.getCurrentMana());
-        player.updatePlayerHealth(itemApplyStats.getCurrentHealth(), null);
+        player.updatePlayerHealth(itemApplyStats.getCurrentHealth(), Optional.empty(), Optional.empty());
 
         processEffects(gameManager, player, effectSet);
     }

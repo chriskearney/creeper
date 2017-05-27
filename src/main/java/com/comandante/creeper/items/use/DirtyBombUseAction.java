@@ -4,7 +4,7 @@ import com.comandante.creeper.command.commands.UseCommand;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.items.*;
 import com.comandante.creeper.npc.Npc;
-import com.comandante.creeper.npc.NpcStatsChangeBuilder;
+import com.comandante.creeper.npc.StatsChangeBuilder;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.server.player_communication.Color;
 import com.comandante.creeper.stats.StatsBuilder;
@@ -13,6 +13,7 @@ import com.comandante.creeper.world.model.Room;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 
 public class DirtyBombUseAction implements ItemUseAction {
@@ -39,13 +40,13 @@ public class DirtyBombUseAction implements ItemUseAction {
         for (String npcId : npcIds) {
             Npc npc = gameManager.getEntityManager().getNpcEntity(npcId);
             gameManager.writeToPlayerCurrentRoom(player.getPlayerId(), npc.getColorName() + " is heavily damaged by a " + item.getItemName() + "!" + Color.YELLOW + " +" + NumberFormat.getNumberInstance(Locale.US).format(900000000) + Color.RESET + Color.BOLD_ON + Color.RED + " DAMAGE" + Color.RESET);
-            NpcStatsChangeBuilder npcStatsChangeBuilder = new NpcStatsChangeBuilder();
+            StatsChangeBuilder statsChangeBuilder = new StatsChangeBuilder();
             final String fightMsg = Color.BOLD_ON + Color.RED + "[attack] " + Color.RESET + Color.YELLOW + " +" + NumberFormat.getNumberInstance(Locale.US).format(900000000) + Color.RESET + Color.BOLD_ON + Color.RED + " DAMAGE" + Color.RESET + " done to " + npc.getColorName();
-            npcStatsChangeBuilder.setStats(new StatsBuilder().setCurrentHealth(-900000000).createStats());
-            npcStatsChangeBuilder.setDamageStrings(Arrays.asList(fightMsg));
-            npcStatsChangeBuilder.setPlayer(player);
-            npcStatsChangeBuilder.setIsItemDamage(true);
-            npc.addNpcDamage(npcStatsChangeBuilder.createNpcStatsChange());
+            statsChangeBuilder.setStats(new StatsBuilder().setCurrentHealth(-900000000).createStats());
+            statsChangeBuilder.setDamageStrings(Arrays.asList(fightMsg));
+            statsChangeBuilder.setPlayer(player);
+            statsChangeBuilder.setIsItemDamage(true);
+            npc.addNpcDamage(statsChangeBuilder.createNpcStatsChange());
         }
         Set<Player> presentPlayers = currentRoom.getPresentPlayers();
         for (Player presentPlayer : presentPlayers) {
@@ -54,7 +55,7 @@ public class DirtyBombUseAction implements ItemUseAction {
                 continue;
             }
             gameManager.writeToPlayerCurrentRoom(player.getPlayerId(), presentPlayer.getPlayerName() + " is heavily damaged by a " + item.getItemName() + "!");
-            presentPlayer.updatePlayerHealth(-Long.MAX_VALUE, null);
+            presentPlayer.updatePlayerHealth(-Long.MAX_VALUE, Optional.empty(), Optional.empty());
         }
     }
 
