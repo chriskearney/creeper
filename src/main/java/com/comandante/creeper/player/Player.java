@@ -121,7 +121,8 @@ public class Player extends CreeperEntity {
         DamageProcessor playerDamageProcesor = getPlayerClass().getDamageProcessor();
         Set<Map.Entry<Long, ActiveFight>> entries = activeFights.entrySet();
         for (Map.Entry<Long, ActiveFight> next : entries) {
-            Optional<String> npcIdOptional = next.getValue().getNpcId();
+            ActiveFight activeFight = next.getValue();
+            Optional<String> npcIdOptional = activeFight.getNpcId();
             if (npcIdOptional.isPresent()) {
                 // If the NPC has died- bail out.
                 String npcId = npcIdOptional.get();
@@ -130,7 +131,15 @@ public class Player extends CreeperEntity {
                 if (npc == null) {
                     continue;
                 }
-                doFightRound(playerDamageProcesor, npc.getDamageProcessor(), next.getValue());
+                doFightRound(playerDamageProcesor, npc.getDamageProcessor(), activeFight);
+                return;
+            }
+
+            Optional<String> targetPlayerOptional = activeFight.getPlayerId();
+            if (targetPlayerOptional.isPresent()) {
+                addCoolDown(new CoolDown(CoolDownType.PVP_FIGHT));
+                DamageProcessor targetPlayerDamageProcessor = gameManager.getPlayerManager().getPlayer(targetPlayerOptional.get()).getPlayerClass().getDamageProcessor();
+                doFightRound(playerDamageProcesor, targetPlayerDamageProcessor, activeFight);
             }
         }
     }
@@ -1373,6 +1382,21 @@ public class Player extends CreeperEntity {
         return false;
     }
 
+    public boolean addActiveFight(Player player) {
+        synchronized (interner.intern(playerId)) {
+            if (!doesActiveFightExist(player)) {
+                addCoolDown(new CoolDown(CoolDownType.PVP_FIGHT));
+                ActiveFight activeFight = ActiveFight.builder()
+                        .playerId(player.getPlayerId())
+                        .isPrimary(false)
+                        .create();
+                activeFights.put(System.nanoTime(), activeFight);
+                return true;
+            }
+            return false;
+        }
+    }
+
     public boolean doesActiveFightExist(Npc npc) {
         synchronized (interner.intern(playerId)) {
             if (gameManager.getEntityManager().getNpcEntity(npc.getEntityId()) == null) {
@@ -1613,10 +1637,10 @@ public class Player extends CreeperEntity {
             addCoolDown(new CoolDown(CoolDownType.PVP_FIGHT));
         } else {
             Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
-            if (!playerMetadataOptional.isPresent()){
+            if (!playerMetadataOptional.isPresent()) {
                 return;
             }
-            for (CoolDown coolDown: playerMetadataOptional.get().getCoolDowns()) {
+            for (CoolDown coolDown : playerMetadataOptional.get().getCoolDowns()) {
                 if (coolDown.getCoolDownType().equals(CoolDownType.NPC_FIGHT)) {
                     coolDown.setNumberOfTicks(coolDown.getOriginalNumberOfTicks());
                 }

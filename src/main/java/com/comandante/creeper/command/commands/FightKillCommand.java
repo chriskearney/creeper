@@ -3,13 +3,16 @@ package com.comandante.creeper.command.commands;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.CoolDownType;
+import com.comandante.creeper.player.Player;
 import com.google.common.base.Joiner;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 
 public class FightKillCommand extends Command {
 
@@ -48,14 +51,19 @@ public class FightKillCommand extends Command {
                 if (npcEntity.getValidTriggers().contains(target)) {
                     if (player.addActiveFight(npcEntity)) {
                         writeToRoom(player.getPlayerName() + " has attacked a " + npcEntity.getColorName());
-                       // player.addActiveFight(npcEntity);
-                        return;
-                    } else {
                         return;
                     }
                 }
             }
-            write("There's no NPC here to fight by that name.");
+            Optional<Player> targetedPlayerOptional = currentRoom.getPresentPlayers().stream().filter(player -> player.getPlayerName().equals(target)).findFirst();
+            if (targetedPlayerOptional.isPresent()) {
+                Player targetedPlayer = targetedPlayerOptional.get();
+                if (player.addActiveFight(targetedPlayer)) {
+                    writeToRoom(player.getPlayerName() + " has attacked a " + targetedPlayer.getPlayerName());
+                    return;
+                }
+            }
+            write("There's no one here to fight by that name.");
         });
     }
 }
