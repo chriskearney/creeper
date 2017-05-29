@@ -58,7 +58,7 @@ public class FightKillCommand extends Command {
             Optional<Player> targetedPlayerOptional = currentRoom.getPresentPlayers().stream().filter(player -> player.getPlayerName().equals(target)).findFirst();
             if (targetedPlayerOptional.isPresent()) {
                 Player targetedPlayer = targetedPlayerOptional.get();
-                if (player.addActiveFight(targetedPlayer)) {
+                if (!targetedPlayer.getPlayerId().equals(playerId) && player.addActiveFight(targetedPlayer)) {
                     writeToRoom(player.getPlayerName() + " has attacked a " + targetedPlayer.getPlayerName());
                     return;
                 }
