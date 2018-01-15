@@ -4,10 +4,12 @@ package com.comandante.creeper.command.commands.admin;
 import com.comandante.creeper.command.commands.Command;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.items.Effect;
-import com.comandante.creeper.player.*;
+import com.comandante.creeper.player.CoolDownType;
+import com.comandante.creeper.player.Player;
+import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.server.player_communication.Color;
 import com.comandante.creeper.world.model.Room;
-import com.google.common.collect.Sets;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 
@@ -17,13 +19,13 @@ public class TeleportCommand extends Command {
     final static List<String> validTriggers = Arrays.asList("teleport", "t");
     final static String description = "Teleport to a roomId or playerId.";
     final static String correctUsage = "teleport <roomId|playerName>";
-    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.GOD);
+//    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.GOD);
 
 
     final static String teleportMessage = "A " + Color.YELLOW + "lightning" + Color.RESET + " bolt descends from the sky and annihilates the earth below." + "\r\n";
 
     public TeleportCommand(GameManager gameManager) {
-        super(gameManager, validTriggers, description, correctUsage, roles);
+        super(gameManager, validTriggers, description, correctUsage);
     }
 
     @Override
