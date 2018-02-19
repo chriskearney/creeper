@@ -40,7 +40,7 @@
   "attackEffects": {
     "99.9": {
       "effectName": "flame thrower",
-      "effectDescription": "a@c-red@ FLAMES@c-reset@",
+      "effectDescription": "PAINFUL @c-red@F@c-yellow@L@c-magenta@A@c-red@M@c-yellow@E@c-magenta@S@c-reset@!",
       "effectApplyMessages": [
         "The flames are hurting you."
       ],
