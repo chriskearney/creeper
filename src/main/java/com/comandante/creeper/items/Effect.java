@@ -7,9 +7,9 @@ import java.util.List;
 
 public class Effect {
 
-    private final String effectName;
-    private final String effectDescription;
-    private final List<String> effectApplyMessages;
+    private String effectName;
+    private String effectDescription;
+    private List<String> effectApplyMessages;
     private final Stats applyStatsOnTick;
     private final Stats durationStats;
     private final int maxEffectApplications;
@@ -82,5 +82,17 @@ public class Effect {
 
     public void setPlayerId(String playerId) {
         this.playerId = playerId;
+    }
+
+    public void setEffectName(String effectName) {
+        this.effectName = effectName;
+    }
+
+    public void setEffectDescription(String effectDescription) {
+        this.effectDescription = effectDescription;
+    }
+
+    public void setEffectApplyMessages(List<String> effectApplyMessages) {
+        this.effectApplyMessages = effectApplyMessages;
     }
 }

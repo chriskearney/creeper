@@ -39,8 +39,8 @@
   "maxUses": 0,
   "attackEffects": {
     "99.9": {
-      "effectName": "flames",
-      "effectDescription": "flaming description",
+      "effectName": "flame thrower",
+      "effectDescription": "a@c-red@ FLAMES@c-reset@",
       "effectApplyMessages": [
         "The flames are hurting you."
       ],
