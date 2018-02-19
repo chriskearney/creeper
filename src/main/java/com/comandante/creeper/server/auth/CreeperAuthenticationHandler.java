@@ -16,34 +16,13 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
     private final GameManager gameManager;
     private final CreeperAuthenticator creeperAuthenticator;
     private static final Logger log = Logger.getLogger(CreeperAuthenticationHandler.class);
-    private static final String LOGO =
-            "          .,;;##########::,.\n" +
-            "       .;##''       ,/|  ``##;.\n" +
-            "     .;#'         ,/##|__    `#;.\n" +
-            "   .;#'          /######/'     `#;.\n" +
-            "  ;#'             ,/##/__        `#;\n" +
-            " ;#'            ,/######/'        `#;\n" +
-            ";#'            /######/'           `#;\n" +
-            ";#'             ,/##/___           `#;\n" +
-            ";#            ,/#######/'           #;\n" +
-            ";#           /#######/'             #;\n" +
-            ";#             ,/##/__              #;\n" +
-            "`#;          ,/######/'            ;#'\n" +
-            "`#;.        /######/'             ,;#'\n" +
-            " `#;.        ,/##/__             ,;#'\n" +
-            "  `#;.      /######/'           ,;#'\n" +
-            "    ##;_      |##/'           _;##\n" +
-            "    :#`-;#;...|/'       ...;#;-'#:\n" +
-            "    :`__ `-#### __  __ ####-' __':\n" +
-            "    :  ``------.. `' ..------''  :\n" +
-            "    `.. `--------`..'--------' ..'\n" +
-            "      :                        :\n" +
-            "      `:..      /:  :\\      ..:'\n" +
-            "         `.     ::  ::     .'\n" +
-            "          #.              .#\n" +
-            "          `'##;##;##;##;##`'\n" +
-            "            `' `' `' `' `'";
-
+    private static final String LOGO = "                                    \n" +
+            "  ___ _ __ ___  ___ _ __   ___ _ __ \n" +
+            " / __| '__/ _ \\/ _ \\ '_ \\ / _ \\ '__|\n" +
+            "| (__| | |  __/  __/ |_) |  __/ |   \n" +
+            " \\___|_|  \\___|\\___| .__/ \\___|_|   \n" +
+            "                   | |              \n" +
+            "                   |_|              ";
     public CreeperAuthenticationHandler(GameManager gameManager) {
         this.gameManager = gameManager;
         this.creeperAuthenticator = new GameAuth(gameManager);

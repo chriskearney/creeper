@@ -1,0 +1,40 @@
+{
+  "internalItemName": "flame thrower",
+  "itemName": "a@c-red@ flame thrower@c-reset@",
+  "itemDescription": "a flame thrower",
+  "restingName": "a flame thrower lays on the ground.",
+  "valueInGold": 800,
+  "itemHalfLifeTicks": 60,
+  "rarity": "BASIC",
+  "equipment": {
+    "equipmentSlotType": "HAND",
+    "statsIncreaseWhileEquipped": {
+      "strength": 0,
+      "intelligence": 0,
+      "willpower": 0,
+      "aim": 3,
+      "agile": 0,
+      "armorRating": 0,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 0,
+      "weaponRatingMax": 12,
+      "weaponRatingMin": 8,
+      "numberOfWeaponRolls": 2,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0
+    }
+  },
+  "itemTriggers": [
+    "flame",
+    "a flame thrower",
+    "b"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

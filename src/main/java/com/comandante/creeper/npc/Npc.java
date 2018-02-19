@@ -255,9 +255,6 @@ public class Npc extends CreeperEntity {
         playerDamageMap.put(playerId, amt);
     }
 
-
-
-
     private void killNpc(Player player) {
         isAlive.set(false);
         player.removeActiveAlertStatus(this);
