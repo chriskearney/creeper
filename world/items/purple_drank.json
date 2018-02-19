@@ -1,18 +1,16 @@
 {
-  "internalItemName": "purple drank",
-  "itemName": "a double cup of @c-magenta@purple@c-reset@ drank",
-  "itemDescription": "a tonic called @c-magenta@purple@c-reset@ drank that restores health@c-reset@",
-  "restingName": "a double cup of @c-magenta@purple@c-reset@ drank rests on the ground.",
+  "internalItemName": "surly tonic",
+  "itemName": "a double cup of @c-magenta@surly@c-reset@ tonic",
+  "itemDescription": "a tonic called @c-magenta@surly@c-reset@ tonic that restores health@c-reset@",
+  "restingName": "a double cup of @c-magenta@surly@c-reset@ tonic rests on the ground.",
   "valueInGold": 30,
   "itemHalfLifeTicks": 60,
   "rarity": "BASIC",
   "itemTriggers": [
-    "drank",
-    "purple drank",
-    "p",
-    "purple",
-    "lean",
-    "sizzurp"
+    "surly tonic",
+    "t",
+    "surly",
+    "tonic"
   ],
   "validTimeOfDays": [],
   "isDisposable": true,

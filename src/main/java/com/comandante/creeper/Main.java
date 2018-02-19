@@ -54,12 +54,15 @@ public class Main {
         if (buildVersion == null || timestampString == null || timestampString.isEmpty() || buildVersion.isEmpty()) {
             return "creeper-local-dev";
         }
-        long buildTimestamp = Long.parseLong(timestampString);
-        Date date = new Date(buildTimestamp);
-        SimpleDateFormat format = new SimpleDateFormat();
-        String dateFormatted = format.format(date);
-
-        return buildVersion + " " + dateFormatted;
+        try {
+            long buildTimestamp = Long.parseLong(timestampString);
+            Date date = new Date(buildTimestamp);
+            SimpleDateFormat format = new SimpleDateFormat();
+            String dateFormatted = format.format(date);
+            return buildVersion + " " + dateFormatted;
+        } catch (NumberFormatException e) {
+            return "creeper-local-dev";
+        }
     }
     public static void main(String[] args) throws Exception {
 

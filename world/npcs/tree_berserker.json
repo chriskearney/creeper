@@ -76,7 +76,8 @@
   ],
   "loot": {
     "internalItemNames": [
-      "beserker bracers"
+      "beserker bracers",
+      "diamond"
     ],
     "lootGoldMax": 10,
     "lootGoldMin": 5

@@ -1,13 +1,13 @@
 {
-  "internalItemName": "marijuana",
-  "itemName": "@c-green@marijuana@c-reset@ flowers@c-reset@",
-  "itemDescription": "some @c-green@marijuana@c-reset@ flowers@c-reset@",
-  "restingName": "some @c-green@marijuana@c-reset@ flowers@c-reset@ are here on the ground.",
+  "internalItemName": "goatweed",
+  "itemName": "@c-green@goatweed@c-reset@ flowers@c-reset@",
+  "itemDescription": "some @c-green@goatweed@c-reset@ flowers@c-reset@",
+  "restingName": "some @c-green@goatweed@c-reset@ flowers@c-reset@ are here on the ground.",
   "valueInGold": 10,
   "itemHalfLifeTicks": 60,
   "rarity": "BASIC",
   "itemTriggers": [
-    "marijuana",
+    "goatweed",
     "weed",
     "m",
     "w",
