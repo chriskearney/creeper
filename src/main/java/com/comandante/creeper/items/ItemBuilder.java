@@ -5,6 +5,7 @@ import com.comandante.creeper.core_game.service.TimeTracker;
 import com.comandante.creeper.stats.Stats;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -29,6 +30,7 @@ public class ItemBuilder {
     private boolean isDisposable;
     private Set<TimeTracker.TimeOfDay> validTimeOfDays;
     private Stats itemApplyStats;
+    private Map<Double, Effect> attackEffects;
 
     public ItemBuilder from(ItemMetadata itemMetadata) {
         this.internalItemName = itemMetadata.getInternalItemName();
@@ -50,6 +52,7 @@ public class ItemBuilder {
         this.validTimeOfDays = itemMetadata.getValidTimeOfDays();
         this.effects = itemMetadata.getEffects();
         this.itemApplyStats = itemMetadata.getItemApplyStats();
+        this.attackEffects = itemMetadata.getAttackEffects();
         return this;
     }
 
@@ -75,6 +78,7 @@ public class ItemBuilder {
         this.isDisposable = origItem.isDisposable();
         this.validTimeOfDays = origItem.getValidTimeOfDays();
         this.itemApplyStats = origItem.getItemApplyStats();
+        this.attackEffects = origItem.getAttackEffects();
         return this;
     }
 
@@ -173,8 +177,13 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder attackEffects(Map<Double, Effect> attackEffects) {
+        this.attackEffects = attackEffects;
+        return this;
+    }
+
     public Item create() {
-            return new Item(itemName, itemDescription, internalItemName, itemTriggers, restingName, itemId, numberOfUses, isWithPlayer, loot, itemHalfLifeTicks, equipment, rarity, valueInGold, effects, hasBeenWithPlayer, maxUses, isDisposable, validTimeOfDays, itemApplyStats);
+            return new Item(itemName, itemDescription, internalItemName, itemTriggers, restingName, itemId, numberOfUses, isWithPlayer, loot, itemHalfLifeTicks, equipment, rarity, valueInGold, effects, hasBeenWithPlayer, maxUses, isDisposable, validTimeOfDays, itemApplyStats, attackEffects);
     }
 
 

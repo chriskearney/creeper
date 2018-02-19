@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,10 +32,11 @@ public class Item implements Serializable {
     private final boolean isDisposable;
     private Set<TimeTracker.TimeOfDay> validTimeOfDays;
     private final Stats itemApplyStats;
+    private final Map<Double, Effect> attackEffects;
 
     public static final String CORPSE_INTENAL_NAME = "corpse";
 
-    protected Item(String itemName, String itemDescription, String internalItemName, List<String> itemTriggers, String restingName, String itemId, int numberOfUses, boolean isWithPlayer, Loot loot, int itemHalfLifeTicks, Equipment equipment, Rarity rarity, int valueInGold, Set<Effect> effects, boolean hasBeenWithPlayer, int maxUses, boolean isDisposable, Set<TimeTracker.TimeOfDay> validTimeOfDays, Stats itemApplyStats) {
+    protected Item(String itemName, String itemDescription, String internalItemName, List<String> itemTriggers, String restingName, String itemId, int numberOfUses, boolean isWithPlayer, Loot loot, int itemHalfLifeTicks, Equipment equipment, Rarity rarity, int valueInGold, Set<Effect> effects, boolean hasBeenWithPlayer, int maxUses, boolean isDisposable, Set<TimeTracker.TimeOfDay> validTimeOfDays, Stats itemApplyStats, Map<Double, Effect> attackEffects) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.internalItemName = internalItemName;
@@ -54,6 +56,7 @@ public class Item implements Serializable {
         this.isDisposable = isDisposable;
         this.validTimeOfDays = validTimeOfDays;
         this.itemApplyStats = itemApplyStats;
+        this.attackEffects = attackEffects;
     }
 
     public Stats getItemApplyStats() {
@@ -154,6 +157,10 @@ public class Item implements Serializable {
 
     public boolean isHasBeenWithPlayer() {
         return hasBeenWithPlayer;
+    }
+
+    public Map<Double, Effect> getAttackEffects() {
+        return attackEffects;
     }
 
     public static Item createCorpseItem(String name, Loot loot) {

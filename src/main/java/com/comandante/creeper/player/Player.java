@@ -30,6 +30,7 @@ import java.util.*;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Player extends CreeperEntity {
@@ -1358,6 +1359,7 @@ public class Player extends CreeperEntity {
 
             NpcStatsChangeBuilder npcStatsChangeBuilder = new NpcStatsChangeBuilder().setPlayer(this);
             if (this.isValidPrimaryActiveFight(npc)) {
+                applyItemAttackEffects(this, npc);
                 calculatePlayerDamageToNpc(playerDamageProcessor, npc, npcStatsChangeBuilder);
             }
 
@@ -1367,6 +1369,51 @@ public class Player extends CreeperEntity {
         }
 
         // IF FIGHTING PLAYER?
+    }
+
+    public boolean attackEffectApplyChange(double percent) {
+        double rangeMin = 0;
+        double rangeMax = 100;
+        double randomValue = rangeMin + (rangeMax - rangeMin) * random.nextDouble();
+        return randomValue <= percent;
+    }
+
+    private List<Effect> calculateChanceToApplyEffects(Map<Double, Effect> attackEffects) {
+        List<Effect> apply = Lists.newArrayList();
+        for (Map.Entry<Double, Effect> attackEffect: attackEffects.entrySet()) {
+            if (attackEffectApplyChange(attackEffect.getKey())) {
+                apply.add(attackEffect.getValue());
+            }
+        }
+        return apply;
+    }
+
+    private Effect modifyEffectForPlayer(Player player, Effect origEffect) {
+        // ApplyStatsOnTickModifications
+        Effect effect = new Effect(origEffect);
+        long healthAmount = Math.abs(effect.getApplyStatsOnTick().getCurrentHealth());
+        if (healthAmount > 0) {
+            healthAmount = healthAmount * Math.round(player.getPlayerStatsWithEquipmentAndLevel().getIntelligence() * .2d);
+            effect.getApplyStatsOnTick().setCurrentHealth(-healthAmount);
+        }
+
+        // DurationStatsModifications
+        return effect;
+    }
+
+    private void applyItemAttackEffects(Player player, Npc npc) {
+        Set<Item> equipment = player.getEquipment();
+        for (Item item: equipment) {
+            List<Effect> applyEffects = calculateChanceToApplyEffects(item.getAttackEffects());
+            for (Effect applyEffect: applyEffects) {
+                if (npc.getEffects().stream()
+                        .filter(effect -> effect.getEffectName().equals(applyEffect.getEffectName()))
+                        .collect(Collectors.toList()).size() > 0) {
+                    continue;
+                }
+                gameManager.getEffectsManager().applyEffectsToNpcs(player, Sets.newHashSet(npc), Sets.newHashSet(modifyEffectForPlayer(this, applyEffect)));
+            }
+        }
     }
 
     private void calculatePlayerDamageToNpc(DamageProcessor playerDamageProcessor, Npc npc, NpcStatsChangeBuilder npcStatsChangeBuilder) {

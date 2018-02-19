@@ -36,5 +36,56 @@
   ],
   "validTimeOfDays": [],
   "isDisposable": false,
-  "maxUses": 0
+  "maxUses": 0,
+  "attackEffects": {
+    "99.9": {
+      "effectName": "flames",
+      "effectDescription": "flaming description",
+      "effectApplyMessages": [
+        "The flames are hurting you."
+      ],
+      "applyStatsOnTick": {
+        "strength": 0,
+        "intelligence": 0,
+        "willpower": 0,
+        "aim": 0,
+        "agile": 0,
+        "armorRating": 0,
+        "meleSkill": 0,
+        "currentHealth": -10,
+        "maxHealth": 0,
+        "weaponRatingMax": 0,
+        "weaponRatingMin": 0,
+        "numberOfWeaponRolls": 0,
+        "experience": 0,
+        "currentMana": 0,
+        "maxMana": 0,
+        "foraging": 0,
+        "inventorySize": 0,
+        "maxEffects": 0
+      },
+      "durationStats": {
+        "strength": 0,
+        "intelligence": 0,
+        "willpower": 0,
+        "aim": 0,
+        "agile": 0,
+        "armorRating": 0,
+        "meleSkill": 0,
+        "currentHealth": 0,
+        "maxHealth": 0,
+        "weaponRatingMax": 0,
+        "weaponRatingMin": 0,
+        "numberOfWeaponRolls": 0,
+        "experience": 0,
+        "currentMana": 0,
+        "maxMana": 0,
+        "foraging": 0,
+        "inventorySize": 0,
+        "maxEffects": 0
+      },
+      "maxEffectApplications": 10,
+      "frozenMovement": false
+    }
+  }
 }

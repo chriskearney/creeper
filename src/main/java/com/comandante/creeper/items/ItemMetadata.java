@@ -7,6 +7,7 @@ import com.comandante.creeper.stats.Stats;
 import com.google.common.collect.Sets;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ItemMetadata {
@@ -32,6 +33,7 @@ public class ItemMetadata {
     private Set<SpawnRule> spawnRules;
     private Stats itemApplyStats;
     private Set<Forage> forages;
+    private Map<Double, Effect> attackEffects;
 
     public Set<Forage> getForages() {
         if (forages == null) {
@@ -165,5 +167,13 @@ public class ItemMetadata {
 
     public void setMaxUses(int maxUses) {
         this.maxUses = maxUses;
+    }
+
+    public Map<Double, Effect> getAttackEffects() {
+        return attackEffects;
+    }
+
+    public void setAttackEffects(Map<Double, Effect> attackEffects) {
+        this.attackEffects = attackEffects;
     }
 }
