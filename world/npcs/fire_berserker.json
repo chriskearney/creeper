@@ -2,17 +2,17 @@
   "name": "fire berserker",
   "colorName": "@c-red@f@c-yellow@i@c-magenta@r@c-red@e@c-reset@ @c-bold-on@@c-magenta@berserker@c-reset@",
   "stats": {
-    "strength": 7,
+    "strength": 9,
     "intelligence": 0,
     "willpower": 0,
-    "aim": 1,
+    "aim": 3,
     "agile": 3,
-    "armorRating": 5,
-    "meleSkill": 10,
-    "currentHealth": 80,
-    "maxHealth": 80,
-    "weaponRatingMax": 9,
-    "weaponRatingMin": 4,
+    "armorRating": 40,
+    "meleSkill": 20,
+    "currentHealth": 140,
+    "maxHealth": 140,
+    "weaponRatingMax": 12,
+    "weaponRatingMin": 9,
     "numberOfWeaponRolls": 1,
     "experience": 10000,
     "currentMana": 80,
@@ -38,13 +38,17 @@
       "area": "NEWBIE_ZONE",
       "randomChance": 100,
       "spawnIntervalTicks": 600,
-      "maxInstances": 48,
-      "maxPerRoom": 6
+      "maxInstances": 72,
+      "maxPerRoom": 4
     }
   ],
   "loot": {
     "internalItemNames": [
-      "beserker bracers",
+      "fire bracers",
+      "fire boots",
+      "fire chest",
+      "fire helm",
+      "fire pants",
       "diamond",
       "flame thrower"
     ],

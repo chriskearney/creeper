@@ -1,8 +1,8 @@
 {
   "internalItemName": "flame thrower",
-  "itemName": "a@c-red@ flame thrower@c-reset@",
-  "itemDescription": "a flame thrower",
-  "restingName": "a flame thrower lays on the ground.",
+  "itemName": "a @c-red@f@c-yellow@l@c-magenta@a@c-red@m@c-yellow@e@c-reset@ thrower",
+  "itemDescription": "a @c-red@f@c-yellow@l@c-magenta@a@c-red@m@c-yellow@e@c-reset@ thrower",
+  "restingName": "a @c-red@f@c-yellow@l@c-magenta@a@c-red@m@c-yellow@e@c-reset@ rests on the ground.",
   "valueInGold": 800,
   "itemHalfLifeTicks": 60,
   "rarity": "UNCOMMON",
@@ -10,7 +10,7 @@
     "equipmentSlotType": "HAND",
     "statsIncreaseWhileEquipped": {
       "strength": 0,
-      "intelligence": 0,
+      "intelligence": 3,
       "willpower": 0,
       "aim": 3,
       "agile": 0,
@@ -18,8 +18,8 @@
       "meleSkill": 0,
       "currentHealth": 0,
       "maxHealth": 0,
-      "weaponRatingMax": 12,
-      "weaponRatingMin": 8,
+      "weaponRatingMax": 6,
+      "weaponRatingMin": 4,
       "numberOfWeaponRolls": 2,
       "experience": 0,
       "currentMana": 0,
@@ -31,8 +31,9 @@
   },
   "itemTriggers": [
     "flame",
+    "flame thrower",
     "a flame thrower",
-    "b"
+    "f"
   ],
   "validTimeOfDays": [],
   "isDisposable": false,
