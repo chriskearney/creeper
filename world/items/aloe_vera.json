@@ -1,18 +1,17 @@
 {
-  "internalItemName": "goatweed",
-  "itemName": "@c-green@goatweed@c-reset@ flowers@c-reset@",
-  "itemDescription": "some @c-green@goatweed@c-reset@ flowers@c-reset@",
-  "restingName": "some @c-green@goatweed@c-reset@ flowers@c-reset@ are here on the ground.",
-  "valueInGold": 10,
+  "internalItemName": "aloe vera",
+  "itemName": "@c-green@aloe@c-reset@ vera",
+  "itemDescription": "some @c-green@aloe@c-reset@ vera",
+  "restingName": "some @c-green@aloe@c-reset@ vera@c-reset@ sits on the ground.",
+  "valueInGold": 7,
   "itemHalfLifeTicks": 60,
   "rarity": "BASIC",
   "itemTriggers": [
-    "goatweed",
-    "weed",
-    "g",
-    "w",
-    "f",
-    "flowers"
+    "aloe",
+    "aloe vera",
+    "vera",
+    "a",
+    "v"
   ],
   "validTimeOfDays": [],
   "isDisposable": true,
@@ -25,13 +24,13 @@
     "agile": 0,
     "armorRating": 0,
     "meleSkill": 0,
-    "currentHealth": 75,
+    "currentHealth": 90,
     "maxHealth": 0,
     "weaponRatingMax": 0,
     "weaponRatingMin": 0,
     "numberOfWeaponRolls": 0,
     "experience": 0,
-    "currentMana": 75,
+    "currentMana": 0,
     "maxMana": 0,
     "foraging": 0,
     "inventorySize": 0,
@@ -40,17 +39,14 @@
   "forages": [
     {
       "minLevel": 0,
-      "pctOfSuccess": 40.0,
-      "minAmt": 1,
-      "maxAmt": 3,
+      "pctOfSuccess": 60.0,
+      "minAmt": 4,
+      "maxAmt": 7,
       "forageExperience": 4,
       "coolDownTicks": 600,
       "coolDownTicksLeft": 0,
       "forageAreas": [
-        "BLOODRIDGE2_ZONE",
-        "BLOODRIDGE1_ZONE",
-        "WESTERN9_ZONE",
-        "NORTH3_ZONE"
+        "NEWBIE_ZONE"
       ]
     }
   ]
