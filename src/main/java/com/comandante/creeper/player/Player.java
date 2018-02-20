@@ -30,7 +30,6 @@ import java.util.*;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Player extends CreeperEntity {
@@ -1404,6 +1403,10 @@ public class Player extends CreeperEntity {
     private void applyItemAttackEffects(Player player, Npc npc) {
         Set<Item> equipment = player.getEquipment();
         for (Item item: equipment) {
+            Map<Double, Effect> attackEffects = item.getAttackEffects();
+            if (attackEffects == null) {
+                continue;
+            }
             List<Effect> applyEffects = calculateChanceToApplyEffects(item.getAttackEffects());
             for (Effect applyEffect: applyEffects) {
                 if (npc.getEffects().stream()

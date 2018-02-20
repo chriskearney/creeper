@@ -5,7 +5,7 @@
   "restingName": "a flame thrower lays on the ground.",
   "valueInGold": 800,
   "itemHalfLifeTicks": 60,
-  "rarity": "BASIC",
+  "rarity": "UNCOMMON",
   "equipment": {
     "equipmentSlotType": "HAND",
     "statsIncreaseWhileEquipped": {
