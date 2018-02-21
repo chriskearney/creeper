@@ -918,7 +918,7 @@ public class Player extends CreeperEntity {
         }
     }
 
-    public List<String> getRolledUpIntentory() {
+    public List<String> getRolledUpInventory() {
         synchronized (interner.intern(playerId)) {
             List<String> rolledUp = Lists.newArrayList();
             List<Item> inventory = getInventory();
@@ -1387,12 +1387,15 @@ public class Player extends CreeperEntity {
         return apply;
     }
 
-    private Effect modifyEffectForPlayer(Player player, Effect origEffect) {
+    private Effect modifyEffectForPlayer(Player player, Npc npc, Effect origEffect) {
         // ApplyStatsOnTickModifications
         Effect effect = new Effect(origEffect);
         long healthAmount = Math.abs(effect.getApplyStatsOnTick().getCurrentHealth());
         if (healthAmount > 0) {
-            healthAmount = healthAmount * Math.round(player.getPlayerStatsWithEquipmentAndLevel().getIntelligence() * .2d);
+            healthAmount = (healthAmount * Math.round(player.getPlayerStatsWithEquipmentAndLevel().getIntelligence() * .2d)) - npc.getStats().getWillpower();
+            if (npc.getStats().getWillpower() < 0) {
+                healthAmount = 0;
+            }
             effect.getApplyStatsOnTick().setCurrentHealth(-healthAmount);
         }
 
@@ -1414,7 +1417,7 @@ public class Player extends CreeperEntity {
                         .collect(Collectors.toList()).size() > 0) {
                     continue;
                 }
-                gameManager.getEffectsManager().applyEffectsToNpcs(player, Sets.newHashSet(npc), Sets.newHashSet(modifyEffectForPlayer(this, applyEffect)));
+                gameManager.getEffectsManager().applyEffectsToNpcs(player, Sets.newHashSet(npc), Sets.newHashSet(modifyEffectForPlayer(this, npc, applyEffect)));
             }
         }
     }

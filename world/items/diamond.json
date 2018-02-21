@@ -2,10 +2,10 @@
   "internalItemName": "diamond",
   "itemName": "a @c-cyan@diamond@c-reset@",
   "itemDescription": "a @c-cyan@diamond@c-reset@",
-  "restingName": "a @c-cyan@diamon@c-reset@ rests on the ground.",
+  "restingName": "a @c-cyan@diamond@c-reset@ rests on the ground.",
   "valueInGold": 120,
   "itemHalfLifeTicks": 60,
-  "rarity": "RARE",
+  "rarity": "UNCOMMON",
   "itemTriggers": [
     "diamond",
     "d"

@@ -1,0 +1,19 @@
+{
+  "internalItemName": "royal diamond",
+  "itemName": "a @c-magenta@royal @c-cyan@diamond@c-reset@",
+  "itemDescription": "a @c-magenta@royal @c-cyan@diamond@c-reset@",
+  "restingName": "a @c-magenta@royal @c-cyan@diamond@c-reset@ rests on the ground.",
+  "valueInGold": 450,
+  "itemHalfLifeTicks": 60,
+  "rarity": "UNCOMMON",
+  "itemTriggers": [
+    "royal",
+    "r",
+    "royal diamond",
+    "diamond",
+    "d"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

@@ -13,7 +13,7 @@ import com.comandante.creeper.stats.StatsHelper;
 import org.apache.log4j.Logger;
 
 import java.text.NumberFormat;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
 
@@ -87,7 +87,7 @@ public class EffectsManager {
             String s = Color.BOLD_ON + Color.GREEN + "[effect] " + Color.RESET + npc.getColorName() + " is affected by " + effect.getEffectDescription() + " " + Color.RED + applyStats.getCurrentHealth() + Color.RESET + Color.CYAN + Color.RESET;
             NpcStatsChange npcStatsChange = new NpcStatsChangeBuilder()
                     .setStats(applyStats)
-                    .setDamageStrings(Arrays.asList(s))
+                    .setDamageStrings(Collections.singletonList(s))
                     .setPlayer(player)
                     .createNpcStatsChange();
             npc.addNpcDamage(npcStatsChange);

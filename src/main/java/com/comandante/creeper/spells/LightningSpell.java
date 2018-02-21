@@ -12,7 +12,7 @@ import com.comandante.creeper.stats.StatsBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
 
 import static com.comandante.creeper.server.player_communication.Color.BOLD_ON;
@@ -53,9 +53,13 @@ public class LightningSpell implements SpellRunnable {
         announceSpellCastToCurrentRoom(player, npc.getColorName());
         Stats stats = player.getPlayerStatsWithEquipmentAndLevel();
         long power = (player.getLevel() * 1) + (3 * stats.getIntelligence());
+        power = power - npc.getStats().getWillpower();
+        if (power < 0) {
+            power = 0;
+        }
         player.addActiveFight(npc);
         gameManager.getEffectsManager().applyEffectsToNpcs(player, Sets.newHashSet(npc), Sets.newHashSet(selectEffect(stats).createEffect()));
-        npc.doHealthDamage(player, Arrays.asList(getDamageMessage(power, npc.getColorName())), -power);
+        npc.doHealthDamage(player, Collections.singletonList(getDamageMessage(power, npc.getColorName())), -power);
     }
 
     private EffectBuilder selectEffect(Stats stats) {

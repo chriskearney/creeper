@@ -1,8 +1,8 @@
 package com.comandante.creeper.command.commands;
 
 
-import com.comandante.creeper.items.Item;
 import com.comandante.creeper.core_game.GameManager;
+import com.comandante.creeper.items.Item;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
@@ -33,7 +33,7 @@ public class InventoryCommand extends Command {
             StringBuilder inventoryString = new StringBuilder();
             inventoryString.append("You are carrying:\r\n");
             inventoryString.append(RESET);
-            String join = StringUtils.join(player.getRolledUpIntentory().toArray(), "\r\n");
+            String join = StringUtils.join(player.getRolledUpInventory().toArray(), "\r\n");
             inventoryString.append(join);
             write(inventoryString.toString());
         });
