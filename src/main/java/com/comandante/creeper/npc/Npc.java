@@ -58,6 +58,7 @@ public class Npc extends CreeperEntity {
     private final Set<String> validTriggers;
     private final Set<SpawnRule> spawnRules;
     private final ArrayBlockingQueue<NpcStatsChange> npcStatsChanges = new ArrayBlockingQueue<>(3000);
+    private final ArrayBlockingQueue<Effect> effectsToApply = new ArrayBlockingQueue<>(3000);
     private final AtomicBoolean isAlive = new AtomicBoolean(true);
     private final Random random = new Random();
     private long lastPhraseTimestamp;
@@ -120,6 +121,10 @@ public class Npc extends CreeperEntity {
                 if (isAlive.get()) {
                     if (effectsTickBucket == 5) {
 
+                        List<Effect> addEffects = Lists.newArrayList();
+                        effectsToApply.drainTo(addEffects);
+                        processAddEffect(addEffects);
+
                         // START Process NPC Effects
                         Iterator<Effect> iterator = effects.iterator();
                         while (iterator.hasNext()) {
@@ -166,6 +171,15 @@ public class Npc extends CreeperEntity {
 
     public String getName() {
         return name;
+    }
+
+    private void processAddEffect(List<Effect> addEffects) {
+        for (Effect effect: addEffects) {
+            if (effects.size() >= maxEffects) {
+                continue;
+            }
+            effects.add(effect);
+        }
     }
 
     private void processNpcStatChange(NpcStatsChange npcStatsChange) {
@@ -394,12 +408,7 @@ public class Npc extends CreeperEntity {
     }
 
     public void addEffect(Effect effect) {
-        synchronized (interner.intern(getEntityId())) {
-            if (effects.size() >= maxEffects) {
-            } else {
-                effects.add(effect);
-            }
-        }
+        this.effectsToApply.add(effect);
     }
 
     public List<Effect> getEffects() {
