@@ -1,6 +1,6 @@
 package com.comandante.creeper.entity;
 
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.SentryManager;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.items.ItemBuilder;
@@ -91,7 +91,7 @@ public class EntityManager {
     public static final int SLEEP_MILLIS = 500;
 
     class PlayerTicker implements Runnable {
-        private final com.codahale.metrics.Timer ticktime = Main.metrics.timer(name(EntityManager.class, "player_tick_time"));
+        private final com.codahale.metrics.Timer ticktime = Creeper.metrics.timer(name(EntityManager.class, "player_tick_time"));
 
         @Override
         public void run() {
@@ -114,7 +114,7 @@ public class EntityManager {
     }
 
     class RoomTicker implements Runnable {
-        private final com.codahale.metrics.Timer ticktime = Main.metrics.timer(name(EntityManager.class, "room_tick_time"));
+        private final com.codahale.metrics.Timer ticktime = Creeper.metrics.timer(name(EntityManager.class, "room_tick_time"));
 
         @Override
         public void run() {
@@ -137,7 +137,7 @@ public class EntityManager {
     }
 
     class NpcTicker implements Runnable {
-        private final com.codahale.metrics.Timer ticktime = Main.metrics.timer(name(EntityManager.class, "npc_tick_time"));
+        private final com.codahale.metrics.Timer ticktime = Creeper.metrics.timer(name(EntityManager.class, "npc_tick_time"));
 
         @Override
         public void run() {
@@ -158,7 +158,7 @@ public class EntityManager {
     }
 
     class EntityTicker implements Runnable {
-        private final com.codahale.metrics.Timer ticktime = Main.metrics.timer(name(EntityManager.class, "entity_tick_time"));
+        private final com.codahale.metrics.Timer ticktime = Creeper.metrics.timer(name(EntityManager.class, "entity_tick_time"));
 
         @Override
         public void run() {

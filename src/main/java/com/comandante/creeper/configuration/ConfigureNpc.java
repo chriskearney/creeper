@@ -1,7 +1,7 @@
 package com.comandante.creeper.configuration;
 
 
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.items.Forage;
@@ -22,7 +22,7 @@ public class ConfigureNpc {
         EntityManager entityManager = gameManager.getEntityManager();
         List<Npc> npcsFromFile = gameManager.getNpcStorage().getAllNpcs();
         for (Npc npc : npcsFromFile) {
-            Main.startUpMessage("Adding npc spawn: " + npc.getName());
+            Creeper.startUpMessage("Adding npc spawn: " + npc.getName());
             entityManager.addEntity(npc);
             Set<SpawnRule> spawnRules = npc.getSpawnRules();
             for (SpawnRule spawnRule : spawnRules) {
@@ -39,7 +39,7 @@ public class ConfigureNpc {
 
         for (ItemMetadata itemMetadata : allItemMetadata) {
             for (SpawnRule spawnRule : itemMetadata.getSpawnRules()) {
-                Main.startUpMessage("Adding item spawn: " + itemMetadata.getInternalItemName());
+                Creeper.startUpMessage("Adding item spawn: " + itemMetadata.getInternalItemName());
                 ItemSpawner itemSpawner = new ItemSpawner(itemMetadata, spawnRule, gameManager);
                 entityManager.addEntity(itemSpawner);
             }
@@ -47,14 +47,14 @@ public class ConfigureNpc {
 
         for (ItemMetadata itemMetadata : allItemMetadata) {
             for (Forage forage : itemMetadata.getForages()) {
-                Main.startUpMessage("Adding forage: " + itemMetadata.getInternalItemName());
+                Creeper.startUpMessage("Adding forage: " + itemMetadata.getInternalItemName());
                 gameManager.getForageManager().addForage(itemMetadata.getInternalItemName(), forage);
             }
         }
 
         List<Merchant> allMerchantMetadatas = gameManager.getMerchantStorage().getAllMerchants();
         for (Merchant merchant : allMerchantMetadatas) {
-            Main.startUpMessage("Adding merchant: " + merchant.getInternalName());
+            Creeper.startUpMessage("Adding merchant: " + merchant.getInternalName());
             gameManager.getRoomManager().addMerchant(merchant);
         }
 

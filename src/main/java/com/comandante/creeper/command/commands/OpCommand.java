@@ -42,7 +42,7 @@ public class OpCommand extends Command {
             UserChannelDao<User, Channel> userChannelDao = gameManager.getIrcBotService().getBot().getUserChannelDao();
             User user = userChannelDao.getUser(desiredNickNameToOp);
             if (user == null) {
-                write("No such nick name exists in " + gameManager.getCreeperConfiguration().ircChannel);
+                write("No such nick name exists in " + gameManager.getCreeperConfiguration().getIrcChannel());
                 return;
             }
             ImmutableSortedSet<Channel> channels = user.getChannels();

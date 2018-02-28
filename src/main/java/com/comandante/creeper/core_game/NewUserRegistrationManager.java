@@ -1,7 +1,7 @@
 package com.comandante.creeper.core_game;
 
 
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.player.*;
 import com.comandante.creeper.server.model.CreeperSession;
 import com.comandante.creeper.stats.DefaultStats;
@@ -51,7 +51,7 @@ public class NewUserRegistrationManager {
     private boolean setDesiredUsername(CreeperSession session, MessageEvent e) {
         String name = (String) e.getMessage();
         String username = name.replaceAll("[^a-zA-Z0-9]", "");
-        java.util.Optional<PlayerMetadata> playerMetadataOptional = gameManager.getPlayerManager().getPlayerMetadata(Main.createPlayerId(username));
+        java.util.Optional<PlayerMetadata> playerMetadataOptional = gameManager.getPlayerManager().getPlayerMetadata(Creeper.createPlayerId(username));
         if (!isValidUsername(username)) {
             e.getChannel().write("Username is in invalid.\r\n");
             return false;
@@ -84,7 +84,7 @@ public class NewUserRegistrationManager {
         PlayerMetadata playerMetadata = new PlayerMetadata(
                 session.getUsername().get(),
                 session.getPassword().get(),
-                Main.createPlayerId(session.getUsername().get()),
+                Creeper.createPlayerId(session.getUsername().get()),
                 DefaultStats.DEFAULT_PLAYER.createStats(),
                 0, Sets.newHashSet(PlayerRole.MORTAL),
                 new String[0],

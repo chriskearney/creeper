@@ -2,7 +2,7 @@ package com.comandante.creeper.command;
 
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.command.commands.Command;
 import com.comandante.creeper.command.commands.CommandAuditLog;
 import com.comandante.creeper.command.commands.GossipCommand;
@@ -24,7 +24,7 @@ import org.jboss.netty.channel.*;
 public class CreeperCommandHandler extends SimpleChannelUpstreamHandler {
 
     private final GameManager gameManager;
-    private final Meter commandMeter = Main.metrics.meter(MetricRegistry.name(CreeperCommandHandler.class, "commands"));
+    private final Meter commandMeter = Creeper.metrics.meter(MetricRegistry.name(CreeperCommandHandler.class, "commands"));
     private static final Logger log = Logger.getLogger(CreeperCommandHandler.class);
 
     public CreeperCommandHandler(GameManager gameManager) {
@@ -80,7 +80,7 @@ public class CreeperCommandHandler extends SimpleChannelUpstreamHandler {
         }
 
         if (commandByTrigger.getDescription() != null) {
-            Main.metrics.counter(MetricRegistry.name(CreeperCommandHandler.class, rootCommand)).inc();
+            Creeper.metrics.counter(MetricRegistry.name(CreeperCommandHandler.class, rootCommand)).inc();
             CommandAuditLog.logCommand((String) e.getMessage(), session.getUsername().get());
         }
 

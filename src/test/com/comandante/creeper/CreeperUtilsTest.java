@@ -34,7 +34,7 @@ public class CreeperUtilsTest {
         PlayerMetadata playerMetadata = new PlayerMetadata(
                 "usertest",
                 "Testtest",
-                Main.createPlayerId("usertest"),
+                Creeper.createPlayerId("usertest"),
                 DefaultStats.DEFAULT_PLAYER.createStats(),
                 0,
                 Sets.newHashSet(PlayerRole.MORTAL),

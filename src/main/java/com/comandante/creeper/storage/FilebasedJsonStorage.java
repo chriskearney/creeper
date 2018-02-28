@@ -1,6 +1,6 @@
 package com.comandante.creeper.storage;
 
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import org.apache.commons.io.FileUtils;
@@ -57,7 +57,7 @@ public class FilebasedJsonStorage {
                 .stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED), false)
                 .map(f -> {
                     try {
-                        Main.startUpMessage("Reading: " + f.getAbsolutePath());
+                        Creeper.startUpMessage("Reading: " + f.getAbsolutePath());
                         return new String(Files.readAllBytes(f.toPath()));
                     } catch (IOException e) {
                         log.error("Unable to read: " + f.getAbsolutePath(), e);

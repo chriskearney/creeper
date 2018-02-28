@@ -1,6 +1,6 @@
 package com.comandante.creeper.server.auth;
 
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.command.CreeperCommandHandler;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SentryManager;
@@ -68,8 +68,8 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
                 e.getChannel().getPipeline().addLast("server_handler", new CreeperCommandHandler(gameManager));
                 e.getChannel().setAttachment(creeperSession);
                 gameManager.announceConnect(creeperSession.getUsername().get());
-                gameManager.currentRoomLogic(Main.createPlayerId(creeperSession.getUsername().get()));
-                gameManager.getChannelUtils().write(Main.createPlayerId(creeperSession.getUsername().get()), "\r\n" + gameManager.buildPrompt(Main.createPlayerId(creeperSession.getUsername().get())));
+                gameManager.currentRoomLogic(Creeper.createPlayerId(creeperSession.getUsername().get()));
+                gameManager.getChannelUtils().write(Creeper.createPlayerId(creeperSession.getUsername().get()), "\r\n" + gameManager.buildPrompt(Creeper.createPlayerId(creeperSession.getUsername().get())));
             }
         } else {
             //gameManager.getPlayerManager().getSessionManager().putSession(creeperSession);
@@ -111,7 +111,7 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
         } else {
             creeperSession.setAuthed(true);
             creeperSession.setState(CreeperSession.State.authed);
-            e.getChannel().write("Welcome to creeper. (version: " + Main.getCreeperVersion() + ")\r\n");
+            e.getChannel().write("Welcome to creeper. (version: " + Creeper.getCreeperVersion() + ")\r\n");
         }
     }
 

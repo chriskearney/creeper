@@ -21,11 +21,11 @@ public class NexusCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         execCommand(ctx, e, () -> {
-            if (gameManager.getCreeperConfiguration().isIrcEnabled) {
+            if (gameManager.getCreeperConfiguration().isIrcEnabled()) {
                 originalMessageParts.remove(0);
                 String transferPhrase = Joiner.on(" ").join(originalMessageParts);
                 if (gameManager.getIrcBotService().getBot().isConnected()) {
-                    gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().ircChannel).send().message(player.getPlayerName() + ": " + transferPhrase);
+                    gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(player.getPlayerName() + ": " + transferPhrase);
                 }
             }
         });
