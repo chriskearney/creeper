@@ -44,7 +44,7 @@ public class ApiResource {
         }
         String inventory = stringJoiner.toString();
 
-        List<String> recent = gameManager.getGossipCache().getRecent(20);
+        List<String> recent = gameManager.getGossipCache().getRecent(15);
         StringJoiner gossipJoiner = new StringJoiner("\n");
         for (String s: recent) {
             gossipJoiner.add(s);
