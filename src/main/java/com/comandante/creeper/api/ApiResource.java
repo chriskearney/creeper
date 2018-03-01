@@ -6,16 +6,17 @@ import com.comandante.creeper.player.Player;
 import com.comandante.creeper.world.model.Coords;
 import com.comandante.creeper.world.model.Room;
 import io.dropwizard.auth.Auth;
-import org.glassfish.jersey.internal.util.Base64;
 
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
+import java.util.StringJoiner;
 
 @Path("/api")
-@Produces(MediaType.TEXT_PLAIN)
+@Produces(MediaType.APPLICATION_JSON)
 public class ApiResource {
 
     private final GameManager gameManager;
@@ -27,10 +28,30 @@ public class ApiResource {
     @GET
     @Timed
     @PermitAll
-    @Path("/map")
-    public String getPrompt(@Auth Player player) {
+    @Path("/clientdata")
+    public CreeperClientData getClientData(@Auth Player player) {
         final Room playerCurrentRoom = gameManager.getRoomManager().getPlayerCurrentRoom(player).get();
-        String map = gameManager.getMapsManager().drawMap(playerCurrentRoom.getRoomId(), new Coords(20, 15));
-        return Base64.encodeAsString(map);
+        String map = gameManager.getMapsManager().drawMap(playerCurrentRoom.getRoomId(), new Coords(20, 14));
+
+        String prompt = gameManager.buildPrompt(player.getPlayerId());
+
+        String lookString = player.getLookString();
+
+        List<String> rolledUpInventory = player.getRolledUpInventory();
+        StringJoiner stringJoiner = new StringJoiner("\n");
+        for (String s: rolledUpInventory) {
+            stringJoiner.add(s);
+        }
+        String inventory = stringJoiner.toString();
+
+        List<String> recent = gameManager.getGossipCache().getRecent(20);
+        StringJoiner gossipJoiner = new StringJoiner("\n");
+        for (String s: recent) {
+            gossipJoiner.add(s);
+        }
+        String gossip = gossipJoiner.toString();
+
+        return new CreeperClientData(map, prompt, lookString, inventory, gossip);
+
     }
 }
