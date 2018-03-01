@@ -44,7 +44,7 @@ public class CreeperApplication extends Application<CreeperConfiguration> {
             //If you want to use @Auth to inject a custom Principal type into your resource
             environment.jersey().register(new AuthValueFactoryProvider.Binder<>(Player.class));
 
-            environment.jersey().register(new ApiResource());
+            environment.jersey().register(new ApiResource(creeper.getGameManager()));
 
 
         } catch (Exception e) {

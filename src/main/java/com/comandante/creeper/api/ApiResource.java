@@ -1,6 +1,7 @@
 package com.comandante.creeper.api;
 
 import com.codahale.metrics.annotation.Timed;
+import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.player.Player;
 import io.dropwizard.auth.Auth;
 
@@ -13,14 +14,19 @@ import javax.ws.rs.core.MediaType;
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
 public class ApiResource {
-    public ApiResource() {
 
+    private final GameManager gameManager;
+
+    public ApiResource(GameManager gameManager) {
+        this.gameManager = gameManager;
     }
 
     @GET
     @Timed
     @PermitAll
-    public void getMap(@Auth Player player) {
-        System.out.println(player.getPlayerName());
+    @Path("/prompt")
+    public CreeperApiStringResponse getPrompt(@Auth Player player) {
+        String buildPrompt = gameManager.buildPrompt(player.getPlayerId());
+        return new CreeperApiStringResponse(buildPrompt);
     }
 }
