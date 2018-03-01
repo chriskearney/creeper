@@ -2,7 +2,7 @@ package com.comandante.creeper.player;
 
 
 import com.codahale.metrics.Gauge;
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.SessionManager;
 import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.storage.CreeperStorage;
@@ -120,7 +120,7 @@ public class PlayerManager {
         String playerId = playerMetadata.getPlayerId();
         String guageName = name(PlayerManager.class, playerMetadata.getPlayerName(), "gold");
         if (!doesGaugeExist(guageName)) {
-            Main.metrics.register(guageName,
+            Creeper.metrics.register(guageName,
                     (Gauge<Long>) () -> {
                         Optional<PlayerMetadata> playerMetadataOpt = creeperStorage.getPlayerMetadata(playerId);
                         return playerMetadataOpt.map(PlayerMetadata::getGold).orElse(0L);
@@ -129,7 +129,7 @@ public class PlayerManager {
 
         guageName = name(PlayerManager.class, playerMetadata.getPlayerName(), "current-health");
         if (!doesGaugeExist(guageName)) {
-            Main.metrics.register(name(PlayerManager.class, playerMetadata.getPlayerName(), "current-health"),
+            Creeper.metrics.register(name(PlayerManager.class, playerMetadata.getPlayerName(), "current-health"),
                     (Gauge<Long>) () -> {
                         Optional<PlayerMetadata> playerMetadataOpt = creeperStorage.getPlayerMetadata(playerId);
                         return playerMetadataOpt.map(PlayerMetadata::getStats).map(Stats::getCurrentHealth).orElse(0L);
@@ -138,7 +138,7 @@ public class PlayerManager {
 
         guageName = name(PlayerManager.class, playerMetadata.getPlayerName(), "xp");
         if (!doesGaugeExist(guageName)) {
-            Main.metrics.register(name(PlayerManager.class, playerMetadata.getPlayerName(), "xp"),
+            Creeper.metrics.register(name(PlayerManager.class, playerMetadata.getPlayerName(), "xp"),
                     (Gauge<Long>) () -> {
                         Optional<PlayerMetadata> playerMetadataOpt = creeperStorage.getPlayerMetadata(playerId);
                         return playerMetadataOpt.map(PlayerMetadata::getStats).map(Stats::getExperience).orElse(0L);
@@ -147,7 +147,7 @@ public class PlayerManager {
     }
 
     private boolean doesGaugeExist(String name) {
-        return Main.metrics.getGauges().containsKey(name);
+        return Creeper.metrics.getGauges().containsKey(name);
     }
 
     public Map<String, PlayerMetadata> getPlayerMetadataStore() {

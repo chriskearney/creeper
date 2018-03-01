@@ -1,7 +1,7 @@
 package com.comandante.creeper.command.commands;
 
 import com.codahale.metrics.Meter;
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.stats.Levels;
@@ -40,7 +40,7 @@ public class XpCommand extends Command {
             PlayerMetadata playerMetadata = playerMetadataOptional.get();
             long nextLevel = Levels.getLevel(playerMetadata.getStats().getExperience()) + 1;
             long expToNextLevel = Levels.getXp(nextLevel) - playerMetadata.getStats().getExperience();
-            Meter meter = Main.metrics.meter("experience-" + player.getPlayerName());
+            Meter meter = Creeper.metrics.meter("experience-" + player.getPlayerName());
 
             Table table = new Table(2, BorderStyle.CLASSIC_COMPATIBLE, ShownBorders.NONE);
 

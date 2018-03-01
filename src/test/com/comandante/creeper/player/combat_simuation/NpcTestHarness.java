@@ -1,10 +1,11 @@
 package com.comandante.creeper.player.combat_simuation;
 
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.configuration.ConfigureCommands;
-import com.comandante.creeper.configuration.CreeperConfiguration;
+
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SessionManager;
+import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.npc.Npc;
@@ -21,7 +22,6 @@ import com.comandante.creeper.world.MapsManager;
 import com.comandante.creeper.world.RoomManager;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.apache.commons.configuration.MapConfiguration;
 import org.apache.http.impl.client.HttpClients;
 import org.jboss.netty.channel.Channel;
 import org.junit.Assert;
@@ -273,7 +273,7 @@ public class NpcTestHarness {
     private void createUser(String username, String password) {
         PlayerMetadata playerMetadata = new PlayerMetadata(username,
                 password,
-                Main.createPlayerId(username),
+                Creeper.createPlayerId(username),
                 DefaultStats.DEFAULT_PLAYER.createStats(),
                 0,
                 Sets.newHashSet(PlayerRole.MORTAL),
@@ -300,7 +300,7 @@ public class NpcTestHarness {
                 //System.out.println(message);
             }
         };
-        CreeperConfiguration creeperConfiguration = new CreeperConfiguration(new MapConfiguration(Maps.newHashMap()));
+        CreeperConfiguration creeperConfiguration = new CreeperConfiguration();
         DB db = DBMaker.memoryDB().transactionEnable().closeOnJvmShutdown().make();
         MapDBCreeperStorage mapDBCreeperStorage = new MapDBCreeperStorage(db);
         PlayerManager playerManager = new PlayerManager(mapDBCreeperStorage, new SessionManager());

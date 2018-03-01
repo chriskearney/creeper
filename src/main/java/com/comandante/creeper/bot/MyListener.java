@@ -41,7 +41,7 @@ public class MyListener extends ListenerAdapter {
                 BotCommand command = gameManager.getBotCommandFactory().getCommand((MessageEvent) event, msg);
                 List<String> response = command.process();
                 for (String line: response) {
-                    gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().ircChannel).send().message(line);
+                    gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(line);
                 }
             }
 

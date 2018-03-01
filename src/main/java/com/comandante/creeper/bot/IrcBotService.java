@@ -1,8 +1,9 @@
 package com.comandante.creeper.bot;
 
 
-import com.comandante.creeper.configuration.CreeperConfiguration;
+
 import com.comandante.creeper.core_game.GameManager;
+import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.google.common.util.concurrent.AbstractIdleService;
 import org.pircbotx.MultiBotManager;
 import org.pircbotx.PircBotX;
@@ -29,10 +30,10 @@ public class IrcBotService extends AbstractIdleService {
     public MultiBotManager newBot() {
         manager = new MultiBotManager();
         configuration = new org.pircbotx.Configuration.Builder()
-                .setName(creeperConfiguration.ircNickname)
-                .setLogin(creeperConfiguration.ircUsername)
-                .setServerHostname(creeperConfiguration.ircServer)
-                .addAutoJoinChannel(creeperConfiguration.ircChannel)
+                .setName(creeperConfiguration.getIrcNickname())
+                .setLogin(creeperConfiguration.getIrcUsername())
+                .setServerHostname(creeperConfiguration.getIrcServer())
+                .addAutoJoinChannel(creeperConfiguration.getIrcChannel())
                 .addListener(new MyListener(gameManager, 376))
                 .setVersion("Creeper MUD IRC But.")
                 .setAutoReconnect(true)

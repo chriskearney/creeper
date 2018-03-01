@@ -2,7 +2,7 @@ package com.comandante.creeper.spawner;
 
 
 import com.codahale.metrics.MetricRegistry;
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.npc.Npc;
@@ -80,7 +80,7 @@ public class NpcSpawner extends CreeperEntity {
         room.addPresentNpc(newNpc.getEntityId());
         gameManager.writeToRoom(room.getRoomId(), newNpc.getColorName() + " appears." + "\r\n");
         room.getPresentPlayers().forEach(Player::processNpcAggro);
-        Main.metrics.counter(MetricRegistry.name(NpcSpawner.class, npc.getName() + "-spawn")).inc();
+        Creeper.metrics.counter(MetricRegistry.name(NpcSpawner.class, npc.getName() + "-spawn")).inc();
     }
 
     private Predicate<Room> findRoomsWithOccupancy(Npc npc) {

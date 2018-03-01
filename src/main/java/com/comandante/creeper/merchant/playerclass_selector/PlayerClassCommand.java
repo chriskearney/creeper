@@ -1,6 +1,6 @@
 package com.comandante.creeper.merchant.playerclass_selector;
 
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.common.CreeperUtils;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.player.Player;
@@ -69,7 +69,7 @@ public class PlayerClassCommand extends SimpleChannelUpstreamHandler {
 
 
     public String extractPlayerId(CreeperSession creeperSession) {
-        return Main.createPlayerId(creeperSession.getUsername().get());
+        return Creeper.createPlayerId(creeperSession.getUsername().get());
     }
 
     public String getRootCommand(MessageEvent e) {

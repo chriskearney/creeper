@@ -15,7 +15,7 @@ public class GossipCache {
 
     public GossipCache(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.evictingQueue = EvictingQueue.create(gameManager.getCreeperConfiguration().maxGossipCacheSize);
+        this.evictingQueue = EvictingQueue.create(gameManager.getCreeperConfiguration().getMaxGossipCacheSize());
     }
 
     public synchronized void addGossipLine(String line) {
