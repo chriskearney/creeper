@@ -1,14 +1,14 @@
 package com.comandante.creeper.core_game;
 
 
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.bot.IrcBotService;
 import com.comandante.creeper.bot.command.BotCommandFactory;
 import com.comandante.creeper.bot.command.BotCommandManager;
 import com.comandante.creeper.common.FriendlyTime;
-import com.comandante.creeper.configuration.CreeperConfiguration;
 import com.comandante.creeper.core_game.service.MultiThreadedEventProcessor;
 import com.comandante.creeper.core_game.service.TimeTracker;
+import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.items.*;
@@ -344,7 +344,7 @@ public class GameManager {
         for (String npcId : playerCurrentRoom.getNpcIds()) {
             StringBuilder sbb = new StringBuilder();
             Npc npcEntity = entityManager.getNpcEntity(npcId);
-            if (Main.vowels.contains(Character.toLowerCase(npcEntity.getName().charAt(0)))) {
+            if (Creeper.vowels.contains(Character.toLowerCase(npcEntity.getName().charAt(0)))) {
                 sbb.append("an ");
             } else {
                 sbb.append("a ");

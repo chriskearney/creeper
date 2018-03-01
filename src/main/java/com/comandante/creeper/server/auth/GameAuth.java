@@ -1,6 +1,6 @@
 package com.comandante.creeper.server.auth;
 
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerMetadata;
@@ -19,7 +19,7 @@ public class GameAuth implements CreeperAuthenticator {
 
     @Override
     public boolean authenticateAndRegisterPlayer(String username, String password, Channel channel) {
-        Optional<PlayerMetadata> playerMetadataOptional = gameManager.getPlayerManager().getPlayerMetadata(Main.createPlayerId(username));
+        Optional<PlayerMetadata> playerMetadataOptional = gameManager.getPlayerManager().getPlayerMetadata(Creeper.createPlayerId(username));
         if (!playerMetadataOptional.isPresent()) {
             return false;
         }
@@ -32,7 +32,7 @@ public class GameAuth implements CreeperAuthenticator {
             currentRoom = gameManager.getPlayerManager().getPlayerByUsername(username).getCurrentRoom();
             gameManager.getPlayerManager().removePlayer(username);
         } else {
-            Optional<Room> playerCurrentRoom = gameManager.getRoomManager().getPlayerCurrentRoom(Main.createPlayerId(username));
+            Optional<Room> playerCurrentRoom = gameManager.getRoomManager().getPlayerCurrentRoom(Creeper.createPlayerId(username));
             if (playerCurrentRoom.isPresent()) {
                 currentRoom = playerCurrentRoom.get();
             }

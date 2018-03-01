@@ -2,7 +2,7 @@ package com.comandante.creeper.merchant;
 
 
 import com.codahale.metrics.Timer;
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.items.ItemBuilder;
@@ -17,7 +17,7 @@ import static com.codahale.metrics.MetricRegistry.name;
 public class MerchantManager {
 
     private final GameManager gameManager;
-    private final Timer responses = Main.metrics.timer(name(MerchantManager.class, "purchase_time"));
+    private final Timer responses = Creeper.metrics.timer(name(MerchantManager.class, "purchase_time"));
 
 
     public MerchantManager(GameManager gameManager) {

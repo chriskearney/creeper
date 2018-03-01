@@ -1,6 +1,6 @@
 package com.comandante.creeper.command.commands.admin;
 
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.command.commands.Command;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.player.PlayerRole;
@@ -66,7 +66,7 @@ public class SystemInfo extends Command {
                     .append(Color.MAGENTA)
                     .append("build:")
                     .append(Color.RESET)
-                    .append(Main.getCreeperVersion())
+                    .append(Creeper.getCreeperVersion())
                     .append("\r\n").toString());
         });
     }

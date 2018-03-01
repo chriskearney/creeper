@@ -1,0 +1,7 @@
+server:
+  gzip:
+    bufferSize: 8KiB
+  adminConnectors: []
+  applicationConnectors:
+  - type: http
+    port: 9000

@@ -2,7 +2,7 @@ package com.comandante.creeper.player;
 
 
 import com.codahale.metrics.Meter;
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.common.CreeperUtils;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SentryManager;
@@ -25,6 +25,8 @@ import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;
 
+import javax.security.auth.Subject;
+import java.security.Principal;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -32,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
-public class Player extends CreeperEntity {
+public class Player extends CreeperEntity implements Principal {
 
     private static final Logger log = Logger.getLogger(Player.class);
     private final GameManager gameManager;
@@ -287,7 +289,7 @@ public class Player extends CreeperEntity {
 
     public void addExperience(long exp) {
         synchronized (interner.intern(playerId)) {
-            final Meter requests = Main.metrics.meter("experience-" + playerName);
+            final Meter requests = Creeper.metrics.meter("experience-" + playerName);
             Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
             if (!playerMetadataOptional.isPresent()) {
                 return;
@@ -1498,5 +1500,15 @@ public class Player extends CreeperEntity {
 
     public boolean isChatModeOn() {
         return isChatMode.get();
+    }
+
+    @Override
+    public String getName() {
+        return playerName;
+    }
+
+    @Override
+    public boolean implies(Subject subject) {
+        return false;
     }
 }

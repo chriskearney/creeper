@@ -1,6 +1,6 @@
 package com.comandante.creeper.merchant.bank.commands;
 
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
@@ -71,7 +71,7 @@ public class BankCommand extends SimpleChannelUpstreamHandler {
 
 
     public String extractPlayerId(CreeperSession creeperSession) {
-        return Main.createPlayerId(creeperSession.getUsername().get());
+        return Creeper.createPlayerId(creeperSession.getUsername().get());
     }
 
     public String getRootCommand(MessageEvent e) {

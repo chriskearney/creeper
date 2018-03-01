@@ -1,6 +1,7 @@
 package com.comandante.creeper.bot.command;
 
-import com.comandante.creeper.configuration.CreeperConfiguration;
+
+import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.google.api.client.http.*;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.GenericJson;

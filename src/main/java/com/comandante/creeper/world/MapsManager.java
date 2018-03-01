@@ -1,9 +1,10 @@
 package com.comandante.creeper.world;
 
 import com.codahale.metrics.Timer;
-import com.comandante.creeper.Main;
-import com.comandante.creeper.configuration.CreeperConfiguration;
+import com.comandante.creeper.Creeper;
+
 import com.comandante.creeper.core_game.GameManager;
+import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.comandante.creeper.server.player_communication.Color;
 import com.comandante.creeper.world.model.Coords;
 import com.comandante.creeper.world.model.Room;
@@ -26,7 +27,7 @@ public class MapsManager {
     private final CreeperConfiguration creeperConfiguration;
     private final ExecutorService mapGeneratorService = Executors.newFixedThreadPool(1);
     private static final Logger log = Logger.getLogger(GameManager.class);
-    private final Timer ticktime = Main.metrics.timer(name(MapsManager.class, "generate_all_maps_time"));
+    private final Timer ticktime = Creeper.metrics.timer(name(MapsManager.class, "generate_all_maps_time"));
 
     public MapsManager(CreeperConfiguration creeperConfiguration, RoomManager roomManager) {
         this.roomManager = roomManager;
@@ -36,8 +37,8 @@ public class MapsManager {
 
     private void generate() {
         Timer.Context time = ticktime.time();
-        int maxRows = creeperConfiguration.defaultMapSize;
-        int maxColumns = creeperConfiguration.defaultMapSize;
+        int maxRows = creeperConfiguration.getDefaultMapSize();
+        int maxColumns = creeperConfiguration.getDefaultMapSize();
         Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRoomsIterator();
         while (rooms.hasNext()) {
             Map.Entry<Integer, Room> next = rooms.next();

@@ -41,9 +41,9 @@ public class SayCommand extends Command {
                     channelUtils.write(presentPlayer.getPlayerId(), sb.append("\r\n").toString(), true);
                 }
             }
-            if (gameManager.getCreeperConfiguration().isIrcEnabled && (Objects.equals(gameManager.getCreeperConfiguration().ircBridgeRoomId, currentRoom.getRoomId()))) {
+            if (gameManager.getCreeperConfiguration().isIrcEnabled() && (Objects.equals(gameManager.getCreeperConfiguration().getIrcBridgeroomId(), currentRoom.getRoomId()))) {
                 if (gameManager.getIrcBotService().getBot().isConnected()) {
-                    gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().ircChannel).send().message(player.getPlayerName() + ": " + message);
+                    gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(player.getPlayerName() + ": " + message);
                 }
             }
         });

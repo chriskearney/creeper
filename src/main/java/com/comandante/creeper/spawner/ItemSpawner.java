@@ -1,7 +1,7 @@
 package com.comandante.creeper.spawner;
 
 import com.codahale.metrics.MetricRegistry;
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.items.Item;
@@ -68,7 +68,7 @@ public class ItemSpawner extends CreeperEntity {
         Item item = new ItemBuilder().from(itemMetadata).create();
         gameManager.getEntityManager().saveItem(item);
         gameManager.placeItemInRoom(room.getRoomId(), item.getItemId());
-        Main.metrics.counter(MetricRegistry.name(ItemSpawner.class, item.getItemName() + "-spawn")).inc();
+        Creeper.metrics.counter(MetricRegistry.name(ItemSpawner.class, item.getItemName() + "-spawn")).inc();
     }
 
     private int counterNumberInArea() {

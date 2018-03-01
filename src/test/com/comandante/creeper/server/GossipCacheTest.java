@@ -1,7 +1,8 @@
 package com.comandante.creeper.server;
 
-import com.comandante.creeper.configuration.CreeperConfiguration;
+
 import com.comandante.creeper.core_game.GameManager;
+import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.comandante.creeper.server.player_communication.GossipCache;
 import com.google.api.client.util.Maps;
 import org.apache.commons.configuration.MapConfiguration;
@@ -23,7 +24,7 @@ public class GossipCacheTest {
         GameManager mock = mock(GameManager.class);
         HashMap<String, Object> configuration = Maps.newHashMap();
         configuration.put("max.gossip.cache.size", 100);
-        CreeperConfiguration creeperConfiguration = new CreeperConfiguration(new MapConfiguration(configuration));
+        CreeperConfiguration creeperConfiguration = new CreeperConfiguration();
         when(mock.getCreeperConfiguration()).thenReturn(creeperConfiguration);
         this.gossipCache = new GossipCache(mock);
     }

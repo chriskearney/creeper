@@ -1,6 +1,6 @@
 package com.comandante.creeper.command.commands;
 
-import com.comandante.creeper.Main;
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.items.LootManager;
@@ -87,7 +87,7 @@ public abstract class Command extends SimpleChannelUpstreamHandler {
         this.originalMessageParts = getOriginalMessageParts(e);
         this.rootCommand = getRootCommand(e);
         this.rootCommand = rootCommand.startsWith("/") ? rootCommand.substring(1) : rootCommand;
-        this.player = playerManager.getPlayer(Main.createPlayerId(creeperSession.getUsername().get()));
+        this.player = playerManager.getPlayer(Creeper.createPlayerId(creeperSession.getUsername().get()));
         this.playerId = player.getPlayerId();
         this.currentRoom = gameManager.getRoomManager().getPlayerCurrentRoom(player).get();
         this.mapMatrix = Optional.ofNullable(mapsManager.getFloorMatrixMaps().get(currentRoom.getFloorId()));
