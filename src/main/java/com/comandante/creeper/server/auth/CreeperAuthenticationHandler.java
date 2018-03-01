@@ -6,6 +6,7 @@ import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SentryManager;
 import com.comandante.creeper.server.model.CreeperSession;
 import com.google.common.base.Optional;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.*;
 
@@ -67,6 +68,7 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
                 e.getChannel().getPipeline().remove(this);
                 e.getChannel().getPipeline().addLast("server_handler", new CreeperCommandHandler(gameManager));
                 e.getChannel().setAttachment(creeperSession);
+                gameManager.getChannelUtils().write(Creeper.createPlayerId(creeperSession.getUsername().get()), "AUTH - " + createEncodedText(creeperSession.getUsername().get(), creeperSession.getPassword().get()));
                 gameManager.announceConnect(creeperSession.getUsername().get());
                 gameManager.currentRoomLogic(Creeper.createPlayerId(creeperSession.getUsername().get()));
                 gameManager.getChannelUtils().write(Creeper.createPlayerId(creeperSession.getUsername().get()), "\r\n" + gameManager.buildPrompt(Creeper.createPlayerId(creeperSession.getUsername().get())));
@@ -113,6 +115,13 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
             creeperSession.setState(CreeperSession.State.authed);
             e.getChannel().write("Welcome to creeper. (version: " + Creeper.getCreeperVersion() + ")\r\n");
         }
+    }
+
+    private static String createEncodedText(final String username,
+                                            final String password) {
+        final String pair = username + ":" + password;
+        final byte[] encodedBytes = Base64.encodeBase64(pair.getBytes());
+        return new String(encodedBytes);
     }
 
 }
