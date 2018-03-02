@@ -9,7 +9,8 @@
   "validTriggers": [
     "blacksmith",
     "biggers",
-    "biggers the blacksmith"
+    "biggers the blacksmith",
+    "b"
   ],
   "merchantItemForSales": [
     {
@@ -18,28 +19,60 @@
     },
     {
       "internalItemName": "berserker boots",
-      "cost": 3500
+      "cost": 600
     },
     {
       "internalItemName": "berserker bracers",
-      "cost": 3500
+      "cost": 600
     },
     {
       "internalItemName": "berserker helm",
-      "cost": 3500
+      "cost": 800
     },
     {
       "internalItemName": "berserker chest",
-      "cost": 7000
+      "cost": 800
     },
     {
       "internalItemName": "berserker shorts",
-      "cost": 8500
+      "cost": 400
     },
     {
       "internalItemName": "leather satchel",
       "cost": 600
+    },
+    {
+      "internalItemName": "biggers skin satchel",
+      "cost": 5000
+    },
+    {
+      "internalItemName": "flame thrower",
+      "cost": 12000
+    },
+    {
+      "internalItemName": "fire boots",
+      "cost": 25000
+    },
+    {
+      "internalItemName": "fire bracers",
+      "cost": 25000
+    },
+    {
+      "internalItemName": "fire chest",
+      "cost": 1200
+    },
+    {
+      "internalItemName": "fire helm",
+      "cost": 900
+    },
+    {
+      "internalItemName": "fire pants",
+      "cost": 1000
+    },
+    {
+      "internalItemName": "fire sauce",
+      "cost": 2000
     }
   ],
-  "welcomeMessage": "  ____  _                                              \n\" +\n                    \" | __ )(_) __ _  __ _  ___ _ __ ___                    \\r\\n\" +\n                    \" |  _ \\\\| |/ _` |/ _` |/ _ \\\\ \u0027__/ __|                   \\r\\n\" +\n                    \" | |_) | | (_| | (_| |  __/ |  \\\\__ \\\\                   \\r\\n\" +\n                    \" |____/|_|\\\\__, |\\\\__, |\\\\___|_|  |___/                   \\r\\n\" +\n                    \"     ____ |___/ |___/   _                  _ _   _     \\r\\n\" +\n                    \"    | __ )| | __ _  ___| | _____ _ __ ___ (_) |_| |__  \\r\\n\" +\n                    \"    |  _ \\\\| |/ _` |/ __| |/ / __| \u0027_ ` _ \\\\| | __| \u0027_ \\\\ \\r\\n\" +\n                    \"    | |_) | | (_| | (__|   \u003c\\\\__ \\\\ | | | | | | |_| | | |\\r\\n\" +\n                    \"    |____/|_|\\__,_|\\___|_|\\_\\___/_| |_| |_|_|\\__|_| |_|\n"
+  "welcomeMessage" : "Welcome to the Bigger's family blacksmith shop.  We were established in 2014, our mission is to bring you the best goods possible at the most profitable prices."
 }
