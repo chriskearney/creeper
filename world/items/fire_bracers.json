@@ -5,7 +5,7 @@
   "restingName": "a pair of @c-red@f@c-yellow@i@c-magenta@r@c-red@e@c-reset@ bracers are here on the ground.",
   "valueInGold": 250,
   "itemHalfLifeTicks": 60,
-  "rarity": "BASIC",
+  "rarity": "UNCOMMON",
   "equipment": {
     "equipmentSlotType": "WRISTS",
     "statsIncreaseWhileEquipped": {

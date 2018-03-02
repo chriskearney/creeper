@@ -5,7 +5,7 @@
   "restingName": "a pair of @c-red@f@c-yellow@i@c-magenta@r@c-red@e@c-reset@ pants are here on the ground.",
   "valueInGold": 375,
   "itemHalfLifeTicks": 60,
-  "rarity": "BASIC",
+  "rarity": "UNCOMMON",
   "equipment": {
     "equipmentSlotType": "LEGS",
     "statsIncreaseWhileEquipped": {

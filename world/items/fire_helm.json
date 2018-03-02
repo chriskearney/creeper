@@ -5,7 +5,7 @@
   "restingName": "a @c-red@f@c-yellow@i@c-magenta@r@c-red@e@c-reset@ is on the ground.",
   "valueInGold": 300,
   "itemHalfLifeTicks": 60,
-  "rarity": "BASIC",
+  "rarity": "UNCOMMON",
   "equipment": {
     "equipmentSlotType": "HEAD",
     "statsIncreaseWhileEquipped": {
