@@ -11,11 +11,21 @@ import com.comandante.creeper.core_game.service.TimeTracker;
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.entity.EntityManager;
-import com.comandante.creeper.items.*;
+import com.comandante.creeper.items.Effect;
+import com.comandante.creeper.items.EffectsManager;
+import com.comandante.creeper.items.ForageManager;
+import com.comandante.creeper.items.Item;
+import com.comandante.creeper.items.ItemDecayManager;
+import com.comandante.creeper.items.ItemUseHandler;
+import com.comandante.creeper.items.LootManager;
 import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.npc.NpcMover;
-import com.comandante.creeper.player.*;
+import com.comandante.creeper.player.CoolDown;
+import com.comandante.creeper.player.CoolDownType;
+import com.comandante.creeper.player.Player;
+import com.comandante.creeper.player.PlayerManager;
+import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.server.multiline.MultiLineInputManager;
 import com.comandante.creeper.server.player_communication.ChannelCommunicationUtils;
 import com.comandante.creeper.server.player_communication.Color;
@@ -26,7 +36,11 @@ import com.comandante.creeper.stats.Levels;
 import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.stats.StatsBuilder;
 import com.comandante.creeper.stats.modifier.StatsModifierFactory;
-import com.comandante.creeper.storage.*;
+import com.comandante.creeper.storage.FilebasedJsonStorage;
+import com.comandante.creeper.storage.ItemStorage;
+import com.comandante.creeper.storage.MapDBCreeperStorage;
+import com.comandante.creeper.storage.MerchantStorage;
+import com.comandante.creeper.storage.NpcStorage;
 import com.comandante.creeper.world.FloorManager;
 import com.comandante.creeper.world.MapsManager;
 import com.comandante.creeper.world.RoomManager;
@@ -49,10 +63,19 @@ import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;
 
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 
-import static com.comandante.creeper.server.player_communication.Color.*;
+import static com.comandante.creeper.server.player_communication.Color.BOLD_OFF;
+import static com.comandante.creeper.server.player_communication.Color.BOLD_ON;
+import static com.comandante.creeper.server.player_communication.Color.RESET;
 
 public class GameManager {
 
@@ -839,11 +862,15 @@ public class GameManager {
             }
             if (player.isActiveForageCoolDown()) {
                 sb.append(" ");
-                sb.append(Color.GREEN + "F" + Color.RESET);
+                sb.append(Color.YELLOW + "F" + Color.RESET);
             }
             if (player.isActive(CoolDownType.DETAINMENT)) {
                 sb.append(" ");
                 sb.append(Color.BOLD_ON + Color.RED + "DETAINED" + Color.RESET);
+            }
+            if (player.isActive(CoolDownType.FIRE_SAUCE)) {
+                sb.append(" ");
+                sb.append(Color.BOLD_ON + Color.GREEN + "XP+" + Color.RESET);
             }
         }
         if (player.areAnyAlertedNpcsInCurrentRoom()) {

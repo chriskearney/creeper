@@ -300,7 +300,7 @@ public class Npc extends CreeperEntity {
             // example is fire sauce
             Optional<Double> xpModifier = player.getXpModifier(player.getCoolDowns());
             if (xpModifier.isPresent()) {
-                player.writeMessage(Color.BOLD_ON + Color.GREEN + "[XP Modifier " + xpModifier.get() + "x]" + Color.RESET);
+                player.writeMessage(Color.BOLD_ON + Color.GREEN + "[XP+ Modifier " + xpModifier.get() + "x]" + Color.RESET);
                 xpEarned = Math.round(xpEarned * xpModifier.get());
             }
             p.addExperience(xpEarned);
