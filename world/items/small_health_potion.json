@@ -19,21 +19,21 @@
   "spawnRules": [
     {
       "area": "NEWBIE_ZONE",
-      "randomChance": 40,
+      "randomChance": 20,
       "spawnIntervalTicks": 600,
       "maxInstances": 100,
-      "maxPerRoom": 5
+      "maxPerRoom": 2
     },
     {
       "area": "FANCYHOUSE_ZONE",
-      "randomChance": 50,
+      "randomChance": 30,
       "spawnIntervalTicks": 600,
       "maxInstances": 12,
       "maxPerRoom": 2
     },
     {
       "area": "HOUSE_ZONE",
-      "randomChance": 50,
+      "randomChance": 30,
       "spawnIntervalTicks": 600,
       "maxInstances": 12,
       "maxPerRoom": 2

@@ -297,6 +297,12 @@ public class Npc extends CreeperEntity {
             int npcLevel = (int) Levels.getLevel(this.getStats().getExperience());
 
             long xpEarned = (long) (experience.calculateNpcXp(playerLevel, npcLevel) * playerDamagePercentValue);
+            // example is fire sauce
+            Optional<Double> xpModifier = player.getXpModifier(player.getCoolDowns());
+            if (xpModifier.isPresent()) {
+                player.writeMessage(Color.BOLD_ON + Color.GREEN + "[XP Modifier " + xpModifier.get() + "x]" + Color.RESET);
+                xpEarned = Math.round(xpEarned * xpModifier.get());
+            }
             p.addExperience(xpEarned);
             gameManager.getChannelUtils().write(p.getPlayerId(), getBattleReport(xpEarned) + "\r\n", true);
             p.addNpcKillLog(getName());

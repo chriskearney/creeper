@@ -7,7 +7,11 @@ import com.comandante.creeper.common.CreeperUtils;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SentryManager;
 import com.comandante.creeper.entity.CreeperEntity;
-import com.comandante.creeper.items.*;
+import com.comandante.creeper.items.Effect;
+import com.comandante.creeper.items.Equipment;
+import com.comandante.creeper.items.EquipmentSlotType;
+import com.comandante.creeper.items.ForageManager;
+import com.comandante.creeper.items.Item;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.npc.NpcStatsChangeBuilder;
 import com.comandante.creeper.npc.Temperament;
@@ -17,7 +21,12 @@ import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.stats.StatsBuilder;
 import com.comandante.creeper.stats.StatsHelper;
 import com.comandante.creeper.world.model.Room;
-import com.google.common.collect.*;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Interner;
+import com.google.common.collect.Interners;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
@@ -28,7 +37,18 @@ import org.nocrala.tools.texttablefmt.Table;
 import javax.security.auth.Subject;
 import java.security.Principal;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -1510,5 +1530,14 @@ public class Player extends CreeperEntity implements Principal {
     @Override
     public boolean implies(Subject subject) {
         return false;
+    }
+
+    public Optional<Double> getXpModifier(Set<CoolDown> coolDowns) {
+        for (CoolDown coolDown: coolDowns) {
+            if (coolDown.getCoolDownType().equals(CoolDownType.FIRE_SAUCE)) {
+                return Optional.of(1.5);
+            }
+        }
+        return Optional.empty();
     }
 }

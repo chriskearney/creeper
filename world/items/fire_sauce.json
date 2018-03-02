@@ -1,0 +1,20 @@
+{
+  "internalItemName": "fire sauce",
+  "itemName": "a bottle of @c-red@f@c-yellow@i@c-magenta@r@c-red@e@c-reset@ sauce",
+  "itemDescription": "a bottle of @c-red@f@c-yellow@i@c-magenta@r@c-red@e@c-reset@ sauce that appears to increase your ability to gain XP.",
+  "restingName": "a bottle of @c-red@f@c-yellow@i@c-magenta@r@c-red@e@c-reset@ sauce is discarded here on the ground.",
+  "valueInGold": 1,
+  "itemHalfLifeTicks": 60,
+  "rarity": "LEGENDARY",
+  "itemTriggers": [
+    "sauce",
+    "fire sauce",
+    "fire",
+    "bottle",
+    "b",
+    "a bottle of fire sauce"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": true,
+  "maxUses": 0
+}

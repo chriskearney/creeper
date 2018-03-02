@@ -14,7 +14,8 @@ public enum CoolDownType {
     NPC_ALERTED("npc-alerted", 30),
     PLAYER_RECALL("recall", 600),
     DETAINMENT("detained", 32768),
-    NEWBIE("newbie", 20000);
+    NEWBIE("newbie", 20000),
+    FIRE_SAUCE("fire-sauce", 1550);
     private final String name;
     private final int ticks;
 

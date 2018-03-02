@@ -1,9 +1,9 @@
 package com.comandante.creeper.bot;
 
 
-
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
+import com.comandante.creeper.player.Player;
 import com.google.common.util.concurrent.AbstractIdleService;
 import org.pircbotx.MultiBotManager;
 import org.pircbotx.PircBotX;
@@ -48,6 +48,27 @@ public class IrcBotService extends AbstractIdleService {
     protected void shutDown() throws Exception {
         bot.stopBotReconnect();
         manager.stopAndWait();
+    }
+
+    public void bounce(Player player) {
+        new Runnable() {
+            @Override
+            public void run() {
+                 try {
+                     MultiBotManager manager = gameManager.getIrcBotService().getManager();
+                     player.writeMessage("IRC Bot Service shutting down.\r\n");
+                     manager.stopAndWait();
+                     player.writeMessage("IRC Bot Service stopped.\r\n");
+                     MultiBotManager multiBotManager = gameManager.getIrcBotService().newBot();
+                     multiBotManager.start();
+                     gameManager.getIrcBotService().setManager(multiBotManager);
+                     player.writeMessage("IRC Bot Service started.\r\n");
+                 } catch (Exception e) {
+
+                 }
+            }
+        }
+
     }
 
     public PircBotX.State getState() {
