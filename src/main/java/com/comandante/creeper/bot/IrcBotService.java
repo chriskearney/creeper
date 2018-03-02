@@ -67,8 +67,7 @@ public class IrcBotService extends AbstractIdleService {
 
                  }
             }
-        }
-
+        };
     }
 
     public PircBotX.State getState() {
