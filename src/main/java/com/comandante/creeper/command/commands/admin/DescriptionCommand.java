@@ -10,14 +10,19 @@ import com.google.common.collect.Sets;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 public class DescriptionCommand extends Command {
 
     final static List<String> validTriggers = Arrays.asList("desc", "description");
     final static String description = "Edit the description for the current room.";
     final static String correctUsage = "description";
-    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.ADMIN);
+    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.GOD);
 
 
     public DescriptionCommand(GameManager gameManager) {

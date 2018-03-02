@@ -6,13 +6,23 @@ import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.player.PlayerRole;
 import com.comandante.creeper.storage.WorldStorage;
 import com.comandante.creeper.world.MapMatrix;
-import com.comandante.creeper.world.model.*;
+import com.comandante.creeper.world.model.BasicRoom;
+import com.comandante.creeper.world.model.BasicRoomBuilder;
+import com.comandante.creeper.world.model.Coords;
+import com.comandante.creeper.world.model.FloorModel;
+import com.comandante.creeper.world.model.RemoteExit;
+import com.comandante.creeper.world.model.Room;
+import com.comandante.creeper.world.model.RoomModel;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class BuildCommand extends Command {
@@ -20,7 +30,7 @@ public class BuildCommand extends Command {
     final static List<String> validTriggers = Arrays.asList("build");
     final static String description = "Build new rooms in the world.";
     final static String correctUsage = "build [n|s|e|w|enter <name>|notable <name>]";
-    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.ADMIN);
+    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.GOD);
 
     public BuildCommand(GameManager gameManager) {
         super(gameManager, validTriggers, description, correctUsage, roles);

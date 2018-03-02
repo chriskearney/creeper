@@ -18,7 +18,7 @@ public class TitleCommand extends Command {
     final static List<String> validTriggers = Arrays.asList("title");
     final static String description = "Set the title on the current room.";
     final static String correctUsage = "title <new title>";
-    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.ADMIN);
+    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.GOD);
 
     public TitleCommand(GameManager gameManager) {
         super(gameManager, validTriggers, description, correctUsage, roles);

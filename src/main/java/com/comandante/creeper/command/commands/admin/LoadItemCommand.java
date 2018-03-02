@@ -25,7 +25,7 @@ public class LoadItemCommand extends Command {
     final static List<String> validTriggers = Arrays.asList("loaditem");
     final static String description = "Load an Item using JSON over http.";
     final static String correctUsage = "loaditem <http url with json for item>";
-    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.ADMIN);
+    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.GOD);
 
     public LoadItemCommand(GameManager gameManager) {
         super(gameManager, validTriggers, description, correctUsage, roles);

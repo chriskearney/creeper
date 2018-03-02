@@ -25,7 +25,7 @@ public class LoadNpcCommand extends Command {
     final static List<String> validTriggers = Arrays.asList("loadnpc");
     final static String description = "Load a NPC using JSON over http";
     final static String correctUsage = "loadnpc <http url with json for npc>";
-    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.ADMIN);
+    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.GOD);
 
     public LoadNpcCommand(GameManager gameManager) {
         super(gameManager, validTriggers, description, correctUsage, roles);

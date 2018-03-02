@@ -18,7 +18,7 @@ public class GiveHealthCommand extends Command {
     final static List<String> validTriggers = Arrays.asList("givehealth");
     final static String description = "Give Health to a Player";
     final static String correctUsage = "givehealth <player name> <amt>";
-    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.ADMIN);
+    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.GOD);
 
 
     public GiveHealthCommand(GameManager gameManager) {

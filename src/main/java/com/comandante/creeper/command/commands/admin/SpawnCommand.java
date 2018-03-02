@@ -21,7 +21,7 @@ public class SpawnCommand  extends Command {
     final static List<String> validTriggers = Arrays.asList("spawn");
     final static String description = "Spawn a NPC.";
     final static String correctUsage = "spawn <npc name> | spawn";
-    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.ADMIN);
+    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.GOD);
 
     public SpawnCommand(GameManager gameManager) {
         super(gameManager, validTriggers, description, correctUsage, roles);

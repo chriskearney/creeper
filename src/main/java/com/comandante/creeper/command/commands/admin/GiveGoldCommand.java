@@ -18,7 +18,7 @@ public class GiveGoldCommand extends Command {
     final static List<String> validTriggers = Arrays.asList("givegold");
     final static String description = "Give Gold to a Player";
     final static String correctUsage = "givegold <player name> <amt>";
-    final static Set<PlayerRole> roles = Sets.newHashSet();
+    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.GOD);
 
 
     public GiveGoldCommand(GameManager gameManager) {
@@ -28,10 +28,6 @@ public class GiveGoldCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         execCommand(ctx, e, () -> {
-            if (!player.getPlayerName().equals("fibs")) {
-                write("This attempt to cheat has been logged.");
-                return;
-            }
             if (originalMessageParts.size() > 2) {
                 String destinationPlayerName = originalMessageParts.get(1);
                 String amt = originalMessageParts.get(2);

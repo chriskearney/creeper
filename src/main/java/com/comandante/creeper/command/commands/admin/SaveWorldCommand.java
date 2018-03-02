@@ -16,7 +16,7 @@ public class SaveWorldCommand extends Command {
     final static List<String> validTriggers = Arrays.asList("saveworld");
     final static String description = "Saves the current world to disk.";
     final static String correctUsage = "saveworld";
-    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.ADMIN);
+    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.GOD);
 
     public SaveWorldCommand(GameManager gameManager) {
         super(gameManager, validTriggers, description, correctUsage, roles);

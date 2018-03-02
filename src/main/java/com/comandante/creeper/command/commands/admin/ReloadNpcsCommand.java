@@ -17,7 +17,7 @@ public class ReloadNpcsCommand extends Command {
     final static List<String> validTriggers = Arrays.asList("reloadnpcs");
     final static String description = "Reload npcs from disk.";
     final static String correctUsage = "reloadnpcs";
-    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.ADMIN);
+    final static Set<PlayerRole> roles = Sets.newHashSet(PlayerRole.GOD);
 
     public ReloadNpcsCommand(GameManager gameManager) {
         super(gameManager, validTriggers, description, correctUsage, roles);
