@@ -2,6 +2,7 @@ package com.comandante.creeper.api;
 
 import com.codahale.metrics.annotation.Timed;
 import com.comandante.creeper.core_game.GameManager;
+import com.comandante.creeper.player.CreeperClientStatusBarDetails;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.world.model.Coords;
 import com.comandante.creeper.world.model.Room;
@@ -39,19 +40,20 @@ public class ApiResource {
 
         List<String> rolledUpInventory = player.getRolledUpInventory();
         StringJoiner stringJoiner = new StringJoiner("\n");
-        for (String s: rolledUpInventory) {
+        for (String s : rolledUpInventory) {
             stringJoiner.add(s);
         }
         String inventory = stringJoiner.toString();
 
         List<String> recent = gameManager.getGossipCache().getRecent(15);
         StringJoiner gossipJoiner = new StringJoiner("\n");
-        for (String s: recent) {
+        for (String s : recent) {
             gossipJoiner.add(s);
         }
         String gossip = gossipJoiner.toString();
 
-        return new CreeperClientData(map, prompt, lookString, inventory, gossip);
+        CreeperClientStatusBarDetails clientStatusBarDetails = player.getClientStatusBarDetails();
 
+        return new CreeperClientData(map, prompt, lookString, inventory, gossip, clientStatusBarDetails);
     }
 }

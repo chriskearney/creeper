@@ -1537,7 +1537,6 @@ public class Player extends CreeperEntity implements Principal {
                 .collect(Collectors.toList());
 
         return new CreeperClientStatusBarDetails(currentHealth, maxHealth, currentMana, maxMana, coolDowns, goldAmount, goldInBankAmmount, isFight);
-
     }
 
     @Override
