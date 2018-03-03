@@ -33,7 +33,8 @@ public class FireSauceUseAction implements ItemUseAction {
 
     @Override
     public void postExecuteAction(GameManager gameManager, Player player, Item item) {
-
+        player.removeInventoryId(item.getItemId());
+        gameManager.getEntityManager().removeItem(item);
     }
 
     @Override
