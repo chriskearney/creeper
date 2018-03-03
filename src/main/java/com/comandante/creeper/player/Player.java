@@ -1401,7 +1401,7 @@ public class Player extends CreeperEntity implements Principal {
 
     private List<Effect> calculateChanceToApplyEffects(Map<Double, Effect> attackEffects) {
         List<Effect> apply = Lists.newArrayList();
-        for (Map.Entry<Double, Effect> attackEffect: attackEffects.entrySet()) {
+        for (Map.Entry<Double, Effect> attackEffect : attackEffects.entrySet()) {
             if (attackEffectApplyChange(attackEffect.getKey())) {
                 apply.add(attackEffect.getValue());
             }
@@ -1427,13 +1427,13 @@ public class Player extends CreeperEntity implements Principal {
 
     private void applyItemAttackEffects(Player player, Npc npc) {
         Set<Item> equipment = player.getEquipment();
-        for (Item item: equipment) {
+        for (Item item : equipment) {
             Map<Double, Effect> attackEffects = item.getAttackEffects();
             if (attackEffects == null) {
                 continue;
             }
             List<Effect> applyEffects = calculateChanceToApplyEffects(item.getAttackEffects());
-            for (Effect applyEffect: applyEffects) {
+            for (Effect applyEffect : applyEffects) {
                 if (npc.getEffects().stream()
                         .filter(effect -> effect.getEffectName().equals(applyEffect.getEffectName()))
                         .collect(Collectors.toList()).size() > 0) {
@@ -1522,6 +1522,24 @@ public class Player extends CreeperEntity implements Principal {
         return isChatMode.get();
     }
 
+    public CreeperClientStatusBarDetails getClientStatusBarDetails() {
+        final boolean isFight = isActiveFights();
+        final Stats stats = getPlayerStatsWithEquipmentAndLevel();
+        final long currentHealth = stats.getCurrentHealth();
+        final long maxHealth = stats.getMaxHealth();
+        final long currentMana = stats.getCurrentMana();
+        final long maxMana = stats.getMaxMana();
+        final long goldAmount = getPlayerMetadata().get().getGold();
+        final long goldInBankAmmount = getPlayerMetadata().get().getGoldInBank();
+        final List<String> coolDowns = getCoolDowns()
+                .stream()
+                .map(coolDown -> coolDown.getCoolDownType().getName())
+                .collect(Collectors.toList());
+
+        return new CreeperClientStatusBarDetails(currentHealth, maxHealth, currentMana, maxMana, coolDowns, goldAmount, goldInBankAmmount, isFight);
+
+    }
+
     @Override
     public String getName() {
         return playerName;
@@ -1533,7 +1551,7 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public Optional<Double> getXpModifier(Set<CoolDown> coolDowns) {
-        for (CoolDown coolDown: coolDowns) {
+        for (CoolDown coolDown : coolDowns) {
             if (coolDown.getCoolDownType().equals(CoolDownType.FIRE_SAUCE)) {
                 return Optional.of(1.5);
             }
