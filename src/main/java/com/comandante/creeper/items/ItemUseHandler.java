@@ -37,6 +37,7 @@ public class ItemUseHandler {
                 break;
             case "fire sauce":
                 itemUseAction = new FireSauceUseAction(itemMetadata);
+                break;
             default:
                 if ((item.getEffects() != null && item.getEffects().size() > 0) || (item.getItemApplyStats() != null)) {
                     itemUseAction = new DefaultApplyEffectsStats(itemMetadata);
