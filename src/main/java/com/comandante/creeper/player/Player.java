@@ -543,7 +543,7 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public void addNpcKillLog(String npcName) {
-        gameManager.getEventProcessor().addEvent(() -> {
+        gameManager.getEventProcessor().assAsyncJob(() -> {
             synchronized (interner.intern(playerId)) {
                 Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
                 if (!playerMetadataOptional.isPresent()) {
@@ -744,7 +744,7 @@ public class Player extends CreeperEntity implements Principal {
     public void setCurrentRoomAndPersist(Room currentRoom) {
         // Persisting lazily so that performance doesn't suffer.
         setCurrentRoom(currentRoom);
-        gameManager.getEventProcessor().addEvent(() -> {
+        gameManager.getEventProcessor().assAsyncJob(() -> {
             synchronized (interner.intern(playerId)) {
                 Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
                 if (!playerMetadataOptional.isPresent()) {

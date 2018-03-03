@@ -6,7 +6,7 @@ import com.comandante.creeper.bot.IrcBotService;
 import com.comandante.creeper.bot.command.BotCommandFactory;
 import com.comandante.creeper.bot.command.BotCommandManager;
 import com.comandante.creeper.common.FriendlyTime;
-import com.comandante.creeper.core_game.service.MultiThreadedEventProcessor;
+import com.comandante.creeper.core_game.service.CreeperAsyncJobService;
 import com.comandante.creeper.core_game.service.TimeTracker;
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.comandante.creeper.entity.CreeperEntity;
@@ -55,6 +55,8 @@ import com.google.common.collect.Interners;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import events.CreeperEventBus;
+import events.ListenerService;
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.log4j.Logger;
@@ -105,7 +107,7 @@ public class GameManager {
     private final ItemUseHandler itemUseHandler;
     private final NpcMover npcMover;
     private final Spells spells;
-    private final MultiThreadedEventProcessor eventProcessor = new MultiThreadedEventProcessor(new ArrayBlockingQueue<>(10000));
+    private final CreeperAsyncJobService eventProcessor = new CreeperAsyncJobService(new ArrayBlockingQueue<>(10000));
     private final Room detainmentRoom;
     private final NpcStorage npcStorage;
     private final ItemStorage itemStorage;
@@ -113,6 +115,7 @@ public class GameManager {
     private final Gson gson;
     private final FilebasedJsonStorage filebasedJsonStorage;
     private final MapDBCreeperStorage mapDBCreeperStorage;
+    private final ListenerService listenerService;
 
     public MerchantStorage getMerchantStorage() {
         return merchantStorage;
@@ -121,7 +124,7 @@ public class GameManager {
     private final MerchantStorage merchantStorage;
 
 
-    public GameManager(MapDBCreeperStorage mapDBCreeperStorage, CreeperConfiguration creeperConfiguration, RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager, MapsManager mapsManager, ChannelCommunicationUtils channelUtils, HttpClient httpClient) {
+    public GameManager(MapDBCreeperStorage mapDBCreeperStorage, CreeperConfiguration creeperConfiguration, RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager, MapsManager mapsManager, ChannelCommunicationUtils channelUtils, HttpClient httpClient, ListenerService listenerService) {
         this.mapDBCreeperStorage = mapDBCreeperStorage;
         this.roomManager = roomManager;
         this.playerManager = playerManager;
@@ -155,6 +158,7 @@ public class GameManager {
         this.itemStorage = new ItemStorage(filebasedJsonStorage);
         this.merchantStorage = new MerchantStorage(this, filebasedJsonStorage);
         this.httpclient = httpClient;
+        this.listenerService = listenerService;
     }
 
     public MapDBCreeperStorage getMapDBCreeperStorage() {
@@ -258,12 +262,16 @@ public class GameManager {
         return timeTracker;
     }
 
-    public MultiThreadedEventProcessor getEventProcessor() {
+    public CreeperAsyncJobService getEventProcessor() {
         return eventProcessor;
     }
 
     public NpcStorage getNpcStorage() {
         return npcStorage;
+    }
+
+    public ListenerService getListenerService() {
+        return listenerService;
     }
 
     public void placePlayerInLobby(Player player) {

@@ -22,6 +22,8 @@ import com.comandante.creeper.world.MapsManager;
 import com.comandante.creeper.world.RoomManager;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import events.CreeperEventBus;
+import events.ListenerService;
 import org.apache.http.impl.client.HttpClients;
 import org.jboss.netty.channel.Channel;
 import org.junit.Assert;
@@ -307,7 +309,7 @@ public class NpcTestHarness {
         RoomManager roomManager = new RoomManager(playerManager);
         MapsManager mapsManager = new MapsManager(creeperConfiguration, roomManager);
         EntityManager entityManager = new EntityManager(mapDBCreeperStorage, roomManager, playerManager);
-        GameManager gameManager = new GameManager(null, creeperConfiguration, roomManager, playerManager, entityManager, mapsManager, channelUtils, HttpClients.createDefault());
+        GameManager gameManager = new GameManager(null, creeperConfiguration, roomManager, playerManager, entityManager, mapsManager, channelUtils, HttpClients.createDefault(), mock(ListenerService.class));
         WorldStorage worldExporter = new WorldStorage(roomManager, mapsManager, gameManager.getFloorManager(), entityManager, gameManager);
         worldExporter.buildTestworld();
         ConfigureCommands.configure(gameManager);

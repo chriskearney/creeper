@@ -1,5 +1,5 @@
 package com.comandante.creeper.core_game.service;
 
-public interface CreeperEvent extends Runnable {
+public interface CreeperAsyncJob extends Runnable {
     void run();
 }

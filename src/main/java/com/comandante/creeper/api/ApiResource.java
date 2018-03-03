@@ -6,13 +6,23 @@ import com.comandante.creeper.player.CreeperClientStatusBarDetails;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.world.model.Coords;
 import com.comandante.creeper.world.model.Room;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import events.CreeperEventBus;
+import events.CreeperEventListener;
+import events.CreeperToSSEEventListener;
+import events.ListenerService;
 import io.dropwizard.auth.Auth;
+import org.glassfish.jersey.media.sse.EventOutput;
+import org.glassfish.jersey.media.sse.OutboundEvent;
+import org.glassfish.jersey.media.sse.SseFeature;
 
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -21,9 +31,13 @@ import java.util.StringJoiner;
 public class ApiResource {
 
     private final GameManager gameManager;
+    private final ListenerService listenerService;
+    private final ObjectMapper objectMapper;
 
-    public ApiResource(GameManager gameManager) {
+    public ApiResource(GameManager gameManager, ObjectMapper objectMapper) {
         this.gameManager = gameManager;
+        this.listenerService = gameManager.getListenerService();
+        this.objectMapper = objectMapper;
     }
 
     @GET
@@ -55,5 +69,18 @@ public class ApiResource {
         CreeperClientStatusBarDetails clientStatusBarDetails = player.getClientStatusBarDetails();
 
         return new CreeperClientData(map, prompt, lookString, inventory, gossip, clientStatusBarDetails);
+    }
+
+
+    @GET
+    @Path("/events")
+    @PermitAll
+    @Produces(SseFeature.SERVER_SENT_EVENTS)
+    public EventOutput streaming(@Auth Player player) {
+        final EventOutput eventOutput = new EventOutput();
+
+        listenerService.registerListener(new CreeperToSSEEventListener(player.getPlayerId(), eventOutput, objectMapper));
+
+        return eventOutput;
     }
 }

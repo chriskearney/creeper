@@ -10,34 +10,36 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class MultiThreadedEventProcessor extends AbstractScheduledService {
+public class CreeperAsyncJobService extends AbstractScheduledService {
 
-    private final ArrayBlockingQueue<CreeperEvent> creeperEventQueue;
+    private final ArrayBlockingQueue<CreeperAsyncJob> creeperAsyncJobQueue;
     private final ExecutorService executorService = Executors.newFixedThreadPool(4);
-    private static final Logger log = Logger.getLogger(MultiThreadedEventProcessor.class);
+    private static final Logger log = Logger.getLogger(CreeperAsyncJobService.class);
 
-    public MultiThreadedEventProcessor(ArrayBlockingQueue<CreeperEvent> creeperEventQueue) {
-        this.creeperEventQueue = creeperEventQueue;
+    public CreeperAsyncJobService(ArrayBlockingQueue<CreeperAsyncJob> creeperAsyncJobQueue) {
+        this.creeperAsyncJobQueue = creeperAsyncJobQueue;
     }
 
     @Override
     protected void runOneIteration() throws Exception {
-        ArrayList<CreeperEvent> events = Lists.newArrayList();
-        creeperEventQueue.drainTo(events);
-        for (CreeperEvent event: events) {
-            executorService.submit(() -> safeRun(event));
+        ArrayList<CreeperAsyncJob> events = Lists.newArrayList();
+        creeperAsyncJobQueue.drainTo(events);
+        for (CreeperAsyncJob event: events) {
+            executorService.submit(() -> {
+                safeRun(event);
+            });
         }
     }
 
-    public void addEvent(CreeperEvent event) {
+    public void assAsyncJob(CreeperAsyncJob event) {
         try {
-            creeperEventQueue.put(event);
+            creeperAsyncJobQueue.put(event);
         } catch (InterruptedException ex) {
             log.error("Problem adding event.", ex);
         }
     }
 
-    private void safeRun(final CreeperEvent e) {
+    private void safeRun(final CreeperAsyncJob e) {
         try {
             e.run();
         } catch (Exception ex) {

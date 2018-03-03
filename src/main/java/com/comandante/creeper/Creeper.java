@@ -19,8 +19,14 @@ import com.comandante.creeper.storage.MapDBCreeperStorage;
 import com.comandante.creeper.storage.WorldStorage;
 import com.comandante.creeper.world.MapsManager;
 import com.comandante.creeper.world.RoomManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.google.common.eventbus.EventBus;
 import com.google.common.io.Files;
 import com.google.common.util.concurrent.AbstractIdleService;
+import events.CreeperEventBus;
+import events.CreeperEventListener;
+import events.ListenerService;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.log4j.Logger;
@@ -77,6 +83,12 @@ public class Creeper extends AbstractIdleService {
                 .closeOnJvmShutdown()
                 .make();
 
+        EventBus eventBus = new EventBus();
+
+        ListenerService listenerService = new ListenerService(eventBus);
+        listenerService.startAsync().awaitRunning();;
+
+
         mapDBCreeperStorage = new MapDBCreeperStorage(db);
         mapDBCreeperStorage.startAsync();
         mapDBCreeperStorage.awaitRunning();
@@ -90,7 +102,7 @@ public class Creeper extends AbstractIdleService {
         mapsManager = new MapsManager(creeperConfiguration, roomManager);
         channelUtils = new ChannelUtils(playerManager, roomManager);
         entityManager = new EntityManager(mapDBCreeperStorage, roomManager, playerManager);
-        gameManager = new GameManager(mapDBCreeperStorage, creeperConfiguration, roomManager, playerManager, entityManager, mapsManager, channelUtils, HttpClients.createDefault());
+        gameManager = new GameManager(mapDBCreeperStorage, creeperConfiguration, roomManager, playerManager, entityManager, mapsManager, channelUtils, HttpClients.createDefault(), listenerService);
 
         startUpMessage("Reading world from disk.");
         worldStorage = new WorldStorage(roomManager, mapsManager, gameManager.getFloorManager(), entityManager, gameManager);
@@ -219,5 +231,13 @@ public class Creeper extends AbstractIdleService {
 
     public CreeperServer getCreeperServer() {
         return creeperServer;
+    }
+
+    public static ObjectMapper registerJdkModuleAndGetMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Jdk8Module module = new Jdk8Module();
+        module.configureAbsentsAsNulls(true);
+        objectMapper.registerModule(module);
+        return objectMapper;
     }
 }
