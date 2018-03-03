@@ -52,7 +52,7 @@ public class CreeperClientStatusBarDetails {
         return bankAccountAmount;
     }
 
-    public Boolean getFight() {
+    public Boolean getIsFight() {
         return isFight;
     }
 
