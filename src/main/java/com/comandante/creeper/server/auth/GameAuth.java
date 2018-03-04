@@ -4,7 +4,10 @@ import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.world.model.Coords;
 import com.comandante.creeper.world.model.Room;
+import events.CreeperEvent;
+import events.CreeperEventType;
 import org.jboss.netty.channel.Channel;
 
 import java.util.Optional;
@@ -54,6 +57,15 @@ public class GameAuth implements CreeperAuthenticator {
         if (currentRoom == null) {
             gameManager.placePlayerInLobby(player);
         }
+        CreeperEvent build = new CreeperEvent.Builder()
+                .playerId(player.getPlayerId())
+                .payload(gameManager.getMapsManager().drawMap(player.getCurrentRoom().getRoomId(), new Coords(20, 14)))
+                .epochTimestamp(System.currentTimeMillis())
+                .creeperEventType(CreeperEventType.DRAW_MAP)
+                .audience(CreeperEvent.Audience.PLAYER_ONLY)
+                .build();
+
+        gameManager.getListenerService().post(build);
         return true;
     }
 }
