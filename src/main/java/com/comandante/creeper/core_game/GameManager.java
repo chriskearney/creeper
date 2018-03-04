@@ -410,9 +410,11 @@ public class GameManager {
         sb.append("\r\n\r\n");
         sb.append(WordUtils.wrap(playerCurrentRoom.getRoomDescription(), 80, "\r\n", true)).append("\r\n").append("\r\n");
         Optional<String> autoMapOptional = player.getPlayerSetting("auto_map");
+        if (playerCurrentRoom.getMapData().isPresent()) {
+            fireDrawMapEvent(playerId, playerCurrentRoom);
+        }
         if (playerCurrentRoom.getMapData().isPresent() && autoMapOptional.isPresent()) {
             int i = Integer.parseInt(autoMapOptional.get());
-            fireDrawMapEvent(playerId, playerCurrentRoom);
             sb.append(mapsManager.drawMap(playerCurrentRoom.getRoomId(), new Coords(i, i))).append("\r\n");
         }
         sb.append(getExits(playerCurrentRoom, player)).append("\r\n");
