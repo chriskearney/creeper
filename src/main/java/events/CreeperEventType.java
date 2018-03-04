@@ -1,5 +1,6 @@
 package events;
 
 public enum CreeperEventType {
-    GOSSIP;
+    GOSSIP,
+    DRAW_MAP;
 }

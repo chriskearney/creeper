@@ -307,7 +307,7 @@ public class NpcTestHarness {
         MapDBCreeperStorage mapDBCreeperStorage = new MapDBCreeperStorage(db);
         PlayerManager playerManager = new PlayerManager(mapDBCreeperStorage, new SessionManager());
         RoomManager roomManager = new RoomManager(playerManager);
-        MapsManager mapsManager = new MapsManager(creeperConfiguration, roomManager);
+        MapsManager mapsManager = new MapsManager(creeperConfiguration, roomManager, mock(ListenerService.class));
         EntityManager entityManager = new EntityManager(mapDBCreeperStorage, roomManager, playerManager);
         GameManager gameManager = new GameManager(null, creeperConfiguration, roomManager, playerManager, entityManager, mapsManager, channelUtils, HttpClients.createDefault(), mock(ListenerService.class));
         WorldStorage worldExporter = new WorldStorage(roomManager, mapsManager, gameManager.getFloorManager(), entityManager, gameManager);

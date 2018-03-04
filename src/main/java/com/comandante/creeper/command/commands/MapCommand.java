@@ -11,6 +11,7 @@ import org.jboss.netty.channel.MessageEvent;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class MapCommand extends Command {
 

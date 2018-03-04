@@ -22,13 +22,18 @@ public class CreeperToSSEEventListener implements CreeperEventListener {
 
     @Subscribe
     public void creeperEvent(CreeperEvent creeperEvent) throws IOException {
-        if ((creeperEvent.getAudience() == CreeperEvent.Audience.PLAYER_ONLY && creeperEvent.getPlayerId().equals(playerId)) || creeperEvent.getAudience() == CreeperEvent.Audience.EVERYONE) {
-            final OutboundEvent.Builder eventBuilder = new OutboundEvent.Builder();
-            final String timestamp = Long.toString((new Date()).getTime());
-            eventBuilder.id(timestamp);
-            eventBuilder.name("creeperEvent");
-            eventBuilder.data(objectMapper.writeValueAsString(creeperEvent));
-            eventOutput.write(eventBuilder.build());
+        try {
+
+            if ((creeperEvent.getAudience() == CreeperEvent.Audience.PLAYER_ONLY && creeperEvent.getPlayerId().get().equals(playerId)) || creeperEvent.getAudience() == CreeperEvent.Audience.EVERYONE) {
+                final OutboundEvent.Builder eventBuilder = new OutboundEvent.Builder();
+                final String timestamp = Long.toString((new Date()).getTime());
+                eventBuilder.id(timestamp);
+                eventBuilder.name("creeperEvent");
+                eventBuilder.data(objectMapper.writeValueAsString(creeperEvent));
+                eventOutput.write(eventBuilder.build());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

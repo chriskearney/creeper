@@ -20,6 +20,7 @@ import com.comandante.creeper.stats.Levels;
 import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.stats.StatsBuilder;
 import com.comandante.creeper.stats.StatsHelper;
+import com.comandante.creeper.world.model.Coords;
 import com.comandante.creeper.world.model.Room;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Interner;
@@ -27,6 +28,8 @@ import com.google.common.collect.Interners;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import events.CreeperEvent;
+import events.CreeperEventType;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
@@ -808,9 +811,25 @@ public class Player extends CreeperEntity implements Principal {
             }
             setReturnDirection(java.util.Optional.ofNullable(playerMovement.getReturnDirection()));
             gameManager.currentRoomLogic(playerId, gameManager.getRoomManager().getRoom(playerMovement.getDestinationRoomId()));
-            gameManager.getRoomManager().getRoom(playerMovement.getDestinationRoomId());
+            if (destinationRoom.getMapData().isPresent()) {
+                fireDrawMapEvent(destinationRoom);
+            }
+            //gameManager.getRoomManager().getRoom(playerMovement.getDestinationRoomId());
             processNpcAggro();
         }
+    }
+
+    private void fireDrawMapEvent(Room room) {
+        String map = gameManager.getMapsManager().drawMap(room.getRoomId(), new Coords(20, 14));
+        CreeperEvent build = new CreeperEvent.Builder()
+                .playerId(playerId)
+                .payload(map)
+                .epochTimestamp(System.currentTimeMillis())
+                .creeperEventType(CreeperEventType.DRAW_MAP)
+                .audience(CreeperEvent.Audience.PLAYER_ONLY)
+                .build();
+
+        gameManager.getListenerService().post(build);
     }
 
     public void processNpcAggro() {

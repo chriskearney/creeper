@@ -9,6 +9,9 @@ import com.comandante.creeper.server.player_communication.Color;
 import com.comandante.creeper.world.model.Coords;
 import com.comandante.creeper.world.model.Room;
 import com.google.common.collect.Maps;
+import events.CreeperEvent;
+import events.CreeperEventType;
+import events.ListenerService;
 import org.apache.log4j.Logger;
 
 import java.util.Iterator;
@@ -23,14 +26,16 @@ import static com.codahale.metrics.MetricRegistry.name;
 public class MapsManager {
 
     private final RoomManager roomManager;
+    private final ListenerService listenerService;
     private final Map<Integer, MapMatrix> floorMatrixMaps;
     private final CreeperConfiguration creeperConfiguration;
     private final ExecutorService mapGeneratorService = Executors.newFixedThreadPool(1);
     private static final Logger log = Logger.getLogger(GameManager.class);
     private final Timer ticktime = Creeper.metrics.timer(name(MapsManager.class, "generate_all_maps_time"));
 
-    public MapsManager(CreeperConfiguration creeperConfiguration, RoomManager roomManager) {
+    public MapsManager(CreeperConfiguration creeperConfiguration, RoomManager roomManager, ListenerService listenerService) {
         this.roomManager = roomManager;
+        this.listenerService = listenerService;
         this.floorMatrixMaps = Maps.newHashMap();
         this.creeperConfiguration = creeperConfiguration;
     }
@@ -58,9 +63,9 @@ public class MapsManager {
     }
 
     public String drawMap(Integer roomId, Coords max) {
-        MapMatrix floorMatrix = floorMatrixMaps.get(roomManager.getRoom(roomId).getFloorId());
-        MapMatrix mapMatrix = floorMatrix.extractMatrix(roomId, max);
-        return mapMatrix.renderMap(roomId, roomManager);
+            MapMatrix floorMatrix = floorMatrixMaps.get(roomManager.getRoom(roomId).getFloorId());
+            MapMatrix mapMatrix = floorMatrix.extractMatrix(roomId, max);
+            return mapMatrix.renderMap(roomId, roomManager);
     }
 
     public static Function<Integer, String> render(final Integer currentroomId, final RoomManager roomManager) {

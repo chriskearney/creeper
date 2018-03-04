@@ -99,7 +99,7 @@ public class Creeper extends AbstractIdleService {
         roomManager = new RoomManager(playerManager);
 
         startUpMessage("Configuring core systems.");
-        mapsManager = new MapsManager(creeperConfiguration, roomManager);
+        mapsManager = new MapsManager(creeperConfiguration, roomManager, listenerService);
         channelUtils = new ChannelUtils(playerManager, roomManager);
         entityManager = new EntityManager(mapDBCreeperStorage, roomManager, playerManager);
         gameManager = new GameManager(mapDBCreeperStorage, creeperConfiguration, roomManager, playerManager, entityManager, mapsManager, channelUtils, HttpClients.createDefault(), listenerService);
