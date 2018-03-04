@@ -7,22 +7,19 @@ import com.comandante.creeper.player.Player;
 import com.comandante.creeper.world.model.Coords;
 import com.comandante.creeper.world.model.Room;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import events.CreeperEventBus;
-import events.CreeperEventListener;
 import events.CreeperToSSEEventListener;
 import events.ListenerService;
 import io.dropwizard.auth.Auth;
 import org.glassfish.jersey.media.sse.EventOutput;
-import org.glassfish.jersey.media.sse.OutboundEvent;
 import org.glassfish.jersey.media.sse.SseFeature;
 
 import javax.annotation.security.PermitAll;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -82,5 +79,13 @@ public class ApiResource {
         listenerService.registerListener(new CreeperToSSEEventListener(player.getPlayerId(), eventOutput, objectMapper));
 
         return eventOutput;
+    }
+
+    @POST
+    @Path("/gossip")
+    @PermitAll
+    @Produces(SseFeature.SERVER_SENT_EVENTS)
+    public void gossip(@Auth Player player, @FormParam("message") String message) {
+        gameManager.gossip(player, message, true);
     }
 }

@@ -1,21 +1,16 @@
 package com.comandante.creeper.command.commands;
 
 
-import com.comandante.creeper.Creeper;
 import com.comandante.creeper.bot.command.commands.BotCommand;
 import com.comandante.creeper.core_game.GameManager;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import events.CreeperEvent;
-import events.CreeperEventType;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static com.comandante.creeper.server.player_communication.Color.*;
 
 public class GossipCommand extends Command {
 
@@ -46,27 +41,7 @@ public class GossipCommand extends Command {
             } catch (Exception ex) {
                 log.error("Problem executing bot command from gossip channel!", ex);
             }
-            String gossipMessage = WHITE + "[" + RESET + MAGENTA + this.player.getPlayerName() + WHITE + "] " + RESET + CYAN + msg + RESET;
-
-            CreeperEvent build = new CreeperEvent.Builder()
-                    .playerId(playerId)
-                    .payload(gossipMessage)
-                    .epochTimestamp(System.currentTimeMillis())
-                    .creeperEventType(CreeperEventType.GOSSIP)
-                    .audience(CreeperEvent.Audience.EVERYONE)
-                    .build();
-
-            gameManager.getListenerService().post(build);
-
-
-            playerManager.getAllPlayersMap().forEach((s, destinationPlayer) -> {
-                if (destinationPlayer.getPlayerId().equals(playerId)) {
-                    write(gossipMessage);
-                } else {
-                    channelUtils.write(destinationPlayer.getPlayerId(), gossipMessage + "\r\n", true);
-                }
-            });
-            gameManager.getGossipCache().addGossipLine(gossipMessage);
+            gameManager.gossip(player, msg);
         });
     }
 
@@ -86,4 +61,6 @@ public class GossipCommand extends Command {
             return "";
         }
     }
+
+
 }

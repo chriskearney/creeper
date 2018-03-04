@@ -48,6 +48,7 @@ import com.comandante.creeper.world.model.BasicRoomBuilder;
 import com.comandante.creeper.world.model.Coords;
 import com.comandante.creeper.world.model.RemoteExit;
 import com.comandante.creeper.world.model.Room;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.util.Lists;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interner;
@@ -55,7 +56,8 @@ import com.google.common.collect.Interners;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import events.CreeperEventBus;
+import events.CreeperEvent;
+import events.CreeperEventType;
 import events.ListenerService;
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.http.client.HttpClient;
@@ -66,6 +68,7 @@ import org.nocrala.tools.texttablefmt.Table;
 
 import java.text.NumberFormat;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -77,7 +80,10 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import static com.comandante.creeper.server.player_communication.Color.BOLD_OFF;
 import static com.comandante.creeper.server.player_communication.Color.BOLD_ON;
+import static com.comandante.creeper.server.player_communication.Color.CYAN;
+import static com.comandante.creeper.server.player_communication.Color.MAGENTA;
 import static com.comandante.creeper.server.player_communication.Color.RESET;
+import static com.comandante.creeper.server.player_communication.Color.WHITE;
 
 public class GameManager {
 
@@ -116,11 +122,7 @@ public class GameManager {
     private final FilebasedJsonStorage filebasedJsonStorage;
     private final MapDBCreeperStorage mapDBCreeperStorage;
     private final ListenerService listenerService;
-
-    public MerchantStorage getMerchantStorage() {
-        return merchantStorage;
-    }
-
+    private final ObjectMapper objectMapper = Creeper.registerJdkModuleAndGetMapper();
     private final MerchantStorage merchantStorage;
 
 
@@ -160,6 +162,15 @@ public class GameManager {
         this.httpclient = httpClient;
         this.listenerService = listenerService;
     }
+
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
+
+    public MerchantStorage getMerchantStorage() {
+        return merchantStorage;
+    }
+
 
     public MapDBCreeperStorage getMapDBCreeperStorage() {
         return mapDBCreeperStorage;
@@ -272,6 +283,47 @@ public class GameManager {
 
     public ListenerService getListenerService() {
         return listenerService;
+    }
+
+    public void gossip(Player player, String message) {
+        gossip(player, message, false);
+    }
+
+    public void gossip(Player player, String message, boolean apiSource) {
+        String gossipMessage = WHITE + "[" + RESET + MAGENTA + player.getPlayerName() + WHITE + "] " + RESET + CYAN + message + RESET;
+
+        playerManager.getAllPlayersMap().forEach((s, destinationPlayer) -> {
+            if (destinationPlayer.getPlayerId().equals(player.getPlayerId())) {
+                if (apiSource) {
+                    channelUtils.write(player.getPlayerId(), gossipMessage + "\r\n", true);
+
+                } else {
+                    channelUtils.write(player.getPlayerId(), gossipMessage);
+                }
+            } else {
+                channelUtils.write(destinationPlayer.getPlayerId(), gossipMessage + "\r\n", true);
+            }
+        });
+
+        HashMap<Object, Object> dto = Maps.newHashMap();
+        dto.put("name", player.getPlayerName());
+        dto.put("message", message);
+        dto.put("timestamp", System.currentTimeMillis());
+        try {
+            CreeperEvent build = new CreeperEvent.Builder()
+                    .playerId(player.getPlayerId())
+                    .payload(objectMapper.writeValueAsString(dto))
+                    .epochTimestamp(System.currentTimeMillis())
+                    .creeperEventType(CreeperEventType.GOSSIP)
+                    .audience(CreeperEvent.Audience.EVERYONE)
+                    .build();
+
+            getListenerService().post(build);
+        } catch (Exception e) {
+            log.error("Problem serializing creeper event.", e);
+        }
+        getGossipCache().addGossipLine(gossipMessage);
+
     }
 
     public void placePlayerInLobby(Player player) {
