@@ -57,15 +57,6 @@ public class GameAuth implements CreeperAuthenticator {
         if (currentRoom == null) {
             gameManager.placePlayerInLobby(player);
         }
-        CreeperEvent build = new CreeperEvent.Builder()
-                .playerId(player.getPlayerId())
-                .payload(gameManager.getMapsManager().drawMap(player.getCurrentRoom().getRoomId(), new Coords(20, 14)))
-                .epochTimestamp(System.currentTimeMillis())
-                .creeperEventType(CreeperEventType.DRAW_MAP)
-                .audience(CreeperEvent.Audience.PLAYER_ONLY)
-                .build();
-
-        gameManager.getListenerService().post(build);
         return true;
     }
 }

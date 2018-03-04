@@ -811,25 +811,8 @@ public class Player extends CreeperEntity implements Principal {
             }
             setReturnDirection(java.util.Optional.ofNullable(playerMovement.getReturnDirection()));
             gameManager.currentRoomLogic(playerId, gameManager.getRoomManager().getRoom(playerMovement.getDestinationRoomId()));
-            if (destinationRoom.getMapData().isPresent()) {
-                fireDrawMapEvent(destinationRoom);
-            }
-            //gameManager.getRoomManager().getRoom(playerMovement.getDestinationRoomId());
             processNpcAggro();
         }
-    }
-
-    private void fireDrawMapEvent(Room room) {
-        String map = gameManager.getMapsManager().drawMap(room.getRoomId(), new Coords(20, 14));
-        CreeperEvent build = new CreeperEvent.Builder()
-                .playerId(playerId)
-                .payload(map)
-                .epochTimestamp(System.currentTimeMillis())
-                .creeperEventType(CreeperEventType.DRAW_MAP)
-                .audience(CreeperEvent.Audience.PLAYER_ONLY)
-                .build();
-
-        gameManager.getListenerService().post(build);
     }
 
     public void processNpcAggro() {

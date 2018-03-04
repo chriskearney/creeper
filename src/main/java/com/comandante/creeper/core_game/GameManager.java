@@ -387,6 +387,20 @@ public class GameManager {
         currentRoomLogic(playerId, playerCurrentRoom);
     }
 
+    private void fireDrawMapEvent(String playerId, Room room) {
+        String map = getMapsManager().drawMap(room.getRoomId(), new Coords(20, 14));
+        CreeperEvent build = new CreeperEvent.Builder()
+                .playerId(playerId)
+                .payload(map)
+                .epochTimestamp(System.currentTimeMillis())
+                .creeperEventType(CreeperEventType.DRAW_MAP)
+                .audience(CreeperEvent.Audience.PLAYER_ONLY)
+                .build();
+
+        getListenerService().post(build);
+    }
+
+
     public void currentRoomLogic(String playerId, Room playerCurrentRoom) {
         Player player = playerManager.getPlayer(playerId);
         StringBuilder sb = new StringBuilder();
@@ -398,6 +412,7 @@ public class GameManager {
         Optional<String> autoMapOptional = player.getPlayerSetting("auto_map");
         if (playerCurrentRoom.getMapData().isPresent() && autoMapOptional.isPresent()) {
             int i = Integer.parseInt(autoMapOptional.get());
+            fireDrawMapEvent(playerId, playerCurrentRoom);
             sb.append(mapsManager.drawMap(playerCurrentRoom.getRoomId(), new Coords(i, i))).append("\r\n");
         }
         sb.append(getExits(playerCurrentRoom, player)).append("\r\n");
