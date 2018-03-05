@@ -386,6 +386,8 @@ public class PlayerMetadata implements Serializable {
         return coolDowns;
     }
 
-
+    public void setStats(Stats stats) {
+        this.stats = stats;
+    }
 }
 

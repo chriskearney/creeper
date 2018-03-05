@@ -49,6 +49,8 @@ public class PlayerManager {
         try {
             PlayerMetadata playerMetadataCopy = new PlayerMetadata(playerMetadata);
             playerMetadataCopy.setPassword("");
+            Stats playerStatsWithEquipmentAndLevel = players.get(playerMetadata.getPlayerId()).getPlayerStatsWithEquipmentAndLevel();
+            playerMetadataCopy.setStats(playerStatsWithEquipmentAndLevel);
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
                     .creeperEventType(CreeperEventType.PLAYERMETADATA)
