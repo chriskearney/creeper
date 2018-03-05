@@ -3,8 +3,8 @@ package com.comandante.creeper.player;
 
 import com.codahale.metrics.Gauge;
 import com.comandante.creeper.Creeper;
-import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SessionManager;
+import com.comandante.creeper.stats.Levels;
 import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.storage.CreeperStorage;
 import com.comandante.creeper.world.model.Room;
@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import events.CreeperEvent;
 import events.CreeperEventType;
 import events.ListenerService;
+import events.PlayerInformation;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
@@ -44,24 +45,37 @@ public class PlayerManager {
         return sessionManager;
     }
 
-    public void savePlayerMetadata(PlayerMetadata playerMetadata) {
-        creeperStorage.savePlayerMetadata(playerMetadata);
+    public void emitPlayerInformationEvent(String playerId) {
+        PlayerMetadata playerMetadata = getPlayerMetadata(playerId).get();
+        Player player = getPlayer(playerId);
         try {
             PlayerMetadata playerMetadataCopy = new PlayerMetadata(playerMetadata);
             playerMetadataCopy.setPassword("");
-            Stats playerStatsWithEquipmentAndLevel = players.get(playerMetadata.getPlayerId()).getPlayerStatsWithEquipmentAndLevel();
-            playerMetadataCopy.setStats(playerStatsWithEquipmentAndLevel);
+            long expToNextLevel = Levels.getXp(Levels.getLevel(playerMetadata.getStats().getExperience())) - playerMetadata.getStats().getExperience();
+            long level = Levels.getLevel(playerMetadata.getStats().getExperience());
+            PlayerInformation playerInformation = new PlayerInformation(playerMetadata,
+                    level,
+                    expToNextLevel,
+                    player.isActiveFights(),
+                    player.getPlayerStatsWithEquipmentAndLevel(),
+                    player.getCurrentRoom().getRoomId(),
+                    player.getCurrentRoom().getAreas());
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
                     .creeperEventType(CreeperEventType.PLAYERMETADATA)
                     .epochTimestamp(System.currentTimeMillis())
-                    .payload(objectMapper.writeValueAsString(playerMetadataCopy))
+                    .payload(objectMapper.writeValueAsString(playerInformation))
                     .playerId(playerMetadata.getPlayerId())
                     .build();
             listenerService.post(build);
         } catch (Exception e) {
             log.error("Problem emitting playermetadata event.");
         }
+    }
+
+    public void savePlayerMetadata(PlayerMetadata playerMetadata) {
+        creeperStorage.savePlayerMetadata(playerMetadata);
+        emitPlayerInformationEvent(playerMetadata.getPlayerId());
     }
 
     public Player addPlayer(Player player) {
