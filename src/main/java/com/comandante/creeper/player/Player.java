@@ -695,6 +695,7 @@ public class Player extends CreeperEntity implements Principal {
             playerMetadata.getCoolDownMap().entrySet().removeIf(coolDownTypeCoolDownEntry -> {
                 if (coolDownTypeCoolDownEntry.getValue().isActive()) {
                     coolDownTypeCoolDownEntry.getValue().decrementTick();
+                    savePlayerMetadata(playerMetadata);
                 } else {
                     if (coolDownTypeCoolDownEntry.getValue().equals(CoolDownType.DEATH)) {
                         gameManager.getChannelUtils().write(playerId, "You have risen from the dead.\r\n");
@@ -703,7 +704,6 @@ public class Player extends CreeperEntity implements Principal {
                 }
                 return false;
             });
-            savePlayerMetadata(playerMetadata);
         }
     }
 

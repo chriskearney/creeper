@@ -3,11 +3,17 @@ package com.comandante.creeper.player;
 
 import com.codahale.metrics.Gauge;
 import com.comandante.creeper.Creeper;
+import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SessionManager;
 import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.storage.CreeperStorage;
 import com.comandante.creeper.world.model.Room;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import events.CreeperEvent;
+import events.CreeperEventType;
+import events.ListenerService;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.Logger;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -19,13 +25,19 @@ import static com.codahale.metrics.MetricRegistry.name;
 
 public class PlayerManager {
 
+    private static final Logger log = Logger.getLogger(PlayerManager.class);
+
     private final CreeperStorage creeperStorage;
     private final SessionManager sessionManager;
-    private ConcurrentHashMap<String, Player> players = new ConcurrentHashMap<>();
+    private final ListenerService listenerService;
+    private final ConcurrentHashMap<String, Player> players = new ConcurrentHashMap<>();
+    private final ObjectMapper objectMapper;
 
-    public PlayerManager(CreeperStorage creeperStorage, SessionManager sessionManager) {
+    public PlayerManager(CreeperStorage creeperStorage, SessionManager sessionManager, ListenerService listenerService, ObjectMapper objectMapper) {
         this.creeperStorage = creeperStorage;
         this.sessionManager = sessionManager;
+        this.listenerService = listenerService;
+        this.objectMapper = objectMapper;
     }
 
     public SessionManager getSessionManager() {
@@ -34,6 +46,20 @@ public class PlayerManager {
 
     public void savePlayerMetadata(PlayerMetadata playerMetadata) {
         creeperStorage.savePlayerMetadata(playerMetadata);
+        try {
+            PlayerMetadata playerMetadataCopy = new PlayerMetadata(playerMetadata);
+            playerMetadataCopy.setPassword("");
+            CreeperEvent build = new CreeperEvent.Builder()
+                    .audience(CreeperEvent.Audience.PLAYER_ONLY)
+                    .creeperEventType(CreeperEventType.PLAYERMETADATA)
+                    .epochTimestamp(System.currentTimeMillis())
+                    .payload(objectMapper.writeValueAsString(playerMetadataCopy))
+                    .playerId(playerMetadata.getPlayerId())
+                    .build();
+            listenerService.post(build);
+        } catch (Exception e) {
+            log.error("Problem emitting playermetadata event.");
+        }
     }
 
     public Player addPlayer(Player player) {

@@ -24,7 +24,6 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.google.common.eventbus.EventBus;
 import com.google.common.io.Files;
 import com.google.common.util.concurrent.AbstractIdleService;
-import events.CreeperEventBus;
 import events.CreeperEventListener;
 import events.ListenerService;
 import org.apache.commons.codec.binary.Base64;
@@ -93,7 +92,7 @@ public class Creeper extends AbstractIdleService {
         mapDBCreeperStorage.startAsync();
         mapDBCreeperStorage.awaitRunning();
 
-        playerManager = new PlayerManager(mapDBCreeperStorage, new SessionManager());
+        playerManager = new PlayerManager(mapDBCreeperStorage, new SessionManager(), listenerService, registerJdkModuleAndGetMapper());
         playerManager.createAllGauges();
 
         roomManager = new RoomManager(playerManager);
