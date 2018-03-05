@@ -20,7 +20,7 @@ public class NexusCommand extends Command {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
-        execCommand(ctx, e, () -> {
+        execCommandBackgroundThread(ctx, e, () -> {
             if (gameManager.getCreeperConfiguration().isIrcEnabled()) {
                 originalMessageParts.remove(0);
                 String transferPhrase = Joiner.on(" ").join(originalMessageParts);
