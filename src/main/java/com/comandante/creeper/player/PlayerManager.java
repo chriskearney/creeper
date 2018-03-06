@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import events.CreeperEvent;
 import events.CreeperEventType;
 import events.ListenerService;
-import events.PlayerInformation;
+import events.PlayerData;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
@@ -53,7 +53,7 @@ public class PlayerManager {
             playerMetadataCopy.setPassword("");
             long expToNextLevel = Levels.getXp(Levels.getLevel(playerMetadata.getStats().getExperience())) - playerMetadata.getStats().getExperience();
             long level = Levels.getLevel(playerMetadata.getStats().getExperience());
-            PlayerInformation playerInformation = new PlayerInformation(playerMetadata,
+            PlayerData playerData = new PlayerData(playerMetadata,
                     level,
                     expToNextLevel,
                     player.isActiveFights(),
@@ -62,9 +62,9 @@ public class PlayerManager {
                     player.getCurrentRoom().getAreas());
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
-                    .creeperEventType(CreeperEventType.PLAYERMETADATA)
+                    .creeperEventType(CreeperEventType.PLAYERDATA)
                     .epochTimestamp(System.currentTimeMillis())
-                    .payload(objectMapper.writeValueAsString(playerInformation))
+                    .payload(objectMapper.writeValueAsString(playerData))
                     .playerId(playerMetadata.getPlayerId())
                     .build();
             listenerService.post(build);

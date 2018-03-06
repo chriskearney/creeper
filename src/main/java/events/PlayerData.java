@@ -6,7 +6,7 @@ import com.comandante.creeper.world.model.Area;
 
 import java.util.Set;
 
-public class PlayerInformation {
+public class PlayerData {
 
     private final PlayerMetadata playerMetadata;
     private final Long level;
@@ -16,7 +16,7 @@ public class PlayerInformation {
     private final Integer currentRoomId;
     private final Set<Area> currentAreas;
 
-    public PlayerInformation(PlayerMetadata playerMetadata, Long level, Long xpToNextLevel, Boolean isInFight, Stats playerStatsWithLevel, Integer currentRoomId, Set<Area> currentAreas) {
+    public PlayerData(PlayerMetadata playerMetadata, Long level, Long xpToNextLevel, Boolean isInFight, Stats playerStatsWithLevel, Integer currentRoomId, Set<Area> currentAreas) {
         this.playerMetadata = playerMetadata;
         this.level = level;
         this.xpToNextLevel = xpToNextLevel;

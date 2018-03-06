@@ -2,6 +2,6 @@ package events;
 
 public enum CreeperEventType {
     GOSSIP,
-    PLAYERMETADATA,
+    PLAYERDATA,
     DRAW_MAP;
 }
