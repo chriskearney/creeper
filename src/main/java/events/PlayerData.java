@@ -15,8 +15,9 @@ public class PlayerData {
     private final Stats playerStatsWithLevel;
     private final Integer currentRoomId;
     private final Set<Area> currentAreas;
+    private final String lookSelf;
 
-    public PlayerData(PlayerMetadata playerMetadata, Long level, Long xpToNextLevel, Boolean isInFight, Stats playerStatsWithLevel, Integer currentRoomId, Set<Area> currentAreas) {
+    public PlayerData(PlayerMetadata playerMetadata, Long level, Long xpToNextLevel, Boolean isInFight, Stats playerStatsWithLevel, Integer currentRoomId, Set<Area> currentAreas, String lookSelf) {
         this.playerMetadata = playerMetadata;
         this.level = level;
         this.xpToNextLevel = xpToNextLevel;
@@ -24,6 +25,7 @@ public class PlayerData {
         this.playerStatsWithLevel = playerStatsWithLevel;
         this.currentRoomId = currentRoomId;
         this.currentAreas = currentAreas;
+        this.lookSelf = lookSelf;
     }
 
     public PlayerMetadata getPlayerMetadata() {
@@ -52,5 +54,9 @@ public class PlayerData {
 
     public Set<Area> getCurrentAreas() {
         return currentAreas;
+    }
+
+    public String getLookSelf() {
+        return lookSelf;
     }
 }

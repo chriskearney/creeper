@@ -59,7 +59,8 @@ public class PlayerManager {
                     player.isActiveFights(),
                     player.getPlayerStatsWithEquipmentAndLevel(),
                     player.getCurrentRoom().getRoomId(),
-                    player.getCurrentRoom().getAreas());
+                    player.getCurrentRoom().getAreas(),
+                    player.getLookString());
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
                     .creeperEventType(CreeperEventType.PLAYERDATA)
