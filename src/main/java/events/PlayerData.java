@@ -4,6 +4,7 @@ import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.world.model.Area;
 
+import java.util.List;
 import java.util.Set;
 
 public class PlayerData {
@@ -16,8 +17,17 @@ public class PlayerData {
     private final Integer currentRoomId;
     private final Set<Area> currentAreas;
     private final String lookSelf;
+    private final List<String> inventory;
 
-    public PlayerData(PlayerMetadata playerMetadata, Long level, Long xpToNextLevel, Boolean isInFight, Stats playerStatsWithLevel, Integer currentRoomId, Set<Area> currentAreas, String lookSelf) {
+    public PlayerData(PlayerMetadata playerMetadata,
+                      Long level,
+                      Long xpToNextLevel,
+                      Boolean isInFight,
+                      Stats playerStatsWithLevel,
+                      Integer currentRoomId,
+                      Set<Area> currentAreas,
+                      String lookSelf,
+                      List<String> inventory) {
         this.playerMetadata = playerMetadata;
         this.level = level;
         this.xpToNextLevel = xpToNextLevel;
@@ -26,6 +36,7 @@ public class PlayerData {
         this.currentRoomId = currentRoomId;
         this.currentAreas = currentAreas;
         this.lookSelf = lookSelf;
+        this.inventory = inventory;
     }
 
     public PlayerMetadata getPlayerMetadata() {
@@ -58,5 +69,9 @@ public class PlayerData {
 
     public String getLookSelf() {
         return lookSelf;
+    }
+
+    public List<String> getInventory() {
+        return inventory;
     }
 }
