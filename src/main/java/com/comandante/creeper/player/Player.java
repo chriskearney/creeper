@@ -20,7 +20,6 @@ import com.comandante.creeper.stats.Levels;
 import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.stats.StatsBuilder;
 import com.comandante.creeper.stats.StatsHelper;
-import com.comandante.creeper.world.model.Coords;
 import com.comandante.creeper.world.model.Room;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Interner;
@@ -28,8 +27,6 @@ import com.google.common.collect.Interners;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import events.CreeperEvent;
-import events.CreeperEventType;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
@@ -692,10 +689,12 @@ public class Player extends CreeperEntity implements Principal {
                 return;
             }
             PlayerMetadata playerMetadata = playerMetadataOptional.get();
+            if (playerMetadata.getCoolDownMap().isEmpty()) {
+                return;
+            }
             playerMetadata.getCoolDownMap().entrySet().removeIf(coolDownTypeCoolDownEntry -> {
                 if (coolDownTypeCoolDownEntry.getValue().isActive()) {
                     coolDownTypeCoolDownEntry.getValue().decrementTick();
-                    savePlayerMetadata(playerMetadata);
                 } else {
                     if (coolDownTypeCoolDownEntry.getValue().equals(CoolDownType.DEATH)) {
                         gameManager.getChannelUtils().write(playerId, "You have risen from the dead.\r\n");
@@ -704,6 +703,7 @@ public class Player extends CreeperEntity implements Principal {
                 }
                 return false;
             });
+            savePlayerMetadata(playerMetadata);
         }
     }
 
