@@ -1,10 +1,12 @@
 package events;
 
+import com.comandante.creeper.items.Item;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.world.model.Area;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class PlayerData {
@@ -18,6 +20,7 @@ public class PlayerData {
     private final Set<Area> currentAreas;
     private final String lookSelf;
     private final List<String> inventory;
+    private final Map<String, Item> itemMap;
 
     public PlayerData(PlayerMetadata playerMetadata,
                       Long level,
@@ -27,7 +30,8 @@ public class PlayerData {
                       Integer currentRoomId,
                       Set<Area> currentAreas,
                       String lookSelf,
-                      List<String> inventory) {
+                      List<String> inventory,
+                      Map<String, Item> itemMap) {
         this.playerMetadata = playerMetadata;
         this.level = level;
         this.xpToNextLevel = xpToNextLevel;
@@ -37,6 +41,7 @@ public class PlayerData {
         this.currentAreas = currentAreas;
         this.lookSelf = lookSelf;
         this.inventory = inventory;
+        this.itemMap = itemMap;
     }
 
     public PlayerMetadata getPlayerMetadata() {
@@ -73,5 +78,9 @@ public class PlayerData {
 
     public List<String> getInventory() {
         return inventory;
+    }
+
+    public Map<String, Item> getItemMap() {
+        return itemMap;
     }
 }

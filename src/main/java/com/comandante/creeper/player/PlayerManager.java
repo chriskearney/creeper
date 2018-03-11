@@ -4,11 +4,13 @@ package com.comandante.creeper.player;
 import com.codahale.metrics.Gauge;
 import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.SessionManager;
+import com.comandante.creeper.items.Item;
 import com.comandante.creeper.stats.Levels;
 import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.storage.CreeperStorage;
 import com.comandante.creeper.world.model.Room;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Maps;
 import events.CreeperEvent;
 import events.CreeperEventType;
 import events.ListenerService;
@@ -17,10 +19,12 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 import static com.codahale.metrics.MetricRegistry.name;
 
@@ -53,6 +57,16 @@ public class PlayerManager {
             playerMetadataCopy.setPassword("");
             long expToNextLevel = Levels.getXp(Levels.getLevel(playerMetadata.getStats().getExperience())) - playerMetadata.getStats().getExperience();
             long level = Levels.getLevel(playerMetadata.getStats().getExperience());
+
+            Map<String, Item> itemMap = Maps.newHashMap();
+            List<Item> inventory = player.getInventory();
+            inventory.forEach(new Consumer<Item>() {
+                @Override
+                public void accept(Item item) {
+                    itemMap.put(item.getItemId(), item);
+                }
+            });
+
             PlayerData playerData = new PlayerData(playerMetadata,
                     level,
                     expToNextLevel,
@@ -61,7 +75,8 @@ public class PlayerManager {
                     player.getCurrentRoom().getRoomId(),
                     player.getCurrentRoom().getAreas(),
                     player.getLookString(),
-                    player.getRolledUpInventory());
+                    player.getRolledUpInventory(),
+                    itemMap);
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
                     .creeperEventType(CreeperEventType.PLAYERDATA)
