@@ -99,6 +99,13 @@ public class ApiResource {
     }
 
     @POST
+    @Path("/drop")
+    @PermitAll
+    public void drop(@Auth Player player, @FormParam("itemId") String itemId) {
+        player.dropItem(itemId, true);
+    }
+
+    @POST
     @Path("/equip")
     @PermitAll
     public void equip(@Auth Player player, @FormParam("itemId") String itemId) {
