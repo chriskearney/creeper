@@ -894,6 +894,13 @@ public class Player extends CreeperEntity implements Principal {
         return playerName;
     }
 
+    public void show(String itemId) {
+        Optional<Item> inventoryItemById = getInventoryItemById(itemId);
+        if (inventoryItemById.isPresent()) {
+            gameManager.writeToPlayerCurrentRoom(playerId, getPlayerName() + " whips out " + inventoryItemById.get().getItemName() + ".\r\n");
+        }
+    }
+
     public List<String> getRolledUpLockerInventory() {
         synchronized (interner.intern(playerId)) {
             List<String> rolledUp = Lists.newArrayList();

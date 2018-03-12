@@ -93,9 +93,23 @@ public class ApiResource {
     @POST
     @Path("/use")
     @PermitAll
-    @Produces(SseFeature.SERVER_SENT_EVENTS)
     public void use(@Auth Player player, @FormParam("itemId") String itemId) {
         Optional<Item> inventoryItemById = player.getInventoryItemById(itemId);
         gameManager.getItemUseHandler().handle(player, inventoryItemById.get(), Optional.empty());
+    }
+
+    @POST
+    @Path("/equip")
+    @PermitAll
+    public void equip(@Auth Player player, @FormParam("itemId") String itemId) {
+        Optional<Item> inventoryItemById = player.getInventoryItemById(itemId);
+        inventoryItemById.ifPresent(player::equip);
+    }
+
+    @POST
+    @Path("/show")
+    @PermitAll
+    public void show(@Auth Player player, @FormParam("itemId") String itemId) {
+        player.show(itemId);
     }
 }
