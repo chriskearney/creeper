@@ -102,6 +102,6 @@ public class ApiResource {
     @Path("/drop")
     @PermitAll
     public void drop(@Auth Player player, @FormParam("itemId") String itemId) {
-        player.dropItem(itemId);
+        player.dropItem(itemId, true);
     }
 }

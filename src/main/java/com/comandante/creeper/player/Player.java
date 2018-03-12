@@ -501,6 +501,10 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public void dropItem(String itemId) {
+        this.dropItem(itemId, false);
+    }
+
+    public void dropItem(String itemId, boolean fromApi) {
         Optional<Item> itemToDrop = getInventory().stream().filter(item -> item.getItemId().equals(itemId)).findFirst();
         if (!itemToDrop.isPresent()) {
             return;
@@ -511,7 +515,7 @@ public class Player extends CreeperEntity implements Principal {
         removeInventoryId(item.getItemId());
         gameManager.getItemDecayManager().addItem(item);
         gameManager.getEntityManager().saveItem(item);
-        gameManager.roomSay(currentRoom.getRoomId(), getPlayerName() + " dropped " + item.getItemName(), playerId);
+        gameManager.roomSay(currentRoom.getRoomId(), getPlayerName() + " dropped " + item.getItemName(), playerId, fromApi);
     }
 
     public void addInventoryId(String inventoryId) {
