@@ -4,6 +4,7 @@ import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.player.CoolDown;
 import com.comandante.creeper.player.CoolDownType;
 import com.comandante.creeper.player.Player;
+import com.comandante.creeper.player.PlayerClass;
 import com.comandante.creeper.server.player_communication.Color;
 import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.world.model.Area;
@@ -28,7 +29,7 @@ public class ForageManager {
     }
 
     public void addForage(String internalItemName, Forage forage) {
-        for (Area area: forage.getForageAreas()) {
+        for (Area area : forage.getForageAreas()) {
             Set<Room> roomsByArea = gameManager.getRoomManager().getRoomsByArea(area);
             for (Room room : roomsByArea) {
                 ForageBuilder forageBuiler = new ForageBuilder().from(forage);
@@ -41,7 +42,7 @@ public class ForageManager {
     }
 
     public void getForageForRoom(Room room, Player player) {
-       if (player.isActiveForageCoolDown()) {
+        if (player.isActiveForageCoolDown()) {
             gameManager.getChannelUtils().write(player.getPlayerId(), "Your forage cooldown is still active!\r\n");
             return;
         }
@@ -83,6 +84,14 @@ public class ForageManager {
                         gameManager.acquireItem(player, item.getItemId());
                     }
                     gameManager.writeToRoom(room.getRoomId(), player.getPlayerName() + " foraged (" + numberToHarvest + ") " + itemMetadata.getItemName() + "\r\n");
+                    if (player.getPlayerClass().equals(PlayerClass.RANGER) ||
+                            player.getPlayerClass().equals(PlayerClass.WIZARD) ||
+                            player.getPlayerClass().equals(PlayerClass.WARRIOR) ||
+                            player.getPlayerClass().equals(PlayerClass.SHAMAN)) {
+                        long forageToXpAmount = getForageToXpAmount(player.getPlayerClass(), forage.getForageExperience(), player.getPlayerStatsWithEquipmentAndLevel().getIntelligence());
+                        player.addExperience(forageToXpAmount);
+                        gameManager.getChannelUtils().write(player.getPlayerId(), "You gained " + Color.GREEN + "+" + forageToXpAmount + Color.RESET + " experience points." + "\r\n", true);
+                    }
                 } else {
                     gameManager.getChannelUtils().write(player.getPlayerId(), "Attempt to forage " + itemMetadata.getItemName() + " failed.\r\n");
                     //System.out.prlongln("failed to obtain forage, random pctsuccess failed.");
@@ -105,6 +114,25 @@ public class ForageManager {
                 player.addCoolDown(new CoolDown(CoolDownType.FORAGE_SUPERSHORT));
             }
         }
+    }
+
+
+    public static long getForageToXpAmount(PlayerClass playerClass, long baseStat, long level) {
+        double modifier = 0;
+        if (playerClass.equals(PlayerClass.RANGER)) {
+            modifier = .9;
+        }
+        if (playerClass.equals(PlayerClass.SHAMAN)) {
+            modifier = .5;
+        }
+        if (playerClass.equals(PlayerClass.WIZARD)) {
+            modifier = .4;
+        }
+        if (playerClass.equals(PlayerClass.WARRIOR)) {
+            modifier = .2;
+        }
+        double v = (level) * sqrt(pow(level, modifier));
+        return (long) Math.floor(v) + baseStat;
     }
 
     private static long randInt(int min, int max) {
