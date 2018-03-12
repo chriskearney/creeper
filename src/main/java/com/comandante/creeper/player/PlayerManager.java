@@ -58,7 +58,7 @@ public class PlayerManager {
             long expToNextLevel = Levels.getXp(Levels.getLevel(playerMetadata.getStats().getExperience())) - playerMetadata.getStats().getExperience();
             long level = Levels.getLevel(playerMetadata.getStats().getExperience());
 
-            Map<String, Item> itemMap = Maps.newHashMap();
+            Map<String, Item> itemMap = Maps.newLinkedHashMap();
             List<Item> inventory = player.getInventory();
             inventory.forEach(new Consumer<Item>() {
                 @Override
