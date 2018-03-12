@@ -9,6 +9,7 @@ import com.comandante.creeper.items.ItemUseAction;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.spells.LightningSpell;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class LightningSpellBookUseAction implements ItemUseAction {
@@ -27,7 +28,7 @@ public class LightningSpellBookUseAction implements ItemUseAction {
     }
 
     @Override
-    public void executeAction(GameManager gameManager, Player player, Item item, UseCommand.UseItemOn useItemOn) {
+    public void executeAction(GameManager gameManager, Player player, Item item, Optional<UseCommand.UseItemOn> useItemOn) {
         if (player.getLearnedSpells().contains(LightningSpell.name)) {
             gameManager.getChannelUtils().write(player.getPlayerId(), "You already know how to use " + LightningSpell.name);
             dontDelete = true;

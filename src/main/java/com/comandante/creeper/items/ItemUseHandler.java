@@ -21,7 +21,7 @@ public class ItemUseHandler {
         this.gameManager = gameManager;
     }
 
-    public void handle(Player player, Item item, UseCommand.UseItemOn useItemOn) {
+    public void handle(Player player, Item item, Optional<UseCommand.UseItemOn> useItemOn) {
         ItemUseAction itemUseAction = null;
         Optional<ItemMetadata> itemMetadataOptional = gameManager.getItemStorage().get(item.getInternalItemName());
         if (!itemMetadataOptional.isPresent()) {

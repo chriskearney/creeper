@@ -10,6 +10,7 @@ import com.comandante.creeper.player.CoolDown;
 import com.comandante.creeper.player.CoolDownType;
 import com.comandante.creeper.player.Player;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class FireSauceUseAction implements ItemUseAction {
@@ -26,7 +27,7 @@ public class FireSauceUseAction implements ItemUseAction {
     }
 
     @Override
-    public void executeAction(GameManager gameManager, Player player, Item item, UseCommand.UseItemOn useItemOn) {
+    public void executeAction(GameManager gameManager, Player player, Item item, Optional<UseCommand.UseItemOn> useItemOn) {
         gameManager.writeToPlayerCurrentRoom(player.getPlayerId(), player.getPlayerName() + " drinks a " + itemMetadata.getItemName() + ".");
         player.addCoolDown(new CoolDown(CoolDownType.FIRE_SAUCE));
     }

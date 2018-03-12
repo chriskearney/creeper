@@ -40,7 +40,7 @@ public class UseCommand extends Command {
                 return;
             }
 
-            gameManager.getItemUseHandler().handle(player, inventoryItemOptional.get(), useItemOn);
+            gameManager.getItemUseHandler().handle(player, inventoryItemOptional.get(), Optional.of(useItemOn));
         });
     }
 

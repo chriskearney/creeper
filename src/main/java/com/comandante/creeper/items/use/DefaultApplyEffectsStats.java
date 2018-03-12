@@ -2,11 +2,16 @@ package com.comandante.creeper.items.use;
 
 import com.comandante.creeper.command.commands.UseCommand;
 import com.comandante.creeper.core_game.GameManager;
-import com.comandante.creeper.items.*;
+import com.comandante.creeper.items.Effect;
+import com.comandante.creeper.items.Item;
+import com.comandante.creeper.items.ItemMetadata;
+import com.comandante.creeper.items.ItemUseAction;
+import com.comandante.creeper.items.ItemUseHandler;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.stats.Stats;
 import org.apache.log4j.Logger;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class DefaultApplyEffectsStats implements ItemUseAction {
@@ -28,7 +33,7 @@ public class DefaultApplyEffectsStats implements ItemUseAction {
     }
 
     @Override
-    public void executeAction(GameManager gameManager, Player player, Item item, UseCommand.UseItemOn useItemOn) {
+    public void executeAction(GameManager gameManager, Player player, Item item, Optional<UseCommand.UseItemOn> useItemOn) {
         String playerName = player.getPlayerName();
 
         gameManager.writeToPlayerCurrentRoom(player.getPlayerId(), playerName + " uses " + item.getItemName() + ".\r\n");

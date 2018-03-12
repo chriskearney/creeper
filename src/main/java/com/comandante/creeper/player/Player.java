@@ -851,6 +851,23 @@ public class Player extends CreeperEntity implements Principal {
         }
     }
 
+
+    public Optional<Item> getInventoryItemById(String itemId) {
+        synchronized (interner.intern(playerId)) {
+            Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+            if (!playerMetadataOptional.isPresent()) {
+                return Optional.empty();
+            }
+            PlayerMetadata playerMetadata = playerMetadataOptional.get();
+            for (String id : playerMetadata.getInventory()) {
+                if (id.equals(itemId)) {
+                    return gameManager.getEntityManager().getItemEntity(itemId);
+                }
+            }
+        }
+        return Optional.empty();
+    }
+
     public Optional<Item> getInventoryItem(String itemKeyword) {
         synchronized (interner.intern(playerId)) {
             Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
@@ -1368,7 +1385,8 @@ public class Player extends CreeperEntity implements Principal {
         }
     }
 
-    private void doFightRound(DamageProcessor playerDamageProcessor, DamageProcessor npcDamageProcessor, ActiveFight activeFight) {
+    private void doFightRound(DamageProcessor playerDamageProcessor, DamageProcessor
+            npcDamageProcessor, ActiveFight activeFight) {
         removeActiveAlertStatus();
 
         // IF FIGHTING NPC
@@ -1446,7 +1464,8 @@ public class Player extends CreeperEntity implements Principal {
         }
     }
 
-    private void calculatePlayerDamageToNpc(DamageProcessor playerDamageProcessor, Npc npc, NpcStatsChangeBuilder npcStatsChangeBuilder) {
+    private void calculatePlayerDamageToNpc(DamageProcessor playerDamageProcessor, Npc npc, NpcStatsChangeBuilder
+            npcStatsChangeBuilder) {
         long damageToVictim = 0;
         long chanceToHit = playerDamageProcessor.getChanceToHit(this, npc);
         if (randInt(0, 100) < chanceToHit) {
@@ -1470,7 +1489,8 @@ public class Player extends CreeperEntity implements Principal {
         }
     }
 
-    private void calculateNpcDamageToPlayer(DamageProcessor npcDamageProcessor, Npc npc, NpcStatsChangeBuilder npcStatsChangeBuilder) {
+    private void calculateNpcDamageToPlayer(DamageProcessor npcDamageProcessor, Npc npc, NpcStatsChangeBuilder
+            npcStatsChangeBuilder) {
         int chanceToHitBack = npcDamageProcessor.getChanceToHit(this, npc);
         long damageBack = npcDamageProcessor.getAttackAmount(this, npc);
         if (randInt(0, 100) < chanceToHitBack) {

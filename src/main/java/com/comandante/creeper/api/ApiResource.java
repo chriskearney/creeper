@@ -2,6 +2,7 @@ package com.comandante.creeper.api;
 
 import com.codahale.metrics.annotation.Timed;
 import com.comandante.creeper.core_game.GameManager;
+import com.comandante.creeper.items.Item;
 import com.comandante.creeper.player.CreeperClientStatusBarDetails;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.world.model.Coords;
@@ -85,8 +86,16 @@ public class ApiResource {
     @POST
     @Path("/gossip")
     @PermitAll
-    @Produces(SseFeature.SERVER_SENT_EVENTS)
     public void gossip(@Auth Player player, @FormParam("message") String message) {
         gameManager.gossip(player, message, true);
+    }
+
+    @POST
+    @Path("/use")
+    @PermitAll
+    @Produces(SseFeature.SERVER_SENT_EVENTS)
+    public void use(@Auth Player player, @FormParam("itemId") String itemId) {
+        Optional<Item> inventoryItemById = player.getInventoryItemById(itemId);
+        gameManager.getItemUseHandler().handle(player, inventoryItemById.get(), Optional.empty());
     }
 }

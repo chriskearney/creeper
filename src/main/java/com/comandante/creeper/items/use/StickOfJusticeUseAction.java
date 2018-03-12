@@ -26,14 +26,21 @@ public class StickOfJusticeUseAction implements ItemUseAction {
 
 
     @Override
-    public void executeAction(GameManager gameManager, Player player, Item item, UseCommand.UseItemOn useItemOn) {
+    public void executeAction(GameManager gameManager, Player player, Item item, Optional<UseCommand.UseItemOn> useItemOn) {
 
-        if (!useItemOn.getTarget().isPresent()) {
+        if (!useItemOn.isPresent()) {
+            gameManager.getChannelUtils().write(player.getPlayerId(), "Stick Of Justice must be used on something or someone.");
+            return;
+        }
+
+        UseCommand.UseItemOn on = useItemOn.get();
+
+        if (!on.getTarget().isPresent()) {
             gameManager.getChannelUtils().write(player.getPlayerId(), "You must use the Stick Of Justice on someone who deserves it.");
             return;
         }
 
-        Optional<Player> playerByCommandTarget = gameManager.getPlayerManager().getPlayerByCommandTarget(player.getCurrentRoom(), useItemOn.getTarget().get());
+        Optional<Player> playerByCommandTarget = gameManager.getPlayerManager().getPlayerByCommandTarget(player.getCurrentRoom(), on.getTarget().get());
         if (!playerByCommandTarget.isPresent()) {
             gameManager.getChannelUtils().write(player.getPlayerId(), "You must use the Stick Of Justice on someone who deserves it.");
             return;

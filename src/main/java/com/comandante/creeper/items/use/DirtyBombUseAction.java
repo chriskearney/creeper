@@ -2,7 +2,11 @@ package com.comandante.creeper.items.use;
 
 import com.comandante.creeper.command.commands.UseCommand;
 import com.comandante.creeper.core_game.GameManager;
-import com.comandante.creeper.items.*;
+import com.comandante.creeper.items.Effect;
+import com.comandante.creeper.items.Item;
+import com.comandante.creeper.items.ItemMetadata;
+import com.comandante.creeper.items.ItemUseAction;
+import com.comandante.creeper.items.ItemUseHandler;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.npc.NpcStatsChangeBuilder;
 import com.comandante.creeper.player.Player;
@@ -13,6 +17,7 @@ import com.comandante.creeper.world.model.Room;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 
 public class DirtyBombUseAction implements ItemUseAction {
@@ -29,7 +34,7 @@ public class DirtyBombUseAction implements ItemUseAction {
     }
 
     @Override
-    public void executeAction(GameManager gameManager, Player player, Item item, UseCommand.UseItemOn useItemOn) {
+    public void executeAction(GameManager gameManager, Player player, Item item, Optional<UseCommand.UseItemOn> useItemOn) {
         Room currentRoom = player.getCurrentRoom();
         if (currentRoom.getRoomId().equals(1)) {
             gameManager.writeToPlayerCurrentRoom(player.getPlayerId(), player.getPlayerName() + " tried to detonate a " + item.getItemName() + "!");
