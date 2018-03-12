@@ -1082,6 +1082,13 @@ public class Player extends CreeperEntity implements Principal {
                 return;
             }
             Equipment equipment = item.getEquipment();
+            if (equipment.getAllowedPlayerClass().size() > 0) {
+                if (!equipment.getAllowedPlayerClass().contains(getPlayerClass())) {
+                    gameManager.getChannelUtils().write(playerId, "Your class is unable to equip " + item.getItemName() + "\r\n", isApi);
+                    return;
+                }
+            }
+
             EquipmentSlotType equipmentSlotType = equipment.getEquipmentSlotType();
             Optional<Item> slotItemOptional = getSlotItem(equipmentSlotType);
             if (slotItemOptional.isPresent()) {

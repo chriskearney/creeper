@@ -27,7 +27,10 @@
       "foraging": 0,
       "inventorySize": 0,
       "maxEffects": 0
-    }
+    },
+    "allowedPlayerClass": [
+      "WARRIOR"
+    ]
   },
   "itemTriggers": [
     "beanie",
