@@ -1124,7 +1124,7 @@ public class Player extends CreeperEntity implements Principal {
 
     public boolean unEquip(Item item, Boolean isApi) {
         synchronized (interner.intern(playerId)) {
-            gameManager.getChannelUtils().write(playerId, "Un-equipping " + item.getItemName() + "\r\n");
+            gameManager.getChannelUtils().write(playerId, "Un-equipping " + item.getItemName() + "\r\n", isApi);
             if (gameManager.acquireItem(this, item.getItemId())) {
                 removeEquipmentId(item.getItemId());
                 return true;
