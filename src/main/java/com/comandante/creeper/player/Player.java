@@ -1085,7 +1085,7 @@ public class Player extends CreeperEntity implements Principal {
             EquipmentSlotType equipmentSlotType = equipment.getEquipmentSlotType();
             Optional<Item> slotItemOptional = getSlotItem(equipmentSlotType);
             if (slotItemOptional.isPresent()) {
-                if (!unEquip(slotItemOptional.get())) {
+                if (!unEquip(slotItemOptional.get(), isApi)) {
                     return;
                 }
             }
@@ -1119,6 +1119,10 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public boolean unEquip(Item item) {
+        return this.unEquip(item, false);
+    }
+
+    public boolean unEquip(Item item, Boolean isApi) {
         synchronized (interner.intern(playerId)) {
             gameManager.getChannelUtils().write(playerId, "Un-equipping " + item.getItemName() + "\r\n");
             if (gameManager.acquireItem(this, item.getItemId())) {
