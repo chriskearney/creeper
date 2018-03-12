@@ -1,0 +1,40 @@
+{
+  "internalItemName": "beserker shorts",
+  "itemName": "@c-cyan@berserker shorts@c-reset@",
+  "itemDescription": "a pair of berserker shorts",
+  "restingName": "a pair of berserker shorts are here on the ground.",
+  "valueInGold": 80,
+  "itemHalfLifeTicks": 60,
+  "rarity": "BASIC",
+  "equipment": {
+    "equipmentSlotType": "LEGS",
+    "statsIncreaseWhileEquipped": {
+      "strength": 0,
+      "intelligence": 0,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 4,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 0,
+      "weaponRatingMax": 0,
+      "weaponRatingMin": 0,
+      "numberOfWeaponRolls": 0,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0
+    }
+  },
+  "itemTriggers": [
+    "shorts",
+    "berserker shorts",
+    "s"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

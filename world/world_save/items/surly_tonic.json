@@ -1,0 +1,38 @@
+{
+  "internalItemName": "surly tonic",
+  "itemName": "a double cup of @c-magenta@surly@c-reset@ tonic",
+  "itemDescription": "a tonic called @c-magenta@surly@c-reset@ tonic that restores health@c-reset@",
+  "restingName": "a double cup of @c-magenta@surly@c-reset@ tonic rests on the ground.",
+  "valueInGold": 30,
+  "itemHalfLifeTicks": 60,
+  "rarity": "BASIC",
+  "itemTriggers": [
+    "surly tonic",
+    "t",
+    "surly",
+    "tonic"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": true,
+  "maxUses": 0,
+  "itemApplyStats": {
+    "strength": 0,
+    "intelligence": 0,
+    "willpower": 0,
+    "aim": 0,
+    "agile": 0,
+    "armorRating": 0,
+    "meleSkill": 0,
+    "currentHealth": 50,
+    "maxHealth": 0,
+    "weaponRatingMax": 0,
+    "weaponRatingMin": 0,
+    "numberOfWeaponRolls": 0,
+    "experience": 0,
+    "currentMana": 0,
+    "maxMana": 0,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0
+  }
+}

@@ -52,6 +52,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Player extends CreeperEntity implements Principal {
@@ -497,6 +498,24 @@ public class Player extends CreeperEntity implements Principal {
 
     public Set<Npc> getAlertedNpcs() {
         return alertedNpcs;
+    }
+
+    public void dropItem(String itemId) {
+        this.dropItem(itemId, false);
+    }
+
+    public void dropItem(String itemId, boolean fromApi) {
+        Optional<Item> itemToDrop = getInventory().stream().filter(item -> item.getItemId().equals(itemId)).findFirst();
+        if (!itemToDrop.isPresent()) {
+            return;
+        }
+        Item item = itemToDrop.get();
+        item.setWithPlayer(false);
+        gameManager.placeItemInRoom(currentRoom.getRoomId(), item.getItemId());
+        removeInventoryId(item.getItemId());
+        gameManager.getItemDecayManager().addItem(item);
+        gameManager.getEntityManager().saveItem(item);
+        gameManager.roomSay(currentRoom.getRoomId(), getPlayerName() + " dropped " + item.getItemName(), playerId, fromApi);
     }
 
     public void addInventoryId(String inventoryId) {

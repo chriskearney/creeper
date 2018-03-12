@@ -1,0 +1,84 @@
+{
+  "name": "swamp berserker",
+  "colorName": "swamp @c-bold-on@@c-magenta@berserker@c-reset@",
+  "stats": {
+    "strength": 10,
+    "intelligence": 0,
+    "willpower": 0,
+    "aim": 1,
+    "agile": 4,
+    "armorRating": 6,
+    "meleSkill": 16,
+    "currentHealth": 105,
+    "maxHealth": 105,
+    "weaponRatingMax": 15,
+    "weaponRatingMin": 9,
+    "numberOfWeaponRolls": 1,
+    "experience": 10000,
+    "currentMana": 105,
+    "maxMana": 105,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0
+  },
+  "dieMessage": "a swamp @c-bold-on@@c-magenta@berserker@c-reset@ breathes his last breath in a pool of @c-bold-on@@c-red@blood@c-reset@",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "NORTH1_ZONE"
+  ],
+  "validTriggers": [
+    "s",
+    "swamp berserker",
+    "berserker",
+    "b"
+  ],
+  "spawnRules": [
+    {
+      "area": "NORTH1_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 24,
+      "maxPerRoom": 6
+    }
+  ],
+  "loot": {
+    "internalItemNames": [
+      "beserker bracers",
+      "diamond"
+    ],
+    "lootGoldMax": 10,
+    "lootGoldMin": 5
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ tries to bite @player-name@ in the leg!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ growls and charges slightly at @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ howls maniacally to call its pack!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ jumps into the air toward and lands a critical attack! @player-name@!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ jumps into the air toward @player-name@!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "A @npc-color-name@ scratches it\u0027s nose."
+    }
+  ]
+}

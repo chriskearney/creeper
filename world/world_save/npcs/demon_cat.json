@@ -1,0 +1,81 @@
+{
+  "name": "demon cat",
+  "colorName": "demon @c-bold-on@@c-magenta@cat@c-reset@",
+  "stats": {
+    "strength": 7,
+    "intelligence": 0,
+    "willpower": 0,
+    "aim": 1,
+    "agile": 3,
+    "armorRating": 5,
+    "meleSkill": 10,
+    "currentHealth": 80,
+    "maxHealth": 80,
+    "weaponRatingMax": 9,
+    "weaponRatingMin": 4,
+    "numberOfWeaponRolls": 1,
+    "experience": 5000,
+    "currentMana": 80,
+    "maxMana": 80,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0
+  },
+  "dieMessage": "a demon @c-bold-on@@c-magenta@cat@c-reset@ breathes his last breath in a pool of @c-bold-on@@c-red@blood@c-reset@",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "NEWBIE_ZONE"
+  ],
+  "validTriggers": [
+    "d",
+    "demon",
+    "demon cat",
+    "c",
+    "cat"
+  ],
+  "spawnRules": [
+    {
+      "area": "NEWBIE_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 48,
+      "maxPerRoom": 6
+    }
+  ],
+  "loot": {
+    "lootGoldMax": 3,
+    "lootGoldMin": 1
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ tries to bite @player-name@ in the leg!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ growls and charges slightly at @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ howls maniacally to call its pack!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ jumps into the air toward and lands a critical attack! @player-name@!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ jumps into the air toward @player-name@!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "A @npc-color-name@ scratches it\u0027s nose."
+    }
+  ]
+}

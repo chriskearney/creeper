@@ -1,0 +1,28 @@
+{
+  "internalItemName": "basic key",
+  "itemName": "a shiny @c-yellow@gold key@c-reset@",
+  "itemDescription": "A basic key with nothing really remarkable other than its made of gold.",
+  "restingName": "a shiny @c-yellow@gold key@c-reset@ catches your eye.",
+  "valueInGold": 10,
+  "itemHalfLifeTicks": 60,
+  "rarity": "BASIC",
+  "itemTriggers": [
+    "key",
+    "gold key",
+    "shiny gold key"
+  ],
+  "validTimeOfDays": [
+    "NIGHT"
+  ],
+  "isDisposable": false,
+  "maxUses": 0,
+  "spawnRules": [
+    {
+      "area": "LOBBY",
+      "randomChance": 5,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 1,
+      "maxPerRoom": 1
+    }
+  ]
+}

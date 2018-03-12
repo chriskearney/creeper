@@ -1,0 +1,45 @@
+{
+  "internalName": "biggers the blacksmith",
+  "roomIds": [
+    253,
+    66
+  ],
+  "name": "biggers the blacksmith",
+  "colorName": "@c-bold-on@@c-cyan@biggers the blacksmith@c-reset@",
+  "validTriggers": [
+    "blacksmith",
+    "biggers",
+    "biggers the blacksmith"
+  ],
+  "merchantItemForSales": [
+    {
+      "internalItemName": "berserker baton",
+      "cost": 10000
+    },
+    {
+      "internalItemName": "berserker boots",
+      "cost": 3500
+    },
+    {
+      "internalItemName": "berserker bracers",
+      "cost": 3500
+    },
+    {
+      "internalItemName": "berserker helm",
+      "cost": 3500
+    },
+    {
+      "internalItemName": "berserker chest",
+      "cost": 7000
+    },
+    {
+      "internalItemName": "berserker shorts",
+      "cost": 8500
+    },
+    {
+      "internalItemName": "leather satchel",
+      "cost": 600
+    }
+  ],
+  "welcomeMessage": "  ____  _                                              \n\" +\n                    \" | __ )(_) __ _  __ _  ___ _ __ ___                    \\r\\n\" +\n                    \" |  _ \\\\| |/ _` |/ _` |/ _ \\\\ \u0027__/ __|                   \\r\\n\" +\n                    \" | |_) | | (_| | (_| |  __/ |  \\\\__ \\\\                   \\r\\n\" +\n                    \" |____/|_|\\\\__, |\\\\__, |\\\\___|_|  |___/                   \\r\\n\" +\n                    \"     ____ |___/ |___/   _                  _ _   _     \\r\\n\" +\n                    \"    | __ )| | __ _  ___| | _____ _ __ ___ (_) |_| |__  \\r\\n\" +\n                    \"    |  _ \\\\| |/ _` |/ __| |/ / __| \u0027_ ` _ \\\\| | __| \u0027_ \\\\ \\r\\n\" +\n                    \"    | |_) | | (_| | (__|   \u003c\\\\__ \\\\ | | | | | | |_| | | |\\r\\n\" +\n                    \"    |____/|_|\\__,_|\\___|_|\\_\\___/_| |_| |_|_|\\__|_| |_|\n"
+}

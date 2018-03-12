@@ -1,0 +1,42 @@
+{
+  "internalItemName": "fire boots",
+  "itemName": "@c-red@f@c-yellow@i@c-magenta@r@c-red@e@c-reset@ boots",
+  "itemDescription": "a pair of @c-red@f@c-yellow@i@c-magenta@r@c-red@e@c-reset@ boots",
+  "restingName": "a pair of @c-red@f@c-yellow@i@c-magenta@r@c-red@e@c-reset@ boots are here on the ground.",
+  "valueInGold": 400,
+  "itemHalfLifeTicks": 60,
+  "rarity": "BASIC",
+  "equipment": {
+    "equipmentSlotType": "FEET",
+    "statsIncreaseWhileEquipped": {
+      "strength": 0,
+      "intelligence": 0,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 4,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 2,
+      "weaponRatingMax": 0,
+      "weaponRatingMin": 0,
+      "numberOfWeaponRolls": 0,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0
+    }
+  },
+  "itemTriggers": [
+    "boots",
+    "boot",
+    "fire boots",
+    "b",
+    "f"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

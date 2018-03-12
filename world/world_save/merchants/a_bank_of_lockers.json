@@ -1,0 +1,16 @@
+{
+  "internalName": "a bank of lockers",
+  "roomIds": [
+    63
+  ],
+  "name": "a bank of lockers",
+  "colorName": "@c-bold-on@@c-cyan@a bank of lockers@c-reset@",
+  "validTriggers": [
+    "a bank of lockers",
+    "lockers",
+    "l",
+    "locker"
+  ],
+  "welcomeMessage": "Locker opened.",
+  "merchantType": "LOCKER"
+}

@@ -608,10 +608,14 @@ public class GameManager {
     }
 
     public void roomSay(Integer roomId, String message, String sourcePlayerId) {
+        this.roomSay(roomId, message, sourcePlayerId, false);
+    }
+
+    public void roomSay(Integer roomId, String message, String sourcePlayerId, boolean fromApi) {
         Set<Player> presentPlayers = roomManager.getRoom(roomId).getPresentPlayers();
         for (Player player : presentPlayers) {
             if (player.getPlayerId().equals(sourcePlayerId)) {
-                channelUtils.write(player.getPlayerId(), message, false);
+                channelUtils.write(player.getPlayerId(), message, fromApi);
                 continue;
             }
             channelUtils.write(player.getPlayerId(), message, true);

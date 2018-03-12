@@ -1,0 +1,43 @@
+{
+  "internalItemName": "kings sword",
+  "itemName": "a @c-bold-on@@c-red@K@c-reset@@c-red@ings@c-reset@ @c-bold-on@@c-green@S@c-reset@@c-green@word@c-reset@",
+  "itemDescription": "a @c-bold@@c-red@K@c-reset@@c-red@ings@c-reset@ @c-bold@@c-green@S@c-reset@@c-green@word@c-reset@",
+  "restingName": "a @c-bold@@c-red@K@c-reset@@c-red@ings@c-reset@ @c-bold@@c-green@S@c-reset@@c-green@word@c-reset@ rests upon the ground.",
+  "valueInGold": 12000,
+  "itemHalfLifeTicks": 60,
+  "rarity": "RARE",
+  "equipment": {
+    "equipmentSlotType": "HAND",
+    "statsIncreaseWhileEquipped": {
+      "strength": 3,
+      "intelligence": 0,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 0,
+      "meleSkill": 12,
+      "currentHealth": 40,
+      "maxHealth": 0,
+      "weaponRatingMax": 16,
+      "weaponRatingMin": 8,
+      "numberOfWeaponRolls": 2,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0
+    }
+  },
+  "itemTriggers": [
+    "sword",
+    "kings sword",
+    "s",
+    "k",
+    "kings",
+    "king"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

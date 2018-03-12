@@ -1,0 +1,53 @@
+{
+  "internalItemName": "aloe vera",
+  "itemName": "@c-green@aloe@c-reset@ vera",
+  "itemDescription": "some @c-green@aloe@c-reset@ vera",
+  "restingName": "some @c-green@aloe@c-reset@ vera@c-reset@ sits on the ground.",
+  "valueInGold": 7,
+  "itemHalfLifeTicks": 60,
+  "rarity": "BASIC",
+  "itemTriggers": [
+    "aloe",
+    "aloe vera",
+    "vera",
+    "a",
+    "v"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": true,
+  "maxUses": 0,
+  "itemApplyStats": {
+    "strength": 0,
+    "intelligence": 0,
+    "willpower": 0,
+    "aim": 0,
+    "agile": 0,
+    "armorRating": 0,
+    "meleSkill": 0,
+    "currentHealth": 90,
+    "maxHealth": 0,
+    "weaponRatingMax": 0,
+    "weaponRatingMin": 0,
+    "numberOfWeaponRolls": 0,
+    "experience": 0,
+    "currentMana": 0,
+    "maxMana": 0,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0
+  },
+  "forages": [
+    {
+      "minLevel": 0,
+      "pctOfSuccess": 60.0,
+      "minAmt": 4,
+      "maxAmt": 7,
+      "forageExperience": 4,
+      "coolDownTicks": 600,
+      "coolDownTicksLeft": 0,
+      "forageAreas": [
+        "NEWBIE_ZONE"
+      ]
+    }
+  ]
+}

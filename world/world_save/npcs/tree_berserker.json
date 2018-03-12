@@ -1,0 +1,85 @@
+{
+  "name": "tree berserker",
+  "colorName": "tree @c-bold-on@@c-magenta@berserker@c-reset@",
+  "stats": {
+    "strength": 15,
+    "intelligence": 0,
+    "willpower": 0,
+    "aim": 1,
+    "agile": 3,
+    "armorRating": 6,
+    "meleSkill": 14,
+    "currentHealth": 120,
+    "maxHealth": 120,
+    "weaponRatingMax": 15,
+    "weaponRatingMin": 7,
+    "numberOfWeaponRolls": 1,
+    "experience": 22500,
+    "currentMana": 120,
+    "maxMana": 120,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0
+  },
+  "dieMessage": "a tree @c-bold-on@@c-magenta@berserker@c-reset@ breathes his last breath in a pool of @c-bold-on@@c-red@blood@c-reset@",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "NORTH1_ZONE"
+  ],
+  "validTriggers": [
+    "t",
+    "tree",
+    "tree berserker",
+    "berserker",
+    "b"
+  ],
+  "spawnRules": [
+    {
+      "area": "NORTH1_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 24,
+      "maxPerRoom": 6
+    }
+  ],
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ tries to bite @player-name@ in the leg!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ growls and charges slightly at @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ howls maniacally to call its pack!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ jumps into the air toward and lands a critical attack! @player-name@!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ jumps into the air toward @player-name@!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "A @npc-color-name@ scratches it\u0027s nose."
+    }
+  ],
+  "loot": {
+    "internalItemNames": [
+      "beserker bracers",
+      "diamond"
+    ],
+    "lootGoldMax": 10,
+    "lootGoldMin": 5
+  }
+}

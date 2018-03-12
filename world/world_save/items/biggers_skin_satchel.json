@@ -1,0 +1,39 @@
+{
+  "internalItemName": "biggers skin satchel",
+  "itemName": "a @c-green@biggers skin satchel@c-reset@",
+  "itemDescription": "a @c-green@biggers skin satchel@c-reset@ with room to store 100 items.",
+  "restingName": "a @c-green@biggers skin satchel@c-reset@",
+  "valueInGold": 3000,
+  "itemHalfLifeTicks": 60,
+  "rarity": "BASIC",
+  "equipment": {
+    "equipmentSlotType": "BAG",
+    "statsIncreaseWhileEquipped": {
+      "strength": 0,
+      "intelligence": 0,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 0,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 0,
+      "weaponRatingMax": 0,
+      "weaponRatingMin": 0,
+      "numberOfWeaponRolls": 0,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 100,
+      "maxEffects": 0
+    }
+  },
+  "itemTriggers": [
+    "biggers skin satchel",
+    "skin satchel"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}
