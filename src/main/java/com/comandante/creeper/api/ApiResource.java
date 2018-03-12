@@ -110,7 +110,7 @@ public class ApiResource {
     @PermitAll
     public void equip(@Auth Player player, @FormParam("itemId") String itemId) {
         Optional<Item> inventoryItemById = player.getInventoryItemById(itemId);
-        inventoryItemById.ifPresent(player::equip);
+        inventoryItemById.ifPresent(item -> player.equip(item, true));
     }
 
     @POST

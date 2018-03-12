@@ -52,7 +52,6 @@ import java.util.TreeMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Player extends CreeperEntity implements Principal {
@@ -1074,6 +1073,10 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public void equip(Item item) {
+        this.equip(item, false);
+    }
+
+    public void equip(Item item, boolean isApi) {
         synchronized (interner.intern(playerId)) {
             if (item.getEquipment() == null) {
                 return;
@@ -1086,7 +1089,7 @@ public class Player extends CreeperEntity implements Principal {
                     return;
                 }
             }
-            gameManager.getChannelUtils().write(playerId, "Equipping " + item.getItemName() + "\r\n");
+            gameManager.getChannelUtils().write(playerId, "Equipping " + item.getItemName() + "\r\n", isApi);
             addEquipmentId(item.getItemId());
             removeInventoryId(item.getItemId());
         }
