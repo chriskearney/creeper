@@ -611,7 +611,7 @@ public class GameManager {
         Set<Player> presentPlayers = roomManager.getRoom(roomId).getPresentPlayers();
         for (Player player : presentPlayers) {
             if (player.getPlayerId().equals(sourcePlayerId)) {
-                channelUtils.write(player.getPlayerId(), message, false);
+                channelUtils.write(player.getPlayerId(), message, true);
                 continue;
             }
             channelUtils.write(player.getPlayerId(), message, true);
