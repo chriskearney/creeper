@@ -5,6 +5,7 @@ import com.comandante.creeper.core_game.service.TimeTracker;
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.items.Forage;
 import com.comandante.creeper.items.Item;
+import com.comandante.creeper.items.ItemMetadata;
 import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
@@ -51,8 +52,10 @@ public abstract class Room extends CreeperEntity {
     private final Set<String> roomTags;
     private final Set<Merchant> merchants = Sets.newConcurrentHashSet();
     private Map<String, Forage> forages = Maps.newHashMap();
+    private Set<String> requiredInternalItemNames = Sets.newHashSet();
     private final Map<String, String> notables;
     private final GameManager gameManager;
+    private Optional<Integer> minimumLevel;
 
     public Room(Integer roomId,
                 String roomTitle,
@@ -67,6 +70,8 @@ public abstract class Room extends CreeperEntity {
                 String roomDescription, Set<String> roomTags,
                 Set<Area> areas,
                 Map<String, String> notables,
+                Set<String> requiredInternalItemNames,
+                Optional<Integer> minimumLevel,
                 GameManager gameManager) {
         this.roomId = roomId;
         this.roomTitle = roomTitle;
@@ -82,6 +87,8 @@ public abstract class Room extends CreeperEntity {
         this.areas = areas;
         this.enterExits = enterExits;
         this.notables = notables;
+        this.requiredInternalItemNames = requiredInternalItemNames;
+        this.minimumLevel = minimumLevel;
         this.gameManager = gameManager;
     }
 
@@ -168,6 +175,18 @@ public abstract class Room extends CreeperEntity {
     public void removePresentItem(String itemId) {
         itemIds.remove(itemId);
 
+    }
+
+    public Optional<Integer> getMinimumLevel() {
+        return minimumLevel;
+    }
+
+    public Set<String> getRequiredInternalItemNames() {
+        return requiredInternalItemNames;
+    }
+
+    public void setMinimumLevel(Integer level) {
+        this.minimumLevel = Optional.ofNullable(level);
     }
 
     public void addPresentNpc(String npcId) {

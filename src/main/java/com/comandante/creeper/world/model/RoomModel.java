@@ -1,5 +1,6 @@
 package com.comandante.creeper.world.model;
 
+import com.google.common.collect.Sets;
 import com.google.gson.GsonBuilder;
 
 import java.util.Map;
@@ -15,8 +16,11 @@ public class RoomModel {
     Set<String> areaNames;
     Map<String, String> enterExitNames;
     Map<String, String> notables;
+    Set<String> requiredInternalItemNames;
+    Integer minimumLevel;
 
-    public RoomModel(int roomId, int floorId, String roomDescription, String roomTitle, Map<String, String> notables, Set<String> roomTags, Set<String> areaNames, Map<String, String> enterExitNames) {
+
+    public RoomModel(int roomId, int floorId, String roomDescription, String roomTitle, Map<String, String> notables, Set<String> roomTags, Set<String> areaNames, Map<String, String> enterExitNames, Set<String> requiredInternalItemNames, Integer minimumLevel) {
         this.roomId = roomId;
         this.floorId = floorId;
         this.roomDescription = roomDescription;
@@ -25,6 +29,28 @@ public class RoomModel {
         this.areaNames = areaNames;
         this.enterExitNames = enterExitNames;
         this.notables = notables;
+        this.requiredInternalItemNames = requiredInternalItemNames;
+        this.minimumLevel = minimumLevel;
+    }
+
+    public Set<String> getRequiredInternalItemNames() {
+        return requiredInternalItemNames;
+    }
+
+    public Integer getMinimumLevel() {
+        return minimumLevel;
+    }
+
+    public void setNotables(Map<String, String> notables) {
+        this.notables = notables;
+    }
+
+    public void setRequiredInternalItemNames(Set<String> requiredInternalItemNames) {
+        this.requiredInternalItemNames = requiredInternalItemNames;
+    }
+
+    public void setMinimumLevel(Integer minimumLevel) {
+        this.minimumLevel = minimumLevel;
     }
 
     public Set<String> getAreaNames() {

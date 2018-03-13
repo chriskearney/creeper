@@ -86,6 +86,12 @@ public class WorldStorage {
             for (Map.Entry<String, String> notable : room.getNotables().entrySet()) {
                 roomModelBuilder.addNotable(notable.getKey(), notable.getValue());
             }
+
+            if (room.getMinimumLevel().isPresent()) {
+                roomModelBuilder.setMinimumLevel(room.getMinimumLevel().get());
+            }
+            room.getRequiredInternalItemNames().forEach(roomModelBuilder::addInternalItemName);
+
             return roomModelBuilder.build();
         };
     }
@@ -121,6 +127,13 @@ public class WorldStorage {
                     basicRoomBuilder.addNotable(next.getKey(), next.getValue());
                 }
             }
+
+            if (roomModel.getRequiredInternalItemNames() != null) {
+                roomModel.getRequiredInternalItemNames().forEach(basicRoomBuilder::requiredInternalItemName);
+            }
+
+            basicRoomBuilder.minimumLevel(Optional.ofNullable(roomModel.getMinimumLevel()));
+
             configureExits(basicRoomBuilder, mapMatrix, roomModel.getRoomId());
             return basicRoomBuilder.createBasicRoom();
         };

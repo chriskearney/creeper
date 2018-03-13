@@ -25,6 +25,8 @@ public class BasicRoomBuilder {
     private Set<String> roomTags = Sets.newConcurrentHashSet();
     private Set<Area> areas = Sets.newConcurrentHashSet();
     private Map<String, String> notables = Maps.newHashMap();
+    private Set<String> requiredInternalItemNames = Sets.newHashSet();
+    private Optional<Integer> minimumLevel = Optional.empty();
 
     private final GameManager gameManager;
 
@@ -96,13 +98,23 @@ public class BasicRoomBuilder {
         this.enterExits.add(remoteExit);
         return this;
     }
-    
+
     public BasicRoomBuilder addNotable(String notableName, String description) {
         this.notables.put(notableName, description);
         return this;
     }
 
+    public BasicRoomBuilder requiredInternalItemName(String internalItemName) {
+        this.requiredInternalItemNames.add(internalItemName);
+        return this;
+    }
+
+    public BasicRoomBuilder minimumLevel(Optional<Integer> minimumLevel) {
+        this.minimumLevel = minimumLevel;
+        return this;
+    }
+
     public BasicRoom createBasicRoom() {
-        return new BasicRoom(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, enterExits, roomDescription, roomTags, areas, notables, gameManager);
+        return new BasicRoom(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, enterExits, roomDescription, roomTags, areas, notables, requiredInternalItemNames, minimumLevel, gameManager);
     }
 }

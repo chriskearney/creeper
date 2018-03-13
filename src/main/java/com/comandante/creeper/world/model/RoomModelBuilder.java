@@ -15,6 +15,8 @@ public class RoomModelBuilder {
     private Set<String> areaNames = Sets.newHashSet();
     private Map<String, String> enterExitNames = Maps.newHashMap();
     private Map<String, String> notables = Maps.newHashMap();
+    private Set<String> requiredInternalItemNames = Sets.newHashSet();
+    private Integer minimumLevel;
 
     public RoomModelBuilder setRoomId(int roomId) {
         this.roomId = roomId;
@@ -60,8 +62,17 @@ public class RoomModelBuilder {
         return this;
     }
 
+    public RoomModelBuilder setMinimumLevel(Integer level) {
+        this.minimumLevel = level;
+        return this;
+    }
+
+    public RoomModelBuilder addInternalItemName(String internalItemName) {
+        this.requiredInternalItemNames.add(internalItemName);
+        return this;
+    }
 
     public RoomModel build() {
-        return new RoomModel(roomId, floorId, roomDescription, roomTitle, notables, roomTags, areaNames, enterExitNames);
+        return new RoomModel(roomId, floorId, roomDescription, roomTitle, notables, roomTags, areaNames, enterExitNames, requiredInternalItemNames, minimumLevel);
     }
 }

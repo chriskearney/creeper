@@ -28,7 +28,9 @@ public class BasicRoom extends Room {
                      Set<String> roomTags,
                      Set<Area> areas,
                      Map<String, String> notables,
+                     Set<String> requiredInternalItemNames,
+                     Optional<Integer> minimumLevel,
                      GameManager gameManager) {
-        super(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, enterExits, roomDescription, roomTags, areas, notables, gameManager);
+        super(roomId, roomTitle, floorId, northId, southId, eastId, westId, upId, downId, enterExits, roomDescription, roomTags, areas, notables, requiredInternalItemNames, minimumLevel, gameManager);
     }
 }

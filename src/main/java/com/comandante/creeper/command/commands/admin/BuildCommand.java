@@ -13,6 +13,7 @@ import com.comandante.creeper.world.model.FloorModel;
 import com.comandante.creeper.world.model.RemoteExit;
 import com.comandante.creeper.world.model.Room;
 import com.comandante.creeper.world.model.RoomModel;
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -129,6 +130,28 @@ public class BuildCommand extends Command {
                             .createBasicRoom();
                     currentRoom.addEnterExit(remoteExit);
                     addNewRoomAndFloorAndMovePlayer(basicRoom, newFloorModel, Optional.of(returnRemoteExit));
+                    return;
+                } else if (desiredBuildDirection.equalsIgnoreCase("required")) {
+                    if (originalMessageParts.size() < 3) {
+                        channelUtils.write(playerId, "Must specify either a minimum level or internal item name.");
+                        return;
+                    }
+                    Optional<Integer> minimumLevel = Optional.empty();
+                    try {
+                        minimumLevel = Optional.of(Integer.parseInt(originalMessageParts.get(2)));
+                    } catch (NumberFormatException ex) {
+
+                    }
+                    if (!minimumLevel.isPresent()) {
+                        originalMessageParts.remove(0);
+                        originalMessageParts.remove(0);
+                        String internalItemName = Joiner.on(" ").join(originalMessageParts);
+                        currentRoom.getRequiredInternalItemNames().add(internalItemName);
+                        channelUtils.write(playerId, "Internal Item Name: " + internalItemName + " has been added to a list of required items to enter this room.");
+                    } else {
+                        currentRoom.setMinimumLevel(minimumLevel.get());
+                        channelUtils.write(playerId, "Minimum level for room is now: " + minimumLevel.get());
+                    }
                     return;
                 }
                 channelUtils.write(playerId, "Room already exists at that location.");
