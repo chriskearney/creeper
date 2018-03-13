@@ -44,8 +44,8 @@ public class CreeperToSSEEventListener implements CreeperEventListener {
         try {
             eventOutput.write(new OutboundEvent.Builder().name("ping").data(String.class, "EOM").build());
         } catch (Exception e) {
-            log.error("Bad output from an event output, assuming lost connection.", e);
-            return false;
+            System.out.println("CONNECTION LOST!");
+            e.printStackTrace();
         }
         return true;
     }
