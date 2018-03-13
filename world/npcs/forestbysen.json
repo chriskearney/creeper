@@ -21,7 +21,7 @@
     "inventorySize": 0,
     "maxEffects": 0
   },
-  "dieMessage": "the forest @c-bold-on@@c-magenta@bysen@c-reset@\u0027s lifeless corpse falls to the forest floor.",
+  "dieMessage": "the forest @c-bold-on@@c-magenta@bysen@c-reset@'s lifeless corpse falls to the forest floor.",
   "temperament": "PASSIVE",
   "roamAreas": [
         "SOUTH1_ZONE"
