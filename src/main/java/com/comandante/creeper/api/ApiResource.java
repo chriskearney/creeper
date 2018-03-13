@@ -80,8 +80,6 @@ public class ApiResource {
 
         listenerService.registerListener(new CreeperToSSEEventListener(player.getPlayerId(), eventOutput, objectMapper));
 
-        gameManager.getPlayerManager().emitPlayerInformationEvent(player.getPlayerId());
-
         return eventOutput;
     }
 

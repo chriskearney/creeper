@@ -54,7 +54,6 @@ public class GameAuth implements CreeperAuthenticator {
         if (currentRoom == null) {
             gameManager.placePlayerInLobby(player);
         }
-        gameManager.getPlayerManager().emitPlayerInformationEvent(player.getPlayerId());
         return true;
     }
 }
