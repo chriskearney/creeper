@@ -1,0 +1,97 @@
+{
+  "name": "highland yeti",
+  "colorName": "highland @c-bold-on@@c-magenta@yeti@c-reset@",
+  "stats": {
+    "strength": 12,
+    "intelligence": 0,
+    "willpower": 34,
+    "aim": 9,
+    "agile": 20,
+    "armorRating": 31,
+    "meleSkill": 31,
+    "currentHealth": 180,
+    "maxHealth": 180,
+    "weaponRatingMax": 54,
+    "weaponRatingMin": 30,
+    "numberOfWeaponRolls": 1,
+    "experience": 250000,
+    "currentMana": 400,
+    "maxMana": 400,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0
+  },
+  "dieMessage": "a highland @c-bold-on@@c-magenta@yeti@c-reset@ screams with his last breath as his blood covers the ice.",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "BLOODRIDGE8_ZONE",
+    "BLOODRIDGE9_ZONE"
+  ],
+  "validTriggers": [
+    "h",
+    "y",
+    "highland",
+    "yeti",
+    "highland yeti"
+  ],
+  "spawnRules": [
+    {
+      "area": "BLOODRIDGE8_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 12,
+      "maxPerRoom": 2
+    },
+    {
+      "area": "BLOODRIDGE9_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 6,
+      "maxPerRoom": 2
+    }
+  ],
+  "loot": {
+    "internalItemNames": [
+      "diamond",
+      "iron ice axe"
+    ],
+    "lootGoldMax": 36,
+    "lootGoldMin": 26
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ kicks up rocks and ice at @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ charges across the ice at @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ growls deeply and lunges toward @player-name@!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ swings at @player-name@ with his massive claws, @c-bold@@c-yellow@CRUSHING@c-reset@ @player-name@'s arm!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "Before @player-name@ can mount an attack, the @npc-color-name@ hurls a giant block of ice at @player-name@, sending @player-name@ backwards through the air!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ grunts as he swipes his massive arms at @player-name@!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "A @npc-color-name@ trudges around through the ice and snow."
+    }
+  ]
+}
