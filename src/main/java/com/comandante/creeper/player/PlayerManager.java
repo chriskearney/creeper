@@ -98,7 +98,7 @@ public class PlayerManager {
                     .build();
             listenerService.post(build);
         } catch (Exception e) {
-            log.error("Problem emitting playermetadata event.");
+            log.error("Problem emitting playermetadata event.", e);
         }
     }
 

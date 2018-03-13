@@ -2,7 +2,7 @@
   "internalItemName": "wormwood-hilted aexium machete",
   "itemName": "@c-white@wormwood-hilted @c-cyan@aexium @c-reset@machete@c-reset@",
   "itemDescription": "a wormwood-hilted aexium machete",
-  "restingName": "a "@c-white@wormwood-hilted @c-cyan@aexium @c-reset@machete is on the ground.",
+  "restingName": "a @c-white@wormwood-hilted @c-cyan@aexium @c-reset@machete is on the ground.",
   "valueInGold": 3500,
   "itemHalfLifeTicks": 60,
   "rarity": "LEGENDARY",
