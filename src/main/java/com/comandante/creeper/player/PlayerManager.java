@@ -4,7 +4,9 @@ package com.comandante.creeper.player;
 import com.codahale.metrics.Gauge;
 import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.SessionManager;
+import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.items.Item;
+import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.stats.Levels;
 import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.storage.CreeperStorage;
@@ -14,10 +16,12 @@ import com.google.common.collect.Maps;
 import events.CreeperEvent;
 import events.CreeperEventType;
 import events.ListenerService;
+import events.NearByPlayer;
 import events.PlayerData;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +29,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static com.codahale.metrics.MetricRegistry.name;
 
@@ -67,6 +72,12 @@ public class PlayerManager {
                 }
             });
 
+            List<Npc> presentNpcs = player.getCurrentRoom().getPresentNpcs();
+            List<Item> presentItems = player.getCurrentRoom().getPresentItems();
+            Map<String, String> presentPlayers = Maps.newHashMap();
+            player.getCurrentRoom().getPresentPlayers().stream()
+                    .forEach(player1 -> presentPlayers.put(player1.getPlayerId(), player1.getPlayerName()));
+
             PlayerData playerData = new PlayerData(playerMetadata,
                     level,
                     expToNextLevel,
@@ -76,7 +87,8 @@ public class PlayerManager {
                     player.getCurrentRoom().getAreas(),
                     player.getLookString(),
                     player.getRolledUpInventory(),
-                    itemMap);
+                    itemMap,
+                    new NearByPlayer(presentNpcs, presentItems, presentPlayers));
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
                     .creeperEventType(CreeperEventType.PLAYERDATA)

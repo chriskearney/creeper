@@ -41,14 +41,9 @@ public class CreeperToSSEEventListener implements CreeperEventListener {
     public boolean isActive() {
         try {
             eventOutput.write(new OutboundEvent.Builder().name("ping").data(String.class, "EOM").build());
-            return true;
         } catch (Exception e) {
-            try {
-                eventOutput.close();
-            } catch (Exception ei) {
-                ei.printStackTrace();
-            }
-            return false;
+
         }
+        return true;
     }
 }

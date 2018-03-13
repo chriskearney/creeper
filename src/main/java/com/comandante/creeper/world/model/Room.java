@@ -132,6 +132,7 @@ public abstract class Room extends CreeperEntity {
     public void addTag(String tag) {
         roomTags.add(tag);
     }
+
     public Integer getFloorId() {
         return floorId;
     }
@@ -275,6 +276,14 @@ public abstract class Room extends CreeperEntity {
 
     public List<Npc> getPresentNpcs() {
         return npcIds.stream().map(s -> gameManager.getEntityManager().getNpcEntity(s)).collect(Collectors.toList());
+    }
+
+    public List<Item> getPresentItems() {
+        return itemIds.stream()
+                .map(s -> gameManager.getEntityManager().getItemEntity(s))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 
     @Override
