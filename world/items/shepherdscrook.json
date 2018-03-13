@@ -1,0 +1,46 @@
+{
+  "internalItemName": "shepherds crook",
+  "itemName": "@c-white@shepherds @c-reset@crook@c-reset@",
+  "itemDescription": "a shepherds crook",
+  "restingName": "a @c-white@shepherds @c-reset@crook is on the ground.",
+  "valueInGold": 3500,
+  "itemHalfLifeTicks": 60,
+  "rarity": "LEGENDARY",
+  "equipment": {
+    "equipmentSlotType": "HAND",
+    "statsIncreaseWhileEquipped": {
+      "strength": 0,
+      "intelligence": 0,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 0,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 0,
+      "weaponRatingMax": 6,
+      "weaponRatingMin": 4,
+      "numberOfWeaponRolls": 2,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0    
+    },
+    "allowedPlayerClass": [
+      "SHAMAN"
+    ]
+  },
+  "itemTriggers": [
+    "shepherds",
+    "crook",
+    "shepherds crook",
+    "s",
+    "c"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}
+

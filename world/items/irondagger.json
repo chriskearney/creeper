@@ -1,0 +1,46 @@
+{
+  "internalItemName": "iron dagger",
+  "itemName": "@c-white@iron @c-reset@dagger@c-reset@",
+  "itemDescription": "an iron dagger",
+  "restingName": "an @c-white@iron @c-reset@dagger is on the ground.",
+  "valueInGold": 3500,
+  "itemHalfLifeTicks": 60,
+  "rarity": "LEGENDARY",
+  "equipment": {
+    "equipmentSlotType": "HAND",
+    "statsIncreaseWhileEquipped": {
+      "strength": 0,
+      "intelligence": 0,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 0,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 0,
+      "weaponRatingMax": 6,
+      "weaponRatingMin": 4,
+      "numberOfWeaponRolls": 2,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0    
+    },
+    "allowedPlayerClass": [
+      "SHAMAN"
+    ]
+  },
+  "itemTriggers": [
+    "iron",
+    "dagger",
+    "iron dagger",
+    "d",
+    "i"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}
+

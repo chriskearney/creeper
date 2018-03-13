@@ -1,0 +1,47 @@
+{
+  "internalItemName": "iron hunting knife",
+  "itemName": "@c-white@iron @c-reset@hunting knife@c-reset@",
+  "itemDescription": "an iron hunting knife",
+  "restingName": "an @c-white@iron @c-reset@hunting knife is on the ground.",
+  "valueInGold": 3500,
+  "itemHalfLifeTicks": 60,
+  "rarity": "LEGENDARY",
+  "equipment": {
+    "equipmentSlotType": "HAND",
+    "statsIncreaseWhileEquipped": {
+      "strength": 0,
+      "intelligence": 0,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 0,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 0,
+      "weaponRatingMax": 6,
+      "weaponRatingMin": 4,
+      "numberOfWeaponRolls": 2,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0    
+    },
+    "allowedPlayerClass": [
+      "RANGER"
+    ]
+  },
+  "itemTriggers": [
+    "iron",
+    "hunting knife",
+    "iron hunting knife",
+    "knife",
+    "i",
+    "k"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}
+
