@@ -8,6 +8,7 @@ import com.comandante.creeper.core_game.SessionManager;
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.items.Item;
+import com.comandante.creeper.items.ItemMetadata;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.npc.NpcBuilder;
 import com.comandante.creeper.player.*;
@@ -39,12 +40,22 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 
 public class NpcTestHarness {
 
     private GameManager gameManager;
     private EntityManager entityManager;
+
+
+    @Test
+    public void testItems() throws Exception {
+
+        List<ItemMetadata> allItemMetadata = gameManager.getItemStorage().getItemMetadatas();
+        System.out.println(doNothing());
+
+    }
 
     // Levels 1-3
     @Test

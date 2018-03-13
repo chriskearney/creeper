@@ -8,18 +8,18 @@ import java.util.List;
 import java.util.Map;
 
 public class NearByPlayer {
-    private final List<Npc> npc;
+    private final Map<String, String> npcs;
     private final List<Item> items;
     private final Map<String, String> players;
 
-    public NearByPlayer(List<Npc> npc, List<Item> items, Map<String, String> players) {
-        this.npc = npc;
+    public NearByPlayer(Map<String, String> npcs, List<Item> items, Map<String, String> players) {
+        this.npcs = npcs;
         this.items = items;
         this.players = players;
     }
 
-    public List<Npc> getNpc() {
-        return npc;
+    public Map<String, String> getNpcs() {
+        return npcs;
     }
 
     public List<Item> getItems() {
