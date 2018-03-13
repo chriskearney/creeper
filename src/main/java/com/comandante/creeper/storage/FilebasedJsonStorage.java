@@ -29,7 +29,7 @@ public class FilebasedJsonStorage {
                     try {
                         return (E) gson.fromJson(s, a.getClass());
                     } catch (JsonSyntaxException e) {
-                        log.error("Unable to read NpcMetaData from Json!", e);
+                        log.error("Unable to read NpcMetaData from Json! " + s, e);
                     }
                     return null;
                 })
