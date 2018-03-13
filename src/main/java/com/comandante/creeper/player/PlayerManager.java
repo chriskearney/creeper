@@ -55,6 +55,7 @@ public class PlayerManager {
     }
 
     public void emitPlayerInformationEvent(String playerId) {
+        log.info("Emit player information hit!");
         PlayerMetadata playerMetadata = getPlayerMetadata(playerId).get();
         Player player = getPlayer(playerId);
         try {
