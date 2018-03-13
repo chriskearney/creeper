@@ -89,8 +89,7 @@ public class PlayerManager {
                     player.getCurrentRoom().getAreas(),
                     player.getLookString(),
                     player.getRolledUpInventory(),
-                    itemMap,
-                    new NearByPlayer(presentNpcs, presentItems, presentPlayers));
+                    itemMap);
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
                     .creeperEventType(CreeperEventType.PLAYERDATA)

@@ -21,7 +21,6 @@ public class PlayerData {
     private final String lookSelf;
     private final List<String> inventory;
     private final Map<String, Item> itemMap;
-    private final NearByPlayer nearByPlayer;
 
     public PlayerData(PlayerMetadata playerMetadata,
                       Long level,
@@ -32,8 +31,7 @@ public class PlayerData {
                       Set<Area> currentAreas,
                       String lookSelf,
                       List<String> inventory,
-                      Map<String, Item> itemMap,
-                      NearByPlayer nearByPlayer) {
+                      Map<String, Item> itemMap) {
         this.playerMetadata = playerMetadata;
         this.level = level;
         this.xpToNextLevel = xpToNextLevel;
@@ -44,7 +42,6 @@ public class PlayerData {
         this.lookSelf = lookSelf;
         this.inventory = inventory;
         this.itemMap = itemMap;
-        this.nearByPlayer = nearByPlayer;
     }
 
     public PlayerMetadata getPlayerMetadata() {
@@ -87,7 +84,4 @@ public class PlayerData {
         return itemMap;
     }
 
-    public NearByPlayer getNearByPlayer() {
-        return nearByPlayer;
-    }
 }
