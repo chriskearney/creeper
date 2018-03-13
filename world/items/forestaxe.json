@@ -1,0 +1,46 @@
+{
+  "internalItemName": "forest axe",
+  "itemName": "@c-green@forest @c-reset@ axe@c-reset@",
+  "itemDescription": "a forest axe",
+  "restingName": "a @c-green@forest @c-reset@ axe is on the ground.",
+  "valueInGold": 350,
+  "itemHalfLifeTicks": 60,
+  "rarity": "UNCOMMON",
+  "equipment": {
+    "equipmentSlotType": "HAND",
+    "statsIncreaseWhileEquipped": {
+      "strength": 0,
+      "intelligence": 1,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 1,
+      "armorRating": 0,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 0,
+      "weaponRatingMax": 6,
+      "weaponRatingMin": 4,
+      "numberOfWeaponRolls": 2,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0    
+    },
+    "allowedPlayerClass": [
+      "RANGER"
+    ]
+  },
+  "itemTriggers": [
+    "forest",
+    "axe",
+    "forest axe",
+    "f",
+    "a"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}
+
