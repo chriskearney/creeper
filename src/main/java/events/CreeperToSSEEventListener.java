@@ -2,6 +2,7 @@ package events;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.eventbus.Subscribe;
+import org.apache.log4j.Logger;
 import org.glassfish.jersey.media.sse.EventOutput;
 import org.glassfish.jersey.media.sse.OutboundEvent;
 
@@ -13,6 +14,8 @@ public class CreeperToSSEEventListener implements CreeperEventListener {
     private final EventOutput eventOutput;
     private final ObjectMapper objectMapper;
     private final String playerId;
+    private static final Logger log = Logger.getLogger(CreeperToSSEEventListener.class);
+
 
     public CreeperToSSEEventListener(String playerId, EventOutput eventOutput, ObjectMapper objectMapper) {
         this.playerId = playerId;
@@ -23,7 +26,6 @@ public class CreeperToSSEEventListener implements CreeperEventListener {
     @Subscribe
     public void creeperEvent(CreeperEvent creeperEvent) throws IOException {
         try {
-
             if ((creeperEvent.getAudience() == CreeperEvent.Audience.PLAYER_ONLY && creeperEvent.getPlayerId().get().equals(playerId)) || creeperEvent.getAudience() == CreeperEvent.Audience.EVERYONE) {
                 final OutboundEvent.Builder eventBuilder = new OutboundEvent.Builder();
                 final String timestamp = Long.toString((new Date()).getTime());
@@ -33,7 +35,7 @@ public class CreeperToSSEEventListener implements CreeperEventListener {
                 eventOutput.write(eventBuilder.build());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Unable to publish event.", e);
         }
     }
 
@@ -42,7 +44,8 @@ public class CreeperToSSEEventListener implements CreeperEventListener {
         try {
             eventOutput.write(new OutboundEvent.Builder().name("ping").data(String.class, "EOM").build());
         } catch (Exception e) {
-
+            log.error("Bad output from an event output, assuming lost connection.", e);
+            return false;
         }
         return true;
     }

@@ -1,8 +1,10 @@
 package events;
 
+import com.comandante.creeper.items.EffectsManager;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.AbstractScheduledService;
+import org.apache.log4j.Logger;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,20 +15,26 @@ public class ListenerService extends AbstractScheduledService {
 
     private final EventBus eventBus;
     private final List<CreeperEventListener> eventListeners = Lists.newArrayList();
+    private static final Logger log = Logger.getLogger(ListenerService.class);
+
 
     public ListenerService(EventBus eventBus) {
         this.eventBus = eventBus;
     }
 
     @Override
-    protected void runOneIteration() throws Exception {
-        Iterator<CreeperEventListener> iterator = eventListeners.iterator();
-        while (iterator.hasNext()) {
-            CreeperEventListener next = iterator.next();
-            if (!next.isActive()) {
-                eventBus.unregister(next);
-                iterator.remove();
+    protected void runOneIteration() {
+        try {
+            Iterator<CreeperEventListener> iterator = eventListeners.iterator();
+            while (iterator.hasNext()) {
+                CreeperEventListener next = iterator.next();
+                if (!next.isActive()) {
+                    eventBus.unregister(next);
+                    iterator.remove();
+                }
             }
+        } catch (Exception e) {
+            log.error("Problem checking eventbus listener.", e);
         }
     }
 
