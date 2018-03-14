@@ -38,15 +38,15 @@
       "area": "BLOODRIDGE1_ZONE",
       "randomChance": 100,
       "spawnIntervalTicks": 600,
-      "maxInstances": 48,
-      "maxPerRoom": 6
+      "maxInstances": 23,
+      "maxPerRoom": 2
     },
     {
       "area": "BLOODRIDGE2_ZONE",
       "randomChance": 100,
       "spawnIntervalTicks": 600,
-      "maxInstances": 48,
-      "maxPerRoom": 6
+      "maxInstances": 23,
+      "maxPerRoom": 3
     }
   ],
   "loot": {
@@ -70,7 +70,7 @@
   "criticalAttackMessages": [
     {
       "type": "NORMAL",
-      "message": "The @npc-color-name@ jumps into the air toward and lands a critical attack! @player-name@!"
+      "message": "The @npc-color-name@ jumps into the air toward and lands a critical attack leaving @player-name@ stunned!"
     }
   ],
   "battleMessages": [
