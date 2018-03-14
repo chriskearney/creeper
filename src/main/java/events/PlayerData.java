@@ -22,6 +22,7 @@ public class PlayerData {
     private final List<String> inventory;
     private final Map<String, Item> itemMap;
     private final Map<String, String> presentPlayers;
+    private final Set<Item> presentItems;
 
     public PlayerData(PlayerMetadata playerMetadata,
                       Long level,
@@ -33,7 +34,8 @@ public class PlayerData {
                       String lookSelf,
                       List<String> inventory,
                       Map<String, Item> itemMap,
-                      Map<String, String> presentPlayers) {
+                      Map<String, String> presentPlayers,
+                      Set<Item> presentItems) {
         this.playerMetadata = playerMetadata;
         this.level = level;
         this.xpToNextLevel = xpToNextLevel;
@@ -45,6 +47,7 @@ public class PlayerData {
         this.inventory = inventory;
         this.itemMap = itemMap;
         this.presentPlayers = presentPlayers;
+        this.presentItems = presentItems;
     }
 
     public PlayerMetadata getPlayerMetadata() {
@@ -89,5 +92,9 @@ public class PlayerData {
 
     public Map<String, String> getPresentPlayers() {
         return presentPlayers;
+    }
+
+    public Set<Item> getPresentItems() {
+        return presentItems;
     }
 }

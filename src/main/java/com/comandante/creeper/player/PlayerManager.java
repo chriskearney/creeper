@@ -12,6 +12,7 @@ import com.comandante.creeper.storage.CreeperStorage;
 import com.comandante.creeper.world.model.Room;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import events.CreeperEvent;
 import events.CreeperEventType;
 import events.ListenerService;
@@ -89,7 +90,8 @@ public class PlayerManager {
                     player.getLookString(),
                     player.getRolledUpInventory(),
                     itemMap,
-                    presentPlayers);
+                    presentPlayers,
+                    Sets.newHashSet(presentItems));
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
                     .creeperEventType(CreeperEventType.PLAYERDATA)
