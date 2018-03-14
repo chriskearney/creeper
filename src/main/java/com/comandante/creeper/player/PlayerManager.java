@@ -78,7 +78,7 @@ public class PlayerManager {
             currentRoomNpcs.forEach(npc -> npcs.put(npc.getEntityId(), npc.getColorName()));
             currentRoomNpcs.forEach(npc -> presentNpcs.put(npc.getEntityId(), npc.getColorName()));
             List<Item> presentItems = player.getCurrentRoom().getPresentItems();
-            Map<String, String> presentPlayers = Maps.newHashMap();
+            Map<String, String> presentPlayers = Maps.newLinkedHashMap();
             player.getCurrentRoom().getPresentPlayers().stream()
                     .forEach(player1 -> presentPlayers.put(player1.getPlayerId(), player1.getPlayerName()));
 
