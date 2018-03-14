@@ -66,7 +66,6 @@ public class TeleportCommand extends Command {
                     Integer destinationRoomId = playerCurrentRoom.getRoomId();
                     PlayerMovement playerMovement = new PlayerMovement(player, gameManager.getRoomManager().getPlayerCurrentRoom(player).get().getRoomId(), playerCurrentRoom.getRoomId(), "vanished into the heavens.", "");
                     gameManager.writeToRoom(destinationRoomId, teleportMessage);
-                    channelUtils.write(playerId, teleportMessage);
                     player.movePlayer(playerMovement);
                     return;
                 }
@@ -77,7 +76,6 @@ public class TeleportCommand extends Command {
                 if (Integer.toString(next.getKey()).equals(desiredId)) {
                     PlayerMovement playerMovement = new PlayerMovement(player, gameManager.getRoomManager().getPlayerCurrentRoom(player).get().getRoomId(), Integer.parseInt(desiredId), "vanished into the heavens.", "");
                     gameManager.writeToRoom(Integer.parseInt(desiredId), teleportMessage);
-                    channelUtils.write(playerId, teleportMessage);
                     player.movePlayer(playerMovement);
                     return;
                 }
