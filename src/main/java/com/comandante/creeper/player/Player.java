@@ -800,6 +800,11 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public boolean meetRoomRequirements(PlayerMovement playerMovement, Room room) {
+
+        if (playerMovement.getPlayer().getPlayerMetadata().get().getPlayerRoleSet().contains(PlayerRole.GOD)) {
+            return true;
+        }
+
         if (room.getRequiredInternalItemNames().isEmpty() && !room.getMinimumLevel().isPresent()) {
             return true;
         }
