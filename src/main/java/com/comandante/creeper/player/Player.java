@@ -799,6 +799,34 @@ public class Player extends CreeperEntity implements Principal {
         }
     }
 
+    public boolean meetRoomRequirements(PlayerMovement playerMovement, Room room) {
+        if (room.getRequiredInternalItemNames().isEmpty() && !room.getMinimumLevel().isPresent()) {
+            return true;
+        }
+
+        for (String requiredInternalItemName : room.getRequiredInternalItemNames()) {
+            if (!doesItemExistInInventory(requiredInternalItemName)) {
+                writeMessage("In order to enter this room you must possess a " + requiredInternalItemName + ".");
+                return false;
+            }
+
+        }
+        if (room.getMinimumLevel().isPresent()) {
+            if (!(getLevel() >= room.getMinimumLevel().get())) {
+                writeMessage("In order to enter this room you must be at least level " + room.getMinimumLevel().get() + ".");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean doesItemExistInInventory(String internalItemName) {
+        return getInventory()
+                .stream()
+                .anyMatch(item -> item.getInternalItemName().equals(internalItemName));
+    }
+
     public void movePlayer(PlayerMovement playerMovement) {
         synchronized (interner.intern(playerId)) {
             Optional<Room> sourceRoom = Optional.empty();
@@ -807,6 +835,10 @@ public class Player extends CreeperEntity implements Principal {
             }
 
             Room destinationRoom = gameManager.getRoomManager().getRoom(playerMovement.getDestinationRoomId());
+
+            if (!meetRoomRequirements(playerMovement, destinationRoom)) {
+                return;
+            }
 
             if (sourceRoom.isPresent()) {
                 removePlayerFromRoom(sourceRoom.get());

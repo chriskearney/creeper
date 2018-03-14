@@ -146,8 +146,15 @@ public class BuildCommand extends Command {
                         originalMessageParts.remove(0);
                         originalMessageParts.remove(0);
                         String internalItemName = Joiner.on(" ").join(originalMessageParts);
+                        if (internalItemName.equals("clear")) {
+                            // clear command! reset all the requires
+                            currentRoom.setMinimumLevel(null);
+                            currentRoom.getRequiredInternalItemNames().clear();
+                            channelUtils.write(playerId, "All requirements to enter this room have been cleared.");
+                            return;
+                        }
                         currentRoom.getRequiredInternalItemNames().add(internalItemName);
-                        channelUtils.write(playerId, "Internal Item Name: " + internalItemName + " has been added to a list of required items to enter this room.");
+                        channelUtils.write(playerId, internalItemName + " has been added to a list of required items to enter this room.");
                     } else {
                         currentRoom.setMinimumLevel(minimumLevel.get());
                         channelUtils.write(playerId, "Minimum level for room is now: " + minimumLevel.get());
