@@ -1587,7 +1587,6 @@ public class Player extends CreeperEntity implements Principal {
         npc.addNpcDamage(npcStatsChangeBuilder.createNpcStatsChange());
     }
 
-
     public SortedMap<Long, ActiveFight> getActiveFights() {
         return activeFights;
     }

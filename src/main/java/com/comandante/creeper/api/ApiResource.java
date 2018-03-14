@@ -3,11 +3,14 @@ package com.comandante.creeper.api;
 import com.codahale.metrics.annotation.Timed;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.items.Item;
+import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.CreeperClientStatusBarDetails;
 import com.comandante.creeper.player.Player;
+import com.comandante.creeper.stats.Levels;
 import com.comandante.creeper.world.model.Coords;
 import com.comandante.creeper.world.model.Room;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import events.CreeperToSSEEventListener;
 import events.ListenerService;
 import io.dropwizard.auth.Auth;
@@ -118,5 +121,41 @@ public class ApiResource {
     @PermitAll
     public void show(@Auth Player player, @FormParam("itemId") String itemId) {
         player.show(itemId);
+    }
+
+    @POST
+    @Path("/attack")
+    @PermitAll
+    public void attack(@Auth Player player, @FormParam("npcId") String npcId) {
+        Npc npcEntity = gameManager.getEntityManager().getNpcEntity(npcId);
+        if (npcEntity != null) {
+            if (player.getCurrentRoom().getNpcIds().contains(npcEntity.getEntityId())) {
+                player.addActiveFight(npcEntity);
+            }
+        }
+    }
+
+    @POST
+    @Path("/look")
+    @PermitAll
+    public void look(@Auth Player player, @FormParam("npcId") String npcId, @FormParam("playerId") String playerId) {
+        if (!Strings.isNullOrEmpty(npcId)) {
+            Npc npcEntity = gameManager.getEntityManager().getNpcEntity(npcId);
+            if (npcEntity != null) {
+                if (player.getCurrentRoom().getNpcIds().contains(npcEntity.getEntityId())) {
+                    gameManager.getChannelUtils().write(player.getPlayerId(), gameManager.getLookString(npcEntity, Levels.getLevel(gameManager.getStatsModifierFactory().getStatsModifier(player).getExperience())) + "\r\n");
+                }
+            }
+        }
+
+        if (!Strings.isNullOrEmpty(playerId)) {
+            Player foundPlayer = gameManager.getPlayerManager().getPlayer(playerId);
+            if (foundPlayer != null) {
+                gameManager.getChannelUtils().write(player.getPlayerId(), foundPlayer.getLookString() + "\r\n");
+                if (!foundPlayer.getPlayerId().equals(playerId)) {
+                    gameManager.getChannelUtils().write(foundPlayer.getPlayerId(), player.getPlayerName() + " looks at you.", true);
+                }
+            }
+        }
     }
 }
