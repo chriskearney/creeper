@@ -4,7 +4,6 @@ package com.comandante.creeper.player;
 import com.codahale.metrics.Gauge;
 import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.SessionManager;
-import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.stats.Levels;
@@ -16,12 +15,10 @@ import com.google.common.collect.Maps;
 import events.CreeperEvent;
 import events.CreeperEventType;
 import events.ListenerService;
-import events.NearByPlayer;
 import events.PlayerData;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +26,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import static com.codahale.metrics.MetricRegistry.name;
 
@@ -58,6 +54,9 @@ public class PlayerManager {
         log.info("Emit player information hit!");
         PlayerMetadata playerMetadata = getPlayerMetadata(playerId).get();
         Player player = getPlayer(playerId);
+        if (player == null) {
+            return;
+        }
         try {
             PlayerMetadata playerMetadataCopy = new PlayerMetadata(playerMetadata);
             playerMetadataCopy.setPassword("");

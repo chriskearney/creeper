@@ -59,28 +59,28 @@ public class TeleportCommand extends Command {
             }
             String desiredId = originalMessageParts.get(1);
             Iterator<Map.Entry<String, Player>> players = playerManager.getPlayers();
-            try {
-                while (players.hasNext()) {
-                    Map.Entry<String, Player> next = players.next();
-                    if (next.getValue().getPlayerName().equals(desiredId)) {
-                        Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(next.getValue()).get();
-                        PlayerMovement playerMovement = new PlayerMovement(player, gameManager.getRoomManager().getPlayerCurrentRoom(player).get().getRoomId(), playerCurrentRoom.getRoomId(), "vanished into the heavens.", "");
-                        player.movePlayer(playerMovement);
-                        return;
-                    }
+
+            while (players.hasNext()) {
+                Map.Entry<String, Player> next = players.next();
+                if (next.getValue().getPlayerName().equals(desiredId)) {
+                    Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(next.getValue()).get();
+                    PlayerMovement playerMovement = new PlayerMovement(player, gameManager.getRoomManager().getPlayerCurrentRoom(player).get().getRoomId(), playerCurrentRoom.getRoomId(), "vanished into the heavens.", "");
+                    player.movePlayer(playerMovement);
+                    gameManager.writeToRoom(playerCurrentRoom.getRoomId(), teleportMessage);
+                    return;
                 }
-                Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRoomsIterator();
-                while (rooms.hasNext()) {
-                    Map.Entry<Integer, Room> next = rooms.next();
-                    if (Integer.toString(next.getKey()).equals(desiredId)) {
-                        PlayerMovement playerMovement = new PlayerMovement(player, gameManager.getRoomManager().getPlayerCurrentRoom(player).get().getRoomId(), Integer.parseInt(desiredId), "vanished into the heavens.", "");
-                        player.movePlayer(playerMovement);
-                        return;
-                    }
-                }
-            } finally {
-                gameManager.writeToRoom(Integer.parseInt(desiredId), teleportMessage);
             }
+            Iterator<Map.Entry<Integer, Room>> rooms = roomManager.getRoomsIterator();
+            while (rooms.hasNext()) {
+                Map.Entry<Integer, Room> next = rooms.next();
+                if (Integer.toString(next.getKey()).equals(desiredId)) {
+                    PlayerMovement playerMovement = new PlayerMovement(player, gameManager.getRoomManager().getPlayerCurrentRoom(player).get().getRoomId(), Integer.parseInt(desiredId), "vanished into the heavens.", "");
+                    player.movePlayer(playerMovement);
+                    gameManager.writeToRoom(Integer.parseInt(desiredId), teleportMessage);
+                    return;
+                }
+            }
+
         });
     }
 }
