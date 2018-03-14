@@ -810,7 +810,7 @@ public class Player extends CreeperEntity implements Principal {
         }
 
         for (String requiredInternalItemName : room.getRequiredInternalItemNames()) {
-            if (!doesItemExistInInventory(requiredInternalItemName)) {
+            if (!doesItemExistInInventoryOrEquipped(requiredInternalItemName)) {
                 writeMessage("In order to enter this room you must possess a " + requiredInternalItemName + ".");
                 return false;
             }
@@ -826,10 +826,14 @@ public class Player extends CreeperEntity implements Principal {
         return true;
     }
 
-    private boolean doesItemExistInInventory(String internalItemName) {
-        return getInventory()
+    private boolean doesItemExistInInventoryOrEquipped(String internalItemName) {
+        boolean existsInIventory = getInventory()
                 .stream()
                 .anyMatch(item -> item.getInternalItemName().equals(internalItemName));
+
+        boolean existsInEquipment = getEquipment().stream().anyMatch(item -> item.getInternalItemName().equals(internalItemName));
+
+        return existsInEquipment || existsInIventory;
     }
 
     public void movePlayer(PlayerMovement playerMovement) {
