@@ -51,7 +51,6 @@ public class PlayerManager {
     }
 
     public void emitPlayerInformationEvent(String playerId) {
-        log.info("Emit player information hit!");
         PlayerMetadata playerMetadata = getPlayerMetadata(playerId).get();
         Player player = getPlayer(playerId);
         if (player == null) {
@@ -89,7 +88,8 @@ public class PlayerManager {
                     player.getCurrentRoom().getAreas(),
                     player.getLookString(),
                     player.getRolledUpInventory(),
-                    itemMap);
+                    itemMap,
+                    presentPlayers);
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
                     .creeperEventType(CreeperEventType.PLAYERDATA)

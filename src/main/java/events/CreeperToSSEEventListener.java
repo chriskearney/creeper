@@ -32,7 +32,6 @@ public class CreeperToSSEEventListener implements CreeperEventListener {
                 eventBuilder.id(timestamp);
                 eventBuilder.name("creeperEvent");
                 eventBuilder.data(objectMapper.writeValueAsString(creeperEvent));
-                log.info("ABOUT TO EMIT AN EVENT!!!");
                 eventOutput.write(eventBuilder.build());
             }
         } catch (Exception e) {
