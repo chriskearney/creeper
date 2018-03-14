@@ -74,6 +74,8 @@ public class PlayerManager {
 
             Map<String, String> presentNpcs = Maps.newHashMap();
             List<Npc> currentRoomNpcs = player.getCurrentRoom().getPresentNpcs();
+            Map<String, String> npcs = Maps.newHashMap();
+            currentRoomNpcs.forEach(npc -> npcs.put(npc.getEntityId(), npc.getColorName()));
             currentRoomNpcs.forEach(npc -> presentNpcs.put(npc.getEntityId(), npc.getColorName()));
             List<Item> presentItems = player.getCurrentRoom().getPresentItems();
             Map<String, String> presentPlayers = Maps.newHashMap();
@@ -91,7 +93,8 @@ public class PlayerManager {
                     player.getRolledUpInventory(),
                     itemMap,
                     presentPlayers,
-                    Sets.newHashSet(presentItems));
+                    Sets.newHashSet(presentItems),
+                    npcs);
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
                     .creeperEventType(CreeperEventType.PLAYERDATA)
