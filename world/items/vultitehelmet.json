@@ -2,7 +2,7 @@
   "internalItemName": "vultite helmet",
   "itemName": "@c-yellow@@c-bold-on@vultite @c-reset@helmet@c-reset@",
   "itemDescription": "a vultite helmet",
-  "restingName": "a "@c-yellow@@c-bold-on@vultite @c-reset@helmet is on the ground.",
+  "restingName": "a @c-yellow@@c-bold-on@vultite @c-reset@helmet is on the ground.",
   "valueInGold": 2600,
   "itemHalfLifeTicks": 60,
   "rarity": "LEGENDARY",
