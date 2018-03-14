@@ -13,7 +13,11 @@ import com.comandante.creeper.world.model.Room;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class TeleportCommand extends Command {
     final static List<String> validTriggers = Arrays.asList("teleport", "t");
@@ -64,7 +68,6 @@ public class TeleportCommand extends Command {
                     gameManager.writeToRoom(destinationRoomId, teleportMessage);
                     channelUtils.write(playerId, teleportMessage);
                     player.movePlayer(playerMovement);
-                    gameManager.currentRoomLogic(player.getPlayerId());
                     return;
                 }
             }
@@ -76,7 +79,6 @@ public class TeleportCommand extends Command {
                     gameManager.writeToRoom(Integer.parseInt(desiredId), teleportMessage);
                     channelUtils.write(playerId, teleportMessage);
                     player.movePlayer(playerMovement);
-                    gameManager.currentRoomLogic(player.getPlayerId());
                     return;
                 }
             }
