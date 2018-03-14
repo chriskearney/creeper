@@ -1,0 +1,46 @@
+{
+  "internalItemName": "pyamite helmet",
+  "itemName": "@c-blue@pyamite @c-reset@helmet@c-reset@",
+  "itemDescription": "a pyamite helmet",
+  "restingName": "a @c-blue@pyamite @c-reset@helmet is on the ground.",
+  "valueInGold": 1600,
+  "itemHalfLifeTicks": 60,
+  "rarity": "LEGENDARY",
+  "equipment": {
+    "equipmentSlotType": "HEAD",
+    "statsIncreaseWhileEquipped": {
+      "strength": 6,
+      "intelligence": 0,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 13,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 50,
+      "weaponRatingMax": 0,
+      "weaponRatingMin": 0,
+      "numberOfWeaponRolls": 0,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0
+    },
+    "allowedPlayerClass": [
+      "WARRIOR",
+      "RANGER"
+    ]
+  },
+  "itemTriggers": [
+    "pyamite",
+    "helmet",
+    "pyamite helmet",
+    "h",
+    "p"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

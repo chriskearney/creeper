@@ -1,0 +1,46 @@
+{
+  "internalItemName": "bronze helmet",
+  "itemName": "@c-yellow@bronze @c-reset@helmet@c-reset@",
+  "itemDescription": "a bronze helmet",
+  "restingName": "a @c-yellow@bronze @c-reset@helmet is on the ground.",
+  "valueInGold": 500,
+  "itemHalfLifeTicks": 60,
+  "rarity": "LEGENDARY",
+  "equipment": {
+    "equipmentSlotType": "HEAD",
+    "statsIncreaseWhileEquipped": {
+      "strength": 3,
+      "intelligence": 1,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 6,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 0,
+      "weaponRatingMax": 0,
+      "weaponRatingMin": 0,
+      "numberOfWeaponRolls": 0,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0
+    },
+    "allowedPlayerClass": [
+      "WARRIOR",
+      "RANGER"
+    ]
+  },
+  "itemTriggers": [
+    "bronze",
+    "bronze helmet",
+    "helmet",
+    "b",
+    "h"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

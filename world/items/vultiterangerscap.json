@@ -1,0 +1,46 @@
+{
+  "internalItemName": "vultite ranger's cap",
+  "itemName": "@c-yellow@@c-bold-on@vultite @c-reset@ranger's cap@c-reset@",
+  "itemDescription": "a vultite ranger's cap",
+  "restingName": "a "@c-yellow@@c-bold-on@vultite @c-reset@ranger's cap is on the ground.",
+  "valueInGold": 2200,
+  "itemHalfLifeTicks": 60,
+  "rarity": "LEGENDARY",
+  "equipment": {
+    "equipmentSlotType": "HEAD",
+    "statsIncreaseWhileEquipped": {
+      "strength": 8,
+      "intelligence": 0,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 18,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 50,
+      "weaponRatingMax": 0,
+      "weaponRatingMin": 0,
+      "numberOfWeaponRolls": 0,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0
+    },
+    "allowedPlayerClass": [
+      "RANGER"
+    ]
+  },
+  "itemTriggers": [
+    "vultite",
+    "ranger's cap",
+    "vultite ranger's cap",
+    "v",
+    "c",
+    "cap"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

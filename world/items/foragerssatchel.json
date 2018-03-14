@@ -1,0 +1,41 @@
+{
+  "internalItemName": "forager's satchel",
+  "itemName": "a @c-green@forager's satchel@c-reset@",
+  "itemDescription": "a @c-green@forager's satchel@c-reset@ (15 items)",
+  "restingName": "a @c-green@forager's satchel@c-reset@",
+  "valueInGold": 1500,
+  "itemHalfLifeTicks": 60,
+  "rarity": "BASIC",
+  "equipment": {
+    "equipmentSlotType": "BAG",
+    "statsIncreaseWhileEquipped": {
+      "strength": 0,
+      "intelligence": 0,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 0,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 0,
+      "weaponRatingMax": 0,
+      "weaponRatingMin": 0,
+      "numberOfWeaponRolls": 0,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 150,
+      "maxEffects": 0
+    }
+  },
+  "itemTriggers": [
+    "forager's satchel",
+    "satchel"
+    "f",
+    "s"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}
