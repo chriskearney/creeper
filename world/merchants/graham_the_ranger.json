@@ -1,0 +1,47 @@
+{
+  "internalName": "graham the ranger",
+  "roomIds": [
+    67
+  ],
+  "name": "graham the ranger",
+  "colorName": "@c-bold-on@@c-cyan@graham the ranger@c-reset@",
+  "validTriggers": [
+    "graham the ranger",
+    "graham",
+    "ranger",
+    "Graham",
+    "RANGER",
+    "GRAHAM"
+  ],
+  "merchantItemForSales": [
+    {
+      "internalItemName": "small health potion",
+      "cost": 6
+    },
+    {
+      "internalItemName": "goatweed",
+      "cost": 100
+    },    
+    {
+      "internalItemName": "iron hunting knife",
+      "cost": 1000
+    },
+    {
+      "internalItemName": "pyamite machete",
+      "cost": 150000
+    },
+    {
+      "internalItemName": "orc-skin cap",
+      "cost": 9000
+    },
+    {
+      "internalItemName": "vultite ranger's cap",
+      "cost": 1800000
+    },
+    {
+      "internalItemName": "forager's satchel",
+      "cost": 3000
+    }
+  ],
+  "welcomeMessage": "\r\n GRAHAM\u0027S BACKWOODS CANTEEN\r\n\r\nHeadin\u0027 out into the woods are ya? Better stock up!"
+}
