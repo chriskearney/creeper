@@ -93,7 +93,7 @@ public class PlayerManager {
                     player.getRolledUpInventory(),
                     itemMap,
                     presentPlayers,
-                    Sets.newHashSet(presentItems),
+                    Sets.newLinkedHashSet(presentItems),
                     npcs);
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
