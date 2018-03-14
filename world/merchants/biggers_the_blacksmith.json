@@ -14,32 +14,44 @@
   ],
   "merchantItemForSales": [
     {
-      "internalItemName": "berserker baton",
-      "cost": 10000
+      "internalItemName": "iron sword",
+      "cost": 1000
     },
     {
-      "internalItemName": "berserker boots",
-      "cost": 600
+      "internalItemName": "bronze sword",
+      "cost": 3000
     },
     {
-      "internalItemName": "berserker bracers",
-      "cost": 600
+      "internalItemName": "steel sword",
+      "cost": 8000
     },
     {
-      "internalItemName": "berserker helm",
-      "cost": 800
+      "internalItemName": "pyamite sword",
+      "cost": 100000
     },
     {
-      "internalItemName": "berserker chest",
-      "cost": 800
+      "internalItemName": "vultite sword",
+      "cost": 9000000
     },
     {
-      "internalItemName": "berserker shorts",
-      "cost": 400
+      "internalItemName": "shepherds crook",
+      "cost": 1000
     },
     {
-      "internalItemName": "leather satchel",
-      "cost": 600
+      "internalItemName": "iron dagger",
+      "cost": 5000
+    },
+    {
+      "internalItemName": "bronze dagger",
+      "cost": 12000
+    },
+    {
+      "internalItemName": "steel dagger",
+      "cost": 60000
+    },
+    {
+      "internalItemName": "mithril stave",
+      "cost": 1200000
     },
     {
       "internalItemName": "biggers skin satchel",
@@ -48,26 +60,6 @@
     {
       "internalItemName": "flame thrower",
       "cost": 12000
-    },
-    {
-      "internalItemName": "fire boots",
-      "cost": 850
-    },
-    {
-      "internalItemName": "fire bracers",
-      "cost": 800
-    },
-    {
-      "internalItemName": "fire chest",
-      "cost": 1200
-    },
-    {
-      "internalItemName": "fire helm",
-      "cost": 900
-    },
-    {
-      "internalItemName": "fire pants",
-      "cost": 1000
     },
     {
       "internalItemName": "fire sauce",
