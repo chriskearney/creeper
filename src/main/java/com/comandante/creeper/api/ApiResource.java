@@ -155,7 +155,7 @@ public class ApiResource {
         if (!Strings.isNullOrEmpty(playerId)) {
             Player foundPlayer = gameManager.getPlayerManager().getPlayer(playerId);
             if (foundPlayer != null) {
-                gameManager.getChannelUtils().write(player.getPlayerId(), foundPlayer.getLookString() + "\r\n");
+                gameManager.getChannelUtils().write(player.getPlayerId(), foundPlayer.getLookString() + "\r\n", true);
                 if (!foundPlayer.getPlayerId().equals(playerId)) {
                     gameManager.getChannelUtils().write(foundPlayer.getPlayerId(), player.getPlayerName() + " looks at you.", true);
                 }
@@ -171,7 +171,7 @@ public class ApiResource {
             if (gameManager.acquireItemFromRoom(player, itemId)) {
                 String playerName = player.getPlayerName();
                 Optional<Item> itemEntity = gameManager.getEntityManager().getItemEntity(itemId);
-                gameManager.roomSay(player.getCurrentRoom().getRoomId(), playerName + " picked up " + itemEntity.get().getItemName(), player.getPlayerId());
+                gameManager.roomSay(player.getCurrentRoom().getRoomId(), playerName + " picked up " + itemEntity.get().getItemName(), player.getPlayerId(), true);
             }
         }
     }
@@ -186,7 +186,7 @@ public class ApiResource {
                 return;
             }
             String targetLookString = foundPlayer.getLookString();
-            gameManager.getChannelUtils().write(player.getPlayerId(), CreeperUtils.printStringsNextToEachOther(Lists.newArrayList(player.getLookString(), targetLookString), " | ")+ "\r\n");
+            gameManager.getChannelUtils().write(player.getPlayerId(), CreeperUtils.printStringsNextToEachOther(Lists.newArrayList(player.getLookString(), targetLookString), " | ")+ "\r\n", true);
         }
     }
 }
