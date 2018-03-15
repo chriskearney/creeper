@@ -1,0 +1,45 @@
+{
+  "internalItemName": "ranger's tunic",
+  "itemName": "@c-cyan@ranger's@c-reset@ tunic",
+  "itemDescription": "a @c-cyan@ranger's@c-reset@ tunic",
+  "restingName": "a @c-cyan@ranger's@c-reset@ tunic is on the ground.",
+  "valueInGold": 450,
+  "itemHalfLifeTicks": 60,
+  "rarity": "UNCOMMON",
+  "equipment": {
+    "equipmentSlotType": "CHEST",
+    "statsIncreaseWhileEquipped": {
+      "strength": 1,
+      "intelligence": 3,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 5,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 3,
+      "weaponRatingMax": 0,
+      "weaponRatingMin": 0,
+      "numberOfWeaponRolls": 0,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0
+    },
+    "allowedPlayerClass": [
+      "RANGER"
+    ]
+  },
+  "itemTriggers": [
+    "ranger's",
+    "ranger's tunic",
+    "r",
+    "tunic",
+    "t"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

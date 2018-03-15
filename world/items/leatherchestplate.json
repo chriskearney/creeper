@@ -1,0 +1,46 @@
+{
+  "internalItemName": "leather chestplate",
+  "itemName": "@c-red@leather @c-reset@chestplate",
+  "itemDescription": "a leather chestplate",
+  "restingName": "a leather chestplate is on the ground.",
+  "valueInGold": 70,
+  "itemHalfLifeTicks": 60,
+  "rarity": "BASIC",
+  "equipment": {
+    "equipmentSlotType": "CHEST",
+    "statsIncreaseWhileEquipped": {
+      "strength": 0,
+      "intelligence": 0,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 6,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 0,
+      "weaponRatingMax": 0,
+      "weaponRatingMin": 0,
+      "numberOfWeaponRolls": 0,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0
+    },
+    "allowedPlayerClass": [
+      "WARRIOR"
+    ]
+  },
+  },
+  "itemTriggers": [
+    "chestplate",
+    "leather chestplate",
+    "leather",
+    "l",
+    "c"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

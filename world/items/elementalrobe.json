@@ -1,0 +1,45 @@
+{
+  "internalItemName": "elemental robe",
+  "itemName": "@c-magenta@@c-bold-on@elemental@c-reset@ robe",
+  "itemDescription": "an @c-magenta@@c-bold-on@@elemental@c-reset@ robe",
+  "restingName": "an @c-magenta@@c-bold-on@elemental@c-reset@ robe is on the ground.",
+  "valueInGold": 450,
+  "itemHalfLifeTicks": 60,
+  "rarity": "UNCOMMON",
+  "equipment": {
+    "equipmentSlotType": "CHEST",
+    "statsIncreaseWhileEquipped": {
+      "strength": 0,
+      "intelligence": 18,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 7,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 3,
+      "weaponRatingMax": 0,
+      "weaponRatingMin": 0,
+      "numberOfWeaponRolls": 0,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0
+    },
+    "allowedPlayerClass": [
+      "WIZARD"
+    ]
+  },
+  "itemTriggers": [
+    "elemental",
+    "elemental robe",
+    "r",
+    "robe",
+    "e"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

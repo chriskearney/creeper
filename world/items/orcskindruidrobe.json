@@ -1,0 +1,48 @@
+{
+  "internalItemName": "orc-skin druid's robe",
+  "itemName": "@c-magenta@orc-skin@c-reset@ druid's robe",
+  "itemDescription": "an @c-magenta@orc-skin@c-reset@ druid's robe",
+  "restingName": "an @c-magenta@orc-skin@c-reset@ druid's robe is on the ground.",
+  "valueInGold": 450,
+  "itemHalfLifeTicks": 60,
+  "rarity": "UNCOMMON",
+  "equipment": {
+    "equipmentSlotType": "CHEST",
+    "statsIncreaseWhileEquipped": {
+      "strength": 0,
+      "intelligence": 6,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 7,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 7,
+      "weaponRatingMax": 0,
+      "weaponRatingMin": 0,
+      "numberOfWeaponRolls": 0,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0
+    },
+    "allowedPlayerClass": [
+      "SHAMAN"
+    ]
+  },
+  "itemTriggers": [
+    "orc-skin",
+    "druid's robe",
+    "robe",
+    "druid",
+    "o",
+    "d",
+    "r",
+    "orc-skin druid's robe"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

@@ -1,0 +1,48 @@
+{
+  "internalItemName": "vultite-woven hunting coat",
+  "itemName": "@c-yellow@@c-bold-on@vultite-woven@c-reset@ hunting coat",
+  "itemDescription": "a @c-yellow@@c-bold-on@vultite-woven@c-reset@ hunting coat",
+  "restingName": "a @c-yellow@@c-bold-on@vultite-woven@c-reset@ hunting coat is on the ground.",
+  "valueInGold": 450,
+  "itemHalfLifeTicks": 60,
+  "rarity": "UNCOMMON",
+  "equipment": {
+    "equipmentSlotType": "CHEST",
+    "statsIncreaseWhileEquipped": {
+      "strength": 4,
+      "intelligence": 10,
+      "willpower": 0,
+      "aim": 0,
+      "agile": 0,
+      "armorRating": 16,
+      "meleSkill": 0,
+      "currentHealth": 0,
+      "maxHealth": 3,
+      "weaponRatingMax": 0,
+      "weaponRatingMin": 0,
+      "numberOfWeaponRolls": 0,
+      "experience": 0,
+      "currentMana": 0,
+      "maxMana": 0,
+      "foraging": 0,
+      "inventorySize": 0,
+      "maxEffects": 0
+    },
+    "allowedPlayerClass": [
+      "RANGER"
+    ]
+  },
+  "itemTriggers": [
+    "vultite-woven",
+    "vultite-woven hunting coat",
+    "v",
+    "hunting coat",
+    "c",
+    "coat",
+    "hunting",
+    "h"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}
