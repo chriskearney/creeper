@@ -1,6 +1,7 @@
 package com.comandante.creeper.api;
 
 import com.codahale.metrics.annotation.Timed;
+import com.comandante.creeper.common.CreeperUtils;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.npc.Npc;
@@ -11,6 +12,7 @@ import com.comandante.creeper.world.model.Coords;
 import com.comandante.creeper.world.model.Room;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import events.CreeperToSSEEventListener;
 import events.ListenerService;
 import io.dropwizard.auth.Auth;
@@ -171,6 +173,20 @@ public class ApiResource {
                 Optional<Item> itemEntity = gameManager.getEntityManager().getItemEntity(itemId);
                 gameManager.roomSay(player.getCurrentRoom().getRoomId(), playerName + " picked up " + itemEntity.get().getItemName(), player.getPlayerId());
             }
+        }
+    }
+
+    @POST
+    @Path("/compare")
+    @PermitAll
+    public void compare(@Auth Player player, @FormParam("playerId") String playerId) {
+        if (!Strings.isNullOrEmpty(playerId)) {
+            Player foundPlayer = gameManager.getPlayerManager().getPlayer(playerId);
+            if (foundPlayer == null) {
+                return;
+            }
+            String targetLookString = foundPlayer.getLookString();
+            gameManager.getChannelUtils().write(player.getPlayerId(), CreeperUtils.printStringsNextToEachOther(Lists.newArrayList(player.getLookString(), targetLookString), " | ")+ "\r\n");
         }
     }
 }
