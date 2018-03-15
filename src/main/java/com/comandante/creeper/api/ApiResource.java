@@ -130,7 +130,7 @@ public class ApiResource {
         Npc npcEntity = gameManager.getEntityManager().getNpcEntity(npcId);
         if (npcEntity != null) {
             if (player.getCurrentRoom().getNpcIds().contains(npcEntity.getEntityId())) {
-                if(player.addActiveFight(npcEntity)) {
+                if (player.addActiveFight(npcEntity)) {
                     gameManager.writeToPlayerCurrentRoom(player.getPlayerId(), player.getPlayerName() + " has attacked a " + npcEntity.getColorName());
                 }
             }
@@ -157,6 +157,19 @@ public class ApiResource {
                 if (!foundPlayer.getPlayerId().equals(playerId)) {
                     gameManager.getChannelUtils().write(foundPlayer.getPlayerId(), player.getPlayerName() + " looks at you.", true);
                 }
+            }
+        }
+    }
+
+    @POST
+    @Path("/pick")
+    @PermitAll
+    public void pick(@Auth Player player, @FormParam("itemId") String itemId) {
+        if (!Strings.isNullOrEmpty(itemId)) {
+            if (gameManager.acquireItemFromRoom(player, itemId)) {
+                String playerName = player.getPlayerName();
+                Optional<Item> itemEntity = gameManager.getEntityManager().getItemEntity(itemId);
+                gameManager.roomSay(player.getCurrentRoom().getRoomId(), playerName + " picked up " + itemEntity.get().getItemName(), player.getPlayerId());
             }
         }
     }
