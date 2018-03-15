@@ -130,7 +130,9 @@ public class ApiResource {
         Npc npcEntity = gameManager.getEntityManager().getNpcEntity(npcId);
         if (npcEntity != null) {
             if (player.getCurrentRoom().getNpcIds().contains(npcEntity.getEntityId())) {
-                player.addActiveFight(npcEntity);
+                if(player.addActiveFight(npcEntity)) {
+                    gameManager.writeToPlayerCurrentRoom(player.getPlayerId(), player.getPlayerName() + " has attacked a " + npcEntity.getColorName());
+                }
             }
         }
     }
