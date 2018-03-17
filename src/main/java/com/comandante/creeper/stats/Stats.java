@@ -23,6 +23,7 @@ public class Stats implements Serializable {
     private long foraging;
     private long inventorySize;
     private long maxEffects;
+    private long lockPicking;
 
     public Stats(Stats stats) {
         this.strength = stats.strength;
@@ -45,6 +46,7 @@ public class Stats implements Serializable {
         this.maxMana = stats.maxMana;
         this.inventorySize = stats.inventorySize;
         this.maxEffects = stats.maxEffects;
+        this.lockPicking = stats.lockPicking;
     }
 
     public Stats(long strength,
@@ -64,7 +66,8 @@ public class Stats implements Serializable {
                  long maxMana,
                  long foraging,
                  long inventorySize,
-                 long maxEffects) {
+                 long maxEffects,
+                 long lockPicking) {
         this.strength = strength;
         this.intelligence = intelligence;
         this.willpower = willpower;
@@ -83,6 +86,7 @@ public class Stats implements Serializable {
         this.foraging = foraging;
         this.inventorySize = inventorySize;
         this.maxEffects = maxEffects;
+        this.lockPicking = lockPicking;
     }
 
 
@@ -228,6 +232,14 @@ public class Stats implements Serializable {
 
     public void setInventorySize(long inventorySize) {
         this.inventorySize = inventorySize;
+    }
+
+    public long getLockPicking() {
+        return lockPicking;
+    }
+
+    public void setLockPicking(long lockPicking) {
+        this.lockPicking = lockPicking;
     }
 
     private static double CONSTANT_MODIFIER = 0.02;

@@ -1,0 +1,19 @@
+{
+  "internalItemName": "basic lock pick",
+  "itemName": "a basic lock pick",
+  "itemDescription": "a single use basic lock pick",
+  "restingName": "a basic lock pick is dicarded on the ground.",
+  "valueInGold": 7,
+  "itemHalfLifeTicks": 60,
+  "rarity": "OFTEN",
+  "itemTriggers": [
+    "lock",
+    "pick",
+    "lock pick",
+    "p",
+    "l"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": true,
+  "maxUses": 0
+}

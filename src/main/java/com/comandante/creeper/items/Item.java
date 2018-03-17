@@ -33,10 +33,33 @@ public class Item implements Serializable {
     private Set<TimeTracker.TimeOfDay> validTimeOfDays;
     private final Stats itemApplyStats;
     private final Map<Double, Effect> attackEffects;
+    private final boolean isChest;
+    private final LockPickingDifficulty lockPickingDifficulty;
 
     public static final String CORPSE_INTENAL_NAME = "corpse";
 
-    protected Item(String itemName, String itemDescription, String internalItemName, List<String> itemTriggers, String restingName, String itemId, int numberOfUses, boolean isWithPlayer, Loot loot, int itemHalfLifeTicks, Equipment equipment, Rarity rarity, int valueInGold, Set<Effect> effects, boolean hasBeenWithPlayer, int maxUses, boolean isDisposable, Set<TimeTracker.TimeOfDay> validTimeOfDays, Stats itemApplyStats, Map<Double, Effect> attackEffects) {
+    protected Item(String itemName,
+                   String itemDescription,
+                   String internalItemName,
+                   List<String> itemTriggers,
+                   String restingName,
+                   String itemId,
+                   int numberOfUses,
+                   boolean isWithPlayer,
+                   Loot loot,
+                   int itemHalfLifeTicks,
+                   Equipment equipment,
+                   Rarity rarity,
+                   int valueInGold,
+                   Set<Effect> effects,
+                   boolean hasBeenWithPlayer,
+                   int maxUses,
+                   boolean isDisposable,
+                   Set<TimeTracker.TimeOfDay> validTimeOfDays,
+                   Stats itemApplyStats,
+                   Map<Double, Effect> attackEffects,
+                   boolean isChest,
+                   LockPickingDifficulty lockPickingDifficulty) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.internalItemName = internalItemName;
@@ -57,6 +80,8 @@ public class Item implements Serializable {
         this.validTimeOfDays = validTimeOfDays;
         this.itemApplyStats = itemApplyStats;
         this.attackEffects = attackEffects;
+        this.isChest = isChest;
+        this.lockPickingDifficulty = lockPickingDifficulty;
     }
 
     public Stats getItemApplyStats() {
@@ -163,8 +188,15 @@ public class Item implements Serializable {
         return attackEffects;
     }
 
-    public static Item createCorpseItem(String name, Loot loot) {
+    public boolean isChest() {
+        return isChest;
+    }
 
+    public LockPickingDifficulty getLockPickingDifficulty() {
+        return lockPickingDifficulty;
+    }
+
+    public static Item createCorpseItem(String name, Loot loot) {
         Item item = new ItemBuilder()
                 .internalItemName(Item.CORPSE_INTENAL_NAME)
                 .itemName(name + " corpse")

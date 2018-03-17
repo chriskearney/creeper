@@ -34,6 +34,13 @@
     "berserker chest",
     "c"
   ],
+  "loot": {
+    "lootGoldMin": 1,
+    "lootGoldMax": 9,
+    "internalItemNames": [
+      "beserker baton"
+    ]
+  },
   "validTimeOfDays": [],
   "isDisposable": false,
   "maxUses": 0
