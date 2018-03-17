@@ -12,9 +12,23 @@ public class Loot implements Serializable {
     private Set<String> internalItemNames;
     private long lootGoldMax;
     private long lootGoldMin;
+    private String chestInternalItemName;
 
     @JsonCreator
-    public Loot(@JsonProperty("lootGoldMin") long lootGoldMin, @JsonProperty("lootGoldMax") long lootGoldMax, @JsonProperty("items") Set<String> internalItemNames) {
+    public Loot(@JsonProperty("lootGoldMin") long lootGoldMin,
+                @JsonProperty("lootGoldMax") long lootGoldMax,
+                @JsonProperty("items") Set<String> internalItemNames,
+                @JsonProperty("chestInternalItemNames") String chestInternalItemName) {
+        this.internalItemNames = internalItemNames;
+        this.lootGoldMax = lootGoldMax;
+        this.lootGoldMin = lootGoldMin;
+        this.chestInternalItemName = chestInternalItemName;
+    }
+
+    @JsonCreator
+    public Loot(@JsonProperty("lootGoldMin") long lootGoldMin,
+                @JsonProperty("lootGoldMax") long lootGoldMax,
+                @JsonProperty("items") Set<String> internalItemNames) {
         this.internalItemNames = internalItemNames;
         this.lootGoldMax = lootGoldMax;
         this.lootGoldMin = lootGoldMin;
@@ -48,5 +62,13 @@ public class Loot implements Serializable {
 
     public void setLootGoldMin(long lootGoldMin) {
         this.lootGoldMin = lootGoldMin;
+    }
+
+    public void setInternalItemNames(Set<String> internalItemNames) {
+        this.internalItemNames = internalItemNames;
+    }
+
+    public String getChestInternalItemName() {
+        return chestInternalItemName;
     }
 }

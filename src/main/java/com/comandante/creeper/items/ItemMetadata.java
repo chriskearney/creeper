@@ -34,6 +34,9 @@ public class ItemMetadata {
     private Stats itemApplyStats;
     private Set<Forage> forages;
     private Map<Double, Effect> attackEffects;
+    private boolean isChest;
+    private LockPickingDifficulty lockPickingDifficulty;
+    private Loot loot;
 
     public Set<Forage> getForages() {
         if (forages == null) {
@@ -175,5 +178,29 @@ public class ItemMetadata {
 
     public void setAttackEffects(Map<Double, Effect> attackEffects) {
         this.attackEffects = attackEffects;
+    }
+
+    public boolean isChest() {
+        return isChest;
+    }
+
+    public void setChest(boolean chest) {
+        isChest = chest;
+    }
+
+    public LockPickingDifficulty getLockPickingDifficulty() {
+        return lockPickingDifficulty;
+    }
+
+    public void setLockPickingDifficulty(LockPickingDifficulty lockPickingDifficulty) {
+        this.lockPickingDifficulty = lockPickingDifficulty;
+    }
+
+    public Loot getLoot() {
+        return loot;
+    }
+
+    public void setLoot(Loot loot) {
+        this.loot = loot;
     }
 }

@@ -9,6 +9,7 @@ import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.player.*;
 import com.comandante.creeper.stats.DefaultStats;
 import com.comandante.creeper.stats.modifier.StatsModifierFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;

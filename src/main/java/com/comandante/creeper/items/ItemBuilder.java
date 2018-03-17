@@ -31,6 +31,9 @@ public class ItemBuilder {
     private Set<TimeTracker.TimeOfDay> validTimeOfDays;
     private Stats itemApplyStats;
     private Map<Double, Effect> attackEffects;
+    private boolean isChest;
+    private LockPickingDifficulty lockPickingDifficulty;
+
 
     public ItemBuilder from(ItemMetadata itemMetadata) {
         this.internalItemName = itemMetadata.getInternalItemName();
@@ -46,13 +49,15 @@ public class ItemBuilder {
         this.rarity = itemMetadata.getRarity();
         this.valueInGold = itemMetadata.getValueInGold();
         this.maxUses = itemMetadata.getMaxUses();
-        this.loot = null;
+        this.loot = itemMetadata.getLoot();
         this.isDisposable = itemMetadata.isDisposable();
         this.equipment = itemMetadata.getEquipment();
         this.validTimeOfDays = itemMetadata.getValidTimeOfDays();
         this.effects = itemMetadata.getEffects();
         this.itemApplyStats = itemMetadata.getItemApplyStats();
         this.attackEffects = itemMetadata.getAttackEffects();
+        this.isChest = itemMetadata.isChest();
+        this.lockPickingDifficulty = itemMetadata.getLockPickingDifficulty();
         return this;
     }
 
@@ -64,6 +69,7 @@ public class ItemBuilder {
         this.restingName = origItem.getRestingName();
         this.itemId = origItem.getItemId();
         this.numberOfUses = new Integer(origItem.getNumberOfUses());
+        if (origItem.getLoot() != null)
         this.loot = origItem.getLoot();
         this.itemHalfLifeTicks = origItem.getItemHalfLifeTicks();
         this.isWithPlayer = new Boolean(origItem.isWithPlayer());
@@ -79,6 +85,8 @@ public class ItemBuilder {
         this.validTimeOfDays = origItem.getValidTimeOfDays();
         this.itemApplyStats = origItem.getItemApplyStats();
         this.attackEffects = origItem.getAttackEffects();
+        this.isChest = new Boolean(origItem.isChest());
+        this.lockPickingDifficulty = origItem.getLockPickingDifficulty();
         return this;
     }
 
@@ -182,9 +190,38 @@ public class ItemBuilder {
         return this;
     }
 
-    public Item create() {
-            return new Item(itemName, itemDescription, internalItemName, itemTriggers, restingName, itemId, numberOfUses, isWithPlayer, loot, itemHalfLifeTicks, equipment, rarity, valueInGold, effects, hasBeenWithPlayer, maxUses, isDisposable, validTimeOfDays, itemApplyStats, attackEffects);
+    public ItemBuilder isChest(boolean isChest) {
+        this.isChest = isChest;
+        return this;
     }
 
+    public ItemBuilder lockPickingDifficulty(LockPickingDifficulty lockPickingDifficulty) {
+        this.lockPickingDifficulty = lockPickingDifficulty;
+        return this;
+    }
 
+    public Item create() {
+            return new Item(itemName,
+                    itemDescription,
+                    internalItemName,
+                    itemTriggers,
+                    restingName,
+                    itemId,
+                    numberOfUses,
+                    isWithPlayer,
+                    loot,
+                    itemHalfLifeTicks,
+                    equipment,
+                    rarity,
+                    valueInGold,
+                    effects,
+                    hasBeenWithPlayer,
+                    maxUses,
+                    isDisposable,
+                    validTimeOfDays,
+                    itemApplyStats,
+                    attackEffects,
+                    isChest,
+                    lockPickingDifficulty);
+    }
 }

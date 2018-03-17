@@ -22,6 +22,7 @@ public class StatsHelper {
         statsBuilder.setForaging(modifiedStats.getForaging() - origStats.getForaging());
         statsBuilder.setInventorySize(modifiedStats.getInventorySize() - origStats.getInventorySize());
         statsBuilder.setMaxEffects(modifiedStats.getMaxEffects() - origStats.getMaxEffects());
+        statsBuilder.setLockPicking(modifiedStats.getLockPicking() - origStats.getLockPicking());
         return statsBuilder.createStats();
     }
 
@@ -44,6 +45,7 @@ public class StatsHelper {
         orig.setForaging(orig.getForaging() + combine.getForaging());
         orig.setInventorySize(orig.getInventorySize() + combine.getInventorySize());
         orig.setMaxEffects(orig.getMaxEffects() + combine.getMaxEffects());
+        orig.setLockPicking(orig.getLockPicking() - combine.getLockPicking());
     }
 
     public static void inverseStats(Stats stats) {
@@ -65,6 +67,7 @@ public class StatsHelper {
         stats.setForaging(-stats.getForaging());
         stats.setInventorySize(-stats.getInventorySize());
         stats.setMaxEffects(-stats.getMaxEffects());
+        stats.setLockPicking(-stats.getLockPicking());
     }
 
 }

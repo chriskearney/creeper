@@ -19,6 +19,7 @@ public class StatsBuilder {
     private long foraging;
     private long inventorySize;
     private long maxEffects;
+    private long lockPicking;
 
     public StatsBuilder() {
     }
@@ -43,6 +44,7 @@ public class StatsBuilder {
         this.currentMana = stats.getCurrentMana();
         this.inventorySize = stats.getInventorySize();
         this.maxEffects = stats.getMaxEffects();
+        this.lockPicking = stats.getLockPicking();
     }
 
     public StatsBuilder setIntelligence(long intelligence) {
@@ -135,7 +137,12 @@ public class StatsBuilder {
         return this;
     }
 
+    public StatsBuilder setLockPicking(long lockPicking) {
+        this.lockPicking = lockPicking;
+        return this;
+    }
+
     public Stats createStats() {
-        return new Stats(strength, intelligence, willpower, aim, agile, armorRating, meleSkill, currentHealth, maxHealth, weaponRatingMax, weaponRatingMin, numberOfWeaponRolls, experience, currentMana, maxMana, foraging, inventorySize, maxEffects);
+        return new Stats(strength, intelligence, willpower, aim, agile, armorRating, meleSkill, currentHealth, maxHealth, weaponRatingMax, weaponRatingMin, numberOfWeaponRolls, experience, currentMana, maxMana, foraging, inventorySize, maxEffects, lockPicking);
     }
 }

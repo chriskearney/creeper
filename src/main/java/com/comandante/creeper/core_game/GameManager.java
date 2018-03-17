@@ -17,6 +17,7 @@ import com.comandante.creeper.items.ForageManager;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.items.ItemDecayManager;
 import com.comandante.creeper.items.ItemUseHandler;
+import com.comandante.creeper.items.LockPickingManager;
 import com.comandante.creeper.items.LootManager;
 import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.npc.Npc;
@@ -124,9 +125,18 @@ public class GameManager {
     private final ListenerService listenerService;
     private final ObjectMapper objectMapper = Creeper.registerJdkModuleAndGetMapper();
     private final MerchantStorage merchantStorage;
+    private final LockPickingManager lockPickingManager;
 
 
-    public GameManager(MapDBCreeperStorage mapDBCreeperStorage, CreeperConfiguration creeperConfiguration, RoomManager roomManager, PlayerManager playerManager, EntityManager entityManager, MapsManager mapsManager, ChannelCommunicationUtils channelUtils, HttpClient httpClient, ListenerService listenerService) {
+    public GameManager(MapDBCreeperStorage mapDBCreeperStorage,
+                       CreeperConfiguration creeperConfiguration,
+                       RoomManager roomManager,
+                       PlayerManager playerManager,
+                       EntityManager entityManager,
+                       MapsManager mapsManager,
+                       ChannelCommunicationUtils channelUtils,
+                       HttpClient httpClient,
+                       ListenerService listenerService) {
         this.mapDBCreeperStorage = mapDBCreeperStorage;
         this.roomManager = roomManager;
         this.playerManager = playerManager;
@@ -161,6 +171,7 @@ public class GameManager {
         this.merchantStorage = new MerchantStorage(this, filebasedJsonStorage);
         this.httpclient = httpClient;
         this.listenerService = listenerService;
+        this.lockPickingManager = new LockPickingManager(this);
     }
 
     public ObjectMapper getObjectMapper() {
@@ -283,6 +294,10 @@ public class GameManager {
 
     public ListenerService getListenerService() {
         return listenerService;
+    }
+
+    public LockPickingManager getLockPickingManager() {
+        return lockPickingManager;
     }
 
     public void gossip(Player player, String message) {
