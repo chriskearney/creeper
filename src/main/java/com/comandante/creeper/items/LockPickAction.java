@@ -2,12 +2,13 @@ package com.comandante.creeper.items;
 
 import com.comandante.creeper.command.commands.UseCommand;
 import com.comandante.creeper.core_game.GameManager;
+import com.comandante.creeper.items.use.BaseUseAction;
 import com.comandante.creeper.player.Player;
 
 import java.util.Optional;
 import java.util.Set;
 
-public class LockPickAction implements ItemUseAction {
+public class LockPickAction extends BaseUseAction {
 
     private final ItemMetadata itemMetadata;
 
@@ -44,18 +45,10 @@ public class LockPickAction implements ItemUseAction {
             gameManager.getChannelUtils().write(player.getPlayerId(), "A lock pick must be used on a chest.");
         }
 
+        Set<Item> items = gameManager.getLockPickingManager().pickChestLock(player, inventoryItem.get());
 
-
-
-    }
-
-    @Override
-    public void postExecuteAction(GameManager gameManager, Player player, Item item) {
-
-    }
-
-    @Override
-    public Set<Effect> getEffects() {
-        return null;
+        for (Item lootedItem: items) {
+            gameManager.acquireItem(player, lootedItem.getItemId(), true);
+        }
     }
 }

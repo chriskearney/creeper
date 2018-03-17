@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 import java.util.Optional;
 import java.util.Set;
 
-public class DefaultApplyEffectsStats implements ItemUseAction {
+public class DefaultApplyEffectsStats extends BaseUseAction {
 
     private final String internalItemName;
     private final Set<Effect> effectSet;
@@ -47,19 +47,6 @@ public class DefaultApplyEffectsStats implements ItemUseAction {
         player.updatePlayerHealth(itemApplyStats.getCurrentHealth(), null);
 
         processEffects(gameManager, player, effectSet);
-    }
-
-    @Override
-    public void postExecuteAction(GameManager gameManager, Player player, Item item) {
-        ItemUseHandler.incrementUses(item);
-        if (item.isDisposable()) {
-            if (item.getNumberOfUses() < item.getMaxUses()) {
-                gameManager.getEntityManager().saveItem(item);
-            } else {
-                player.removeInventoryId(item.getItemId());
-                gameManager.getEntityManager().removeItem(item);
-            }
-        }
     }
 
     @Override

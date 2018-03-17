@@ -31,6 +31,9 @@ public class ItemBuilder {
     private Set<TimeTracker.TimeOfDay> validTimeOfDays;
     private Stats itemApplyStats;
     private Map<Double, Effect> attackEffects;
+    private boolean isChest;
+    private LockPickingDifficulty lockPickingDifficulty;
+
 
     public ItemBuilder from(ItemMetadata itemMetadata) {
         this.internalItemName = itemMetadata.getInternalItemName();
@@ -53,6 +56,8 @@ public class ItemBuilder {
         this.effects = itemMetadata.getEffects();
         this.itemApplyStats = itemMetadata.getItemApplyStats();
         this.attackEffects = itemMetadata.getAttackEffects();
+        this.isChest = itemMetadata.isChest();
+        this.lockPickingDifficulty = itemMetadata.getLockPickingDifficulty();
         return this;
     }
 
@@ -79,6 +84,8 @@ public class ItemBuilder {
         this.validTimeOfDays = origItem.getValidTimeOfDays();
         this.itemApplyStats = origItem.getItemApplyStats();
         this.attackEffects = origItem.getAttackEffects();
+        this.isChest = new Boolean(origItem.isChest());
+        this.lockPickingDifficulty = lockPickingDifficulty;
         return this;
     }
 
@@ -182,9 +189,38 @@ public class ItemBuilder {
         return this;
     }
 
-    public Item create() {
-            return new Item(itemName, itemDescription, internalItemName, itemTriggers, restingName, itemId, numberOfUses, isWithPlayer, loot, itemHalfLifeTicks, equipment, rarity, valueInGold, effects, hasBeenWithPlayer, maxUses, isDisposable, validTimeOfDays, itemApplyStats, attackEffects);
+    public ItemBuilder isChest(boolean isChest) {
+        this.isChest = isChest;
+        return this;
     }
 
+    public ItemBuilder lockPickingDifficulty(LockPickingDifficulty lockPickingDifficulty) {
+        this.lockPickingDifficulty = lockPickingDifficulty;
+        return this;
+    }
 
+    public Item create() {
+            return new Item(itemName,
+                    itemDescription,
+                    internalItemName,
+                    itemTriggers,
+                    restingName,
+                    itemId,
+                    numberOfUses,
+                    isWithPlayer,
+                    loot,
+                    itemHalfLifeTicks,
+                    equipment,
+                    rarity,
+                    valueInGold,
+                    effects,
+                    hasBeenWithPlayer,
+                    maxUses,
+                    isDisposable,
+                    validTimeOfDays,
+                    itemApplyStats,
+                    attackEffects,
+                    isChest,
+                    lockPickingDifficulty);
+    }
 }
