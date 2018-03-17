@@ -36,13 +36,14 @@ public class LockPickAction extends BaseUseAction {
             return;
         }
 
-        Optional<Item> inventoryItem = player.getInventoryItem(on.getTarget().get());
+        Optional<Item> inventoryItem = player.getInventoryItem(on.getTarget().get(), true);
         if (!inventoryItem.isPresent()) {
             return;
         }
 
         if (!inventoryItem.get().isChest()) {
             gameManager.getChannelUtils().write(player.getPlayerId(), "A lock pick must be used on a chest.");
+            return;
         }
 
         Set<Item> items = gameManager.getLockPickingManager().pickChestLock(player, inventoryItem.get());

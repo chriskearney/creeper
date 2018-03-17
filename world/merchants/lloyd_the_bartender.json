@@ -15,6 +15,10 @@
   ],
   "merchantItemForSales": [
     {
+      "internalItemName": "basic lock pick",
+      "cost": 3
+    },
+    {
       "internalItemName": "small health potion",
       "cost": 8
     },

@@ -928,6 +928,10 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public Optional<Item> getInventoryItem(String itemKeyword) {
+        return this.getInventoryItem(itemKeyword, false);
+    }
+
+    public Optional<Item> getInventoryItem(String itemKeyword, boolean onlyChest) {
         synchronized (interner.intern(playerId)) {
             Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
             if (!playerMetadataOptional.isPresent()) {
@@ -941,6 +945,9 @@ public class Player extends CreeperEntity implements Principal {
                     continue;
                 }
                 Item itemEntity = itemOptional.get();
+                if (onlyChest && !itemEntity.isChest()) {
+                    continue;
+                }
                 if (itemEntity.getItemTriggers().contains(itemKeyword)) {
                     return Optional.of(itemEntity);
                 }

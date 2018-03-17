@@ -14,6 +14,10 @@
   ],
   "merchantItemForSales": [
     {
+      "internalItemName": "basic lock pick",
+      "cost": 3
+    },
+    {
       "internalItemName": "iron sword",
       "cost": 1000
     },

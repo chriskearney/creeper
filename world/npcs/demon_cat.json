@@ -43,6 +43,9 @@
     }
   ],
   "loot": {
+    "internalItemNames": [
+      "basic lock pick"
+    ],
     "lootGoldMax": 3,
     "lootGoldMin": 1
   },

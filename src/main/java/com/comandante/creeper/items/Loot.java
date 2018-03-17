@@ -18,7 +18,7 @@ public class Loot implements Serializable {
     public Loot(@JsonProperty("lootGoldMin") long lootGoldMin,
                 @JsonProperty("lootGoldMax") long lootGoldMax,
                 @JsonProperty("items") Set<String> internalItemNames,
-                @JsonProperty("chestInternalItemName") String chestInternalItemName) {
+                @JsonProperty("chestInternalItemNames") String chestInternalItemName) {
         this.internalItemNames = internalItemNames;
         this.lootGoldMax = lootGoldMax;
         this.lootGoldMin = lootGoldMin;
