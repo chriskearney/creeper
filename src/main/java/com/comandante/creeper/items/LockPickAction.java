@@ -50,5 +50,7 @@ public class LockPickAction extends BaseUseAction {
         for (Item lootedItem: items) {
             gameManager.acquireItem(player, lootedItem.getItemId(), true);
         }
+
+        ItemUseHandler.incrementUses(item);
     }
 }

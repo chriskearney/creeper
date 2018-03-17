@@ -25,7 +25,6 @@ public class BaseUseAction implements ItemUseAction {
 
     @Override
     public void postExecuteAction(GameManager gameManager, Player player, Item item) {
-        ItemUseHandler.incrementUses(item);
         if (item.isDisposable()) {
             if (item.getNumberOfUses() < item.getMaxUses()) {
                 gameManager.getEntityManager().saveItem(item);

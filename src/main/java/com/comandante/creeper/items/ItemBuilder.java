@@ -49,7 +49,7 @@ public class ItemBuilder {
         this.rarity = itemMetadata.getRarity();
         this.valueInGold = itemMetadata.getValueInGold();
         this.maxUses = itemMetadata.getMaxUses();
-        this.loot = null;
+        this.loot = itemMetadata.getLoot();
         this.isDisposable = itemMetadata.isDisposable();
         this.equipment = itemMetadata.getEquipment();
         this.validTimeOfDays = itemMetadata.getValidTimeOfDays();
@@ -69,6 +69,7 @@ public class ItemBuilder {
         this.restingName = origItem.getRestingName();
         this.itemId = origItem.getItemId();
         this.numberOfUses = new Integer(origItem.getNumberOfUses());
+        if (origItem.getLoot() != null)
         this.loot = origItem.getLoot();
         this.itemHalfLifeTicks = origItem.getItemHalfLifeTicks();
         this.isWithPlayer = new Boolean(origItem.isWithPlayer());
@@ -85,7 +86,7 @@ public class ItemBuilder {
         this.itemApplyStats = origItem.getItemApplyStats();
         this.attackEffects = origItem.getAttackEffects();
         this.isChest = new Boolean(origItem.isChest());
-        this.lockPickingDifficulty = lockPickingDifficulty;
+        this.lockPickingDifficulty = origItem.getLockPickingDifficulty();
         return this;
     }
 

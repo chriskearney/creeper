@@ -1,0 +1,28 @@
+{
+  "internalItemName": "basic wood chest",
+  "itemName": "basic wood chest",
+  "itemDescription": "a basic wooden chest",
+  "restingName": "a wooden chest rests on the groud.",
+  "valueInGold": 15,
+  "itemHalfLifeTicks": 60,
+  "rarity": "BASIC",
+  "itemTriggers": [
+    "chest",
+    "wooden chest",
+    "basic wooden chest",
+    "c",
+    "wood chest"
+  ],
+  "loot": {
+    "lootGoldMin": 1,
+    "lootGoldMax": 9,
+    "internalItemNames": [
+      "beserker baton"
+    ]
+  },
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0,
+  "isChest": true,
+  "lockPickingDifficulty": "NOVICE"
+}

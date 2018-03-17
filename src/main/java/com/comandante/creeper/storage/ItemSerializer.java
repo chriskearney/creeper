@@ -19,12 +19,21 @@ public class ItemSerializer implements Serializer<Item>, Serializable {
 
     @Override
     public void serialize(@NotNull DataOutput2 out, @NotNull Item value) throws IOException {
-        out.writeUTF(GSON.toJson(value, Item.class));
+        String s = GSON.toJson(value, Item.class);
+        if (value.getInternalItemName().equals("basic wood chest")) {
+            System.out.println("serializer hi");
+        }
+        out.writeUTF(s);
     }
 
     @Override
     public Item deserialize(@NotNull DataInput2 input, int available) throws IOException {
-        return GSON.fromJson(input.readUTF(), Item.class);
+        String json = input.readUTF();
+        Item item = GSON.fromJson(json, Item.class);
+        if (item.getInternalItemName().equals("basic wood chest")) {
+            System.out.println("deserializer hi");
+        }
+        return item;
     }
 
     @Override

@@ -36,6 +36,7 @@ public class ItemMetadata {
     private Map<Double, Effect> attackEffects;
     private boolean isChest;
     private LockPickingDifficulty lockPickingDifficulty;
+    private Loot loot;
 
     public Set<Forage> getForages() {
         if (forages == null) {
@@ -189,5 +190,17 @@ public class ItemMetadata {
 
     public LockPickingDifficulty getLockPickingDifficulty() {
         return lockPickingDifficulty;
+    }
+
+    public void setLockPickingDifficulty(LockPickingDifficulty lockPickingDifficulty) {
+        this.lockPickingDifficulty = lockPickingDifficulty;
+    }
+
+    public Loot getLoot() {
+        return loot;
+    }
+
+    public void setLoot(Loot loot) {
+        this.loot = loot;
     }
 }

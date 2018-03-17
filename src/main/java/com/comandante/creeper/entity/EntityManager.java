@@ -77,6 +77,9 @@ public class EntityManager {
 
     public Optional<Item> getItemEntity(String itemId) {
         Optional<Item> item = creeperStorage.getItemEntity(itemId);
+        if (item.get().getInternalItemName().equals("basic wood chest")) {
+            System.out.println("hi");
+        }
         return item.map(itemName -> new ItemBuilder().from(itemName).create());
     }
 

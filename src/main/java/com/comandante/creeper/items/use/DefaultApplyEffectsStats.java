@@ -47,6 +47,8 @@ public class DefaultApplyEffectsStats extends BaseUseAction {
         player.updatePlayerHealth(itemApplyStats.getCurrentHealth(), null);
 
         processEffects(gameManager, player, effectSet);
+
+        ItemUseHandler.incrementUses(item);
     }
 
     @Override
