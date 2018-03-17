@@ -53,7 +53,8 @@
       "flame thrower"
     ],
     "lootGoldMax": 17,
-    "lootGoldMin": 14
+    "lootGoldMin": 14,
+    "chestInternalItemName": "basic wood chest"
   },
   "attackMessages": [
     {
