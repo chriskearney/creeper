@@ -2,12 +2,12 @@ package com.comandante.creeper.items;
 
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.player.Player;
-import com.comandante.creeper.stats.Stats;
+import com.comandante.creeper.server.player_communication.Color;
 import com.google.common.collect.Sets;
 
-import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.StringJoiner;
 
 import static java.lang.StrictMath.sqrt;
 
@@ -36,15 +36,20 @@ public class LockPickingManager {
         // Destroy chest
         player.removeInventoryId(chest.getItemId());
         gameManager.getEntityManager().removeItem(chest);
-        if (items.isEmpty()) {
+        if (items.isEmpty() && goldAmountReturn == 0) {
             gameManager.getChannelUtils().write(player.getPlayerId(), "The " + chest.getItemName() + " was empty.\r\n");
             return Sets.newHashSet();
         }
+        String message;
+        StringJoiner sj = new StringJoiner("\r\n");
+        items.forEach(item -> sj.add(item.getItemName()));
+        if (goldAmountReturn > 0) {
+            sj.add(goldAmountReturn + Color.YELLOW + " gold." + Color.RESET);
+            player.incrementGold(goldAmountReturn);
+        }
+        gameManager.getChannelUtils().write(player.getPlayerId(), "Inside the chest was: \r\n" + sj.toString() + "\r\n");
         return items;
     }
-
-    private void canPickLock(Stats stats, LockPickingDifficulty lockPickingDifficulty) {}
-
 
     public static long getLockPickingLevel(long lockPickingStat) {
         double v = LOCKPICKING_EXP_CONSTANT_MODIFIER * sqrt(lockPickingStat);

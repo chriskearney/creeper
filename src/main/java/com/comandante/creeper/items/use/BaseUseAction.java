@@ -5,7 +5,6 @@ import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.items.Effect;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.items.ItemUseAction;
-import com.comandante.creeper.items.ItemUseHandler;
 import com.comandante.creeper.player.Player;
 import com.google.common.collect.Sets;
 
@@ -29,6 +28,7 @@ public class BaseUseAction implements ItemUseAction {
             if (item.getNumberOfUses() < item.getMaxUses()) {
                 gameManager.getEntityManager().saveItem(item);
             } else {
+                gameManager.getChannelUtils().write(player.getPlayerId(), item.getItemName() +  " has been consumed.\r\n", true);
                 player.removeInventoryId(item.getItemId());
                 gameManager.getEntityManager().removeItem(item);
             }
