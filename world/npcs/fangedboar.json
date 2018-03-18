@@ -47,7 +47,7 @@
       "spawnIntervalTicks": 600,
       "maxInstances": 12,
       "maxPerRoom": 2
-    },
+    }
   ],
   "loot": {
     "internalItemNames": [
