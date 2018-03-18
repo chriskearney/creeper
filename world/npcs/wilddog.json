@@ -28,10 +28,10 @@
     "WESTERN2_ZONE"
   ],
   "validTriggers": [
-    "f",
+    "w",
     "wild dog",
     "dog",
-    "t"
+    "d"
   ],
   "spawnRules": [
     {
