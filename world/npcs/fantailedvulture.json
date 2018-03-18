@@ -1,0 +1,88 @@
+{
+  "name": "fan-tailed vulture",
+  "colorName": "fan-tailed @c-bold-on@@c-magenta@vulture@c-reset@",
+  "stats": {
+    "strength": 12,
+    "intelligence": 0,
+    "willpower": 34,
+    "aim": 9,
+    "agile": 20,
+    "armorRating": 31,
+    "meleSkill": 31,
+    "currentHealth": 180,
+    "maxHealth": 180,
+    "weaponRatingMax": 54,
+    "weaponRatingMin": 30,
+    "numberOfWeaponRolls": 1,
+    "experience": 250000,
+    "currentMana": 400,
+    "maxMana": 400,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0
+  },
+  "dieMessage": "the fan-tailed @c-bold-on@@c-magenta@vulture@c-reset@\u0027s lifeless corpse falls to the fan-tailed floor.",
+  "temperament": "AGGRESSIVE",
+  "roamAreas": [
+        "NORTH4_ZONE"
+  ],
+  "validTriggers": [
+    "f",
+    "v",
+    "fan-tailed",
+    "vulture",
+    "fan-tailed vulture"
+  ],
+  "spawnRules": [
+    {
+      "area": "NORTH4_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 12,
+      "maxPerRoom": 2
+    }
+  ],
+  "loot": {
+    "internalItemNames": [
+      "fan-tailed axe"
+    ],
+    "lootGoldMax": 36,
+    "lootGoldMin": 26
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ dives at @player-name@ from above!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ swipes at @player-name@ with its razor-sharp talons!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ latches onto @player-name@ with its talons and rips into @player-name@'s flesh!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ swoops down at @player-name@ at an incredible rate of speed and rips deeply into @player-name@'s flesh, sending a mist of @c-bold@@c-red@BLOOD@c-reset@ across the surrounding area!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ pecks deeply into @player-name@'s flesh, appearing to enjoy the taste of @player-name@'s flesh!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ swoops down at @player-name@!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "A @npc-color-name@ hops around the brush searching for carrion."
+    }
+  ]
+}
