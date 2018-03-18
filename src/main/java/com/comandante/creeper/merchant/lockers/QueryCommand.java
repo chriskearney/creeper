@@ -33,7 +33,7 @@ public class QueryCommand extends LockerCommand {
             }
             write("\r\n\r\n----PERSONAL INVENTORY\r\n");
             for (String rolledUpInvLine: player.getRolledUpInventory()) {
-                write(rolledUpInvLine);
+                write(rolledUpInvLine + "\r\n");
             }
         } finally {
             super.messageReceived(ctx, e);
