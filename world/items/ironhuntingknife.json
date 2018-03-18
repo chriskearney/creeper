@@ -3,7 +3,7 @@
   "itemName": "@c-white@iron @c-reset@hunting knife@c-reset@",
   "itemDescription": "an iron hunting knife",
   "restingName": "an @c-white@iron @c-reset@hunting knife is on the ground.",
-  "valueInGold": 3500,
+  "valueInGold": 350,
   "itemHalfLifeTicks": 60,
   "rarity": "LEGENDARY",
   "equipment": {
