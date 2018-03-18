@@ -40,14 +40,14 @@
       "area": "TOFT1_ZONE",
       "randomChance": 100,
       "spawnIntervalTicks": 600,
-      "maxInstances": 12,
+      "maxInstances": 5,
       "maxPerRoom": 1
     },
     {
       "area": "TOFT2_ZONE",
       "randomChance": 100,
       "spawnIntervalTicks": 600,
-      "maxInstances": 12,
+      "maxInstances": 5,
       "maxPerRoom": 1
     }
   ],
@@ -63,33 +63,33 @@
   "attackMessages": [
     {
       "type": "NORMAL",
-      "message": "The @npc-color-name@ tries to bite @player-name@ in the leg!"
+      "message": "The @npc-color-name@ swipes at @player-name@ with its massive claws!"
     },
     {
       "type": "NORMAL",
-      "message": "The @npc-color-name@ growls and charges slightly at @player-name@!"
+      "message": "The @npc-color-name@ stands up on its hind legs and swings its claws at @player-name@!"
     },
     {
       "type": "NORMAL",
-      "message": "The @npc-color-name@ howls maniacally to call its pack!"
+      "message": "The @npc-color-name@ tries to bite @player-name@!"
     }
   ],
   "criticalAttackMessages": [
     {
       "type": "NORMAL",
-      "message": "The @npc-color-name@ jumps into the air toward and lands a critical attack! @player-name@!"
+      "message": "The @npc-color-name@ runs straight into @player-name@, sending @player-name@ smashing into a tree!"
     }
   ],
   "battleMessages": [
     {
       "type": "NORMAL",
-      "message": "The @npc-color-name@ jumps into the air toward @player-name@!"
+      "message": "The @npc-color-name@ growls and swipes at @player-name@!"
     }
   ],
   "idleMessages": [
     {
       "type": "NORMAL",
-      "message": "A @npc-color-name@ scratches it\u0027s nose."
+      "message": "A @npc-color-name@ ambles about the forest."
     }
   ]
 }
