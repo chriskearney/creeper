@@ -1,0 +1,40 @@
+{
+  "internalItemName": "poison potion",
+  "itemName": "a small vial of @c-red@health potion@c-reset@",
+  "itemDescription": "a small vial of @c-red@health potion@c-reset@ that restores 50 health@c-reset@",
+  "restingName": "a small vial of @c-red@health potion@c-reset@ rests on the ground.",
+  "valueInGold": 1,
+  "itemHalfLifeTicks": 60,
+  "rarity": "OFTEN",
+  "itemTriggers": [
+    "potion",
+    "health potion",
+    "vial",
+    "small vial of health potion",
+    "p"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": true,
+  "maxUses": 0,
+  "spawnRules": [],
+  "itemApplyStats": {
+    "strength": 0,
+    "intelligence": 0,
+    "willpower": 0,
+    "aim": 0,
+    "agile": 0,
+    "armorRating": 0,
+    "meleSkill": 0,
+    "currentHealth": -80,
+    "maxHealth": 0,
+    "weaponRatingMax": 0,
+    "weaponRatingMin": 0,
+    "numberOfWeaponRolls": 0,
+    "experience": 0,
+    "currentMana": -20,
+    "maxMana": 0,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0
+  }
+}
