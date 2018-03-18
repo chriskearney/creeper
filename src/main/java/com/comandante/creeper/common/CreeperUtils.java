@@ -1,9 +1,11 @@
 package com.comandante.creeper.common;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class CreeperUtils {
@@ -102,7 +104,10 @@ public class CreeperUtils {
     }
 
     public static List<String> splitToArrayLines(String s) {
-        return Lists.newArrayList(s.split("[\\r\\n]+"));
+      //return  Lists.newArrayList(Splitter.on(Pattern.compile("[\\r\\n]+")).split(s));
+        return  Lists.newArrayList(Splitter.on(Pattern.compile("\r?\n")).split(s));
+
+        //return Lists.newArrayList(s.split("[\\r\\n]+"));
     }
 
     public static String trimTrailingBlanks(String str) {

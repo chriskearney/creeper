@@ -4,11 +4,17 @@ import com.comandante.creeper.Creeper;
 import com.comandante.creeper.command.CreeperCommandHandler;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SentryManager;
+import com.comandante.creeper.server.ServerWelcomeScreen;
 import com.comandante.creeper.server.model.CreeperSession;
 import com.google.common.base.Optional;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
-import org.jboss.netty.channel.*;
+import org.jboss.netty.channel.ChannelEvent;
+import org.jboss.netty.channel.ChannelHandlerContext;
+import org.jboss.netty.channel.ChannelStateEvent;
+import org.jboss.netty.channel.ExceptionEvent;
+import org.jboss.netty.channel.MessageEvent;
+import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 
 import static com.comandante.creeper.server.player_communication.Color.RESET;
 
@@ -17,13 +23,6 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
     private final GameManager gameManager;
     private final CreeperAuthenticator creeperAuthenticator;
     private static final Logger log = Logger.getLogger(CreeperAuthenticationHandler.class);
-    private static final String LOGO = "                                    \n" +
-            "  ___ _ __ ___  ___ _ __   ___ _ __ \n" +
-            " / __| '__/ _ \\/ _ \\ '_ \\ / _ \\ '__|\n" +
-            "| (__| | |  __/  __/ |_) |  __/ |   \n" +
-            " \\___|_|  \\___|\\___| .__/ \\___|_|   \n" +
-            "                   | |              \n" +
-            "                   |_|              ";
     public CreeperAuthenticationHandler(GameManager gameManager) {
         this.gameManager = gameManager;
         this.creeperAuthenticator = new GameAuth(gameManager);
@@ -42,7 +41,7 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
     public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
-                .append(LOGO)
+                .append(ServerWelcomeScreen.getServerWelcomeScreen())
                 .append(RESET + "\r\n")
                 .append("First time here? Type \"tupac\".\r\n")
                 .append("username: ");
