@@ -43,9 +43,7 @@
     }
   ],
   "loot": {
-    "internalItemNames": [
-      "fan-tailed axe"
-    ],
+    "internalItemNames": [],
     "lootGoldMax": 36,
     "lootGoldMin": 26
   },
