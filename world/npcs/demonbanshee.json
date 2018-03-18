@@ -1,0 +1,98 @@
+{
+  "name": "demon banshee",
+  "colorName": "demon @c-bold-on@@c-magenta@banshee@c-reset@",
+  "stats": {
+    "strength": 12,
+    "intelligence": 0,
+    "willpower": 34,
+    "aim": 9,
+    "agile": 20,
+    "armorRating": 31,
+    "meleSkill": 31,
+    "currentHealth": 180,
+    "maxHealth": 180,
+    "weaponRatingMax": 54,
+    "weaponRatingMin": 30,
+    "numberOfWeaponRolls": 1,
+    "experience": 250000,
+    "currentMana": 400,
+    "maxMana": 400,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0
+  },
+  "dieMessage": "a demon @c-bold-on@@c-magenta@banshee@c-reset@'s cursed soul escapes its lifeless corpse.",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "BLOODRIDGE3_ZONE",
+    "BLOODRIDGE4_ZONE"
+  ],
+  "validTriggers": [
+    "d",
+    "b",
+    "demon",
+    "banshee",
+    "demon banshee"
+  ],
+  "spawnRules": [
+    {
+      "area": "BLOODRIDGE3_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 12,
+      "maxPerRoom": 2
+    },
+    {
+      "area": "BLOODRIDGE4_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 12,
+      "maxPerRoom": 2
+    }
+  ],
+  "loot": {
+    "internalItemNames": [
+      "royal diamond",
+      "basic wood chest",
+      "iron dagger"
+    ],
+    "lootGoldMax": 36,
+    "lootGoldMin": 26
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ materializes in front of @player-name@ and aims for @player-name@'s neck!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ pulsates with dark energy before stabbing at @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ glows @c-red@red@c-reset@ and releases a destructive wave of heat at @player-name@!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ glows with a @c-red@@c-bold-on@red aura@c-reset@ and suddenly a shower of burning cinders rains down on @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "A dark cloud hovers over @player-name@ and engulfs @player-name@ causing an agonizing @c-bold@@c-red@BURN@c-reset@ to @player-name@ and rendering @player-name@ stunned!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ flies through the air directly at @player-name@!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "A @npc-color-name@ fades in and out of the darkness."
+    }
+  ]
+}
