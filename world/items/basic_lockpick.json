@@ -9,9 +9,7 @@
   "itemTriggers": [
     "lock",
     "pick",
-    "lock pick",
-    "p",
-    "l"
+    "lock pick"
   ],
   "validTimeOfDays": [],
   "isDisposable": true,
