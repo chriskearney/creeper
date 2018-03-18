@@ -1,0 +1,22 @@
+{
+  "internalItemName": "iron lock pick",
+  "itemName": "an iron lock pick",
+  "itemDescription": "a durable iron lock pick",
+  "restingName": "an iron lockpick is lying on the ground.",
+  "valueInGold": 7,
+  "itemHalfLifeTicks": 60,
+  "rarity": "BASIC",
+  "itemTriggers": [
+    "iron",
+    "i",
+    "iron lock pick",
+    "lock",
+    "pick",
+    "lock pick",
+    "p",
+    "l"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

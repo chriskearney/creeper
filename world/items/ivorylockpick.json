@@ -1,0 +1,21 @@
+{
+  "internalItemName": "ivory lock pick",
+  "itemName": "a @c-white@@c-bold-on@ivory@c-reset@ lock pick",
+  "itemDescription": "a durable @c-white@@c-bold-on@ivory@c-reset@ lock pick",
+  "restingName": "a @c-white@@c-bold-on@ivory@c-reset@ lockpick is lying on the ground.",
+  "valueInGold": 7,
+  "itemHalfLifeTicks": 60,
+  "rarity": "LEGENDARY",
+  "itemTriggers": [
+    "ivory",
+    "i",
+    "ivory lock pick",
+    "lock",
+    "pick",
+    "lock pick",
+    "l"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

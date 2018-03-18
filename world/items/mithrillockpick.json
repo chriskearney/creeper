@@ -1,0 +1,24 @@
+{
+  "internalItemName": "mithril lock pick",
+  "itemName": "a @c-red@mithril@c-reset@ lock pick",
+  "itemDescription": "a durable @c-red@mithril@c-reset@ lock pick",
+  "restingName": "a @c-red@mithril@c-reset@ lockpick is lying on the ground.",
+  "valueInGold": 7,
+  "itemHalfLifeTicks": 60,
+  "rarity": "LEGENDARY",
+  "allowedPlayerClass": [
+      "SHAMAN"
+  ],
+  "itemTriggers": [
+    "mithril",
+    "m",
+    "mithril lock pick",
+    "lock",
+    "pick",
+    "lock pick",
+    "l"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}

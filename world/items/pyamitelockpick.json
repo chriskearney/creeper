@@ -1,0 +1,21 @@
+{
+  "internalItemName": "pyamite lock pick",
+  "itemName": "a @c-blue@pyamite@c-reset@ lock pick",
+  "itemDescription": "a durable @c-blue@pyamite@c-reset@ lock pick",
+  "restingName": "a @c-blue@pyamite@c-reset@ lockpick is lying on the ground.",
+  "valueInGold": 7,
+  "itemHalfLifeTicks": 60,
+  "rarity": "LEGENDARY",
+  "itemTriggers": [
+    "pyamite",
+    "p",
+    "pyamite lock pick",
+    "lock",
+    "pick",
+    "lock pick",
+    "l"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}
