@@ -1,0 +1,88 @@
+{
+  "name": "wild dog",
+  "colorName": "wild @c-bold-on@@c-magenta@dog@c-reset@",
+  "stats": {
+    "strength": 10,
+    "intelligence": 0,
+    "willpower": 0,
+    "aim": 1,
+    "agile": 4,
+    "armorRating": 6,
+    "meleSkill": 16,
+    "currentHealth": 105,
+    "maxHealth": 105,
+    "weaponRatingMax": 15,
+    "weaponRatingMin": 9,
+    "numberOfWeaponRolls": 1,
+    "experience": 10000,
+    "currentMana": 105,
+    "maxMana": 105,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0
+  },
+  "dieMessage": "a wild @c-bold-on@@c-magenta@dog@c-reset@ lets out a dying howl with its last breath.",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "WESTERN1_ZONE",
+    "WESTERN2_ZONE"
+  ],
+  "validTriggers": [
+    "f",
+    "wild dog",
+    "dog",
+    "t"
+  ],
+  "spawnRules": [
+    {
+      "area": "WESTERN1_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 13,
+      "maxPerRoom": 2
+    },
+    {
+      "area": "WESTERN2_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 13,
+      "maxPerRoom": 3
+    }
+  ],
+  "loot": {
+    "lootGoldMax": 18,
+    "lootGoldMin": 16
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ growls viciously and attempts to bite @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ crouches down, bearing his teeth before charging at @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ runs around @player-name@ circularly before lunging forward and biting @player-name@'s leg!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ sinks its teeth deeply into @player-name@, sending @player-name@'s @c-red@BLOOD@c-reset@ all over the surrounding grass!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ jumps high into the air and locks its jaws onto @player-name@'s neck, causing @player-name@ to cry out in agony!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "A @npc-color-name@ sniffs around the surrounding area hunting for food and water."
+    }
+  ]
+}
