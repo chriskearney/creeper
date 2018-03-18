@@ -1,7 +1,7 @@
 {
   "internalItemName": "small health potion",
   "itemName": "a small vial of @c-red@health potion@c-reset@",
-  "itemDescription": "a small vial of @c-red@health potion@c-reset@ that restores 50 health@c-reset@",
+  "itemDescription": "a small vial of @c-red@health potion@c-reset@ that restores 20 health@c-reset@",
   "restingName": "a small vial of @c-red@health potion@c-reset@ rests on the ground.",
   "valueInGold": 1,
   "itemHalfLifeTicks": 60,
