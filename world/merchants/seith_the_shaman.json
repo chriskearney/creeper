@@ -1,0 +1,64 @@
+{
+  "internalName": "seith the shaman",
+  "roomIds": [
+    102
+  ],
+  "name": "seith the shaman",
+  "colorName": "@c-bold-on@@c-cyan@seith the shaman@c-reset@",
+  "validTriggers": [
+    "seith the shaman",
+    "seith",
+    "shaman",
+    "Seith",
+    "SHAMAN",
+    "SEITH",
+    "s"
+  ],
+  "merchantItemForSales": [
+    {
+      "internalItemName": "basic lock pick",
+      "cost": 3
+    },
+    {
+      "internalItemName": "iron lock pick",
+      "cost": 4000
+    },
+    {
+      "internalItemName": "pyamite lock pick",
+      "cost": 4000
+    },
+    {
+      "internalItemName": "ivory lock pick",
+      "cost": 400000
+    },
+    {
+      "internalItemName": "mithril lock pick",
+      "cost": 1100000
+    },
+    {
+      "internalItemName": "shepherds crook",
+      "cost": 1400
+    },    
+    {
+      "internalItemName": "bronze dagger",
+      "cost": 15000
+    },
+    {
+      "internalItemName": "steel dagger",
+      "cost": 40000
+    },
+    {
+      "internalItemName": "orc-skin cap",
+      "cost": 100000
+    },
+    {
+      "internalItemName": "hooded cloth",
+      "cost": 4000
+    },
+    {
+      "internalItemName": "orc-skin druid's robe",
+      "cost": 600000
+    }
+  ],
+  "welcomeMessage": "\r\n         SEITH\u0027S RARE SHAMANIC ITEMS SHOP\r\n\r\n\r\n\r\n"
+}
