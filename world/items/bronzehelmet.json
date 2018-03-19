@@ -1,7 +1,7 @@
 {
   "internalItemName": "bronze helmet",
   "itemName": "@c-yellow@bronze @c-reset@helmet@c-reset@",
-  "itemDescription": "a bronze helmet",
+  "itemDescription": "a @c-yellow@bronze@c-reset@ helmet",
   "restingName": "a @c-yellow@bronze @c-reset@helmet is on the ground.",
   "valueInGold": 500,
   "itemHalfLifeTicks": 60,
