@@ -1,0 +1,60 @@
+{
+  "internalName": "varg the rogue",
+  "roomIds": [
+    864
+  ],
+  "name": "varg the rogue",
+  "colorName": "@c-bold-on@@c-cyan@varg the rogue@c-reset@",
+  "validTriggers": [
+    "varg the rogue",
+    "varg",
+    "rogue",
+    "varg",
+    "rogue",
+    "varg",
+    "v"
+  ],
+  "merchantItemForSales": [
+    {
+      "internalItemName": "basic lock pick",
+      "cost": 3
+    },
+    {
+      "internalItemName": "iron lock pick",
+      "cost": 4000
+    },
+    {
+      "internalItemName": "pyamite lock pick",
+      "cost": 40000
+    },
+    {
+      "internalItemName": "ivory lock pick",
+      "cost": 400000
+    },
+    {
+      "internalItemName": "mithril lock pick",
+      "cost": 1100000
+    },
+    {
+      "internalItemName": "basic wood chest2",
+      "cost": 50
+    },    
+    {
+      "internalItemName": "poison potion",
+      "cost": 350
+    },
+    {
+      "internalItemName": "orc-skin cap",
+      "cost": 100000
+    },
+    {
+      "internalItemName": "hooded cloth",
+      "cost": 4000
+    },
+    {
+      "internalItemName": "orc-skin druid's robe",
+      "cost": 600000
+    }
+  ],
+  "welcomeMessage": "\r\n         varg\u0027S RARE rogueIC ITEMS SHOP\r\n\r\n\r\n\r\n"
+}
