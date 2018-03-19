@@ -1,7 +1,7 @@
 {
   "internalItemName": "aegir guest key",
-  "itemName": "a @c-cyan@House of Aegir@c-reset@ guest key",
-  "itemDescription": "A golden key bearing the seal of the @c-cyan@House of Aegir@c-reset@.",
+  "itemName": "a @c-cyan@House of Aegir@c-reset@ guest @c-yellow@key@c-reset@",
+  "itemDescription": "A golden @c-yellow@key@c-reset@ bearing the seal of the @c-cyan@House of Aegir@c-reset@.",
   "restingName": "A @c-yellow@key@c-reset@ emblazened with the seal of the @c-cyan@House of Aegir@c-reset@ sits on the ground.",
   "valueInGold": 10,
   "itemHalfLifeTicks": 60,
