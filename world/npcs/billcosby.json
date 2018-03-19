@@ -21,15 +21,12 @@
     "inventorySize": 0,
     "maxEffects": 0
   },
-  "dieMessage": "a bill @c-bold-on@@c-magenta@cosby@c-reset@ screams with his last breath as his blood covers the ice.",
+  "dieMessage": "a bill @c-bold-on@@c-magenta@cosby@c-reset@ just wanted to show you a good time.",
   "temperament": "PASSIVE",
   "roamAreas": [
     "NORTH2_ZONE",
     "SOUTH1_ZONE",
-    "BLOODRIDGE3_ZONE",
-    "BLOODRIDGE1_ZONE",
-    "WESTERN3_ZONE",
-    "BLOODRIDGE9_ZONE"
+    "BLOODRIDGE3_ZONE"
   ],
   "validTriggers": [
     "b",
@@ -55,27 +52,6 @@
     },
     {
       "area": "BLOODRIDGE3_ZONE",
-      "randomChance": 100,
-      "spawnIntervalTicks": 600,
-      "maxInstances": 1,
-      "maxPerRoom": 1
-    },
-    {
-      "area": "BLOODRIDGE1_ZONE",
-      "randomChance": 100,
-      "spawnIntervalTicks": 600,
-      "maxInstances": 1,
-      "maxPerRoom": 1
-    },
-    {
-      "area": "WESTERN3_ZONE",
-      "randomChance": 100,
-      "spawnIntervalTicks": 600,
-      "maxInstances": 1,
-      "maxPerRoom": 1
-    },
-    {
-      "area": "BLOODRIDGE9_ZONE",
       "randomChance": 100,
       "spawnIntervalTicks": 600,
       "maxInstances": 1,
