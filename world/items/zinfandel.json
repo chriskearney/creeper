@@ -5,7 +5,7 @@
   "restingName": "a bottle of @c-yellow@white zinfandel@c-reset@ sits on the ground.",
   "valueInGold": 7,
   "itemHalfLifeTicks": 60,
-  "rarity": "BASIC",
+  "rarity": "OFTEN",
   "itemTriggers": [
     "zinfandel",
     "z",
