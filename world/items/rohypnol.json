@@ -1,0 +1,42 @@
+{
+  "internalItemName": "rohypnol",
+  "itemName": "a vial of @c-magenta@rohypnol@c-reset@",
+  "itemDescription": "a vial of @c-magenta@rohypnol@c-reset@",
+  "restingName": "a vial of @c-magenta@rohypnol@c-reset@ sits on the ground.",
+  "valueInGold": 7,
+  "itemHalfLifeTicks": 60,
+  "rarity": "BASIC",
+  "itemTriggers": [
+    "vial",
+    "vial of rohypnol",
+    "v",
+    "rohypnol",
+    "r"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": true,
+  "maxUses": 0,
+  "itemApplyStats": {
+    "strength": 0,
+    "intelligence": 0,
+    "willpower": 0,
+    "aim": 0,
+    "agile": 0,
+    "armorRating": 0,
+    "meleSkill": 0,
+    "currentHealth": 30,
+    "maxHealth": 0,
+    "weaponRatingMax": 0,
+    "weaponRatingMin": 0,
+    "numberOfWeaponRolls": 0,
+    "experience": 0,
+    "currentMana": -10,
+    "maxMana": 0,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0
+  },
+  "forages": []
+    }
+  ]
+}
