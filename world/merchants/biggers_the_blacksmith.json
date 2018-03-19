@@ -1,7 +1,6 @@
 {
   "internalName": "biggers the blacksmith",
   "roomIds": [
-    253,
     66
   ],
   "name": "biggers the blacksmith",
@@ -13,10 +12,6 @@
     "b"
   ],
   "merchantItemForSales": [
-    {
-      "internalItemName": "basic lock pick",
-      "cost": 3
-    },
     {
       "internalItemName": "iron sword",
       "cost": 1000
@@ -64,10 +59,6 @@
     {
       "internalItemName": "flame thrower",
       "cost": 12000
-    },
-    {
-      "internalItemName": "fire sauce",
-      "cost": 2000
     }
   ],
   "welcomeMessage" : "Welcome to the Bigger's family blacksmith shop.  We were established in 2014, our mission is to bring you the best goods possible at the most profitable prices."
