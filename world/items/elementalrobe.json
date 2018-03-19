@@ -1,7 +1,7 @@
 {
   "internalItemName": "elemental robe",
   "itemName": "@c-magenta@@c-bold-on@elemental@c-reset@ robe",
-  "itemDescription": "an @c-magenta@@c-bold-on@@elemental@c-reset@ robe",
+  "itemDescription": "an @c-magenta@@c-bold-on@elemental@c-reset@ robe",
   "restingName": "an @c-magenta@@c-bold-on@elemental@c-reset@ robe is on the ground.",
   "valueInGold": 450,
   "itemHalfLifeTicks": 60,
