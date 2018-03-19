@@ -1,7 +1,7 @@
 {
   "internalItemName": "ivory staff",
   "itemName": "@c-white@@c-bold-on@ivory @c-reset@dagger@c-reset@",
-  "itemDescription": "an ivory staff",
+  "itemDescription": "an @c-white@@c-bold-on@ivory@c-reset@ staff",
   "restingName": "an @c-white@@c-bold-on@ivory @c-reset@staff is on the ground.",
   "valueInGold": 3500,
   "itemHalfLifeTicks": 60,
