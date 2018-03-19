@@ -5,7 +5,7 @@
   "restingName": "a bump of @c-white@@c-bold-on@cocaine@c-reset@ sits on the ground.",
   "valueInGold": 7,
   "itemHalfLifeTicks": 60,
-  "rarity": "BASIC",
+  "rarity": "OFTEN",
   "itemTriggers": [
     "coke",
     "cocaine",
