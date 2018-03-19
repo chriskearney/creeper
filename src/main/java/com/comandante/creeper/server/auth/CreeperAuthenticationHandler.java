@@ -43,8 +43,8 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
         stringBuilder
                 .append(ServerWelcomeScreen.getServerWelcomeScreen())
                 .append(RESET + "\r\n")
-                .append("First time here? Type \"tupac\".\r\n")
-                .append("username: ");
+                .append("First time here? Type \"new\".\r\n")
+                .append("What shall we call you? ");
         e.getChannel().write(stringBuilder.toString());
         CreeperSession creeperSession = new CreeperSession();
         creeperSession.setState(CreeperSession.State.promptedForUsername);
@@ -93,7 +93,7 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
         CreeperSession creeperSession = (CreeperSession) ctx.getAttachment();
         if (creeperSession.getState().equals(CreeperSession.State.promptedForUsername)) {
             creeperSession.setUsername(java.util.Optional.of(message.replaceAll("[^a-zA-Z0-9]", "")));
-            if (creeperSession.getUsername().isPresent() && creeperSession.getUsername().get().equals("tupac")) {
+            if (creeperSession.getUsername().isPresent() && creeperSession.getUsername().get().equals("new")) {
                 gameManager.getNewUserRegistrationManager().newUserRegistrationFlow(creeperSession, e);
                 return;
             }
@@ -107,12 +107,11 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
         boolean b = creeperAuthenticator.authenticateAndRegisterPlayer(creeperSession.getUsername().get(), creeperSession.getPassword().get(), e.getChannel());
         if (!b) {
             e.getChannel().write("authentication failed.\r\n");
-            e.getChannel().write("username: ");
+            e.getChannel().write("What shall we call you? ");
             creeperSession.setState(CreeperSession.State.promptedForUsername);
         } else {
             creeperSession.setAuthed(true);
             creeperSession.setState(CreeperSession.State.authed);
-            e.getChannel().write("Welcome to creeper. (version: " + Creeper.getCreeperVersion() + ")\r\n");
         }
     }
 

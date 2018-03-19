@@ -1,5 +1,6 @@
 package com.comandante.creeper.server;
 
+import com.comandante.creeper.Creeper;
 import com.comandante.creeper.common.CreeperUtils;
 import com.comandante.creeper.server.player_communication.Color;
 import com.google.common.base.Splitter;
@@ -24,10 +25,13 @@ public class ServerWelcomeScreen {
 
         StringBuilder sb = new StringBuilder();
 
+        String version = "(version: " + Creeper.getCreeperVersion() + ")";
+
         int adjustment = ASCIIArt.GLOBAL_TERMINAL_WIDTH - maxLineLength(ASCIIArt.VERTICAL_SWORD_WITH_EMITTING_ORA) - 1;
 
         String centeredCreeper = ASCIIArt.centerOnWidth(creeper, adjustment, " ");
-        sb.append(centeredCreeper).append("\r\n").append("\r\n").append("\r\n");
+        String centeredVersion = ASCIIArt.centerOnWidth(version, adjustment, " ");
+        sb.append(centeredCreeper).append("\r\n").append(centeredCreeper).append("\r\n").append("\r\n");
         sb.append(wrap(loreumIpsom, adjustment));
         return CreeperUtils.printStringsNextToEachOther(Lists.newArrayList(ASCIIArt.VERTICAL_SWORD_WITH_EMITTING_ORA, sb.toString()), " ");
 
