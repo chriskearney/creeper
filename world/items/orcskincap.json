@@ -1,7 +1,7 @@
 {
   "internalItemName": "orc-skin cap",
   "itemName": "@c-magenta@orc-skin @c-reset@cap@c-reset@",
-  "itemDescription": "an orc-skin cap",
+  "itemDescription": "an @c-magenta@orc-skin@c-reset@ cap",
   "restingName": "an @c-magenta@orc-skin @c-reset@cap is on the ground.",
   "valueInGold": 500,
   "itemHalfLifeTicks": 60,
