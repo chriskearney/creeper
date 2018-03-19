@@ -1,7 +1,7 @@
 {
   "internalItemName": "fire sauce",
   "itemName": "a bottle of @c-red@f@c-yellow@i@c-magenta@r@c-red@e@c-reset@ sauce",
-  "itemDescription": "a bottle of @c-red@f@c-yellow@i@c-magenta@r@c-red@e@c-reset@ sauce to enhance your XP.",
+  "itemDescription": "a bottle of @c-red@f@c-yellow@i@c-magenta@r@c-red@e@c-reset@ sauce (XP enhancer)",
   "restingName": "a bottle of @c-red@f@c-yellow@i@c-magenta@r@c-red@e@c-reset@ sauce is discarded here on the ground.",
   "valueInGold": 1,
   "itemHalfLifeTicks": 60,
