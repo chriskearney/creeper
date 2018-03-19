@@ -38,7 +38,11 @@ public class ASCIIArt {
             "       '---'";
 
     public static String wrap(String s) {
-       return WordUtils.wrap(s, GLOBAL_TERMINAL_WIDTH, "\r\n", true);
+        return wrap(s, GLOBAL_TERMINAL_WIDTH);
+    }
+
+    public static String wrap(String s, int terminalWidth) {
+       return WordUtils.wrap(s, terminalWidth, "\r\n", true);
     }
 
     static String centerOnWidth(String str, int size, String repeatedChar) {

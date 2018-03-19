@@ -2,12 +2,11 @@ package com.comandante.creeper.server;
 
 import com.comandante.creeper.common.CreeperUtils;
 import com.comandante.creeper.server.player_communication.Color;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-import org.nocrala.tools.texttablefmt.BorderStyle;
-import org.nocrala.tools.texttablefmt.ShownBorders;
-import org.nocrala.tools.texttablefmt.Table;
 
-import static com.comandante.creeper.server.ASCIIArt.VERTICAL_SWORD_WITH_EMITTING_ORA;
+import java.util.regex.Pattern;
+
 import static com.comandante.creeper.server.ASCIIArt.wrap;
 import static com.comandante.creeper.server.player_communication.Color.RESET;
 
@@ -15,12 +14,6 @@ public class ServerWelcomeScreen {
 
 
     public static String getServerWelcomeScreen() {
-        Table t = new Table(2, BorderStyle.BLANKS,
-                ShownBorders.NONE);
-        t.setColumnWidth(0, 50, Integer.MAX_VALUE);
-        t.setColumnWidth(1, 0, Integer.MAX_VALUE);
-        t.addCell(VERTICAL_SWORD_WITH_EMITTING_ORA);
-
         String creeper = Color.BOLD_ON + Color.GREEN + "Creeper" + RESET;
 
         String loreumIpsom = "Qui cu munere labore, vel et nominati evertitur, sed melius tincidunt ei. Nec alia detraxit an, purto vidisse ullamcorper pri et. In nibh impedit sea, justo equidem lucilius at cum, consul deserunt inimicus usu ad. Legimus voluptatum sit ut, magna justo cu sed. Pri suscipit consulatu eu, probo molestie te eam. Nam eu equidem detracto, eos an scripta fabellas, nec te facer mundi simul. Euismod maiestatis at mea, eam tempor constituto sententiae ex.\n" +
@@ -31,11 +24,17 @@ public class ServerWelcomeScreen {
 
         StringBuilder sb = new StringBuilder();
 
-        String centeredCreeper = ASCIIArt.centerOnWidth(creeper, 80, " ");
+        int adjustment = ASCIIArt.GLOBAL_TERMINAL_WIDTH - maxLineLength(ASCIIArt.VERTICAL_SWORD_WITH_EMITTING_ORA) - 1;
+
+        String centeredCreeper = ASCIIArt.centerOnWidth(creeper, adjustment, " ");
         sb.append(centeredCreeper).append("\r\n").append("\r\n").append("\r\n");
-        sb.append(wrap(loreumIpsom));
+        sb.append(wrap(loreumIpsom, adjustment));
         return CreeperUtils.printStringsNextToEachOther(Lists.newArrayList(ASCIIArt.VERTICAL_SWORD_WITH_EMITTING_ORA, sb.toString()), " ");
 
+    }
+
+    private static int maxLineLength(String s) {
+        return CreeperUtils.getLongestStringLength(Lists.newArrayList(Splitter.on(Pattern.compile("\r?\n")).split(s).iterator()));
     }
 
     public static void main(String[] args) {
