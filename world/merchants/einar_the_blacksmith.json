@@ -1,0 +1,40 @@
+{
+  "internalName": "einar the blacksmith",
+  "roomIds": [
+    253
+  ],
+  "name": "einar the blacksmith",
+  "colorName": "@c-bold-on@@c-cyan@einar the blacksmith@c-reset@",
+  "validTriggers": [
+    "einar the blacksmith",
+    "einar",
+    "blacksmith",
+    "EINAR",
+    "BLACKSMITH",
+    "Einar",
+    "b"
+  ],
+  "merchantItemForSales": [
+    {
+      "internalItemName": "basic lock pick",
+      "cost": 3
+    },
+    {
+      "internalItemName": "ivory lock pick",
+      "cost": 400000
+    },
+    {
+      "internalItemName": "artanium sword",
+      "cost": 14000000
+    },
+    {
+      "internalItemName": "sacred stave",
+      "cost": 16000000
+    },
+    {
+      "internalItemName": "Aegirs greataxe",
+      "cost": 60000000
+    }
+  ],
+  "welcomeMessage": "\r\n         einar\u0027S RARE blacksmithIC ITEMS SHOP\r\n\r\n\r\n\r\n"
+}
