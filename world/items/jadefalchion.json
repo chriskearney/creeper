@@ -1,7 +1,7 @@
 {
   "internalItemName": "jade falchion",
   "itemName": "@c-green@@c-bold-on@jade @c-reset@falchion@c-reset@",
-  "itemDescription": "a jade falchion",
+  "itemDescription": "a @c-green@c-bold-on@jade@c-reset@ falchion",
   "restingName": "a @c-green@@c-bold-on@jade @c-reset@falchion is on the ground.",
   "valueInGold": 3500,
   "itemHalfLifeTicks": 60,
