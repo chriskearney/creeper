@@ -1,0 +1,33 @@
+{
+  "internalName": "bothvar the shaman",
+  "roomIds": [
+    866
+  ],
+  "name": "bothvar the shaman",
+  "colorName": "@c-bold-on@@c-cyan@bothvar the shaman@c-reset@",
+  "validTriggers": [
+    "bothvar the shaman",
+    "bothvar",
+    "shaman",
+    "bothvar",
+    "SHAMAN",
+    "bothvar",
+    "s",
+    "b"
+  ],
+  "merchantItemForSales": [
+    {
+      "internalItemName": "mithril stave",
+      "cost": 12000000
+    },
+    {
+      "internalItemName": "sacred stave",
+      "cost": 22000000
+    },
+    {
+      "internalItemName": "mithril lock pick",
+      "cost": 1100000
+    }
+      ],
+  "welcomeMessage": "\r\n         bothvar\u0027S RARE SHAMANIC ITEMS SHOP\r\n\r\n\r\n\r\n"
+}
