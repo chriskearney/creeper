@@ -1,7 +1,7 @@
 {
   "internalItemName": "mithril stave",
   "itemName": "@c-red@mithril @c-reset@stave@c-reset@",
-  "itemDescription": "a mithril stave",
+  "itemDescription": "a @c-red@mithril@c-reset@ stave",
   "restingName": "a @c-red@mithril @c-reset@stave is on the ground.",
   "valueInGold": 3500,
   "itemHalfLifeTicks": 60,
