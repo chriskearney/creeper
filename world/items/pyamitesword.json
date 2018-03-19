@@ -1,7 +1,7 @@
 {
   "internalItemName": "pyamite sword",
   "itemName": "@c-blue@pyamite @c-reset@sword@c-reset@",
-  "itemDescription": "a pyamite sword",
+  "itemDescription": "a @c-blue@pyamite@c-reset@ sword",
   "restingName": "a @c-blue@pyamite @c-reset@sword is on the ground.",
   "valueInGold": 3500,
   "itemHalfLifeTicks": 60,
