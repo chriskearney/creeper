@@ -1,0 +1,33 @@
+{
+  "internalName": "hamish the bartender",
+  "roomIds": [
+    868
+  ],
+  "name": "hamish the bartender",
+  "colorName": "@c-bold-on@@c-cyan@hamish the bartender@c-reset@",
+  "validTriggers": [
+    "hamish the bartender",
+    "hamish",
+    "bartender",
+    "HAMISH",
+    "BARTENDER",
+    "Hamish",
+    "h",
+    "b"
+  ],
+  "merchantItemForSales": [
+    {
+      "internalItemName": "small health potion",
+      "cost": 6
+    },
+    {
+      "internalItemName": "goatweed",
+      "cost": 100
+    },    
+    {
+      "internalItemName": "firth guest key",
+      "cost": 75
+    }
+  ],
+  "welcomeMessage": "\r\n Welcome to the House of Firth Pub\r\n\r\nWe serve only the finest of products.\r\n"
+}
