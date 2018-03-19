@@ -1,7 +1,7 @@
 {
   "internalItemName": "sacred stave",
   "itemName": "@c-magenta@sacred @c-reset@stave@c-reset@",
-  "itemDescription": "a sacred stave",
+  "itemDescription": "a @c-magenta@sacred@c-reset@ stave",
   "restingName": "a @c-magenta@sacred @c-reset@stave is on the ground.",
   "valueInGold": 3500,
   "itemHalfLifeTicks": 60,
