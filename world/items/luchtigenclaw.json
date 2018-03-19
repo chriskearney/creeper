@@ -1,0 +1,19 @@
+{
+  "internalItemName": "luchtigen claw",
+  "itemName": "a @c-white@@c-bold-on@luchtigen@c-reset@ @c-cyan@claw@c-reset@",
+  "itemDescription": "a @c-white@@c-bold-on@luchtigen@c-reset@ @c-cyan@claw@c-reset@",
+  "restingName": "a @c-white@@c-bold-on@luchtigen@c-reset@ @c-cyan@claw@c-reset@ rests on the ground.",
+  "valueInGold": 10000,
+  "itemHalfLifeTicks": 60,
+  "rarity": "EXOTIC",
+  "itemTriggers": [
+    "luchtigen",
+    "l",
+    "luchtigen claw",
+    "claw",
+    "c"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}
