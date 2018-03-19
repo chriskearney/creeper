@@ -35,7 +35,7 @@
   ],
   "spawnRules": [
     {
-      "area": "SOUTH1_ZONE",
+      "area": "SOUTH2_ZONE",
       "randomChance": 100,
       "spawnIntervalTicks": 600,
       "maxInstances": 12,
