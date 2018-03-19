@@ -31,7 +31,7 @@ public class ServerWelcomeScreen {
 
         String centeredCreeper = ASCIIArt.centerOnWidth(creeper, adjustment, " ");
         String centeredVersion = ASCIIArt.centerOnWidth(version, adjustment, " ");
-        sb.append(centeredCreeper).append("\r\n").append(centeredCreeper).append("\r\n").append("\r\n");
+        sb.append(centeredCreeper).append("\r\n").append(centeredVersion).append("\r\n").append("\r\n");
         sb.append(wrap(loreumIpsom, adjustment));
         return CreeperUtils.printStringsNextToEachOther(Lists.newArrayList(ASCIIArt.VERTICAL_SWORD_WITH_EMITTING_ORA, sb.toString()), " ");
 

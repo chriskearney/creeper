@@ -45,14 +45,17 @@ public class ASCIIArt {
        return WordUtils.wrap(s, terminalWidth, "\r\n", true);
     }
 
-    static String centerOnWidth(String str, int size, String repeatedChar) {
+    public static String asciiColorPattern = "\u001B\\[[;\\d]*m";
+
+    static String centerOnWidth(String s, int size, String repeatedChar) {
+        String str = s.replaceAll(asciiColorPattern, "");
         int left = (size - str.length()) / 2;
         int right = size - left - str.length();
         StringBuffer buff = new StringBuffer();
         for (int i = 0; i < left; i++) {
             buff.append(repeatedChar);
         }
-        buff.append(str);
+        buff.append(s);
         for (int i = 0; i < right; i++) {
             buff.append(repeatedChar);
         }
