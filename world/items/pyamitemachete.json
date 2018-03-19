@@ -1,7 +1,7 @@
 {
   "internalItemName": "pyamite machete",
   "itemName": "@c-blue@pyamite @c-reset@machete@c-reset@",
-  "itemDescription": "a pyamite machete",
+  "itemDescription": "a @c-blue@pyamite@c-reset@ machete",
   "restingName": "a @c-blue@pyamite @c-reset@machete is on the ground.",
   "valueInGold": 3500,
   "itemHalfLifeTicks": 60,
