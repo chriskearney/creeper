@@ -1,7 +1,7 @@
 {
   "internalItemName": "basic wood chest2",
   "itemName": "basic wood chest",
-  "itemDescription": "a basic wooden chest",
+  "itemDescription": "a basic wooden chest with nothing inside",
   "restingName": "a wooden chest rests on the ground.",
   "valueInGold": 0,
   "itemHalfLifeTicks": 60,
