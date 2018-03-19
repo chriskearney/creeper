@@ -1,7 +1,7 @@
 {
   "internalItemName": "artanium sword",
   "itemName": "@c-green@artanium @c-reset@sword@c-reset@",
-  "itemDescription": "an artanium sword",
+  "itemDescription": "an @c-green@artanium@c-reset@ sword",
   "restingName": "an @c-green@artanium @c-reset@sword is on the ground.",
   "valueInGold": 3500,
   "itemHalfLifeTicks": 60,
