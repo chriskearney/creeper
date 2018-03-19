@@ -54,6 +54,10 @@
     {
       "internalItemName": "orc-skin druid's robe",
       "cost": 600000
+    },
+    {
+      "internalItemName": "fire sauce",
+      "cost": 4000
     }
   ],
   "welcomeMessage": "\r\n         varg\u0027S RARE rogueIC ITEMS SHOP\r\n\r\n\r\n\r\n"
