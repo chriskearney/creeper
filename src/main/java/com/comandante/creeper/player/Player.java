@@ -1062,7 +1062,7 @@ public class Player extends CreeperEntity implements Principal {
                 for (Map.Entry<String, Integer> next : itemAndCounts.entrySet()) {
                     StringBuilder inventoryLine = new StringBuilder();
                     if (next.getValue() > 1) {
-                        inventoryLine.append(next.getKey()).append(" (").append(next.getValue()).append(")");
+                        inventoryLine.append("(").append(next.getValue()).append(") ").append(next.getKey());
                     } else {
                         inventoryLine.append(next.getKey());
                     }
