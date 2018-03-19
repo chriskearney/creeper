@@ -1,7 +1,7 @@
 {
   "internalItemName": "firth guest key",
-  "itemName": "a @c-cyan@House of firth@c-reset@ guest key",
-  "itemDescription": "A golden key bearing the seal of the @c-cyan@House of Firth@c-reset@.",
+  "itemName": "a @c-cyan@House of Firth@c-reset@ guest key",
+  "itemDescription": "A golden @c-yellow@key@c-reset@ bearing the seal of the @c-cyan@House of Firth@c-reset@.",
   "restingName": "A @c-yellow@key@c-reset@ emblazened with the seal of the @c-cyan@House of Firth@c-reset@ sits on the ground.",
   "valueInGold": 10,
   "itemHalfLifeTicks": 60,
