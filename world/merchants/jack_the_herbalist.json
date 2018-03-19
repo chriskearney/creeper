@@ -1,0 +1,33 @@
+{
+  "internalName": "jack the herbalist",
+  "roomIds": [
+    867
+  ],
+  "name": "jack the herbalist",
+  "colorName": "@c-bold-on@@c-cyan@jack the herbalist@c-reset@",
+  "validTriggers": [
+    "jack the herbalist",
+    "jack",
+    "HERBALIST",
+    "JACK",
+    "Herbalist",
+    "Jack",
+    "h",
+    "j"
+  ],
+  "merchantItemForSales": [
+    {
+      "internalItemName": "small health potion",
+      "cost": 6
+    },
+    {
+      "internalItemName": "goatweed",
+      "cost": 100
+    },    
+    {
+      "internalItemName": "aloe vera",
+      "cost": 75
+    }
+  ],
+  "welcomeMessage": "\r\n TOWN HERBALIST\r\nWe sell and purchase all foraged or cultivated products. Please feel free to have a look around the store.\r\n"
+}
