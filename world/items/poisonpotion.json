@@ -1,7 +1,7 @@
 {
   "internalItemName": "poison potion",
   "itemName": "a small vial of @c-red@health potion@c-reset@",
-  "itemDescription": "a small vial of @c-red@poison potion@c-reset@ disguised as health potion@c-reset@",
+  "itemDescription": "a vial of @c-red@poison potion@c-reset@ labeled health potion@c-reset@",
   "restingName": "a small vial of @c-red@health potion@c-reset@ rests on the ground.",
   "valueInGold": 1,
   "itemHalfLifeTicks": 60,
