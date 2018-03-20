@@ -17,7 +17,7 @@ public class ServerWelcomeScreen {
     public static String getServerWelcomeScreen() {
         String creeper = Color.BOLD_ON + Color.GREEN + "Creeper" + RESET;
 
-        String loreumIpsom = "Qui cu munere labore, vel et nominati evertitur, sed melius tincidunt ei. Nec alia detraxit an, purto vidisse ullamcorper pri et. In nibh impedit sea, justo equidem lucilius at cum, consul deserunt inimicus usu ad. Legimus voluptatum sit ut, magna justo cu sed. Pri suscipit consulatu eu, probo molestie te eam. Nam eu equidem detracto, eos an scripta fabellas, nec te facer mundi simul. Euismod maiestatis at mea, eam tempor constituto sententiae ex.\n" +
+        String loreumIpsom = "Qui acu munere labore, vel et nominati evertitur, sed melius tincidunt ei. Nec alia detraxit an, purto vidisse ullamcorper pri et. In nibh impedit sea, justo equidem lucilius at cum, consul deserunt inimicus usu ad. Legimus voluptatum sit ut, magna justo cu sed. Pri suscipit consulatu eu, probo molestie te eam. Nam eu equidem detracto, eos an scripta fabellas, nec te facer mundi simul. Euismod maiestatis at mea, eam tempor constituto sententiae ex.\n" +
                 "\n" +
                 "Mea ex oratio iisque, phaedrum reprehendunt te cum. Hinc tota quodsi est no, quas vidit scriptorem et pri. Quo no delenit eloquentiam. Has dicat tantas petentium in, virtute contentiones eu pro, ad sed vivendum democritum. Audire nusquam referrentur vim cu, vis ea eruditi postulant, mel putant equidem inimicus cu. No vis putent graecis dissentiet.\n" +
                 "\n" +
