@@ -21,10 +21,10 @@ import com.comandante.creeper.world.MapsManager;
 import com.comandante.creeper.world.RoomManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import com.google.common.io.Files;
 import com.google.common.util.concurrent.AbstractIdleService;
-import events.CreeperEventListener;
 import events.ListenerService;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.impl.client.HttpClients;
@@ -35,7 +35,12 @@ import org.mapdb.DBMaker;
 import java.io.File;
 import java.net.InetSocketAddress;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Creeper extends AbstractIdleService {
@@ -82,10 +87,10 @@ public class Creeper extends AbstractIdleService {
                 .closeOnJvmShutdown()
                 .make();
 
-        EventBus eventBus = new EventBus();
+        EventBus eventBus = new AsyncEventBus(Executors.newFixedThreadPool(40));
 
         ListenerService listenerService = new ListenerService(eventBus);
-        listenerService.startAsync().awaitRunning();;
+        listenerService.startAsync().awaitRunning();
 
 
         mapDBCreeperStorage = new MapDBCreeperStorage(db);
