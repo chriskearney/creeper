@@ -1,0 +1,31 @@
+{
+  "internalName": "stian the warrior blacksmith",
+  "roomIds": [
+    871
+  ],
+  "name": "stian the warrior blacksmith",
+  "colorName": "@c-bold-on@@c-cyan@stian the warrior blacksmith@c-reset@",
+  "validTriggers": [
+    "stian the blacksmith",
+    "stian the warrior blacksmith",
+    "blacksmith",
+    "stian",
+    "BLACKSMITH",
+    "STIAN",
+    "s",
+    "warrior blacksmith",
+    "w",
+    "b"
+  ],
+  "merchantItemForSales": [
+    {
+      "internalItemName": "artanium sword",
+      "cost": 14000000
+    },
+    {
+      "internalItemName": "Aegirs greataxe",
+      "cost": 60000000
+    }
+  ],
+  "welcomeMessage": "\r\n         stian\u0027S RARE blacksmithIC ITEMS SHOP\r\n\r\n\r\n\r\n"
+}
