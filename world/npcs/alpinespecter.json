@@ -21,7 +21,7 @@
     "inventorySize": 0,
     "maxEffects": 0
   },
-  "dieMessage": "a alpine @c-bold-on@@c-magenta@specter@c-reset@ emits a bone chilling shriek before fading out of existence.",
+  "dieMessage": "an alpine @c-bold-on@@c-magenta@specter@c-reset@ emits a bone chilling shriek before fading out of existence.",
   "temperament": "PASSIVE",
   "roamAreas": [
     "BLOODRIDGE3_ZONE",
@@ -94,7 +94,7 @@
   "idleMessages": [
     {
       "type": "NORMAL",
-      "message": "A @npc-color-name@ quietly coasts across the icy ground, almost as if floating."
+      "message": "An @npc-color-name@ quietly coasts across the icy ground, almost as if floating."
     }
   ]
 }
