@@ -1,0 +1,19 @@
+{
+  "internalItemName": "ice amulet",
+  "itemName": "a @c-cyan@ice@c-reset@ @c-white@amulet@c-reset@",
+  "itemDescription": "a @c-cyan@ice@c-reset@ @c-white@amulet@c-reset@",
+  "restingName": "a @c-cyan@ice@c-reset@ @c-white@amulet@c-reset@ rests on the ground.",
+  "valueInGold": 6200,
+  "itemHalfLifeTicks": 60,
+  "rarity": "LEGENDARY",
+  "itemTriggers": [
+    "ice",
+    "i",
+    "ice amulet",
+    "amulet",
+    "a"
+  ],
+  "validTimeOfDays": [],
+  "isDisposable": false,
+  "maxUses": 0
+}
