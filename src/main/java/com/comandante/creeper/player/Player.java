@@ -52,6 +52,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Player extends CreeperEntity implements Principal {
@@ -681,6 +682,33 @@ public class Player extends CreeperEntity implements Principal {
             }
         }
         return false;
+    }
+
+    public void removeCooldown(CoolDownType coolDownType) {
+        synchronized (interner.intern(playerId)) {
+            Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+            if (!playerMetadataOptional.isPresent()) {
+                return;
+            }
+            PlayerMetadata playerMetadata = playerMetadataOptional.get();
+            if (playerMetadata.getCoolDownMap().isEmpty()) {
+                return;
+            }
+            playerMetadata.getCoolDownMap().entrySet().removeIf(new Predicate<Map.Entry<CoolDownType, CoolDown>>() {
+                @Override
+                public boolean test(Map.Entry<CoolDownType, CoolDown> coolDownTypeCoolDownEntry) {
+                    if (coolDownTypeCoolDownEntry.getValue().isActive() &&
+                            coolDownTypeCoolDownEntry.getValue().getCoolDownType().equals(coolDownType)) {
+                        if (coolDownType.equals(CoolDownType.DEATH)) {
+                            gameManager.getChannelUtils().write(playerId, "You have risen from the dead.\r\n", true);
+                        }
+                        return true;
+                    }
+                    return false;
+                }
+            });
+            savePlayerMetadata(playerMetadata);
+        }
     }
 
     public boolean isActiveSpellCoolDown(String spellName) {

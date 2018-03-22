@@ -3,6 +3,7 @@ package com.comandante.creeper.items;
 
 import com.comandante.creeper.command.commands.UseCommand;
 import com.comandante.creeper.core_game.GameManager;
+import com.comandante.creeper.items.use.ClearDeathEffectAction;
 import com.comandante.creeper.items.use.DefaultApplyEffectsStats;
 import com.comandante.creeper.items.use.FireSauceUseAction;
 import com.comandante.creeper.items.use.LightningSpellBookUseAction;
@@ -34,6 +35,9 @@ public class ItemUseHandler {
                 break;
             case "stick of justice":
                 itemUseAction = new StickOfJusticeUseAction(itemMetadata);
+                break;
+            case "griftree bark":
+                itemUseAction = new ClearDeathEffectAction(itemMetadata);
                 break;
             case "fire sauce":
                 itemUseAction = new FireSauceUseAction(itemMetadata);
