@@ -21,22 +21,8 @@
       "area": "NEWBIE_ZONE",
       "randomChance": 20,
       "spawnIntervalTicks": 600,
-      "maxInstances": 100,
-      "maxPerRoom": 2
-    },
-    {
-      "area": "FANCYHOUSE_ZONE",
-      "randomChance": 30,
-      "spawnIntervalTicks": 600,
-      "maxInstances": 12,
-      "maxPerRoom": 2
-    },
-    {
-      "area": "HOUSE_ZONE",
-      "randomChance": 30,
-      "spawnIntervalTicks": 600,
-      "maxInstances": 12,
-      "maxPerRoom": 2
+      "maxInstances": 30,
+      "maxPerRoom": 1
     }
   ],
   "itemApplyStats": {
