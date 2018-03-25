@@ -1,0 +1,108 @@
+{
+  "name": "bill cosby",
+  "colorName": "bill @c-bold-on@@c-magenta@cosby@c-reset@",
+  "stats": {
+    "strength": 20,
+    "intelligence": 0,
+    "willpower": 34,
+    "aim": 9,
+    "agile": 20,
+    "armorRating": 12,
+    "meleSkill": 31,
+    "currentHealth": 180,
+    "maxHealth": 180,
+    "weaponRatingMax": 34,
+    "weaponRatingMin": 30,
+    "numberOfWeaponRolls": 1,
+    "experience": 250000,
+    "currentMana": 400,
+    "maxMana": 400,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0,
+    "lockPicking": 0
+  },
+  "dieMessage": "a bill @c-bold-on@@c-magenta@cosby@c-reset@ just wanted to show you a good time.",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "NORTH2_ZONE",
+    "SOUTH1_ZONE",
+    "BLOODRIDGE3_ZONE"
+  ],
+  "validTriggers": [
+    "b",
+    "c",
+    "bill",
+    "cosby",
+    "bill cosby"
+  ],
+  "spawnRules": [
+    {
+      "area": "NORTH2_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 1,
+      "maxPerRoom": 1
+    },
+    {
+      "area": "SOUTH1_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 1,
+      "maxPerRoom": 1
+    },
+    {
+      "area": "BLOODRIDGE3_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 1,
+      "maxPerRoom": 1
+    }
+  ],
+  "loot": {
+    "internalItemNames": [
+      "cocaine",
+      "zinfandel",
+      "quaaludes",
+      "rohypnol"
+    ],
+    "lootGoldMax": 36,
+    "lootGoldMin": 26
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "Ohhhh hey baby why don\u0027t we hop in a cab back to my place and I can show you my record collection"
+    },
+    {
+      "type": "NORMAL",
+      "message": "Don\u0027t be bashful sugar, why don\u0027t you go sit on my leopard print sofa and I\u0027ll go pour us some zinfandel and throw on some tunes"
+    },
+    {
+      "type": "NORMAL",
+      "message": "Now now there\u0027s no need to be so hasty to head on home baby, just have a few sips of this glass of wine and I\u0027m sure you\u0027ll feel a whole lot better"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "DRINK MY GOD DAMN ZINFANDEL"
+    },
+    {
+      "type": "NORMAL",
+      "message": "I see you\u0027re gettin real tired honey, maybe you had a bit too much of that zinfandel. Why don\u0027t we head over to the sofa and lay down for a while."
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "Boy that zinfandel really has us all feeling nice and relaxed now don\u0027t it"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "Don\u0027t mind me, I\u0027m just headin to the store to grab some more white zinfandel, says @c-magenta@bill cosby@c-reset@."
+    }
+  ]
+}

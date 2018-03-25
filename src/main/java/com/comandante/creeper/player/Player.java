@@ -308,6 +308,31 @@ public class Player extends CreeperEntity implements Principal {
         }
     }
 
+    public void addActiveQuest(Quest quest) {
+        synchronized (interner.intern(playerId)) {
+            Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+            if (!playerMetadataOptional.isPresent()) {
+                return;
+            }
+            PlayerMetadata playerMetadata = playerMetadataOptional.get();
+            if (playerMetadata.getAcceptedQuests().entrySet().stream()
+                    .anyMatch(stringQuestEntry -> stringQuestEntry.getKey().equals(quest.getQuestName()))) {
+                writeMessage("You have already accepted this quest.\r\n");
+                return;
+            }
+            if (getLevel() < quest.getMinimumLevel()) {
+                writeMessage("You need to be at least level: " + quest.getMinimumLevel() + " to embark upon this quest.\r\n");
+                return;
+            }
+            if (!quest.getLimitedClasses().isEmpty() && !quest.getLimitedClasses().contains(getPlayerClass())) {
+                writeMessage("You are not of the appropriate class to take on this quest.\r\n");
+                return;
+            }
+            playerMetadata.getAcceptedQuests().put(quest.getQuestName(), quest);
+            writeMessage("You have accepted this quest.\r\n");
+        }
+    }
+
     public void addExperience(long exp) {
         synchronized (interner.intern(playerId)) {
             final Meter requests = Creeper.metrics.meter("experience-" + playerName);

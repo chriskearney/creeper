@@ -47,7 +47,7 @@ public class ASCIIArt {
 
     public static String asciiColorPattern = "\u001B\\[[;\\d]*m";
 
-    static String centerOnWidth(String s, int size, String repeatedChar) {
+    public static String centerOnWidth(String s, int size, String repeatedChar) {
         String str = s.replaceAll(asciiColorPattern, "");
         int left = (size - str.length()) / 2;
         int right = size - left - str.length();
@@ -60,5 +60,12 @@ public class ASCIIArt {
             buff.append(repeatedChar);
         }
         return buff.toString();
+    }
+
+    public static String capitalizeFirstLetter(String original) {
+        if (original == null || original.length() == 0) {
+            return original;
+        }
+        return original.substring(0, 1).toUpperCase() + original.substring(1);
     }
 }

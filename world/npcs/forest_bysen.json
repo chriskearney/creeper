@@ -1,0 +1,89 @@
+{
+  "name": "forest bysen",
+  "colorName": "forest @c-bold-on@@c-magenta@bysen@c-reset@",
+  "stats": {
+    "strength": 12,
+    "intelligence": 0,
+    "willpower": 34,
+    "aim": 9,
+    "agile": 20,
+    "armorRating": 31,
+    "meleSkill": 31,
+    "currentHealth": 180,
+    "maxHealth": 180,
+    "weaponRatingMax": 54,
+    "weaponRatingMin": 30,
+    "numberOfWeaponRolls": 1,
+    "experience": 250000,
+    "currentMana": 400,
+    "maxMana": 400,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0,
+    "lockPicking": 0
+  },
+  "dieMessage": "the forest @c-bold-on@@c-magenta@bysen@c-reset@\u0027s lifeless corpse falls to the forest floor.",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "SOUTH1_ZONE"
+  ],
+  "validTriggers": [
+    "f",
+    "b",
+    "forest",
+    "bysen",
+    "forest bysen"
+  ],
+  "spawnRules": [
+    {
+      "area": "SOUTH1_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 12,
+      "maxPerRoom": 2
+    }
+  ],
+  "loot": {
+    "internalItemNames": [
+      "forest axe"
+    ],
+    "lootGoldMax": 36,
+    "lootGoldMin": 26
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ swings off a tree branch to attack @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ prepares to swing his @c-green@forest@c-reset@axe at @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ darts in between trees to attack @player-name@!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ raises his @c-green@forest@c-reset@ axe and swings it down with a violent motion, providing a @c-bold@@c-yellow@CRUSHING@c-reset@ blow to @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ growls and darts behind @player-name@, sending his @c-green@forest@c-reset@ axe directly into @player-name@\u0027s back! @player-name@ is reeling from the @c-bold@@c-yellow@CRITICAL@c-reset@ attack!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ swings a @c-green@forest@c-reset@ axe at @player-name@!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "A @npc-color-name@ ambles carefully through the surrounding forest."
+    }
+  ]
+}

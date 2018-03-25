@@ -13,7 +13,6 @@ public class UnknownCommand extends PlayerClassCommand {
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
-        configure(e);
         try {
             write(getPrompt());
             e.getChannel().getPipeline().remove("executed_command");

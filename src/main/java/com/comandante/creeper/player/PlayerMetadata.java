@@ -8,7 +8,12 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerMetadata implements Serializable {
@@ -31,6 +36,9 @@ public class PlayerMetadata implements Serializable {
     private PlayerClass playerClass;
     private Map<CoolDownType, CoolDown> coolDowns;
     private Integer currentRoomId;
+    private Set<String> completedQuests;
+    private Map<String, Quest> acceptedQuests;
+
 
     public PlayerMetadata(String playerName,
                           String password,
@@ -44,7 +52,9 @@ public class PlayerMetadata implements Serializable {
                           Map<String, Long> npcKillLog,
                           PlayerClass playerClass,
                           Map<CoolDownType, CoolDown> coolDowns,
-                          Integer currentRoomId) {
+                          Integer currentRoomId,
+                          Set<String> completedQuests,
+                          Map<String, Quest> acceptedQuests) {
         this.playerName = playerName;
         this.password = password;
         this.playerId = playerId;
@@ -58,6 +68,8 @@ public class PlayerMetadata implements Serializable {
         this.playerClass = playerClass;
         this.coolDowns = coolDowns;
         this.currentRoomId = currentRoomId;
+        this.completedQuests = completedQuests;
+        this.acceptedQuests = acceptedQuests;
     }
 
     public PlayerMetadata(PlayerMetadata playerMetadata) {
@@ -100,6 +112,12 @@ public class PlayerMetadata implements Serializable {
         }
         if (playerMetadata.currentRoomId != null) {
             this.currentRoomId = new Integer(playerMetadata.currentRoomId);
+        }
+        if (playerMetadata.acceptedQuests != null) {
+            this.acceptedQuests = Maps.newHashMap(playerMetadata.acceptedQuests);
+        }
+        if (playerMetadata.completedQuests != null) {
+            this.completedQuests = Sets.newLinkedHashSet(playerMetadata.completedQuests);
         }
     }
 
@@ -306,7 +324,7 @@ public class PlayerMetadata implements Serializable {
     }
 
     public List<Effect> getEffects() {
-        if (effects==null) {
+        if (effects == null) {
             effects = Lists.newArrayList();
         }
         return effects;
@@ -320,7 +338,7 @@ public class PlayerMetadata implements Serializable {
         this.isMarkedForDelete = isMarkedForDelete;
     }
 
-    protected void resetEffects(){
+    protected void resetEffects() {
         this.effects = Lists.newArrayList();
     }
 
@@ -388,6 +406,20 @@ public class PlayerMetadata implements Serializable {
 
     public void setStats(Stats stats) {
         this.stats = stats;
+    }
+
+    public Set<String> getCompletedQuests() {
+        if (this.completedQuests == null) {
+            this.completedQuests = Sets.newLinkedHashSet();
+        }
+        return completedQuests;
+    }
+
+    public Map<String, Quest> getAcceptedQuests() {
+        if (acceptedQuests == null) {
+            this.acceptedQuests = Maps.newHashMap();
+        }
+        return acceptedQuests;
     }
 }
 

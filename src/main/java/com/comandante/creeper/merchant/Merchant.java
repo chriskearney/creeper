@@ -2,12 +2,21 @@ package com.comandante.creeper.merchant;
 
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.items.ItemMetadata;
+import com.comandante.creeper.player.PlayerClass;
+import com.comandante.creeper.player.Quest;
+import com.comandante.creeper.server.ASCIIArt;
+import com.comandante.creeper.server.player_communication.Color;
+import com.google.common.collect.Lists;
 import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;
 
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.Set;
+import java.util.StringJoiner;
 
 public class Merchant {
 
@@ -20,12 +29,13 @@ public class Merchant {
     private final String welcomeMessage;
     private final MerchantType merchantType;
     private final Set<Integer> roomIds;
+    private final List<Quest> quests;
 
     public Merchant(GameManager gameManager, String internalName, String name, String colorName, Set<String> validTriggers, List<MerchantItemForSale> merchantItemForSales, String welcomeMessage, Set<Integer> roomIds) {
-        this(gameManager, internalName, name, colorName, validTriggers, merchantItemForSales, welcomeMessage, roomIds, MerchantType.BASIC);
+        this(gameManager, internalName, name, colorName, validTriggers, merchantItemForSales, welcomeMessage, roomIds, MerchantType.BASIC, Lists.newArrayList());
     }
 
-    public Merchant(GameManager gameManager, String internalName, String name, String colorName, Set<String> validTriggers, List<MerchantItemForSale> merchantItemForSales, String welcomeMessage, Set<Integer> roomIds, MerchantType merchantType) {
+    public Merchant(GameManager gameManager, String internalName, String name, String colorName, Set<String> validTriggers, List<MerchantItemForSale> merchantItemForSales, String welcomeMessage, Set<Integer> roomIds, MerchantType merchantType, List<Quest> quests) {
         this.gameManager = gameManager;
         this.name = name;
         this.colorName = colorName;
@@ -35,7 +45,7 @@ public class Merchant {
         this.merchantType = merchantType;
         this.roomIds = roomIds;
         this.internalName = internalName;
-
+        this.quests = quests;
     }
 
     public String getInternalName() {
@@ -52,10 +62,8 @@ public class Merchant {
         t.addCell("price");
         t.addCell("description");
         int i = 0;
-        Iterator<MerchantItemForSale> iterator = merchantItemForSales.iterator();
-        while (iterator.hasNext()) {
+        for (MerchantItemForSale merchantItemForSale : merchantItemForSales) {
             i++;
-            MerchantItemForSale merchantItemForSale = iterator.next();
             Optional<ItemMetadata> itemMetadataOptional = gameManager.getItemStorage().get(merchantItemForSale.getInternalItemName());
             if (!itemMetadataOptional.isPresent()) {
                 continue;
@@ -66,6 +74,26 @@ public class Merchant {
             t.addCell(itemMetadata.getItemDescription());
         }
         return t.render();
+    }
+
+    public String getQuestsMenu() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(Color.BOLD_ON).append(Color.YELLOW).append("Quests").append(Color.RESET).append("\r\n");
+        int i = 0;
+        for (Quest quest: quests) {
+            i++;
+            sb.append(i).append(") ").append(quest.getQuestName());
+            if (quest.getLimitedClasses() != null && !quest.getLimitedClasses().isEmpty()) {
+                sb.append(Color.RED + " [" + Color.RESET);
+                StringJoiner stringJoiner = new StringJoiner(", ");
+                for (PlayerClass playerClass: quest.getLimitedClasses()) {
+                    stringJoiner.add(ASCIIArt.capitalizeFirstLetter(playerClass.getIdentifier()));
+                }
+                sb.append(stringJoiner.toString()).append(Color.RED + "]" + Color.RESET);
+            }
+            sb.append("\r\n");
+        }
+        return sb.toString();
     }
 
     public GameManager getGameManager() {
@@ -93,7 +121,15 @@ public class Merchant {
     }
 
     public String getWelcomeMessage() {
-        return welcomeMessage;
+        return ASCIIArt.wrap(welcomeMessage);
+    }
+
+    public String getQuestsIntro() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(ASCIIArt.centerOnWidth(getColorName(), ASCIIArt.GLOBAL_TERMINAL_WIDTH, " ")).append("\r\n").append("\r\n");
+        sb.append(getWelcomeMessage()).append("\r\n").append("\r\n");
+        sb.append(getQuestsMenu()).append("\r\n").append("\r\n");
+        return sb.toString();
     }
 
     public MerchantType getMerchantType() {
@@ -104,10 +140,14 @@ public class Merchant {
         return merchantItemForSales;
     }
 
+    public List<Quest> getQuests() {
+        return quests;
+    }
+
     public enum MerchantType {
         BANK,
         LOCKER,
         PLAYERCLASS_SELECTOR,
-        BASIC
+        QUESTGIVER, BASIC
     }
 }

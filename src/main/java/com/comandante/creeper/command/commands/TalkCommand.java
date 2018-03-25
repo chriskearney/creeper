@@ -8,6 +8,7 @@ import com.comandante.creeper.merchant.MerchantCommandHandler;
 import com.comandante.creeper.merchant.bank.commands.BankCommand;
 import com.comandante.creeper.merchant.lockers.LockerCommand;
 import com.comandante.creeper.merchant.playerclass_selector.PlayerClassCommand;
+import com.comandante.creeper.merchant.questgiver.QuestGiverCommand;
 import com.comandante.creeper.player.PlayerClass;
 import com.comandante.creeper.server.player_communication.Color;
 import com.google.common.base.Joiner;
@@ -42,7 +43,9 @@ public class TalkCommand extends Command {
             Set<Merchant> merchants = currentRoom.getMerchants();
             for (Merchant merchant : merchants) {
                 if (merchant.getValidTriggers().contains(desiredMerchantTalk)) {
-                    write(merchant.getWelcomeMessage() + "\r\n");
+                    if (merchant.getMerchantType() != Merchant.MerchantType.QUESTGIVER) {
+                        write(merchant.getWelcomeMessage() + "\r\n");
+                    }
                     if (merchant.getMerchantType() == Merchant.MerchantType.BASIC) {
                         write(merchant.getMenu() + "\r\n");
                         gameManager.getChannelUtils().write(playerId, "\r\n" + MerchantCommandHandler.buildPrompt());
@@ -50,6 +53,9 @@ public class TalkCommand extends Command {
                         write(BankCommand.getPrompt());
                     } else if (merchant.getMerchantType() == Merchant.MerchantType.LOCKER) {
                         write(LockerCommand.getPrompt());
+                    } else if (merchant.getMerchantType() == Merchant.MerchantType.QUESTGIVER) {
+                        write(merchant.getQuestsIntro());
+                        write(QuestGiverCommand.getPrompt());
                     } else if (merchant.getMerchantType() == Merchant.MerchantType.PLAYERCLASS_SELECTOR) {
                         if (player.getLevel() < 2) {
                             write("Before you can pick a character class, you must be at least level 2.");

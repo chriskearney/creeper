@@ -1,0 +1,107 @@
+{
+  "name": "phantom knight",
+  "colorName": "phantom @c-bold-on@@c-magenta@knight@c-reset@",
+  "stats": {
+    "strength": 12,
+    "intelligence": 0,
+    "willpower": 34,
+    "aim": 9,
+    "agile": 20,
+    "armorRating": 31,
+    "meleSkill": 31,
+    "currentHealth": 180,
+    "maxHealth": 180,
+    "weaponRatingMax": 54,
+    "weaponRatingMin": 30,
+    "numberOfWeaponRolls": 1,
+    "experience": 250000,
+    "currentMana": 400,
+    "maxMana": 400,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0,
+    "lockPicking": 0
+  },
+  "dieMessage": "a phantom @c-bold-on@@c-magenta@knight@c-reset@ fades into the darkness.",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "BLOODRIDGE5_ZONE",
+    "BLOODRIDGE6_ZONE",
+    "BLOODRIDGE7_ZONE"
+  ],
+  "validTriggers": [
+    "p",
+    "k",
+    "phantom",
+    "knight",
+    "phantom knight"
+  ],
+  "spawnRules": [
+    {
+      "area": "BLOODRIDGE5_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 12,
+      "maxPerRoom": 2
+    },
+    {
+      "area": "BLOODRIDGE6_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 12,
+      "maxPerRoom": 2
+    },
+    {
+      "area": "BLOODRIDGE7_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 12,
+      "maxPerRoom": 2
+    }
+  ],
+  "loot": {
+    "internalItemNames": [
+      "royal diamond",
+      "diamond",
+      "iron dagger"
+    ],
+    "lootGoldMax": 36,
+    "lootGoldMin": 26
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ lunges at @player-name@ from the shadows!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ gathers his strength before swinging at @player-name@ with an iron dagger!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ mutters an ancient curse at @player-name@ as he attacks!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ begins to glow with a red aura before @c-bold@@c-yellow@SLICING@c-reset@ directly into @player-name@\u0027s torso!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "As @player-name@ tries to regroup, @npc-color-name@ catches @player-name@ off guard with a brutal @c-bold@@c-red@STAB@c-reset@ to @player-name@\u0027s leg!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ swings an iron dagger at @player-name@!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "A @npc-color-name@ moves quietly through the shadows."
+    }
+  ]
+}

@@ -1,15 +1,83 @@
 package com.comandante.creeper.configuration;
 
 import com.comandante.creeper.command.CreeperCommandRegistry;
-import com.comandante.creeper.command.commands.*;
-import com.comandante.creeper.command.commands.admin.*;
+import com.comandante.creeper.command.commands.BackCommand;
+import com.comandante.creeper.command.commands.CardsCommand;
+import com.comandante.creeper.command.commands.CastCommand;
+import com.comandante.creeper.command.commands.ColorsCommand;
+import com.comandante.creeper.command.commands.CompareCommand;
+import com.comandante.creeper.command.commands.CoolDownCommand;
+import com.comandante.creeper.command.commands.CountdownCommand;
+import com.comandante.creeper.command.commands.DelCommand;
+import com.comandante.creeper.command.commands.DropCommand;
+import com.comandante.creeper.command.commands.EquipCommand;
+import com.comandante.creeper.command.commands.FightKillCommand;
+import com.comandante.creeper.command.commands.ForageCommand;
+import com.comandante.creeper.command.commands.GoldCommand;
+import com.comandante.creeper.command.commands.GossipCommand;
+import com.comandante.creeper.command.commands.HelpCommand;
+import com.comandante.creeper.command.commands.InventoryCommand;
+import com.comandante.creeper.command.commands.KillTallyCommand;
+import com.comandante.creeper.command.commands.LeaveCommand;
+import com.comandante.creeper.command.commands.LookCommand;
+import com.comandante.creeper.command.commands.LootCommand;
+import com.comandante.creeper.command.commands.MapCommand;
+import com.comandante.creeper.command.commands.MovementCommand;
+import com.comandante.creeper.command.commands.NexusCommand;
+import com.comandante.creeper.command.commands.OpCommand;
+import com.comandante.creeper.command.commands.OpenCommand;
+import com.comandante.creeper.command.commands.PickUpCommand;
+import com.comandante.creeper.command.commands.QuitCommand;
+import com.comandante.creeper.command.commands.RecallCommand;
+import com.comandante.creeper.command.commands.RecentChangesCommand;
+import com.comandante.creeper.command.commands.RecentGossipCommand;
+import com.comandante.creeper.command.commands.SayCommand;
+import com.comandante.creeper.command.commands.SetCommand;
+import com.comandante.creeper.command.commands.ShowCommand;
+import com.comandante.creeper.command.commands.SpellsCommand;
+import com.comandante.creeper.command.commands.TalkCommand;
+import com.comandante.creeper.command.commands.TellCommand;
+import com.comandante.creeper.command.commands.TimeCommand;
+import com.comandante.creeper.command.commands.ToggleChatCommand;
+import com.comandante.creeper.command.commands.UnequipCommand;
+import com.comandante.creeper.command.commands.UseCommand;
+import com.comandante.creeper.command.commands.UsersCommand;
+import com.comandante.creeper.command.commands.WhoCommand;
+import com.comandante.creeper.command.commands.WhoamiCommand;
+import com.comandante.creeper.command.commands.XpCommand;
+import com.comandante.creeper.command.commands.admin.AreaCommand;
+import com.comandante.creeper.command.commands.admin.BounceIrcBotCommand;
+import com.comandante.creeper.command.commands.admin.BuildCommand;
+import com.comandante.creeper.command.commands.admin.DescriptionCommand;
+import com.comandante.creeper.command.commands.admin.GiveGoldCommand;
+import com.comandante.creeper.command.commands.admin.InfoCommand;
+import com.comandante.creeper.command.commands.admin.LoadItemCommand;
+import com.comandante.creeper.command.commands.admin.LoadMerchantCommand;
+import com.comandante.creeper.command.commands.admin.LoadNpcCommand;
+import com.comandante.creeper.command.commands.admin.NotablesCommand;
+import com.comandante.creeper.command.commands.admin.NpcLocationCommand;
+import com.comandante.creeper.command.commands.admin.ReloadNpcsCommand;
+import com.comandante.creeper.command.commands.admin.RestartCommand;
+import com.comandante.creeper.command.commands.admin.SaveWorldCommand;
+import com.comandante.creeper.command.commands.admin.SpawnCommand;
+import com.comandante.creeper.command.commands.admin.SystemInfo;
+import com.comandante.creeper.command.commands.admin.TagRoomCommand;
+import com.comandante.creeper.command.commands.admin.TeleportCommand;
+import com.comandante.creeper.command.commands.admin.TitleCommand;
 import com.comandante.creeper.core_game.GameManager;
-import com.comandante.creeper.merchant.bank.commands.*;
+import com.comandante.creeper.merchant.bank.commands.AccountQueryCommand;
+import com.comandante.creeper.merchant.bank.commands.BankCommandRegistry;
+import com.comandante.creeper.merchant.bank.commands.DepositCommand;
+import com.comandante.creeper.merchant.bank.commands.DoneCommand;
+import com.comandante.creeper.merchant.bank.commands.WithdrawalCommand;
 import com.comandante.creeper.merchant.lockers.GetCommand;
 import com.comandante.creeper.merchant.lockers.LockerCommandRegistry;
 import com.comandante.creeper.merchant.lockers.PutCommand;
 import com.comandante.creeper.merchant.lockers.QueryCommand;
 import com.comandante.creeper.merchant.playerclass_selector.PlayerClassCommandRegistry;
+import com.comandante.creeper.merchant.questgiver.ListCommand;
+import com.comandante.creeper.merchant.questgiver.QuestGiverCommandRegistry;
+import com.comandante.creeper.merchant.questgiver.ReviewCommand;
 
 public class ConfigureCommands {
 
@@ -34,11 +102,22 @@ public class ConfigureCommands {
         lockerCommandRegistry.addCommand(new QueryCommand(gameManager));
         lockerCommandRegistry.addCommand(new com.comandante.creeper.merchant.lockers.DoneCommand(gameManager));
     }
+
     public static PlayerClassCommandRegistry playerClassCommandRegistry;
 
     public static void configurePlayerClassSelector(GameManager gameManager) {
        playerClassCommandRegistry = new PlayerClassCommandRegistry(gameManager);
     }
+
+    public static QuestGiverCommandRegistry questGiverCommandRegistry;
+
+    public static void configureQuestGiver(GameManager gameManager) {
+        questGiverCommandRegistry = new QuestGiverCommandRegistry(gameManager);
+        questGiverCommandRegistry.addCommand(new com.comandante.creeper.merchant.questgiver.LeaveCommand(null, gameManager));
+        questGiverCommandRegistry.addCommand(new ReviewCommand(null, gameManager));
+        questGiverCommandRegistry.addCommand(new ListCommand(null, gameManager));
+    }
+
 
     public static void configure(GameManager gameManager) {
         creeperCommandRegistry = new CreeperCommandRegistry(new com.comandante.creeper.command.commands.UnknownCommand(gameManager));

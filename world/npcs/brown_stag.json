@@ -1,0 +1,97 @@
+{
+  "name": "brown stag",
+  "colorName": "brown @c-bold-on@@c-magenta@stag@c-reset@",
+  "stats": {
+    "strength": 24,
+    "intelligence": 0,
+    "willpower": 34,
+    "aim": 9,
+    "agile": 20,
+    "armorRating": 31,
+    "meleSkill": 31,
+    "currentHealth": 180,
+    "maxHealth": 180,
+    "weaponRatingMax": 54,
+    "weaponRatingMin": 30,
+    "numberOfWeaponRolls": 1,
+    "experience": 250000,
+    "currentMana": 400,
+    "maxMana": 400,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0,
+    "lockPicking": 0
+  },
+  "dieMessage": "a dying brown @c-bold-on@@c-magenta@stag@c-reset@ falls to the ground with a heavy thud.",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "NORTH10_ZONE",
+    "NORTH14_ZONE"
+  ],
+  "validTriggers": [
+    "b",
+    "s",
+    "brown",
+    "stag",
+    "brown stag"
+  ],
+  "spawnRules": [
+    {
+      "area": "NORTH10_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 12,
+      "maxPerRoom": 2
+    },
+    {
+      "area": "NORTH14_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 6,
+      "maxPerRoom": 2
+    }
+  ],
+  "loot": {
+    "internalItemNames": [
+      "wormwood staff"
+    ],
+    "lootGoldMax": 36,
+    "lootGoldMin": 26
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ hops a bit and tries to kick @player-name@ with its hooves!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ snorts and charges at @player-name@ from afar!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ aims its antlers toward @player-name@\u0027s torso!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ snorts and charges at @player-name@, digging its antlers into @player-name@ with devastating effect, @player-name@ @c-bold@@c-yellow@CRIES@c-reset@ out in pain!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ stomps about in the dirt before charging at @player-name@, with an audible crack of @player-name@\u0027s ribs occurring, @player-name@ is desperately trying to recover!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ stomps around before charging at @player-name@!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "A @npc-color-name@ meticulously harvests the grass and other edible plants at the side of the trail."
+    }
+  ]
+}
