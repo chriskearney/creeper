@@ -96,7 +96,7 @@ public class QuestGiverCommand extends SimpleChannelUpstreamHandler {
 
     public static String getPrompt() {
         StringBuilder sb = new StringBuilder();
-        sb.append( "[QUESTS - LIST | REVIEW <#> | ACCEPT <#> | COMPLETE <#>] ");
+        sb.append( "[QUESTS - LIST | REVIEW <#> | ACCEPT <#> | COMPLETE | LEAVE] ");
         return sb.toString();
     }
 
