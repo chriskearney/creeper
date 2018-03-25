@@ -3,13 +3,17 @@ package com.comandante.creeper.merchant;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.items.ItemMetadata;
 import com.comandante.creeper.player.Quest;
+import com.comandante.creeper.server.ASCIIArt;
 import com.google.common.collect.Lists;
 import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;
 
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.Set;
 
 public class Merchant {
 
@@ -105,7 +109,7 @@ public class Merchant {
     }
 
     public String getWelcomeMessage() {
-        return welcomeMessage;
+        return ASCIIArt.wrap(welcomeMessage);
     }
 
     public MerchantType getMerchantType() {
@@ -114,6 +118,10 @@ public class Merchant {
 
     public List<MerchantItemForSale> getMerchantItemForSales() {
         return merchantItemForSales;
+    }
+
+    public List<Quest> getQuests() {
+        return quests;
     }
 
     public enum MerchantType {

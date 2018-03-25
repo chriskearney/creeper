@@ -1,17 +1,12 @@
 package com.comandante.creeper.merchant.questgiver;
 
 import com.comandante.creeper.Creeper;
-import com.comandante.creeper.command.commands.Command;
-import com.comandante.creeper.common.CreeperUtils;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.merchant.Merchant;
-import com.comandante.creeper.merchant.playerclass_selector.PlayerClassCommand;
 import com.comandante.creeper.player.Player;
-import com.comandante.creeper.player.PlayerClass;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.server.model.CreeperSession;
 import com.comandante.creeper.server.player_communication.ChannelCommunicationUtils;
-import com.comandante.creeper.server.player_communication.Color;
 import com.comandante.creeper.world.model.Room;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -55,7 +50,10 @@ public class QuestGiverCommand extends SimpleChannelUpstreamHandler {
             CreeperSession creeperSession = extractCreeperSession(e.getChannel());
             e.getChannel().getPipeline().remove("executed_command");
             e.getChannel().getPipeline().remove(PIPELINE_NAME);
-            gameManager.getChannelUtils().write(playerId, getPrompt(), true);
+//            write(getMerchant().getWelcomeMessage() + "\r\n");
+//            write(getMerchant().getQuestsMenu() + "\r\n");
+            write(getPrompt());
+//            gameManager.getChannelUtils().write(playerId, getPrompt(), true);
             if (creeperSession.getGrabMerchant().isPresent()) {
                 return;
             }
@@ -98,7 +96,7 @@ public class QuestGiverCommand extends SimpleChannelUpstreamHandler {
 
     public static String getPrompt() {
         StringBuilder sb = new StringBuilder();
-        sb.append( "[QUESTS - REVIEW <#> | ACCEPT <#> | COMPLETE <#>]").append("\r\n");
+        sb.append( "[QUESTS - LIST | REVIEW <#> | ACCEPT <#> | COMPLETE <#>] ");
         return sb.toString();
     }
 

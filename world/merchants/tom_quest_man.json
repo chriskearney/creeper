@@ -9,11 +9,11 @@
     "tom quest man",
     "tom"
   ],
-  "welcomeMessage": "I'm tom the quest man.  I have some simple requests, and I can give rewards.\r\n",
+  "welcomeMessage": "I'm a simple man who tirelessly works the fields south of town.\r\n",
   "merchantType": "QUESTGIVER",
   "quests": [
     {
-      "questName": "aloe quest",
+      "questName": "Endangered Daughter",
       "critera": {
         "items": [
           {
@@ -31,7 +31,7 @@
         ],
         "gold": 1000
       },
-      "questDescription": "My daughter sufered a wicked burn and I'm in desperate need of aloe vera.",
+      "questDescription": "My daughter sufered a wicked burn and I'm in desperate need of aloe vera.  I know that south of the town square, aloe vera can be found by foraging.  Please help me out by retrieving me some aloe.",
       "questCompletionText": "My daughter's wounds can be healed! Thank you!! Here have this reward: "
     }
   ]
