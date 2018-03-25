@@ -83,14 +83,16 @@ public class Merchant {
         for (Quest quest: quests) {
             i++;
             sb.append(i).append(") ").append(quest.getQuestName());
+            sb.append(Color.RED + " [" + Color.RESET);
+            StringJoiner stringJoiner = new StringJoiner(", ");
             if (quest.getLimitedClasses() != null && !quest.getLimitedClasses().isEmpty()) {
-                sb.append(Color.RED + " [" + Color.RESET);
-                StringJoiner stringJoiner = new StringJoiner(", ");
                 for (PlayerClass playerClass: quest.getLimitedClasses()) {
                     stringJoiner.add(ASCIIArt.capitalizeFirstLetter(playerClass.getIdentifier()));
                 }
-                sb.append(stringJoiner.toString()).append(Color.RED + "]" + Color.RESET);
+            } else {
+                stringJoiner.add("All");
             }
+            sb.append(stringJoiner.toString()).append(Color.RED + "]" + Color.RESET);
             sb.append("\r\n");
         }
         return sb.toString();
