@@ -36,7 +36,7 @@ public class ReviewCommand extends QuestGiverCommand {
                 write(Color.BOLD_ON + Color.YELLOW + "Quest Name" + Color.RESET + "\r\n");
                 write(ASCIIArt.centerOnWidth(quest.getQuestName(), 80, " ") + "\r\n\r\n");
                 write(Color.BOLD_ON + Color.YELLOW + "Description" + Color.RESET + "\r\n");
-                write(ASCIIArt.wrap("\t" + quest.getQuestDescription() + "\r\n"+ "\r\n"));
+                write(ASCIIArt.wrap("    " + quest.getQuestDescription() + "\r\n"+ "\r\n"));
                 List<Quest.ItemsAmount> requiredItems = quest.getCriteria().getItems();
                 write(Color.BOLD_ON + Color.YELLOW + "Retrieve" + Color.RESET + "\r\n");
                 for (Quest.ItemsAmount itemsAmount: requiredItems) {
