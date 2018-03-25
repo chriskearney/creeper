@@ -10,6 +10,7 @@ import com.comandante.creeper.merchant.lockers.LockerCommandRegistry;
 import com.comandante.creeper.merchant.lockers.PutCommand;
 import com.comandante.creeper.merchant.lockers.QueryCommand;
 import com.comandante.creeper.merchant.playerclass_selector.PlayerClassCommandRegistry;
+import com.comandante.creeper.merchant.questgiver.QuestGiverCommandRegistry;
 
 public class ConfigureCommands {
 
@@ -34,11 +35,20 @@ public class ConfigureCommands {
         lockerCommandRegistry.addCommand(new QueryCommand(gameManager));
         lockerCommandRegistry.addCommand(new com.comandante.creeper.merchant.lockers.DoneCommand(gameManager));
     }
+
     public static PlayerClassCommandRegistry playerClassCommandRegistry;
 
     public static void configurePlayerClassSelector(GameManager gameManager) {
        playerClassCommandRegistry = new PlayerClassCommandRegistry(gameManager);
     }
+
+    public static QuestGiverCommandRegistry questGiverCommandRegistry;
+
+    public static void configureQuestGiver(GameManager gameManager) {
+        questGiverCommandRegistry = new QuestGiverCommandRegistry(gameManager);
+        questGiverCommandRegistry.addCommand(new com.comandante.creeper.merchant.questgiver.LeaveCommand(gameManager));
+    }
+
 
     public static void configure(GameManager gameManager) {
         creeperCommandRegistry = new CreeperCommandRegistry(new com.comandante.creeper.command.commands.UnknownCommand(gameManager));

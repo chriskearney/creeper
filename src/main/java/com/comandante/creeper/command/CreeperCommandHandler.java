@@ -15,6 +15,7 @@ import com.comandante.creeper.merchant.MerchantCommandHandler;
 import com.comandante.creeper.merchant.bank.commands.BankCommandHandler;
 import com.comandante.creeper.merchant.lockers.LockerCommandHandler;
 import com.comandante.creeper.merchant.playerclass_selector.PlayerClassCommandHandler;
+import com.comandante.creeper.merchant.questgiver.QuestGiverCommandHandler;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.server.model.CreeperSession;
 import com.comandante.creeper.server.multiline.MultiLineInputHandler;
@@ -50,6 +51,8 @@ public class CreeperCommandHandler extends SimpleChannelUpstreamHandler {
                 addLastHandler(e, new LockerCommandHandler(gameManager, merchant));
             } else if (merchant.getMerchantType() == Merchant.MerchantType.PLAYERCLASS_SELECTOR) {
                 addLastHandler(e, new PlayerClassCommandHandler(gameManager, merchant));
+            } else if (merchant.getMerchantType() == Merchant.MerchantType.QUESTGIVER) {
+                addLastHandler(e, new QuestGiverCommandHandler(gameManager, merchant));
             } else {
                 addLastHandler(e, new MerchantCommandHandler(gameManager, merchant));
             }
@@ -60,17 +63,23 @@ public class CreeperCommandHandler extends SimpleChannelUpstreamHandler {
         Command commandByTrigger = null;
 
         String rootCommand = getRootCommand(e);
-        if (player.isChatModeOn()) {
+        if (player.isChatModeOn())
+
+        {
             if (rootCommand.startsWith("/")) {
                 commandByTrigger = ConfigureCommands.creeperCommandRegistry.getCommandByTrigger(rootCommand.substring(1));
             } else {
                 commandByTrigger = new GossipCommand(gameManager);
             }
-        } else {
+        } else
+
+        {
             commandByTrigger = ConfigureCommands.creeperCommandRegistry.getCommandByTrigger(rootCommand);
         }
 
-        if ((commandByTrigger.roles != null) && commandByTrigger.roles.size() > 0) {
+        if ((commandByTrigger.roles != null) && commandByTrigger.roles.size() > 0)
+
+        {
             boolean roleMatch = gameManager.getPlayerManager().hasAnyOfRoles(player, commandByTrigger.roles);
             if (!roleMatch) {
                 addLastHandler(e, new UnknownCommand(gameManager));
@@ -79,15 +88,21 @@ public class CreeperCommandHandler extends SimpleChannelUpstreamHandler {
             }
         }
 
-        if (commandByTrigger.getDescription() != null) {
+        if (commandByTrigger.getDescription() != null)
+
+        {
             Creeper.metrics.counter(MetricRegistry.name(CreeperCommandHandler.class, rootCommand)).inc();
             CommandAuditLog.logCommand((String) e.getMessage(), session.getUsername().get());
         }
 
         commandMeter.mark();
+
         // Always create a copy of the command.
         addLastHandler(e, commandByTrigger.copy());
-        super.messageReceived(ctx, e);
+        super.
+
+                messageReceived(ctx, e);
+
     }
 
     private void addLastHandler(MessageEvent e, ChannelHandler handler) {

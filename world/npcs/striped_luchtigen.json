@@ -1,0 +1,89 @@
+{
+  "name": "striped luchtigen",
+  "colorName": "striped @c-bold-on@@c-magenta@luchtigen@c-reset@",
+  "stats": {
+    "strength": 18,
+    "intelligence": 0,
+    "willpower": 44,
+    "aim": 9,
+    "agile": 20,
+    "armorRating": 31,
+    "meleSkill": 31,
+    "currentHealth": 340,
+    "maxHealth": 340,
+    "weaponRatingMax": 64,
+    "weaponRatingMin": 30,
+    "numberOfWeaponRolls": 1,
+    "experience": 250000,
+    "currentMana": 400,
+    "maxMana": 400,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0,
+    "lockPicking": 0
+  },
+  "dieMessage": "a striped @c-bold-on@@c-magenta@luchtigen@c-reset@ roars one last time before its brutal death.",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "BLOODRIDGE9_ZONE"
+  ],
+  "validTriggers": [
+    "s",
+    "l",
+    "striped",
+    "luchtigen",
+    "striped luchtigen"
+  ],
+  "spawnRules": [
+    {
+      "area": "BLOODRIDGE9_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 4,
+      "maxPerRoom": 2
+    }
+  ],
+  "loot": {
+    "internalItemNames": [
+      "luchtigen claw"
+    ],
+    "lootGoldMax": 60,
+    "lootGoldMin": 43
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ swings its razor sharp and gleaming claws at @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ lets out a fierce growl as it pounces at @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ charges at @player-name@ with its mouth wide open, bearing its fangs!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ pounces on and tackles @player-name@, and then sinks its teeth directly into @player-name@\u0027s flesh, sending blood @c-bold@@c-red@SPRAYING@c-reset@ across the ground!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ sinks its lengthy claws into @player-name@\u0027s back and tears a large chunk of flesh away!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ crouches and then pounces directly at @player-name@!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "A @npc-color-name@ silently stalks its prey in the surrounding grass."
+    }
+  ]
+}

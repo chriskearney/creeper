@@ -1,5 +1,7 @@
 package com.comandante.creeper.merchant;
 
+import com.comandante.creeper.player.Quest;
+
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +15,7 @@ public class MerchantMetadata {
     private List<MerchantItemForSale> merchantItemForSales;
     private String welcomeMessage;
     private Merchant.MerchantType merchantType;
+    private List<Quest> quests;
 
     public void setMerchantType(Merchant.MerchantType merchantType) {
         this.merchantType = merchantType;
@@ -82,5 +85,13 @@ public class MerchantMetadata {
 
     public void setWelcomeMessage(String welcomeMessage) {
         this.welcomeMessage = welcomeMessage;
+    }
+
+    public List<Quest> getQuests() {
+        return quests;
+    }
+
+    public void setQuests(List<Quest> quests) {
+        this.quests = quests;
     }
 }

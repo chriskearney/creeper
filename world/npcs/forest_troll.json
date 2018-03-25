@@ -1,0 +1,89 @@
+{
+  "name": "forest troll",
+  "colorName": "forest @c-bold-on@@c-magenta@troll@c-reset@",
+  "stats": {
+    "strength": 16,
+    "intelligence": 0,
+    "willpower": 34,
+    "aim": 9,
+    "agile": 20,
+    "armorRating": 36,
+    "meleSkill": 31,
+    "currentHealth": 250,
+    "maxHealth": 250,
+    "weaponRatingMax": 54,
+    "weaponRatingMin": 30,
+    "numberOfWeaponRolls": 1,
+    "experience": 250000,
+    "currentMana": 400,
+    "maxMana": 400,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0,
+    "lockPicking": 0
+  },
+  "dieMessage": "the forest @c-bold-on@@c-magenta@troll@c-reset@\u0027s corpse lands on the ground with a thud that shakes the surrounding area.",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "SOUTH2_ZONE"
+  ],
+  "validTriggers": [
+    "f",
+    "t",
+    "forest",
+    "troll",
+    "forest troll"
+  ],
+  "spawnRules": [
+    {
+      "area": "SOUTH2_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 12,
+      "maxPerRoom": 2
+    }
+  ],
+  "loot": {
+    "internalItemNames": [
+      "forest axe"
+    ],
+    "lootGoldMax": 36,
+    "lootGoldMin": 26
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ grabs a fallen branch and swings at @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ slashes at @player-name@ with a @c-green@forest@c-reset@axe!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ tries to kick @player-name@!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ lands a massive blow to @player-name@\u0027s face, @c-bold@@c-yellow@CRUSHING@c-reset@ @player-name@\u0027s jaw and scattering several of their teeth!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ catches @player-name@ off guard, causing horrific pain and completely startling them!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ swings a @c-green@forest@c-reset@ axe at @player-name@!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "A @npc-color-name@ stomps around the surrounding forest with heavy feet."
+    }
+  ]
+}

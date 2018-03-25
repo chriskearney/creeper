@@ -1,0 +1,97 @@
+{
+  "name": "cave orc",
+  "colorName": "cave @c-bold-on@@c-magenta@orc@c-reset@",
+  "stats": {
+    "strength": 12,
+    "intelligence": 0,
+    "willpower": 34,
+    "aim": 9,
+    "agile": 20,
+    "armorRating": 31,
+    "meleSkill": 31,
+    "currentHealth": 180,
+    "maxHealth": 180,
+    "weaponRatingMax": 54,
+    "weaponRatingMin": 30,
+    "numberOfWeaponRolls": 1,
+    "experience": 250000,
+    "currentMana": 400,
+    "maxMana": 400,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0,
+    "lockPicking": 0
+  },
+  "dieMessage": "a dying cave @c-bold-on@@c-magenta@orc@c-reset@ falls to the ground with a heavy thud.",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "WESTERN9_ZONE",
+    "WESTERN10_ZONE"
+  ],
+  "validTriggers": [
+    "c",
+    "o",
+    "cave",
+    "orc",
+    "cave orc"
+  ],
+  "spawnRules": [
+    {
+      "area": "WESTERN9_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 12,
+      "maxPerRoom": 2
+    },
+    {
+      "area": "WESTERN10_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 6,
+      "maxPerRoom": 2
+    }
+  ],
+  "loot": {
+    "internalItemNames": [
+      "wormwood staff"
+    ],
+    "lootGoldMax": 36,
+    "lootGoldMin": 26
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ springs off a wall toward @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ attacks @player-name@ from below!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ swings his arms maniacally at @player-name@!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "Before @player-name@ can react, @npc-color-name@ springs into the air and smashes both his fists into @player-name@, a @c-bold@@c-yellow@STUNNING@c-reset@ blow!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ spins around and sends @player-name@ smashing into the cave wall, @player-name@ is completely disoriented!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ growls and hisses before swinging at @player-name@!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "A @npc-color-name@ lurks about in the jagged edges of the cave."
+    }
+  ]
+}

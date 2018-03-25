@@ -2,6 +2,8 @@ package com.comandante.creeper.merchant;
 
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.items.ItemMetadata;
+import com.comandante.creeper.player.Quest;
+import com.google.common.collect.Lists;
 import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;
@@ -20,12 +22,13 @@ public class Merchant {
     private final String welcomeMessage;
     private final MerchantType merchantType;
     private final Set<Integer> roomIds;
+    private final List<Quest> quests;
 
     public Merchant(GameManager gameManager, String internalName, String name, String colorName, Set<String> validTriggers, List<MerchantItemForSale> merchantItemForSales, String welcomeMessage, Set<Integer> roomIds) {
-        this(gameManager, internalName, name, colorName, validTriggers, merchantItemForSales, welcomeMessage, roomIds, MerchantType.BASIC);
+        this(gameManager, internalName, name, colorName, validTriggers, merchantItemForSales, welcomeMessage, roomIds, MerchantType.BASIC, Lists.newArrayList());
     }
 
-    public Merchant(GameManager gameManager, String internalName, String name, String colorName, Set<String> validTriggers, List<MerchantItemForSale> merchantItemForSales, String welcomeMessage, Set<Integer> roomIds, MerchantType merchantType) {
+    public Merchant(GameManager gameManager, String internalName, String name, String colorName, Set<String> validTriggers, List<MerchantItemForSale> merchantItemForSales, String welcomeMessage, Set<Integer> roomIds, MerchantType merchantType, List<Quest> quests) {
         this.gameManager = gameManager;
         this.name = name;
         this.colorName = colorName;
@@ -35,7 +38,7 @@ public class Merchant {
         this.merchantType = merchantType;
         this.roomIds = roomIds;
         this.internalName = internalName;
-
+        this.quests = quests;
     }
 
     public String getInternalName() {
@@ -52,10 +55,8 @@ public class Merchant {
         t.addCell("price");
         t.addCell("description");
         int i = 0;
-        Iterator<MerchantItemForSale> iterator = merchantItemForSales.iterator();
-        while (iterator.hasNext()) {
+        for (MerchantItemForSale merchantItemForSale : merchantItemForSales) {
             i++;
-            MerchantItemForSale merchantItemForSale = iterator.next();
             Optional<ItemMetadata> itemMetadataOptional = gameManager.getItemStorage().get(merchantItemForSale.getInternalItemName());
             if (!itemMetadataOptional.isPresent()) {
                 continue;
@@ -66,6 +67,10 @@ public class Merchant {
             t.addCell(itemMetadata.getItemDescription());
         }
         return t.render();
+    }
+
+    public String getQuestsMenu() {
+
     }
 
     public GameManager getGameManager() {
@@ -108,6 +113,6 @@ public class Merchant {
         BANK,
         LOCKER,
         PLAYERCLASS_SELECTOR,
-        BASIC
+        QUESTGIVER, BASIC
     }
 }

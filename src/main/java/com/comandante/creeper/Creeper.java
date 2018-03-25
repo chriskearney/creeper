@@ -129,6 +129,10 @@ public class Creeper extends AbstractIdleService {
         startUpMessage("Configure Player Class Selection commands");
         ConfigureCommands.configurePlayerClassSelector(gameManager);
 
+
+        startUpMessage("Configure quest giver commands");
+        ConfigureCommands.configureQuestGiver(gameManager);
+
         startUpMessage("Configuring npcs and merchants");
         ConfigureNpc.configure(entityManager, gameManager);
         creeperServer = new CreeperServer(creeperConfiguration.getTelnetPort());

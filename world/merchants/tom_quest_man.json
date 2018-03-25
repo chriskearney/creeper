@@ -1,0 +1,38 @@
+{
+  "internalName": "tom quest man",
+  "roomIds": [
+    2
+  ],
+  "name": "tom quest man",
+  "colorName": "@c-bold-on@@c-green@tom quest man@c-reset@",
+  "validTriggers": [
+    "tom quest man",
+    "tom"
+  ],
+  "welcomeMessage": "Here's a quest fooo\r\n",
+  "merchantType": "QUESTGIVER",
+  "quests": [
+    {
+      "questName": "aloe quest",
+      "critera": {
+        "items": [
+          {
+            "amount": 1,
+            "iternalItemName": "aloe vera"
+          }
+        ]
+      },
+      "reward": {
+        "items": [
+          {
+            "amount": 2,
+            "iternalItemName": "Aegirs greataxe"
+          }
+        ],
+        "gold": 1000
+      },
+      "questDescription": "My daughter sufered a wicked burn and I'm in desperate need of aloe vera.",
+      "questCompletionText": "My daughter's wounds can be healed! Thank you!! Here have this reward: "
+    }
+  ]
+}
