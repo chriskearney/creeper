@@ -57,7 +57,14 @@ public class ReviewCommand extends QuestGiverCommand {
                     }
                     write(Integer.toString(itemsAmount.getAmount()) + "x " + itemMetadata.get().getItemName() + "\r\n");
                 }
-                write("\r\n");
+                StringBuilder sb = new StringBuilder();
+                if (quest.getReward().getGold() > 0) {
+                    sb.append(quest.getReward().getGold() + Color.BOLD_ON + Color.YELLOW + " gold" + Color.RESET).append("\r\n");
+                }
+                if (quest.getReward().getXp() > 0) {
+                    sb.append(quest.getReward().getXp() + Color.BOLD_ON + Color.GREEN + " xp" + Color.RESET).append("\r\n");
+                }
+                write(sb.toString() + "\r\n");
             } catch (Exception ex) {
                 write("\r\n\r\n!! specify a valid quest number.\r\n\r\n");
             }

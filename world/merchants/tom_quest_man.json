@@ -9,30 +9,30 @@
     "tom quest man",
     "tom"
   ],
+  "limitedClasses" : [ "WARRIOR" ],
   "welcomeMessage": "I'm a simple man who tirelessly works the fields south of town.\r\n",
   "merchantType": "QUESTGIVER",
   "quests": [
     {
-      "questName": "Endangered Daughter",
-      "critera": {
-        "items": [
-          {
-            "amount": 1,
-            "iternalItemName": "aloe vera"
-          }
-        ]
+      "questName" : "Endangered Daughter",
+      "critera" : {
+        "items" : [ {
+          "amount" : 1,
+          "iternalItemName" : "aloe vera"
+        } ]
       },
-      "reward": {
-        "items": [
-          {
-            "amount": 2,
-            "iternalItemName": "Aegirs greataxe"
-          }
-        ],
-        "gold": 1000
+      "reward" : {
+        "items" : [ {
+          "amount" : 2,
+          "iternalItemName" : "Aegirs greataxe"
+        } ],
+        "gold" : 1000,
+        "xp" : 6000
       },
-      "questDescription": "My daughter sufered a wicked burn and I'm in desperate need of aloe vera.  I know that south of the town square, aloe vera can be found by foraging.  Please help me out by retrieving me some aloe.",
-      "questCompletionText": "My daughter's wounds can be healed! Thank you!! Here have this reward: "
+      "questDescription" : "My daughter sufered a wicked burn and I'm in desperate need of aloe vera.",
+      "questCompletionText" : "My daughter's wounds can be healed! Thank you!! Here have this reward: ",
+      "minimumLevel" : 1,
+      "limitedClasses" : [ "WARRIOR", "SHAMAN", "WIZARD" ]
     }
   ]
 }

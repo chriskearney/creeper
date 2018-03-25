@@ -2,7 +2,12 @@ package com.comandante.creeper.core_game;
 
 
 import com.comandante.creeper.Creeper;
-import com.comandante.creeper.player.*;
+import com.comandante.creeper.player.CoolDown;
+import com.comandante.creeper.player.CoolDownType;
+import com.comandante.creeper.player.PlayerClass;
+import com.comandante.creeper.player.PlayerManagementManager;
+import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.player.PlayerRole;
 import com.comandante.creeper.server.model.CreeperSession;
 import com.comandante.creeper.stats.DefaultStats;
 import com.google.common.base.Optional;
@@ -93,6 +98,8 @@ public class NewUserRegistrationManager {
                 Maps.newHashMap(),
                 PlayerClass.BASIC,
                 cooldowns,
+                null,
+                null,
                 null);
         gameManager.getPlayerManager().savePlayerMetadata(playerMetadata);
         messageEvent.getChannel().write("User created.\r\n");

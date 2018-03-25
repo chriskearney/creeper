@@ -21,8 +21,7 @@ public class ListCommand extends QuestGiverCommand {
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         try {
             configure(e);
-            write(getMerchant().getWelcomeMessage() + "\r\n");
-            write(getMerchant().getQuestsMenu() + "\r\n");
+            write(getMerchant().getQuestsIntro());
         } finally {
 //            e.getChannel().getPipeline().remove("executed_command");
 //            e.getChannel().getPipeline().remove(QuestGiverCommand.PIPELINE_NAME);

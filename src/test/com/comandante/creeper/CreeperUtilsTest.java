@@ -6,10 +6,13 @@ import com.comandante.creeper.blackjack.Hand;
 import com.comandante.creeper.common.CreeperUtils;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.entity.EntityManager;
-import com.comandante.creeper.player.*;
+import com.comandante.creeper.player.Player;
+import com.comandante.creeper.player.PlayerClass;
+import com.comandante.creeper.player.PlayerManager;
+import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.player.PlayerRole;
 import com.comandante.creeper.stats.DefaultStats;
 import com.comandante.creeper.stats.modifier.StatsModifierFactory;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -45,7 +48,7 @@ public class CreeperUtilsTest {
                 Maps.newHashMap(),
                 PlayerClass.BASIC,
                 Maps.newConcurrentMap(),
-                null);
+                null, null, null);
         GameManager gameManager = mock(GameManager.class);
         StatsModifierFactory statsModifierFactory = mock(StatsModifierFactory.class);
         when(statsModifierFactory.getStatsModifier(Matchers.any())).thenReturn(DefaultStats.DEFAULT_PLAYER.createStats());

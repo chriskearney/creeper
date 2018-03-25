@@ -2,7 +2,6 @@ package com.comandante.creeper.player.combat_simuation;
 
 import com.comandante.creeper.Creeper;
 import com.comandante.creeper.configuration.ConfigureCommands;
-
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SessionManager;
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
@@ -11,7 +10,12 @@ import com.comandante.creeper.items.Item;
 import com.comandante.creeper.items.ItemMetadata;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.npc.NpcBuilder;
-import com.comandante.creeper.player.*;
+import com.comandante.creeper.player.CoolDownType;
+import com.comandante.creeper.player.Player;
+import com.comandante.creeper.player.PlayerClass;
+import com.comandante.creeper.player.PlayerManager;
+import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.player.PlayerRole;
 import com.comandante.creeper.server.model.CreeperSession;
 import com.comandante.creeper.server.player_communication.ChannelCommunicationUtils;
 import com.comandante.creeper.stats.DefaultStats;
@@ -36,7 +40,12 @@ import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;
 
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -295,7 +304,7 @@ public class NpcTestHarness {
                 Maps.newHashMap(),
                 PlayerClass.BASIC,
                 Maps.newConcurrentMap(),
-                null);
+                null, null, null);
         gameManager.getPlayerManager().savePlayerMetadata(playerMetadata);
     }
 

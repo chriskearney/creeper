@@ -43,7 +43,9 @@ public class TalkCommand extends Command {
             Set<Merchant> merchants = currentRoom.getMerchants();
             for (Merchant merchant : merchants) {
                 if (merchant.getValidTriggers().contains(desiredMerchantTalk)) {
-                    write(merchant.getWelcomeMessage() + "\r\n");
+                    if (merchant.getMerchantType() != Merchant.MerchantType.QUESTGIVER) {
+                        write(merchant.getWelcomeMessage() + "\r\n");
+                    }
                     if (merchant.getMerchantType() == Merchant.MerchantType.BASIC) {
                         write(merchant.getMenu() + "\r\n");
                         gameManager.getChannelUtils().write(playerId, "\r\n" + MerchantCommandHandler.buildPrompt());
@@ -52,7 +54,7 @@ public class TalkCommand extends Command {
                     } else if (merchant.getMerchantType() == Merchant.MerchantType.LOCKER) {
                         write(LockerCommand.getPrompt());
                     } else if (merchant.getMerchantType() == Merchant.MerchantType.QUESTGIVER) {
-                        write(merchant.getQuestsMenu() + "\r\n");
+                        write(merchant.getQuestsIntro());
                         write(QuestGiverCommand.getPrompt());
                     } else if (merchant.getMerchantType() == Merchant.MerchantType.PLAYERCLASS_SELECTOR) {
                         if (player.getLevel() < 2) {
