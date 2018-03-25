@@ -21,6 +21,7 @@ public class UnknownCommand extends QuestGiverCommand {
         configure(e);
         try {
             if (getMerchant() != null) {
+                write(getMerchant().getWelcomeMessage());
                 write(getMerchant().getQuestsMenu());
             }
             write(getPrompt());
