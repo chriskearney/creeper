@@ -8,16 +8,16 @@ import java.util.Set;
 public class Quest {
 
     private String questName;
-    private Critera critera;
+    private Critera criteria;
     private Reward reward;
     private String questDescription;
     private String questCompletionText;
     private long minimumLevel;
     private Set<PlayerClass> limitedClasses;
 
-    public Quest(String questName, Critera critera, Reward reward, String questDescription, String questCompletionText, long minimumLevel, Set<PlayerClass> limitedClasses) {
+    public Quest(String questName, Critera criteria, Reward reward, String questDescription, String questCompletionText, long minimumLevel, Set<PlayerClass> limitedClasses) {
         this.questName = questName;
-        this.critera = critera;
+        this.criteria = criteria;
         this.reward = reward;
         this.questDescription = questDescription;
         this.questCompletionText = questCompletionText;
@@ -32,8 +32,8 @@ public class Quest {
         this.questName = questName;
     }
 
-    public void setCritera(Critera critera) {
-        this.critera = critera;
+    public void setCriteria(Critera criteria) {
+        this.criteria = criteria;
     }
 
     public void setReward(Reward reward) {
@@ -60,8 +60,8 @@ public class Quest {
         return questName;
     }
 
-    public Critera getCritera() {
-        return critera;
+    public Critera getCriteria() {
+        return criteria;
     }
 
     public Reward getReward() {
