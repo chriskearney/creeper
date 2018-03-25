@@ -33,8 +33,7 @@ public class ReviewCommand extends QuestGiverCommand {
             try {
                 int i = Integer.parseInt(originalMessageParts.get(1));
                 Quest quest = getMerchant().getQuests().get(i - 1);
-                write(Color.BOLD_ON + Color.YELLOW + "Quest Name" + Color.RESET + "\r\n");
-                write(ASCIIArt.centerOnWidth(quest.getQuestName(), 80, " ") + "\r\n\r\n");
+                write(ASCIIArt.centerOnWidth(Color.BOLD_ON + Color.CYAN + quest.getQuestName() + Color.RESET, 80, " ") + "\r\n\r\n");
                 write(Color.BOLD_ON + Color.YELLOW + "Description" + Color.RESET + "\r\n");
                 write(ASCIIArt.wrap("    " + quest.getQuestDescription() + "\r\n"+ "\r\n"));
                 List<Quest.ItemsAmount> requiredItems = quest.getCriteria().getItems();

@@ -1,12 +1,12 @@
 {
-  "internalName": "tom quest man",
+  "internalName": "tom the gardener",
   "roomIds": [
     2
   ],
   "name": "tom quest man",
-  "colorName": "@c-bold-on@@c-green@tom quest man@c-reset@",
+  "colorName": "tom the @c-bold-on@@c-green@gardener@c-reset@",
   "validTriggers": [
-    "tom quest man",
+    "tom the gardener",
     "tom"
   ],
   "welcomeMessage": "I'm a simple man who tirelessly works the fields south of town.\r\n",
