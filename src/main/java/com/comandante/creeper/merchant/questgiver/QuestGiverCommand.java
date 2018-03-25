@@ -4,6 +4,7 @@ import com.comandante.creeper.Creeper;
 import com.comandante.creeper.command.commands.Command;
 import com.comandante.creeper.common.CreeperUtils;
 import com.comandante.creeper.core_game.GameManager;
+import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.merchant.playerclass_selector.PlayerClassCommand;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerClass;
@@ -35,15 +36,17 @@ public class QuestGiverCommand extends SimpleChannelUpstreamHandler {
     public Room currentRoom;
     public List<String> originalMessageParts;
     public String rootCommand;
+    private Merchant merchant;
 
     public static String PIPELINE_NAME = "executed_questgiver_command";
 
-    public QuestGiverCommand(GameManager gameManager, List<String> validTriggers, String description) {
+    public QuestGiverCommand(GameManager gameManager, Merchant merchant, List<String> validTriggers, String description) {
         this.gameManager = gameManager;
         this.playerManager = gameManager.getPlayerManager();
         this.channelUtils = gameManager.getChannelUtils();
         this.validTriggers = validTriggers;
         this.description = description;
+        this.merchant = merchant;
     }
 
     @Override
@@ -52,7 +55,7 @@ public class QuestGiverCommand extends SimpleChannelUpstreamHandler {
             CreeperSession creeperSession = extractCreeperSession(e.getChannel());
             e.getChannel().getPipeline().remove("executed_command");
             e.getChannel().getPipeline().remove(PIPELINE_NAME);
-            gameManager.getChannelUtils().write(playerId, QuestGiverCommand.getPrompt(), true);
+            gameManager.getChannelUtils().write(playerId, getPrompt(), true);
             if (creeperSession.getGrabMerchant().isPresent()) {
                 return;
             }
@@ -95,17 +98,27 @@ public class QuestGiverCommand extends SimpleChannelUpstreamHandler {
 
     public static String getPrompt() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Choose from one of the following classes.  Make your choice wisely, as you won't be able to change your mind.").append("\r\n").append("\r\n");
+        sb.append( "[QUESTS - REVIEW <#> | ACCEPT <#> | COMPLETE <#>]").append("\r\n");
         return sb.toString();
     }
 
-    public <T> T createObj(String nameclass) throws ClassNotFoundException,
+    public <T> T createObj(Merchant merchant, String nameclass) throws ClassNotFoundException,
             InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
         Class<T> clazz = (Class<T>) Class.forName(nameclass);
 
+        T t = clazz.getConstructor(Merchant.class, GameManager.class).newInstance(merchant, gameManager);
+
         // assumes the target class has a no-args Constructor
-        return clazz.getConstructor(GameManager.class).newInstance(gameManager);
+        return t;
     }
 
+
+    public Merchant getMerchant() {
+        return merchant;
+    }
+
+    public void setMerchant(Merchant merchant) {
+        this.merchant = merchant;
+    }
 }

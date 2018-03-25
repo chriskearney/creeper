@@ -70,7 +70,14 @@ public class Merchant {
     }
 
     public String getQuestsMenu() {
-
+        StringBuilder sb = new StringBuilder();
+        sb.append("Available Quests: ").append("\r\n");
+        int i = 0;
+        for (Quest quest: quests) {
+            i++;
+            sb.append(i + ". " + quest.getQuestName() + ".").append("\r\n");
+        }
+        return sb.toString();
     }
 
     public GameManager getGameManager() {

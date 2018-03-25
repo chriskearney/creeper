@@ -46,7 +46,7 @@ public class ConfigureCommands {
 
     public static void configureQuestGiver(GameManager gameManager) {
         questGiverCommandRegistry = new QuestGiverCommandRegistry(gameManager);
-        questGiverCommandRegistry.addCommand(new com.comandante.creeper.merchant.questgiver.LeaveCommand(gameManager));
+        questGiverCommandRegistry.addCommand(new com.comandante.creeper.merchant.questgiver.LeaveCommand(null, gameManager));
     }
 
 

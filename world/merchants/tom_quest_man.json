@@ -9,7 +9,7 @@
     "tom quest man",
     "tom"
   ],
-  "welcomeMessage": "Here's a quest fooo\r\n",
+  "welcomeMessage": "I'm tom the quest man.  I have some simple requests, and I can give rewards.\r\n",
   "merchantType": "QUESTGIVER",
   "quests": [
     {

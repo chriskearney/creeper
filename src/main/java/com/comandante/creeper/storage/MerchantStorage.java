@@ -56,7 +56,8 @@ public class MerchantStorage {
                     merchantMetadata.getMerchantItemForSales(),
                     merchantMetadata.getWelcomeMessage(),
                     merchantMetadata.getRoomId(),
-                    merchantMetadata.getMerchantType());
+                    merchantMetadata.getMerchantType(),
+                    merchantMetadata.getQuests());
         }
 
         return new Merchant(gameManager,

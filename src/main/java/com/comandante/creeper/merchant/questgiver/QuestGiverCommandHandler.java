@@ -27,8 +27,8 @@ public class QuestGiverCommandHandler extends SimpleChannelUpstreamHandler {
         String rootCommand = getRootCommand(e);
         CreeperSession session = (CreeperSession) e.getChannel().getAttachment();
         CommandAuditLog.logCommand(rootCommand, session.getUsername().get());
-        QuestGiverCommand commandByTrigger = ConfigureCommands.questGiverCommandRegistry.getCommandByTrigger(rootCommand);
-        QuestGiverCommand cmd = commandByTrigger.createObj(commandByTrigger.getClass().getName());
+        QuestGiverCommand commandByTrigger = ConfigureCommands.questGiverCommandRegistry.getCommandByTrigger(merchant, rootCommand);
+        QuestGiverCommand cmd = commandByTrigger.createObj(merchant, commandByTrigger.getClass().getName());
         e.getChannel().getPipeline().addLast(QuestGiverCommand.PIPELINE_NAME, cmd);
         super.messageReceived(ctx, e);
     }

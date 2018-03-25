@@ -16,8 +16,8 @@ public class LeaveCommand extends QuestGiverCommand {
     final static List<String> validTriggers = Arrays.asList("leave");
     final static String description = "Leave the discussion.";
 
-    public LeaveCommand(GameManager gameManager) {
-        super(gameManager, validTriggers, description);
+    public LeaveCommand(Merchant merchant, GameManager gameManager) {
+        super(gameManager, merchant, validTriggers, description);
     }
 
     @Override
