@@ -27,6 +27,7 @@ import com.comandante.creeper.player.CoolDownType;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.player.PlayerMovement;
+import com.comandante.creeper.server.ASCIIArt;
 import com.comandante.creeper.server.multiline.MultiLineInputManager;
 import com.comandante.creeper.server.player_communication.ChannelCommunicationUtils;
 import com.comandante.creeper.server.player_communication.Color;
@@ -60,7 +61,6 @@ import com.google.gson.GsonBuilder;
 import events.CreeperEvent;
 import events.CreeperEventType;
 import events.ListenerService;
-import org.apache.commons.lang3.text.WordUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.log4j.Logger;
 import org.nocrala.tools.texttablefmt.BorderStyle;
@@ -423,7 +423,7 @@ public class GameManager {
         sb.append(playerCurrentRoom.getRoomTitle());
         sb.append(RESET);
         sb.append("\r\n\r\n");
-        sb.append(WordUtils.wrap(playerCurrentRoom.getRoomDescription(), 80, "\r\n", true)).append("\r\n").append("\r\n");
+        sb.append(ASCIIArt.wrap(playerCurrentRoom.getRoomDescription())).append("\r\n").append("\r\n");
         Optional<String> autoMapOptional = player.getPlayerSetting("auto_map");
         if (playerCurrentRoom.getMapData().isPresent()) {
             fireDrawMapEvent(playerId, playerCurrentRoom);
