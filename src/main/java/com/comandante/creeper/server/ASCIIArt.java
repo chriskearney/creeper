@@ -4,7 +4,7 @@ import org.apache.commons.lang3.text.WordUtils;
 
 public class ASCIIArt {
 
-    public static Integer GLOBAL_TERMINAL_WIDTH = 80;
+    public static Integer GLOBAL_TERMINAL_WIDTH = 79;
 
     public static String VERTICAL_SWORD_WITH_EMITTING_ORA = "        )         \n" +
             "          (            \n" +
