@@ -11,3 +11,4 @@ creeperDb*
 *.mapdb*
 *.log
 release.properties
+dependency-reduced-pom.xml
