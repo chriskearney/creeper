@@ -388,7 +388,10 @@ public class Player extends CreeperEntity implements Principal {
         for (Quest quest: quests) {
             i++;
             sb.append(i).append(") ");
-            if (player.isAccepted(quest)) {
+            if (player.isQuestReadyToTurnIn(quest)) {
+                sb.append(Color.MAGENTA + "[" + Color.RESET);
+                sb.append("Ready To Turn In").append(Color.MAGENTA + "] " + Color.RESET);
+            } else if (player.isAccepted(quest)) {
                 sb.append(Color.MAGENTA + "[" + Color.RESET);
                 sb.append("Accepted").append(Color.MAGENTA + "] " + Color.RESET);
             } else if (player.isCompleted(quest)) {
