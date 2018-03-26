@@ -39,9 +39,9 @@ public class ReviewCommand extends QuestGiverCommand {
                 List<Quest.ItemsAmount> requiredItems = quest.getCriteria().getItems();
                 write(Color.BOLD_ON + Color.YELLOW + "Retrieve" + Color.RESET + "\r\n");
                 for (Quest.ItemsAmount itemsAmount: requiredItems) {
-                    Optional<ItemMetadata> itemMetadata = gameManager.getItemStorage().get(itemsAmount.getIternalItemName());
+                    Optional<ItemMetadata> itemMetadata = gameManager.getItemStorage().get(itemsAmount.getInternalItemName());
                     if (!itemMetadata.isPresent()) {
-                        write("ERROR: internal item name is not working: " + itemsAmount.getIternalItemName() + "\r\n");
+                        write("ERROR: internal item name is not working: " + itemsAmount.getInternalItemName() + "\r\n");
                         continue;
                     }
                     write(Integer.toString(itemsAmount.getAmount()) + "x " + itemMetadata.get().getItemName() + "\r\n");
@@ -49,9 +49,9 @@ public class ReviewCommand extends QuestGiverCommand {
                 write(Color.BOLD_ON + Color.YELLOW + "\r\nReceive\r\n" + Color.RESET);
                 List<Quest.ItemsAmount> rewardItems = quest.getReward().getItems();
                 for (Quest.ItemsAmount itemsAmount : rewardItems) {
-                    Optional<ItemMetadata> itemMetadata = gameManager.getItemStorage().get(itemsAmount.getIternalItemName());
+                    Optional<ItemMetadata> itemMetadata = gameManager.getItemStorage().get(itemsAmount.getInternalItemName());
                     if (!itemMetadata.isPresent()) {
-                        write("ERROR: internal item name is not working: " + itemsAmount.getIternalItemName() + "\r\n");
+                        write("ERROR: internal item name is not working: " + itemsAmount.getInternalItemName() + "\r\n");
                         continue;
                     }
                     write(Integer.toString(itemsAmount.getAmount()) + "x " + itemMetadata.get().getItemName() + "\r\n");

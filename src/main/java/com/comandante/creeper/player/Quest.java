@@ -14,8 +14,10 @@ public class Quest {
     private String questCompletionText;
     private long minimumLevel;
     private Set<PlayerClass> limitedClasses;
+    private long expireTimeInSeconds;
+    private String dependentOnCompletionOfQuestName;
 
-    public Quest(String questName, Critera criteria, Reward reward, String questDescription, String questCompletionText, long minimumLevel, Set<PlayerClass> limitedClasses) {
+    public Quest(String questName, Critera criteria, Reward reward, String questDescription, String questCompletionText, long minimumLevel, Set<PlayerClass> limitedClasses, long expireTimeInSeconds, String dependentOnCompletionOfQuestName) {
         this.questName = questName;
         this.criteria = criteria;
         this.reward = reward;
@@ -23,6 +25,8 @@ public class Quest {
         this.questCompletionText = questCompletionText;
         this.minimumLevel = minimumLevel;
         this.limitedClasses = limitedClasses;
+        this.expireTimeInSeconds = expireTimeInSeconds;
+        this.dependentOnCompletionOfQuestName = dependentOnCompletionOfQuestName;
     }
 
     public Quest() {
@@ -54,6 +58,22 @@ public class Quest {
 
     public void setLimitedClasses(Set<PlayerClass> limitedClasses) {
         this.limitedClasses = limitedClasses;
+    }
+
+    public long getExpireTimeInSeconds() {
+        return expireTimeInSeconds;
+    }
+
+    public void setExpireTimeInSeconds(long expireTimeInSeconds) {
+        this.expireTimeInSeconds = expireTimeInSeconds;
+    }
+
+    public String getDependentOnCompletionOfQuestName() {
+        return dependentOnCompletionOfQuestName;
+    }
+
+    public void setDependentOnCompletionOfQuestName(String dependentOnCompletionOfQuestName) {
+        this.dependentOnCompletionOfQuestName = dependentOnCompletionOfQuestName;
     }
 
     public String getQuestName() {
@@ -150,11 +170,11 @@ public class Quest {
     public static class ItemsAmount {
 
         private int amount;
-        private String iternalItemName;
+        private String internalItemName;
 
-        public ItemsAmount(int amount, String iternalItemName) {
+        public ItemsAmount(int amount, String internalItemName) {
             this.amount = amount;
-            this.iternalItemName = iternalItemName;
+            this.internalItemName = internalItemName;
         }
 
         public ItemsAmount() {
@@ -164,17 +184,16 @@ public class Quest {
             return amount;
         }
 
-        public String getIternalItemName() {
-            return iternalItemName;
+        public String getInternalItemName() {
+            return internalItemName;
         }
 
         public void setAmount(int amount) {
             this.amount = amount;
         }
 
-        public void setIternalItemName(String iternalItemName) {
-            this.iternalItemName = iternalItemName;
+        public void setInternalItemName(String internalItemName) {
+            this.internalItemName = internalItemName;
         }
     }
-
 }

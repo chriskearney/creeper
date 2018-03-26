@@ -17,7 +17,7 @@ public class QuestTest {
         Quest.ItemsAmount aegirs_greataxe = new Quest.ItemsAmount(2, "Aegirs greataxe");
         Quest.Reward reward = new Quest.Reward(Lists.newArrayList(aegirs_greataxe), 1000, 6000);
 
-        Quest aloe_quest = new Quest("aloe quest", critera, reward, "My daughter sufered a wicked burn and I'm in desperate need of aloe vera.", "My daughter's wounds can be healed! Thank you!! Here have this reward: ", 1, Sets.newHashSet(PlayerClass.WARRIOR));
+        Quest aloe_quest = new Quest("aloe quest", critera, reward, "My daughter sufered a wicked burn and I'm in desperate need of aloe vera.", "My daughter's wounds can be healed! Thank you!! Here have this reward: ", 1, Sets.newHashSet(PlayerClass.WARRIOR), 300L, null);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String questJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(aloe_quest);

@@ -26,6 +26,7 @@ import com.comandante.creeper.player.CoolDown;
 import com.comandante.creeper.player.CoolDownType;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
+import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.server.ASCIIArt;
 import com.comandante.creeper.server.multiline.MultiLineInputManager;
@@ -594,6 +595,10 @@ public class GameManager {
     }
 
     public boolean acquireItem(Player player, String itemId, boolean isFromLoot) {
+        return acquireItem(Optional.empty(), player, itemId, isFromLoot);
+    }
+
+    public boolean acquireItem(Optional<PlayerMetadata> playerMetadataOptional, Player player, String itemId, boolean isFromLoot) {
         synchronized (interner.intern(itemId)) {
             Stats playerStatsWithEquipmentAndLevel = player.getPlayerStatsWithEquipmentAndLevel();
             if (player.getInventory().size() < playerStatsWithEquipmentAndLevel.getInventorySize()) {
@@ -603,7 +608,7 @@ public class GameManager {
                 }
                 Item itemEntity = itemOptional.get();
                 itemEntity.setWithPlayer(true);
-                player.addInventoryId(itemId);
+                player.addInventoryId(playerMetadataOptional, itemId);
                 entityManager.saveItem(itemEntity);
                 return true;
             } else {

@@ -7,6 +7,7 @@ import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.server.model.CreeperSession;
 import com.comandante.creeper.server.player_communication.ChannelCommunicationUtils;
+import com.comandante.creeper.server.player_communication.Color;
 import com.comandante.creeper.world.model.Room;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -52,7 +53,7 @@ public class QuestGiverCommand extends SimpleChannelUpstreamHandler {
             e.getChannel().getPipeline().remove(PIPELINE_NAME);
 //            write(getMerchant().getWelcomeMessage() + "\r\n");
 //            write(getMerchant().getQuestsMenu() + "\r\n");
-            write(getPrompt());
+            write(getPrompt(merchant, player));
 //            gameManager.getChannelUtils().write(playerId, getPrompt(), true);
             if (creeperSession.getGrabMerchant().isPresent()) {
                 return;
@@ -94,9 +95,15 @@ public class QuestGiverCommand extends SimpleChannelUpstreamHandler {
         channelUtils.write(playerId, msg);
     }
 
-    public static String getPrompt() {
+    public static String getPrompt(Merchant merchant, Player player) {
         StringBuilder sb = new StringBuilder();
-        sb.append( "[QUESTS - LIST | REVIEW <#> | ACCEPT <#> | COMPLETE | LEAVE] ");
+        sb.append("[QUESTS - LIST | REVIEW <#> | ACCEPT <#> | ");
+        if (player.anyQuestsReadyToTurnIn(merchant)) {
+            sb.append(Color.BOLD_ON).append(Color.GREEN).append("COMPLETE").append(Color.RESET);
+        } else {
+            sb.append("COMPLETE");
+        }
+        sb.append(" | LEAVE] ");
         return sb.toString();
     }
 

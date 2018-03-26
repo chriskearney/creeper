@@ -2,6 +2,7 @@ package com.comandante.creeper.merchant;
 
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.items.ItemMetadata;
+import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerClass;
 import com.comandante.creeper.player.Quest;
 import com.comandante.creeper.server.ASCIIArt;
@@ -76,13 +77,21 @@ public class Merchant {
         return t.render();
     }
 
-    public String getQuestsMenu() {
+    public String getQuestsMenu(Player player) {
         StringBuilder sb = new StringBuilder();
         sb.append(Color.BOLD_ON).append(Color.YELLOW).append("Quests").append(Color.RESET).append("\r\n");
         int i = 0;
         for (Quest quest: quests) {
             i++;
-            sb.append(i).append(") ").append(quest.getQuestName());
+            sb.append(i).append(") ");
+            if (player.isAccepted(quest)) {
+                sb.append(Color.MAGENTA + "[" + Color.RESET);
+                sb.append("Accepted").append(Color.MAGENTA + "] " + Color.RESET);
+            } else if (player.isCompleted(quest)) {
+                sb.append(Color.MAGENTA + "[" + Color.RESET);
+                sb.append("Completed").append(Color.MAGENTA + "] " + Color.RESET);
+            }
+            sb.append(quest.getQuestName());
             sb.append(Color.RED + " [" + Color.RESET);
             StringJoiner stringJoiner = new StringJoiner(", ");
             if (quest.getLimitedClasses() != null && !quest.getLimitedClasses().isEmpty()) {
@@ -126,11 +135,11 @@ public class Merchant {
         return ASCIIArt.wrap(welcomeMessage);
     }
 
-    public String getQuestsIntro() {
+    public String getQuestsIntro(Player player) {
         StringBuilder sb = new StringBuilder();
         sb.append(ASCIIArt.centerOnWidth(getColorName(), ASCIIArt.GLOBAL_TERMINAL_WIDTH, " ")).append("\r\n").append("\r\n");
         sb.append(getWelcomeMessage()).append("\r\n").append("\r\n");
-        sb.append(getQuestsMenu()).append("\r\n").append("\r\n");
+        sb.append(getQuestsMenu(player)).append("\r\n").append("\r\n");
         return sb.toString();
     }
 
@@ -151,5 +160,10 @@ public class Merchant {
         LOCKER,
         PLAYERCLASS_SELECTOR,
         QUESTGIVER, BASIC
+    }
+
+    public boolean doesHaveQuest(String questName) {
+        return getQuests().stream()
+                .anyMatch(quest -> quest.getQuestName().equals(questName));
     }
 }

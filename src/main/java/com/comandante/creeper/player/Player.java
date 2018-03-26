@@ -12,6 +12,9 @@ import com.comandante.creeper.items.Equipment;
 import com.comandante.creeper.items.EquipmentSlotType;
 import com.comandante.creeper.items.ForageManager;
 import com.comandante.creeper.items.Item;
+import com.comandante.creeper.items.ItemBuilder;
+import com.comandante.creeper.items.ItemMetadata;
+import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.npc.NpcStatsChangeBuilder;
 import com.comandante.creeper.npc.Temperament;
@@ -308,6 +311,126 @@ public class Player extends CreeperEntity implements Principal {
         }
     }
 
+    public void completeQuest(Quest quest) {
+        synchronized (interner.intern(playerId)) {
+            Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+            if (!playerMetadataOptional.isPresent()) {
+                return;
+            }
+            PlayerMetadata playerMetadata = playerMetadataOptional.get();
+            if (!isQuestReadyToTurnIn(quest)) {
+                writeMessage("You are not ready to complete " + quest.getQuestName() + "\r\n");
+                return;
+            }
+
+            Quest.Critera criteria = quest.getCriteria();
+            for (Quest.ItemsAmount itemsAmount : criteria.getItems()) {
+                for (int i = 0; i < itemsAmount.getAmount(); i++) {
+                    removeInventoryItemByInternalName(playerMetadata, itemsAmount.getInternalItemName());
+                }
+                writeMessage(itemsAmount.getAmount() + "x " + itemsAmount.getInternalItemName() + " have been removed from your inventory.\r\n");
+            }
+            savePlayerMetadata(playerMetadata);
+            playerMetadataOptional = getPlayerMetadata();
+            if (!playerMetadataOptional.isPresent()) {
+                return;
+            }
+            playerMetadata = playerMetadataOptional.get();
+
+            playerMetadata.getAcceptedQuests().remove(quest.getQuestName());
+            playerMetadata.getCompletedQuests().put(System.currentTimeMillis(), quest.getQuestName());
+
+            Quest.Reward reward = quest.getReward();
+
+            incrementGold(reward.getGold());
+            writeMessage("You have received " + reward.getGold() + Color.YELLOW + " gold." + Color.RESET + "\r\n");
+            addExperience(reward.getXp());
+            writeMessage("You have received " + reward.getXp() + Color.GREEN + " xp." + Color.RESET + "\r\n");
+            List<Quest.ItemsAmount> items = reward.getItems();
+            for (Quest.ItemsAmount itemsAmount : items) {
+                ItemMetadata itemMetadata = null;
+                for (int i = 0; i < itemsAmount.getAmount(); i++) {
+                    String internalItemName = itemsAmount.getInternalItemName();
+                    Optional<ItemMetadata> itemMetadataOpt = gameManager.getItemStorage().get(internalItemName);
+                    if (!itemMetadataOpt.isPresent()) {
+                        writeMessage("Unable to create: " + internalItemName + "\r\n");
+                        continue;
+                    }
+                    itemMetadata = itemMetadataOpt.get();
+                    Item item = new ItemBuilder().from(itemMetadata).create();
+                    gameManager.getEntityManager().saveItem(item);
+                    gameManager.acquireItem(playerMetadataOptional, this, item.getItemId(), true);
+                }
+                if (itemMetadata != null) {
+                    writeMessage("You have acquired " + itemsAmount.getAmount() + "x " + itemMetadata.getItemName() + "\r\n");
+                }
+            }
+            writeMessage("You have completed the quest: " + quest.getQuestName() + "\r\n");
+            savePlayerMetadata(playerMetadata);
+        }
+    }
+
+    public List<Quest> questsReadyToTurnIn(Merchant merchant) {
+        Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+        if (!playerMetadataOptional.isPresent()) {
+            return Lists.newArrayList();
+        }
+        List<Quest> ready = Lists.newArrayList();
+        PlayerMetadata playerMetadata = playerMetadataOptional.get();
+        Map<String, Quest> acceptedQuests = playerMetadata.getAcceptedQuests();
+        for (Map.Entry<String, Quest> next : acceptedQuests.entrySet()) {
+            if (merchant.doesHaveQuest(next.getValue().getQuestName()) && isQuestReadyToTurnIn(next.getValue())) {
+                ready.add(next.getValue());
+            }
+        }
+        return ready;
+    }
+
+    public boolean anyQuestsReadyToTurnIn(Merchant merchant) {
+        return questsReadyToTurnIn(merchant).size() > 0;
+    }
+
+    public boolean isQuestReadyToTurnIn(Quest quest) {
+        List<Quest.ItemsAmount> items = quest.getCriteria().getItems();
+        for (Quest.ItemsAmount itemsAmount : items) {
+            long inventoryItemCount = getInventoryItemCount(itemsAmount.getInternalItemName());
+            if (inventoryItemCount < itemsAmount.getAmount()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isCompleted(Quest quest) {
+        Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+        if (!playerMetadataOptional.isPresent()) {
+            return false;
+        }
+        PlayerMetadata playerMetadata = playerMetadataOptional.get();
+        return playerMetadata.getCompletedQuests().entrySet()
+                .stream()
+                .filter(longStringEntry -> longStringEntry.getValue().equals(quest.getQuestName()))
+                .anyMatch(longStringEntry -> {
+                    if (quest.getExpireTimeInSeconds() == 0) {
+                        return true;
+                    }
+                    Long timeItWasCompleted = longStringEntry.getKey();
+                    long howLongAgoWasItCompleted = System.currentTimeMillis() - timeItWasCompleted;
+                    return (howLongAgoWasItCompleted / 1000) < quest.getExpireTimeInSeconds();
+
+                });
+    }
+
+    public boolean isAccepted(Quest quest) {
+        Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+        if (!playerMetadataOptional.isPresent()) {
+            return false;
+        }
+        PlayerMetadata playerMetadata = playerMetadataOptional.get();
+        return playerMetadata.getAcceptedQuests().entrySet().stream()
+                .anyMatch(stringQuestEntry -> stringQuestEntry.getKey().equals(quest.getQuestName()));
+    }
+
     public void addActiveQuest(Quest quest) {
         synchronized (interner.intern(playerId)) {
             Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
@@ -325,11 +448,12 @@ public class Player extends CreeperEntity implements Principal {
                 return;
             }
             if (!quest.getLimitedClasses().isEmpty() && !quest.getLimitedClasses().contains(getPlayerClass())) {
-                writeMessage("You are not of the appropriate class to take on this quest.\r\n");
+                writeMessage("You are not of the appropriate class to take on " + quest.getQuestName() + "\r\n");
                 return;
             }
             playerMetadata.getAcceptedQuests().put(quest.getQuestName(), quest);
-            writeMessage("You have accepted this quest.\r\n");
+            writeMessage("You have accepted " + quest.getQuestName() + "\r\n");
+            savePlayerMetadata(playerMetadata);
         }
     }
 
@@ -544,15 +668,27 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public void addInventoryId(String inventoryId) {
+        this.addInventoryId(Optional.empty(), inventoryId);
+    }
+
+    public void addInventoryId(Optional<PlayerMetadata> playerMetadataSource, String inventoryId) {
         synchronized (interner.intern(playerId)) {
-            Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+            Optional<PlayerMetadata> playerMetadataOptional = Optional.empty();
+            if (!playerMetadataSource.isPresent()) {
+                playerMetadataOptional = getPlayerMetadata();
+            } else {
+                playerMetadataOptional = playerMetadataSource;
+            }
             if (!playerMetadataOptional.isPresent()) {
                 return;
             }
             PlayerMetadata playerMetadata = playerMetadataOptional.get();
             playerMetadata.addInventoryEntityId(inventoryId);
-            savePlayerMetadata(playerMetadata);
+            if (!playerMetadataSource.isPresent()) {
+                savePlayerMetadata(playerMetadata);
+            }
         }
+
     }
 
     public void transferItemToLocker(String inventoryId) {
@@ -561,6 +697,20 @@ public class Player extends CreeperEntity implements Principal {
             addLockerInventoryId(inventoryId);
         }
     }
+
+    private void removeInventoryItemByInternalName(PlayerMetadata playerMetadata, String internalItemName) {
+        Optional<Item> first = playerMetadata.getInventory().stream()
+                .map(s -> gameManager.getEntityManager().getItemEntity(s))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .filter(item -> item.getInternalItemName().equals(internalItemName))
+                .findFirst();
+        if (first.isPresent()) {
+            playerMetadata.removeInventoryEntityId(first.get().getItemId());
+            gameManager.getEntityManager().removeItem(first.get().getItemId());
+        }
+    }
+
 
     public void removeInventoryId(String inventoryId) {
         synchronized (interner.intern(playerId)) {
@@ -1007,6 +1157,20 @@ public class Player extends CreeperEntity implements Principal {
             }
             return Optional.empty();
         }
+    }
+
+    public long getInventoryItemCount(String internalItemName) {
+        Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+        if (!playerMetadataOptional.isPresent()) {
+            return 0;
+        }
+        PlayerMetadata playerMetadata = playerMetadataOptional.get();
+        return playerMetadata.getInventory().stream()
+                .map(s -> gameManager.getEntityManager().getItemEntity(s))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .filter(item -> item.getInternalItemName().equals(internalItemName))
+                .count();
     }
 
     public String getPlayerName() {

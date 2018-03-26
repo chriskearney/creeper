@@ -54,8 +54,8 @@ public class TalkCommand extends Command {
                     } else if (merchant.getMerchantType() == Merchant.MerchantType.LOCKER) {
                         write(LockerCommand.getPrompt());
                     } else if (merchant.getMerchantType() == Merchant.MerchantType.QUESTGIVER) {
-                        write(merchant.getQuestsIntro());
-                        write(QuestGiverCommand.getPrompt());
+                        write(merchant.getQuestsIntro(player));
+                        write(QuestGiverCommand.getPrompt(merchant, player));
                     } else if (merchant.getMerchantType() == Merchant.MerchantType.PLAYERCLASS_SELECTOR) {
                         if (player.getLevel() < 2) {
                             write("Before you can pick a character class, you must be at least level 2.");

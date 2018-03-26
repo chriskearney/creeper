@@ -36,7 +36,7 @@ public class PlayerMetadata implements Serializable {
     private PlayerClass playerClass;
     private Map<CoolDownType, CoolDown> coolDowns;
     private Integer currentRoomId;
-    private Set<String> completedQuests;
+    private Map<Long, String> completedQuests;
     private Map<String, Quest> acceptedQuests;
 
 
@@ -53,7 +53,7 @@ public class PlayerMetadata implements Serializable {
                           PlayerClass playerClass,
                           Map<CoolDownType, CoolDown> coolDowns,
                           Integer currentRoomId,
-                          Set<String> completedQuests,
+                          Map<Long, String> completedQuests,
                           Map<String, Quest> acceptedQuests) {
         this.playerName = playerName;
         this.password = password;
@@ -114,10 +114,10 @@ public class PlayerMetadata implements Serializable {
             this.currentRoomId = new Integer(playerMetadata.currentRoomId);
         }
         if (playerMetadata.acceptedQuests != null) {
-            this.acceptedQuests = Maps.newHashMap(playerMetadata.acceptedQuests);
+            this.acceptedQuests = Maps.newLinkedHashMap(playerMetadata.acceptedQuests);
         }
         if (playerMetadata.completedQuests != null) {
-            this.completedQuests = Sets.newLinkedHashSet(playerMetadata.completedQuests);
+            this.completedQuests = Maps.newLinkedHashMap(playerMetadata.completedQuests);
         }
     }
 
@@ -408,16 +408,16 @@ public class PlayerMetadata implements Serializable {
         this.stats = stats;
     }
 
-    public Set<String> getCompletedQuests() {
+    public Map<Long, String> getCompletedQuests() {
         if (this.completedQuests == null) {
-            this.completedQuests = Sets.newLinkedHashSet();
+            this.completedQuests = Maps.newLinkedHashMap();
         }
         return completedQuests;
     }
 
     public Map<String, Quest> getAcceptedQuests() {
         if (acceptedQuests == null) {
-            this.acceptedQuests = Maps.newHashMap();
+            this.acceptedQuests = Maps.newLinkedHashMap();
         }
         return acceptedQuests;
     }

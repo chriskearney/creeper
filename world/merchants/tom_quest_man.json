@@ -17,20 +17,20 @@
       "criteria" : {
         "items" : [ {
           "amount" : 10,
-          "iternalItemName" : "aloe vera"
+          "internalItemName" : "aloe vera"
         } ]
       },
       "reward" : {
         "items" : [ {
           "amount" : 2,
-          "iternalItemName" : "Aegirs greataxe"
+          "internalItemName" : "Aegirs greataxe"
         } ],
         "gold" : 1000,
         "xp" : 6000
       },
       "questDescription": "My daughter suffered a wicked burn and I'm in desperate need of aloe vera.  I know that south of the town square, aloe vera can be found by foraging.  Please help me out by retrieving me some aloe.",
       "questCompletionText" : "My daughter's wounds can be healed! Thank you!! Here have this reward: ",
-      "minimumLevel" : 1,
+      "minimumLevel" : 0,
       "limitedClasses" : [ "WARRIOR", "SHAMAN", "WIZARD" ]
     },
     {
@@ -38,7 +38,7 @@
       "criteria" : {
         "items" : [ {
           "amount" : 1,
-          "iternalItemName" : "basic key"
+          "internalItemName" : "basic key"
         } ]
       },
       "reward" : {

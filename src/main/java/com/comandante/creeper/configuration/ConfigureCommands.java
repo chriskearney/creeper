@@ -75,6 +75,8 @@ import com.comandante.creeper.merchant.lockers.LockerCommandRegistry;
 import com.comandante.creeper.merchant.lockers.PutCommand;
 import com.comandante.creeper.merchant.lockers.QueryCommand;
 import com.comandante.creeper.merchant.playerclass_selector.PlayerClassCommandRegistry;
+import com.comandante.creeper.merchant.questgiver.AcceptCommand;
+import com.comandante.creeper.merchant.questgiver.CompleteCommand;
 import com.comandante.creeper.merchant.questgiver.ListCommand;
 import com.comandante.creeper.merchant.questgiver.QuestGiverCommandRegistry;
 import com.comandante.creeper.merchant.questgiver.ReviewCommand;
@@ -116,6 +118,8 @@ public class ConfigureCommands {
         questGiverCommandRegistry.addCommand(new com.comandante.creeper.merchant.questgiver.LeaveCommand(null, gameManager));
         questGiverCommandRegistry.addCommand(new ReviewCommand(null, gameManager));
         questGiverCommandRegistry.addCommand(new ListCommand(null, gameManager));
+        questGiverCommandRegistry.addCommand(new AcceptCommand(null, gameManager));
+        questGiverCommandRegistry.addCommand(new CompleteCommand(null, gameManager));
     }
 
 

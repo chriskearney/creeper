@@ -19,7 +19,7 @@ public class UnknownCommand extends QuestGiverCommand {
 //                write(getMerchant().getWelcomeMessage() + "\r\n");
 //                write(getMerchant().getQuestsMenu() + "\r\n");
 //            }
-            write(getPrompt());
+            write(getPrompt(getMerchant(), player));
             e.getChannel().getPipeline().remove("executed_command");
             e.getChannel().getPipeline().remove(QuestGiverCommand.PIPELINE_NAME);
         } finally {
