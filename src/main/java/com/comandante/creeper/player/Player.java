@@ -342,9 +342,9 @@ public class Player extends CreeperEntity implements Principal {
 
             Quest.Reward reward = quest.getReward();
 
-            incrementGold(reward.getGold());
+            incrementGold(playerMetadataOptional, reward.getGold());
             writeMessage("You have received " + reward.getGold() + Color.YELLOW + " gold." + Color.RESET + "\r\n");
-            addExperience(reward.getXp());
+            addExperience(playerMetadataOptional, reward.getXp());
             writeMessage("You have received " + reward.getXp() + Color.GREEN + " xp." + Color.RESET + "\r\n");
             List<Quest.ItemsAmount> items = reward.getItems();
             for (Quest.ItemsAmount itemsAmount : items) {
@@ -458,9 +458,18 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public void addExperience(long exp) {
+        this.addExperience(Optional.empty(), exp);
+    }
+
+    public void addExperience(Optional<PlayerMetadata> playerMetadataSource, long exp) {
         synchronized (interner.intern(playerId)) {
             final Meter requests = Creeper.metrics.meter("experience-" + playerName);
-            Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+            Optional<PlayerMetadata> playerMetadataOptional = Optional.empty();
+            if (playerMetadataSource.isPresent()) {
+                playerMetadataOptional = playerMetadataSource;
+            } else {
+                playerMetadataOptional = getPlayerMetadata();
+            }
             if (!playerMetadataOptional.isPresent()) {
                 return;
             }
@@ -473,7 +482,9 @@ public class Player extends CreeperEntity implements Principal {
             if (newLevel > currentLevel) {
                 gameManager.announceLevelUp(playerName, currentLevel, newLevel);
             }
-            savePlayerMetadata(playerMetadata);
+            if (!playerMetadataSource.isPresent()) {
+                savePlayerMetadata(playerMetadata);
+            }
         }
     }
 
@@ -522,14 +533,25 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public void incrementGold(long amt) {
+        this.incrementGold(Optional.empty(), amt);
+    }
+
+    public void incrementGold(Optional<PlayerMetadata> playerMetadataSource, long amt) {
         synchronized (interner.intern(playerId)) {
-            Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+            Optional<PlayerMetadata> playerMetadataOptional = Optional.empty();
+            if (playerMetadataSource.isPresent()) {
+                playerMetadataOptional =playerMetadataSource;
+            } else {
+                playerMetadataOptional = getPlayerMetadata();
+            }
             if (!playerMetadataOptional.isPresent()) {
                 return;
             }
             PlayerMetadata playerMetadata = playerMetadataOptional.get();
             playerMetadata.incrementGold(amt);
-            savePlayerMetadata(playerMetadata);
+            if (!playerMetadataSource.isPresent()) {
+                savePlayerMetadata(playerMetadata);
+            }
         }
     }
 
