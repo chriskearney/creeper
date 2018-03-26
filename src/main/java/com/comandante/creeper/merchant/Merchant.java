@@ -3,10 +3,8 @@ package com.comandante.creeper.merchant;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.items.ItemMetadata;
 import com.comandante.creeper.player.Player;
-import com.comandante.creeper.player.PlayerClass;
 import com.comandante.creeper.player.Quest;
 import com.comandante.creeper.server.ASCIIArt;
-import com.comandante.creeper.server.player_communication.Color;
 import com.google.common.collect.Lists;
 import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
@@ -17,7 +15,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
-import java.util.StringJoiner;
 
 public class Merchant {
 
@@ -78,33 +75,7 @@ public class Merchant {
     }
 
     public String getQuestsMenu(Player player) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Color.BOLD_ON).append(Color.YELLOW).append("Quests").append(Color.RESET).append("\r\n");
-        int i = 0;
-        for (Quest quest: quests) {
-            i++;
-            sb.append(i).append(") ");
-            if (player.isAccepted(quest)) {
-                sb.append(Color.MAGENTA + "[" + Color.RESET);
-                sb.append("Accepted").append(Color.MAGENTA + "] " + Color.RESET);
-            } else if (player.isCompleted(quest)) {
-                sb.append(Color.MAGENTA + "[" + Color.RESET);
-                sb.append("Completed").append(Color.MAGENTA + "] " + Color.RESET);
-            }
-            sb.append(quest.getQuestName());
-            sb.append(Color.RED + " [" + Color.RESET);
-            StringJoiner stringJoiner = new StringJoiner(", ");
-            if (quest.getLimitedClasses() != null && !quest.getLimitedClasses().isEmpty()) {
-                for (PlayerClass playerClass: quest.getLimitedClasses()) {
-                    stringJoiner.add(ASCIIArt.capitalizeFirstLetter(playerClass.getIdentifier()));
-                }
-            } else {
-                stringJoiner.add("All");
-            }
-            sb.append(stringJoiner.toString()).append(Color.RED + "]" + Color.RESET);
-            sb.append("\r\n");
-        }
-        return sb.toString();
+        return player.getQuestsMenu(player, quests);
     }
 
     public GameManager getGameManager() {

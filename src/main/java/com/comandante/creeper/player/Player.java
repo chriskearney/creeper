@@ -18,6 +18,7 @@ import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.npc.NpcStatsChangeBuilder;
 import com.comandante.creeper.npc.Temperament;
+import com.comandante.creeper.server.ASCIIArt;
 import com.comandante.creeper.server.player_communication.Color;
 import com.comandante.creeper.stats.Levels;
 import com.comandante.creeper.stats.Stats;
@@ -51,6 +52,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.StringJoiner;
 import java.util.TreeMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -368,6 +370,45 @@ public class Player extends CreeperEntity implements Principal {
             writeMessage("You have completed the quest: " + quest.getQuestName() + "\r\n");
             savePlayerMetadata(playerMetadata);
         }
+    }
+
+    public String getQuestsMenu() {
+        Optional<PlayerMetadata> playerMetadata = getPlayerMetadata();
+        if (!playerMetadata.isPresent()) {
+            return "";
+        }
+        List<Quest> quests = playerMetadata.get().getAcceptedQuests().entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
+        return this.getQuestsMenu(this, quests);
+    }
+
+    public String getQuestsMenu(Player player, List<Quest> quests) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(Color.BOLD_ON).append(Color.YELLOW).append("Quests").append(Color.RESET).append("\r\n");
+        int i = 0;
+        for (Quest quest: quests) {
+            i++;
+            sb.append(i).append(") ");
+            if (player.isAccepted(quest)) {
+                sb.append(Color.MAGENTA + "[" + Color.RESET);
+                sb.append("Accepted").append(Color.MAGENTA + "] " + Color.RESET);
+            } else if (player.isCompleted(quest)) {
+                sb.append(Color.MAGENTA + "[" + Color.RESET);
+                sb.append("Completed").append(Color.MAGENTA + "] " + Color.RESET);
+            }
+            sb.append(quest.getQuestName());
+            sb.append(Color.RED + " [" + Color.RESET);
+            StringJoiner stringJoiner = new StringJoiner(", ");
+            if (quest.getLimitedClasses() != null && !quest.getLimitedClasses().isEmpty()) {
+                for (PlayerClass playerClass: quest.getLimitedClasses()) {
+                    stringJoiner.add(ASCIIArt.capitalizeFirstLetter(playerClass.getIdentifier()));
+                }
+            } else {
+                stringJoiner.add("All");
+            }
+            sb.append(stringJoiner.toString()).append(Color.RED + "]" + Color.RESET);
+            sb.append("\r\n");
+        }
+        return sb.toString();
     }
 
     public List<Quest> questsReadyToTurnIn(Merchant merchant) {

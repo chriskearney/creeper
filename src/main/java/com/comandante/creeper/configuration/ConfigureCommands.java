@@ -27,6 +27,7 @@ import com.comandante.creeper.command.commands.NexusCommand;
 import com.comandante.creeper.command.commands.OpCommand;
 import com.comandante.creeper.command.commands.OpenCommand;
 import com.comandante.creeper.command.commands.PickUpCommand;
+import com.comandante.creeper.command.commands.QuestsCommand;
 import com.comandante.creeper.command.commands.QuitCommand;
 import com.comandante.creeper.command.commands.RecallCommand;
 import com.comandante.creeper.command.commands.RecentChangesCommand;
@@ -188,5 +189,6 @@ public class ConfigureCommands {
         creeperCommandRegistry.addCommand(new LoadItemCommand(gameManager));
         creeperCommandRegistry.addCommand(new LoadMerchantCommand(gameManager));
         creeperCommandRegistry.addCommand(new RestartCommand(gameManager));
+        creeperCommandRegistry.addCommand(new QuestsCommand(gameManager));
     }
 }
