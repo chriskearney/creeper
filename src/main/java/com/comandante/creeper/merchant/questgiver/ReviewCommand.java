@@ -1,17 +1,13 @@
 package com.comandante.creeper.merchant.questgiver;
 
 import com.comandante.creeper.core_game.GameManager;
-import com.comandante.creeper.items.ItemMetadata;
 import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.player.Quest;
-import com.comandante.creeper.server.ASCIIArt;
-import com.comandante.creeper.server.player_communication.Color;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class ReviewCommand extends QuestGiverCommand {
 
@@ -33,37 +29,7 @@ public class ReviewCommand extends QuestGiverCommand {
             try {
                 int i = Integer.parseInt(originalMessageParts.get(1));
                 Quest quest = getMerchant().getQuests().get(i - 1);
-                write(ASCIIArt.centerOnWidth(Color.BOLD_ON + Color.CYAN + quest.getQuestName() + Color.RESET, 80, " ") + "\r\n\r\n");
-                write(Color.BOLD_ON + Color.YELLOW + "Description" + Color.RESET + "\r\n");
-                write(ASCIIArt.wrap("    " + quest.getQuestDescription() + "\r\n"+ "\r\n"));
-                List<Quest.ItemsAmount> requiredItems = quest.getCriteria().getItems();
-                write(Color.BOLD_ON + Color.YELLOW + "Retrieve" + Color.RESET + "\r\n");
-                for (Quest.ItemsAmount itemsAmount: requiredItems) {
-                    Optional<ItemMetadata> itemMetadata = gameManager.getItemStorage().get(itemsAmount.getInternalItemName());
-                    if (!itemMetadata.isPresent()) {
-                        write("ERROR: internal item name is not working: " + itemsAmount.getInternalItemName() + "\r\n");
-                        continue;
-                    }
-                    write(Integer.toString(itemsAmount.getAmount()) + "x " + itemMetadata.get().getItemName() + "\r\n");
-                }
-                write(Color.BOLD_ON + Color.YELLOW + "\r\nReceive\r\n" + Color.RESET);
-                List<Quest.ItemsAmount> rewardItems = quest.getReward().getItems();
-                for (Quest.ItemsAmount itemsAmount : rewardItems) {
-                    Optional<ItemMetadata> itemMetadata = gameManager.getItemStorage().get(itemsAmount.getInternalItemName());
-                    if (!itemMetadata.isPresent()) {
-                        write("ERROR: internal item name is not working: " + itemsAmount.getInternalItemName() + "\r\n");
-                        continue;
-                    }
-                    write(Integer.toString(itemsAmount.getAmount()) + "x " + itemMetadata.get().getItemName() + "\r\n");
-                }
-                StringBuilder sb = new StringBuilder();
-                if (quest.getReward().getGold() > 0) {
-                    sb.append(quest.getReward().getGold() + Color.BOLD_ON + Color.YELLOW + " gold" + Color.RESET).append("\r\n");
-                }
-                if (quest.getReward().getXp() > 0) {
-                    sb.append(quest.getReward().getXp() + Color.BOLD_ON + Color.GREEN + " xp" + Color.RESET).append("\r\n");
-                }
-                write(sb.toString() + "\r\n");
+                write(player.getQuestReview(quest));
             } catch (Exception ex) {
                 write("\r\n\r\n!! specify a valid quest number.\r\n\r\n");
             }

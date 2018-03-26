@@ -472,6 +472,57 @@ public class Player extends CreeperEntity implements Principal {
                 .anyMatch(stringQuestEntry -> stringQuestEntry.getKey().equals(quest.getQuestName()));
     }
 
+    public void removeQuest(Quest quest) {
+        synchronized (interner.intern(playerId)) {
+            Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+            if (!playerMetadataOptional.isPresent()) {
+                return;
+            }
+            PlayerMetadata playerMetadata = playerMetadataOptional.get();
+            playerMetadata.getAcceptedQuests().remove(quest.getQuestName());
+            savePlayerMetadata(playerMetadata);
+        }
+    }
+
+    public String getQuestReview(Quest quest) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(ASCIIArt.centerOnWidth(Color.BOLD_ON + Color.CYAN + quest.getQuestName() + Color.RESET, 80, " ") + "\r\n\r\n");
+        sb.append(Color.BOLD_ON + Color.YELLOW + "Description" + Color.RESET + "\r\n");
+        sb.append(ASCIIArt.wrap("    " + quest.getQuestDescription() + "\r\n"+ "\r\n"));
+        List<Quest.ItemsAmount> requiredItems = quest.getCriteria().getItems();
+        sb.append(Color.BOLD_ON + Color.YELLOW + "Retrieve" + Color.RESET + "\r\n");
+        for (Quest.ItemsAmount itemsAmount: requiredItems) {
+            Optional<ItemMetadata> itemMetadata = gameManager.getItemStorage().get(itemsAmount.getInternalItemName());
+            if (!itemMetadata.isPresent()) {
+                sb.append("ERROR: internal item name is not working: " + itemsAmount.getInternalItemName() + "\r\n");
+                continue;
+            }
+            sb.append(Integer.toString(itemsAmount.getAmount()) + "x " + itemMetadata.get().getItemName() + "\r\n");
+        }
+        sb.append(Color.BOLD_ON + Color.YELLOW + "\r\nReceive\r\n" + Color.RESET);
+        List<Quest.ItemsAmount> rewardItems = quest.getReward().getItems();
+        for (Quest.ItemsAmount itemsAmount : rewardItems) {
+            Optional<ItemMetadata> itemMetadata = gameManager.getItemStorage().get(itemsAmount.getInternalItemName());
+            if (!itemMetadata.isPresent()) {
+                sb.append("ERROR: internal item name is not working: " + itemsAmount.getInternalItemName() + "\r\n");
+                continue;
+            }
+            sb.append(Integer.toString(itemsAmount.getAmount()) + "x " + itemMetadata.get().getItemName() + "\r\n");
+        }
+        if (quest.getReward().getGold() > 0) {
+            sb.append(quest.getReward().getGold() + Color.BOLD_ON + Color.YELLOW + " gold" + Color.RESET).append("\r\n");
+        }
+        if (quest.getReward().getXp() > 0) {
+            sb.append(quest.getReward().getXp() + Color.BOLD_ON + Color.GREEN + " xp" + Color.RESET).append("\r\n");
+        }
+        sb.append("\r\n");
+        return sb.toString();
+    }
+
+    public List<Quest> getActiveQuests() {
+        return Lists.newArrayList(getPlayerMetadata().get().getAcceptedQuests().values());
+    }
+
     public void addActiveQuest(Quest quest) {
         synchronized (interner.intern(playerId)) {
             Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
