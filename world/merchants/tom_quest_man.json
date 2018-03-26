@@ -31,6 +31,7 @@
       "questDescription": "My daughter suffered a wicked burn and I'm in desperate need of aloe vera.  I know that south of the town square, aloe vera can be found by foraging.  Please help me out by retrieving me some aloe.",
       "questCompletionText" : "My daughter's wounds can be healed! Thank you!! Here have this reward: ",
       "minimumLevel" : 0,
+      "dependentOnCompletionOfQuestName": "Lost Key",
       "limitedClasses" : [ "WARRIOR", "SHAMAN", "WIZARD" ]
     },
     {

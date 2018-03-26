@@ -313,6 +313,10 @@ public class Player extends CreeperEntity implements Principal {
         }
     }
 
+    public boolean isQuestCompleted(String questName) {
+        return getPlayerMetadata().get().getCompletedQuests().values().stream().anyMatch(questName::equalsIgnoreCase);
+    }
+
     public void completeQuest(Quest quest) {
         synchronized (interner.intern(playerId)) {
             Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
@@ -388,7 +392,10 @@ public class Player extends CreeperEntity implements Principal {
         for (Quest quest: quests) {
             i++;
             sb.append(i).append(") ");
-            if (player.isQuestReadyToTurnIn(quest)) {
+            if (quest.getDependentOnCompletionOfQuestName() != null && !player.isQuestCompleted(quest.getDependentOnCompletionOfQuestName())) {
+                sb.append(Color.MAGENTA + "[" + Color.RESET);
+                sb.append("Depends on " + quest.getDependentOnCompletionOfQuestName()).append(Color.MAGENTA + "] " + Color.RESET);
+            } else if (player.doesHaveActiveQuest(quest) && player.isQuestReadyToTurnIn(quest)) {
                 sb.append(Color.MAGENTA + "[" + Color.RESET);
                 sb.append("Ready To Turn In").append(Color.MAGENTA + "] " + Color.RESET);
             } else if (player.isAccepted(quest)) {
@@ -435,6 +442,9 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public boolean isQuestReadyToTurnIn(Quest quest) {
+        if (quest.getDependentOnCompletionOfQuestName() != null && !isQuestCompleted(quest.getDependentOnCompletionOfQuestName())) {
+            return false;
+        }
         List<Quest.ItemsAmount> items = quest.getCriteria().getItems();
         for (Quest.ItemsAmount itemsAmount : items) {
             long inventoryItemCount = getInventoryItemCount(itemsAmount.getInternalItemName());
@@ -525,6 +535,11 @@ public class Player extends CreeperEntity implements Principal {
     public List<Quest> getActiveQuests() {
         return Lists.newArrayList(getPlayerMetadata().get().getAcceptedQuests().values());
     }
+
+    public boolean doesHaveActiveQuest(Quest quest) {
+        return Lists.newArrayList(getPlayerMetadata().get().getAcceptedQuests().keySet()).contains(quest.getQuestName());
+    }
+
 
     public void addActiveQuest(Quest quest) {
         synchronized (interner.intern(playerId)) {
