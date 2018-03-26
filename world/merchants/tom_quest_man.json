@@ -22,8 +22,8 @@
       },
       "reward" : {
         "items" : [ {
-          "amount" : 2,
-          "internalItemName" : "Aegirs greataxe"
+          "amount" : 10,
+          "internalItemName" : "basic lock pick";
         } ],
         "gold" : 1000,
         "xp" : 6000
