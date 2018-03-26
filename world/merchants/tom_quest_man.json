@@ -23,7 +23,7 @@
       "reward" : {
         "items" : [ {
           "amount" : 10,
-          "internalItemName" : "basic lock pick";
+          "internalItemName" : "basic lock pick"
         } ],
         "gold" : 1000,
         "xp" : 6000
