@@ -28,6 +28,10 @@ public class AcceptCommand extends QuestGiverCommand {
         try {
             int i = Integer.parseInt(originalMessageParts.get(1));
             Quest quest = getMerchant().getQuests().get(i - 1);
+            if (player.isCompleted(quest)) {
+                write("You have already completed " + quest.getQuestName() + ".\r\n");
+                return;
+            }
             if (quest.getDependentOnCompletionOfQuestName() != null && !player.isQuestCompleted(quest.getDependentOnCompletionOfQuestName())) {
                 write("You must first complete " + quest.getDependentOnCompletionOfQuestName() + " before you can accept this quest.\r\n");
                 return;
