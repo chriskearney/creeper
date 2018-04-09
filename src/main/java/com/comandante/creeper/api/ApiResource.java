@@ -9,6 +9,7 @@ import com.comandante.creeper.player.CreeperClientStatusBarDetails;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.stats.Levels;
 import com.comandante.creeper.world.model.Coords;
+import com.comandante.creeper.world.model.RemoteExit;
 import com.comandante.creeper.world.model.Room;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
@@ -26,9 +27,12 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringJoiner;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
@@ -189,4 +193,12 @@ public class ApiResource {
             gameManager.getChannelUtils().write(player.getPlayerId(), CreeperUtils.printStringsNextToEachOther(Lists.newArrayList(player.getLookString(), targetLookString), " | ")+ "\r\n", true);
         }
     }
+
+    @POST
+    @Path("/move")
+    @PermitAll
+    public void move(@Auth Player player, @FormParam("direction") String dir) {
+//
+    }
+
 }

@@ -35,7 +35,7 @@ public class RecallCommand extends Command {
                 write("You can not recall right now.");
                 return;
             }
-            PlayerMovement playerMovement = new PlayerMovement(player, player.getCurrentRoom().getRoomId(), GameManager.LOBBY_ID, "vanished into the ether.", "");
+            PlayerMovement playerMovement = new PlayerMovement(player, player.getCurrentRoom().getRoomId(), GameManager.LOBBY_ID, "vanished into the ether.");
             player.addCoolDown(new CoolDown(CoolDownType.PLAYER_RECALL));
             player.movePlayer(playerMovement);
         });

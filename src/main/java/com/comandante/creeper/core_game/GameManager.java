@@ -360,8 +360,7 @@ public class GameManager {
         PlayerMovement playerMovement = new PlayerMovement(player,
                 null,
                 detainmentRoom.getRoomId(),
-                "has been placed under arrest.",
-                null);
+                "has been placed under arrest.");
 
         player.removePlayerFromRoom(player.getCurrentRoom());
         player.movePlayer(playerMovement);

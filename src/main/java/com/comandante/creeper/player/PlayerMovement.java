@@ -1,28 +1,42 @@
 package com.comandante.creeper.player;
 
+import com.comandante.creeper.world.model.Room;
+
+import java.util.Optional;
+
 public class PlayerMovement {
 
     private final Player player;
     private final Integer sourceRoomId;
     private final Integer destinationRoomId;
     private final String roomExitMessage;
-    private final String returnDirection;
+    private final Optional<Room.Direction> direction;
 
-    public PlayerMovement(Player player,
+    private PlayerMovement(Player player,
                           Integer sourceRoomId,
                           Integer destinationRoomId,
                           String roomExitMessage,
-                          String returnDirection) {
+                          Room.Direction direction) {
         this.player = player;
         this.sourceRoomId = sourceRoomId;
         this.destinationRoomId = destinationRoomId;
         this.roomExitMessage = roomExitMessage;
-        this.returnDirection = returnDirection;
-
+        this.direction = Optional.ofNullable(direction);
     }
 
-    public String getReturnDirection() {
-        return returnDirection;
+    public PlayerMovement(Player player,
+                          Integer sourceRoomId,
+                          Integer destinationRoomId,
+                          String roomExitMessage) {
+        this(player, sourceRoomId, destinationRoomId, roomExitMessage, null);
+    }
+
+    public PlayerMovement(Player player, Integer sourceRoomId, Integer destinationRoomId, Room.Direction direction) {
+        this(player, sourceRoomId, destinationRoomId, direction.getExitMessage(), direction);
+    }
+
+    public String getRoomExitMessage() {
+        return roomExitMessage;
     }
 
     public Integer getSourceRoomId() {
@@ -37,7 +51,7 @@ public class PlayerMovement {
         return player;
     }
 
-    public String getRoomExitMessage() {
-        return roomExitMessage;
+    public Optional<Room.Direction> getDirection() {
+        return direction;
     }
 }
