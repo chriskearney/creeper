@@ -54,7 +54,9 @@ public class MovementCommand extends Command {
             if (!direction.isPresent()) {
                 throw new RuntimeException("Unable to retrieve direction.");
             }
-            direction.get().setRemoteExit(doesEnterExitExist());
+            if (direction.get().equals(Room.Direction.ENTER)) {
+                direction.get().setRemoteExit(doesEnterExitExist());
+            }
             Optional<PlayerMovement> playerMovement = currentRoom.derivePlayerMovement(player, direction.get());
 
             if (!playerMovement.isPresent()) {
