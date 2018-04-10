@@ -1,12 +1,14 @@
 package com.comandante.creeper.api;
 
 import com.codahale.metrics.annotation.Timed;
+import com.comandante.creeper.command.commands.MovementCommand;
 import com.comandante.creeper.common.CreeperUtils;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.CreeperClientStatusBarDetails;
 import com.comandante.creeper.player.Player;
+import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.stats.Levels;
 import com.comandante.creeper.world.model.Coords;
 import com.comandante.creeper.world.model.RemoteExit;
@@ -198,7 +200,15 @@ public class ApiResource {
     @Path("/move")
     @PermitAll
     public void move(@Auth Player player, @FormParam("direction") String dir) {
-//
-    }
+        Optional<Room.Direction> from = Room.Direction.from(dir);
+        if (!from.isPresent()) {
+            return;
+        }
 
+        Optional<PlayerMovement> playerMovement = player.getCurrentRoom().derivePlayerMovement(player, from.get());
+        if (!playerMovement.isPresent()) {
+            return;
+        }
+        player.movePlayer(playerMovement.get());
+    }
 }
