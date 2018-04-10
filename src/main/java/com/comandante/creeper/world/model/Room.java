@@ -1,5 +1,6 @@
 package com.comandante.creeper.world.model;
 
+import com.comandante.creeper.api.ApiResource;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.service.TimeTracker;
 import com.comandante.creeper.entity.CreeperEntity;
@@ -9,16 +10,15 @@ import com.comandante.creeper.items.ItemMetadata;
 import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
+import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.spawner.ItemSpawner;
+import com.comandante.creeper.world.RoomManager;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class Room extends CreeperEntity {
@@ -304,6 +304,125 @@ public abstract class Room extends CreeperEntity {
                 .map(Optional::get)
                 .collect(Collectors.toList());
     }
+
+    private boolean isValid(Direction direction) {
+        if (direction.equals(Direction.NORTH)) {
+            return getNorthId().isPresent();
+        } else if (direction.equals(Direction.SOUTH)) {
+            return getSouthId().isPresent();
+        } else if (direction.equals(Direction.EAST)) {
+            return getEastId().isPresent();
+        } else if (direction.equals(Direction.WEST)) {
+            return getWestId().isPresent();
+        } else if (direction.equals(Direction.DOWN)) {
+            return getDownId().isPresent();
+        } else if (direction.equals(Direction.UP)) {
+            return getUpId().isPresent();
+        } else if (direction.equals(Direction.ENTER)) {
+            return direction.getRemoteExit().isPresent();
+        }
+
+        return false;
+    }
+
+    public Optional<PlayerMovement> derivePlayerMovement(Player player, Direction direction) {
+        PlayerMovement playerMovement = null;
+        RoomManager roomManager = gameManager.getRoomManager();
+        if (!isValid(direction)) {
+            return Optional.empty();
+        }
+        if (direction.equals(Direction.NORTH)) {
+            Room destinationRoom = roomManager.getRoom(getNorthId().get());
+            playerMovement = new PlayerMovement(player, getRoomId(), destinationRoom.getRoomId(), direction);
+        } else if (direction.equals(Direction.SOUTH)) {
+            Room destinationRoom = roomManager.getRoom(getSouthId().get());
+            playerMovement = new PlayerMovement(player, getRoomId(), destinationRoom.getRoomId(), direction);
+        } else if (direction.equals(Direction.EAST)) {
+            Room destinationRoom = roomManager.getRoom(getEastId().get());
+            playerMovement = new PlayerMovement(player, getRoomId(), destinationRoom.getRoomId(), direction);
+        } else if (direction.equals(Direction.WEST)) {
+            Room destinationRoom = roomManager.getRoom(getWestId().get());
+            playerMovement = new PlayerMovement(player, getRoomId(), destinationRoom.getRoomId(), direction);
+        } else if (direction.equals(Direction.UP)) {
+            Room destinationRoom = roomManager.getRoom(getUpId().get());
+            playerMovement = new PlayerMovement(player, getRoomId(), destinationRoom.getRoomId(), direction);
+        } else if (direction.equals(Direction.DOWN)) {
+            Room destinationRoom = roomManager.getRoom(getDownId().get());
+            playerMovement = new PlayerMovement(player, getRoomId(), destinationRoom.getRoomId(), direction);
+        } else if (direction.equals(Direction.ENTER)) {
+            if (direction.getRemoteExit().isPresent()) {
+                Room destinationRoom = roomManager.getRoom(direction.getRemoteExit().get().getRoomId());
+                playerMovement = new PlayerMovement(player, getRoomId(), destinationRoom.getRoomId(), direction);
+            }
+        }
+        return Optional.ofNullable(playerMovement);
+    }
+
+    public enum Direction {
+        NORTH("north", "exited to the north.", Lists.newArrayList("n", "north".toLowerCase()), "south"),
+        SOUTH("south", "exited to the south.", Lists.newArrayList("s", "south".toLowerCase()), "north"),
+        EAST("east", "exited to the east.", Lists.newArrayList("e", "east".toLowerCase()), "west"),
+        WEST("west", "exited to the west.", Lists.newArrayList("w", "west".toLowerCase()), "east"),
+        UP("north", "exited up.", Lists.newArrayList("u", "up".toLowerCase()), "down"),
+        DOWN("north", "exited down.", Lists.newArrayList("d", "down".toLowerCase()), "up"),
+        ENTER("north", "entered ", Lists.newArrayList("enter", "enter".toLowerCase()), "");
+
+        private final String direction;
+        private final String exitMessage;
+        private final List<String> validTriggers;
+        private final String returnDirection;
+        public final static List<String> allTriggers = Arrays.stream(values())
+                .map(Direction::getValidTriggers)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+        private Optional<RemoteExit> remoteExit = Optional.empty();
+
+        Direction(String direction, String exitMessage, List<String> validTriggers, String returnDirection) {
+            this.direction = direction;
+            this.exitMessage = exitMessage;
+            this.validTriggers = validTriggers;
+            this.returnDirection = returnDirection;
+        }
+
+        public String getDirection() {
+            return direction;
+        }
+
+        public void setRemoteExit(Optional<RemoteExit> remoteExit) {
+            this.remoteExit = remoteExit;
+        }
+
+        public Optional<RemoteExit> getRemoteExit() {
+            return remoteExit;
+        }
+
+        public List<String> getValidTriggers() {
+            return validTriggers;
+        }
+
+        public String getReturnDirection() {
+            return returnDirection;
+        }
+
+        public String getExitMessage() {
+            if (this.equals(ENTER) && remoteExit.isPresent()) {
+                return this.exitMessage + remoteExit.get().getExitDetail();
+            }
+            return exitMessage;
+        }
+
+        public static Optional<Direction> from(String direction) {
+            for (Direction d: values()) {
+                if (d.getValidTriggers().contains(direction.toLowerCase())) {
+                    return Optional.of(d);
+                }
+            }
+            return Optional.empty();
+        }
+    }
+
+
 
     @Override
     public void run() {

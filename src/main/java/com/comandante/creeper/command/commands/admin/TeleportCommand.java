@@ -64,7 +64,7 @@ public class TeleportCommand extends Command {
                 Map.Entry<String, Player> next = players.next();
                 if (next.getValue().getPlayerName().equals(desiredId)) {
                     Room playerCurrentRoom = roomManager.getPlayerCurrentRoom(next.getValue()).get();
-                    PlayerMovement playerMovement = new PlayerMovement(player, gameManager.getRoomManager().getPlayerCurrentRoom(player).get().getRoomId(), playerCurrentRoom.getRoomId(), "vanished into the heavens.", "");
+                    PlayerMovement playerMovement = new PlayerMovement(player, gameManager.getRoomManager().getPlayerCurrentRoom(player).get().getRoomId(), playerCurrentRoom.getRoomId(), "vanished into the heavens.");
                     player.movePlayer(playerMovement);
                     gameManager.writeToRoom(playerCurrentRoom.getRoomId(), teleportMessage);
                     return;
@@ -74,7 +74,7 @@ public class TeleportCommand extends Command {
             while (rooms.hasNext()) {
                 Map.Entry<Integer, Room> next = rooms.next();
                 if (Integer.toString(next.getKey()).equals(desiredId)) {
-                    PlayerMovement playerMovement = new PlayerMovement(player, gameManager.getRoomManager().getPlayerCurrentRoom(player).get().getRoomId(), Integer.parseInt(desiredId), "vanished into the heavens.", "");
+                    PlayerMovement playerMovement = new PlayerMovement(player, gameManager.getRoomManager().getPlayerCurrentRoom(player).get().getRoomId(), Integer.parseInt(desiredId), "vanished into the heavens.");
                     player.movePlayer(playerMovement);
                     gameManager.writeToRoom(Integer.parseInt(desiredId), teleportMessage);
                     return;

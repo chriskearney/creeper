@@ -32,7 +32,7 @@ public class BackCommand extends Command {
                 write("I don't know where you came from.");
                 return;
             }
-            PlayerMovement playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), returnRoom.get().getRoomId(), "returned to where they came from.", "N/A");
+            PlayerMovement playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), returnRoom.get().getRoomId(), "returned to where they came from.");
             player.movePlayer(playerMovement);
         });
     }

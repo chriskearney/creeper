@@ -25,6 +25,7 @@ import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.stats.StatsBuilder;
 import com.comandante.creeper.stats.StatsHelper;
 import com.comandante.creeper.world.model.Room;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Interner;
 import com.google.common.collect.Interners;
@@ -218,7 +219,7 @@ public class Player extends CreeperEntity implements Principal {
                 CoolDown death = new CoolDown(CoolDownType.DEATH);
                 addCoolDown(death);
                 gameManager.writeToPlayerCurrentRoom(getPlayerId(), getPlayerName() + " is now dead." + "\r\n");
-                PlayerMovement playerMovement = new PlayerMovement(this, gameManager.getRoomManager().getPlayerCurrentRoom(this).get().getRoomId(), GameManager.LOBBY_ID, "vanished into the ether.", "");
+                PlayerMovement playerMovement = new PlayerMovement(this, gameManager.getRoomManager().getPlayerCurrentRoom(this).get().getRoomId(), GameManager.LOBBY_ID, "vanished into the ether.");
                 movePlayer(playerMovement);
                 String prompt = gameManager.buildPrompt(playerId);
                 gameManager.getChannelUtils().write(getPlayerId(), prompt, true);
@@ -1203,7 +1204,11 @@ public class Player extends CreeperEntity implements Principal {
                 }
                 gameManager.getChannelUtils().write(next.getPlayerId(), playerMovement.getPlayer().getPlayerName() + " arrived.", true);
             }
-            setReturnDirection(java.util.Optional.ofNullable(playerMovement.getReturnDirection()));
+            if (playerMovement.getDirection().isPresent()) {
+                if (!Strings.isNullOrEmpty(playerMovement.getDirection().get().getReturnDirection())) {
+                    setReturnDirection(Optional.of(playerMovement.getDirection().get().getReturnDirection()));
+                }
+            }
             gameManager.currentRoomLogic(playerId, gameManager.getRoomManager().getRoom(playerMovement.getDestinationRoomId()));
             processNpcAggro();
         }

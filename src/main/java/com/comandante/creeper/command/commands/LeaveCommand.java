@@ -28,7 +28,7 @@ public class LeaveCommand extends Command {
             List<RemoteExit> leave = currentRoom.getEnterExits().stream().filter(remoteExit -> remoteExit.getExitDetail().equalsIgnoreCase("leave")).collect(Collectors.toList());
             if (leave.size() > 0) {
                 Room destinationRoom = roomManager.getRoom(leave.get(0).getRoomId());
-                playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), "entered " + leave.get(0).getExitDetail() + ".", "N/A");
+                playerMovement = new PlayerMovement(player, currentRoom.getRoomId(), destinationRoom.getRoomId(), "entered " + leave.get(0).getExitDetail() + ".");
                 player.movePlayer(playerMovement);
                 return;
             }
