@@ -69,7 +69,7 @@ public class Creeper extends AbstractIdleService {
         final JmxReporter jmxReporter = JmxReporter.forRegistry(metrics).build();
         jmxReporter.start();
 
-        if (creeperConfiguration.isProduction()) {
+        if (creeperConfiguration.isProduction() && creeperConfiguration.isGraphite()) {
             final PickledGraphite pickledGraphite = new PickledGraphite(new InetSocketAddress(creeperConfiguration.getGraphiteHost(), creeperConfiguration.getGraphitePort()));
             final GraphiteReporter reporter = GraphiteReporter.forRegistry(metrics)
                     .prefixedWith(creeperConfiguration.getDefaultName())

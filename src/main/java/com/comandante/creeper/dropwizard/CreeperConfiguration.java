@@ -58,6 +58,7 @@ public class CreeperConfiguration extends Configuration {
     @NotNull
     private Integer maxGossipCacheSize = 10000;
 
+    private Boolean isGraphite = false;
 
     @JsonProperty
     public String getTemplate() {
@@ -78,6 +79,16 @@ public class CreeperConfiguration extends Configuration {
     public void setDefaultName(String name) {
         this.defaultName = name;
     }
+
+    @JsonProperty
+    public Boolean isGraphite() {
+        return isGraphite;
+    }
+
+    public void setGraphite(Boolean graphite) {
+        this.isGraphite = graphite;
+    }
+
 
     @JsonProperty
     public Boolean isProduction() {
