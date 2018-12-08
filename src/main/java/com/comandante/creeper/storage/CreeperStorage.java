@@ -22,4 +22,8 @@ public interface CreeperStorage {
     Optional<Item> getItemEntity(String itemId);
 
     void removeItem(String itemId);
+
+    void saveWeatherPreference(String nick, String weatherQuery);
+
+    Optional<String> getWeatherQuery(String nick);
 }

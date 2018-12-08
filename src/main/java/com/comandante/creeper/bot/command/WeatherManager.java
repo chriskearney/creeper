@@ -2,6 +2,7 @@ package com.comandante.creeper.bot.command;
 
 
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
+import com.comandante.creeper.storage.CreeperStorage;
 import com.google.api.client.http.*;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.GenericJson;
@@ -17,31 +18,37 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 public class WeatherManager {
 
-    private final CreeperConfiguration creeperConfiguration;
+    private final CreeperStorage creeperStorage;
     private final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private final JsonFactory JSON_FACTORY = new JacksonFactory();
     private final HttpRequestFactory requestFactory;
+    private final String weatherUndegroundApiUrl;
 
     private static final Logger log = Logger.getLogger(WeatherManager.class);
 
 
-    public WeatherManager(CreeperConfiguration creeperConfiguration) {
-        this.creeperConfiguration = creeperConfiguration;
+    public WeatherManager(CreeperStorage creeperStorage, CreeperConfiguration creeperConfiguration) {
+        this.creeperStorage = creeperStorage;
+        this.weatherUndegroundApiUrl = "http://api.wunderground.com/api/" + creeperConfiguration.getWeatherUndergroundApiKey();
         this.requestFactory =
-                HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
-                    @Override
-                    public void initialize(HttpRequest request) {
-                        request.setParser(new JsonObjectParser(JSON_FACTORY));
-                    }
-                });
+                HTTP_TRANSPORT.createRequestFactory(request -> request.setParser(new JsonObjectParser(JSON_FACTORY)));
+    }
+
+    public void saveWeatherPreference(String nick, String weatherPreference) {
+        this.creeperStorage.saveWeatherPreference(nick, weatherPreference);
+    }
+
+    public Optional<String> getWeatherPreference(String nick) {
+        return this.creeperStorage.getWeatherQuery(nick);
     }
 
     public List<String> getWeatherForecast(String zipCode) throws IOException {
         List<String> resp = Lists.newArrayList();
-        GenericUrl url = new GenericUrl("http://api.wunderground.com/api/" + creeperConfiguration.getWeatherUndergroundApiKey() + "/forecast/q/" + zipCode + ".json");
+        GenericUrl url = new GenericUrl(weatherUndegroundApiUrl + "/forecast/q/" + zipCode + ".json");
         HttpRequest httpRequest = requestFactory.buildGetRequest(url);
         GenericJson content = httpRequest.execute().parseAs(GenericJson.class);
         List<String> forecastString = getForecastString(content);
@@ -51,18 +58,18 @@ public class WeatherManager {
         return resp;
     }
 
-    public List<String> getWeather(String zipCode) throws IOException {
+    public List<String> getWeather(String cityName, String state) throws IOException {
         List<String> resp = Lists.newArrayList();
-        GenericUrl url = new GenericUrl("http://api.wunderground.com/api/" + creeperConfiguration.getWeatherUndergroundApiKey() + "/conditions/q/" + zipCode + ".json");
+        GenericUrl url = new GenericUrl(weatherUndegroundApiUrl+ "/conditions/q/" + state.toUpperCase() + "/" + convertToUrlFriendly(cityName) + ".json");
         HttpRequest httpRequest = requestFactory.buildGetRequest(url);
         GenericJson content = httpRequest.execute().parseAs(GenericJson.class);
         resp.addAll(getCurrentConditionsString(content));
         return resp;
     }
 
-    public List<String> getWeather(String cityName, String state) throws IOException {
+    public List<String> getWeather(String zipCode) throws IOException {
         List<String> resp = Lists.newArrayList();
-        GenericUrl url = new GenericUrl("http://api.wunderground.com/api/" + creeperConfiguration.getWeatherUndergroundApiKey() + "/conditions/q/" + state.toUpperCase() + "/" + convertToUrlFriendly(cityName) + ".json");
+        GenericUrl url = new GenericUrl(weatherUndegroundApiUrl + "/conditions/q/" + zipCode + ".json");
         HttpRequest httpRequest = requestFactory.buildGetRequest(url);
         GenericJson content = httpRequest.execute().parseAs(GenericJson.class);
         resp.addAll(getCurrentConditionsString(content));
@@ -71,7 +78,7 @@ public class WeatherManager {
 
     public List<String> getWeatherForecast(String cityName, String state) throws IOException {
         List<String> resp = Lists.newArrayList();
-        GenericUrl url = new GenericUrl("http://api.wunderground.com/api/" + creeperConfiguration.getWeatherUndergroundApiKey() + "/forecast/q/" + state.toUpperCase() + "/" + convertToUrlFriendly(cityName) + ".json");
+        GenericUrl url = new GenericUrl(weatherUndegroundApiUrl + "/forecast/q/" + state.toUpperCase() + "/" + convertToUrlFriendly(cityName) + ".json");
         HttpRequest httpRequest = requestFactory.buildGetRequest(url);
         GenericJson content = httpRequest.execute().parseAs(GenericJson.class);
         List<String> forecastString = getForecastString(content);
@@ -129,6 +136,4 @@ public class WeatherManager {
         String capitalize = WordUtils.capitalize(newName);
         return capitalize;
     }
-
-
 }

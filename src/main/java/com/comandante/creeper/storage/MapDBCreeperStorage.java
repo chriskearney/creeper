@@ -18,11 +18,11 @@ public class MapDBCreeperStorage extends AbstractIdleService implements CreeperS
     private final MapDbAutoCommitService mapDbAutoCommitService;
 
     private final HTreeMap<String, Item> items;
-    private final HTreeMap<String, Effect> effects;
     private final HTreeMap<String, PlayerMetadata> playerMetadataStore;
+    private final HTreeMap<String, String> ircWeatherPreferences;
 
     private final static String ITEM_MAP = "itemMap";
-    private final static String EFFECTS_MAP = "effectsMap";
+    private final static String WEATHER_PREFERENCES_MAP = "weatherPreferencesMap";
     private final static String PLAYER_METADATA_MAP = "playerMetadata";
 
     public MapDBCreeperStorage(DB db) {
@@ -32,9 +32,9 @@ public class MapDBCreeperStorage extends AbstractIdleService implements CreeperS
                 .valueSerializer(new ItemSerializer())
                 .createOrOpen();
 
-        this.effects = db.hashMap(EFFECTS_MAP)
+        this.ircWeatherPreferences = db.hashMap(WEATHER_PREFERENCES_MAP)
                 .keySerializer(Serializer.STRING)
-                .valueSerializer(new EffectSerializer())
+                .valueSerializer(Serializer.STRING)
                 .createOrOpen();
 
         this.playerMetadataStore = db.hashMap(PLAYER_METADATA_MAP)
@@ -79,6 +79,16 @@ public class MapDBCreeperStorage extends AbstractIdleService implements CreeperS
     @Override
     public void removeItem(String itemId) {
         this.items.remove(itemId);
+    }
+
+    @Override
+    public void saveWeatherPreference(String nick, String weatherQuery) {
+            this.ircWeatherPreferences.put(nick, weatherQuery);
+    }
+
+    @Override
+    public Optional<String> getWeatherQuery(String nick) {
+        return Optional.ofNullable(this.ircWeatherPreferences.get(nick));
     }
 
     @Override
