@@ -19,7 +19,8 @@
     "maxMana": 120,
     "foraging": 0,
     "inventorySize": 0,
-    "maxEffects": 0
+    "maxEffects": 0,
+    "lockPicking": 0
   },
   "dieMessage": "a tree @c-bold-on@@c-magenta@berserker@c-reset@ breathes his last breath in a pool of @c-bold-on@@c-red@blood@c-reset@",
   "temperament": "PASSIVE",
@@ -42,6 +43,14 @@
       "maxPerRoom": 6
     }
   ],
+  "loot": {
+    "internalItemNames": [
+      "beserker bracers",
+      "diamond"
+    ],
+    "lootGoldMax": 10,
+    "lootGoldMin": 5
+  },
   "attackMessages": [
     {
       "type": "NORMAL",
@@ -73,13 +82,5 @@
       "type": "NORMAL",
       "message": "A @npc-color-name@ scratches it\u0027s nose."
     }
-  ],
-  "loot": {
-    "internalItemNames": [
-      "beserker bracers",
-      "diamond"
-    ],
-    "lootGoldMax": 10,
-    "lootGoldMin": 5
-  }
+  ]
 }

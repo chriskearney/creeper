@@ -32,6 +32,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.jboss.netty.channel.Channel;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
@@ -52,6 +53,7 @@ import java.util.stream.Collectors;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 
+@Ignore
 public class NpcTestHarness {
 
     private GameManager gameManager;

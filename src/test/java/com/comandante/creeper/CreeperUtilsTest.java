@@ -16,6 +16,7 @@ import com.comandante.creeper.stats.modifier.StatsModifierFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Matchers;
 
@@ -31,6 +32,7 @@ import static org.mockito.Mockito.when;
 public class CreeperUtilsTest {
 
     @Test
+    @Ignore
     public void testCombineStrings() throws Exception {
         String[] strings = new String[2];
         strings[0] = "feet";
@@ -73,6 +75,7 @@ public class CreeperUtilsTest {
     }
 
     @Test
+    @Ignore
     public void simulatePokerHands() throws Exception {
         for (int i = 1; i < Integer.MAX_VALUE; i++) {
             Deck deck = new Deck();
