@@ -10,4 +10,6 @@ public interface AccuweatherAPI {
     JsonElement getLocationByCity(String searchString);
 
     JsonElement getCurrentConditions(String locationKey);
+
+    JsonElement getFiveDayForecast(String locationKey);
 }

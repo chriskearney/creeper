@@ -23,20 +23,7 @@ public class ForecastCommand extends BotCommand {
     public List<String> process() {
         ArrayList<String> resp = Lists.newArrayList();
         String argumentString = joinArgs(args);
-        if (isNumeric(argumentString)) {
-//            try {
-//               // resp.addAll(botCommandManager.getWeatherManager().getWeatherForecast(argumentString));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-        } else {
-            String[] split = argumentString.split(",");
-//            try {
-//               // resp.addAll(botCommandManager.getWeatherManager().getWeatherForecast(split[0], split[1]));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-        }
+        resp.add(botCommandManager.getWeatherManager().getFiveDayForecast(argumentString));
         return resp;
     }
 }

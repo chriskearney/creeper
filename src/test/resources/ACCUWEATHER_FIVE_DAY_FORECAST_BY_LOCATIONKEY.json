@@ -1,0 +1,161 @@
+{
+  "Headline": {
+    "EffectiveDate": "2019-03-11T20:00:00-07:00",
+    "EffectiveEpochDate": 1552359600,
+    "Severity": 4,
+    "Text": "Expect rainy weather tomorrow evening through Tuesday afternoon",
+    "Category": "rain",
+    "EndDate": "2019-03-12T20:00:00-07:00",
+    "EndEpochDate": 1552446000,
+    "MobileLink": "http://m.accuweather.com/en/us/lake-oswego-or/97034/extended-weather-forecast/40816_pc?lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/40816_pc?lang=en-us"
+  },
+  "DailyForecasts": [
+    {
+      "Date": "2019-03-10T07:00:00-07:00",
+      "EpochDate": 1552226400,
+      "Temperature": {
+        "Minimum": {
+          "Value": 27,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Maximum": {
+          "Value": 50,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+      "Day": {
+        "Icon": 1,
+        "IconPhrase": "Sunny"
+      },
+      "Night": {
+        "Icon": 35,
+        "IconPhrase": "Partly cloudy"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/40816_pc?day=1&lang=en-us",
+      "Link": "http://www.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/40816_pc?day=1&lang=en-us"
+    },
+    {
+      "Date": "2019-03-11T07:00:00-07:00",
+      "EpochDate": 1552312800,
+      "Temperature": {
+        "Minimum": {
+          "Value": 41,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Maximum": {
+          "Value": 55,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+      "Day": {
+        "Icon": 4,
+        "IconPhrase": "Intermittent clouds"
+      },
+      "Night": {
+        "Icon": 18,
+        "IconPhrase": "Rain"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/40816_pc?day=2&lang=en-us",
+      "Link": "http://www.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/40816_pc?day=2&lang=en-us"
+    },
+    {
+      "Date": "2019-03-12T07:00:00-07:00",
+      "EpochDate": 1552399200,
+      "Temperature": {
+        "Minimum": {
+          "Value": 37,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Maximum": {
+          "Value": 48,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+      "Day": {
+        "Icon": 12,
+        "IconPhrase": "Showers"
+      },
+      "Night": {
+        "Icon": 36,
+        "IconPhrase": "Intermittent clouds"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/40816_pc?day=3&lang=en-us",
+      "Link": "http://www.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/40816_pc?day=3&lang=en-us"
+    },
+    {
+      "Date": "2019-03-13T07:00:00-07:00",
+      "EpochDate": 1552485600,
+      "Temperature": {
+        "Minimum": {
+          "Value": 31,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Maximum": {
+          "Value": 50,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+      "Day": {
+        "Icon": 4,
+        "IconPhrase": "Intermittent clouds"
+      },
+      "Night": {
+        "Icon": 36,
+        "IconPhrase": "Intermittent clouds"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/40816_pc?day=4&lang=en-us",
+      "Link": "http://www.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/40816_pc?day=4&lang=en-us"
+    },
+    {
+      "Date": "2019-03-14T07:00:00-07:00",
+      "EpochDate": 1552572000,
+      "Temperature": {
+        "Minimum": {
+          "Value": 34,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Maximum": {
+          "Value": 53,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+      "Day": {
+        "Icon": 6,
+        "IconPhrase": "Mostly cloudy"
+      },
+      "Night": {
+        "Icon": 36,
+        "IconPhrase": "Intermittent clouds"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/40816_pc?day=5&lang=en-us",
+      "Link": "http://www.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/40816_pc?day=5&lang=en-us"
+    }
+  ]
+}
+

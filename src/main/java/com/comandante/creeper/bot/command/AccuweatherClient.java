@@ -21,6 +21,7 @@ public class AccuweatherClient implements AccuweatherAPI {
     private final static String LOCATIONS_BY_POSTAL_CODE_ENDPOINT = "/locations/v1/postalcodes/search";
     private final static String ONE_DAY_FORECAST_ENDPOINT = "/forecasts/v1/daily/1day/";
     private final static String CURRENT_CONDITIONS_ENDPOINT = "/currentconditions/v1/";
+    private final static String FIVE_DAY_FORECAST_ENDPOINT = "/forecasts/v1/daily/5day/";
 
     private final HttpClient httpClient = HttpClients.custom().build();
     private final JsonParser jsonParser = new JsonParser();
@@ -51,6 +52,12 @@ public class AccuweatherClient implements AccuweatherAPI {
     @Override
     public JsonElement getCurrentConditions(String locationKey) {
         HttpGet request = getAuthWiredRequest(CURRENT_CONDITIONS_ENDPOINT + "/" + locationKey, Lists.newArrayList(new Tuple<>("details", "true")));
+        return getJsonElementFromRequest(request);
+    }
+
+    @Override
+    public JsonElement getFiveDayForecast(String locationKey) {
+        HttpGet request = getAuthWiredRequest(FIVE_DAY_FORECAST_ENDPOINT + "/" + locationKey, Lists.newArrayList(new Tuple<>("details", "false")));
         return getJsonElementFromRequest(request);
     }
 

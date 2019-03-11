@@ -36,5 +36,8 @@ public class WeatherManager {
     }
 
 
+    public String getFiveDayForecast(String searchString) {
+        return accuweatherManager.getFiveDayForeCast(searchString);
+    }
 
 }

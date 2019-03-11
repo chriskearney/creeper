@@ -1,6 +1,13 @@
 package com.comandante.creeper.bot.command;
 
+import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TimeZone;
 
 public class AccuweatherManager {
 
@@ -39,6 +46,80 @@ public class AccuweatherManager {
         String windDirectionUnit = currentConditions.getAsJsonArray().get(0).getAsJsonObject().get("Wind").getAsJsonObject().get("Speed").getAsJsonObject().get("Imperial").getAsJsonObject().get("Unit").getAsString();
         return new AccuweatherReport(englishName + ", " + administrativeArea, weatherText, temperature, humidity, feelslike, windDirectionEnglish + " " + windDirectionSpeed + " " + windDirectionUnit);
     }
+
+    public String getFiveDayForeCast(String searchString) {
+        String locationKey = null;
+        String englishName = null;
+        String administrativeArea = null;
+
+        if (Character.isDigit(searchString.charAt(0))) {
+            JsonElement locationByPostalCode = accuweatherAPI.getLocationByPostalCode(searchString);
+            locationKey = locationByPostalCode.getAsJsonArray().get(0).getAsJsonObject().get("Key").getAsString();
+            englishName = locationByPostalCode.getAsJsonArray().get(0).getAsJsonObject().get("EnglishName").getAsString();
+            administrativeArea = locationByPostalCode.getAsJsonArray().get(0).getAsJsonObject().get("AdministrativeArea").getAsJsonObject().get("ID").getAsString();
+        } else {
+            JsonElement locationByCity = accuweatherAPI.getLocationByCity(searchString);
+            locationKey = locationByCity.getAsJsonArray().get(0).getAsJsonObject().get("Key").getAsString();
+            englishName = locationByCity.getAsJsonArray().get(0).getAsJsonObject().get("EnglishName").getAsString();
+            administrativeArea = locationByCity.getAsJsonArray().get(0).getAsJsonObject().get("AdministrativeArea").getAsJsonObject().get("ID").getAsString();
+        }
+
+        JsonElement fiveDayForecast = accuweatherAPI.getFiveDayForecast(locationKey);
+
+        List<DailyForecastSummary> forecastSummaries = Lists.newArrayList();
+        for (JsonElement dailyForecastElement : fiveDayForecast.getAsJsonObject().get("DailyForecasts").getAsJsonArray()) {
+            long epochDate = dailyForecastElement.getAsJsonObject().get("EpochDate").getAsLong();
+            String dayOfTheWeek = getDayOfTheWeek(epochDate);
+            String minTemp = dailyForecastElement.getAsJsonObject().get("Temperature").getAsJsonObject().get("Minimum").getAsJsonObject().get("Value").getAsString() + "F";
+            String maxTemp = dailyForecastElement.getAsJsonObject().get("Temperature").getAsJsonObject().get("Maximum").getAsJsonObject().get("Value").getAsString() + "F";
+            String dailySummary = dailyForecastElement.getAsJsonObject().get("Day").getAsJsonObject().get("IconPhrase").getAsString();
+            forecastSummaries.add(new DailyForecastSummary(dayOfTheWeek, minTemp, maxTemp, dailySummary, epochDate));
+        }
+
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (DailyForecastSummary dailyForecastSummary: forecastSummaries) {
+            stringBuilder.append(dailyForecastSummary.toString());
+            stringBuilder.append(" | ");
+        }
+
+        String s = stringBuilder.toString();
+
+        return englishName + ", " + administrativeArea + ": " + s.substring(0, s.length() - 2);
+
+    }
+
+    private String getDayOfTheWeek(long epochDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE");
+        Date dateFormat = new java.util.Date(epochDate* 1000);
+        String weekday = sdf.format(dateFormat );
+        return weekday;
+    }
+
+    public static class DailyForecastSummary {
+
+        private final String dayOfWeek;
+        private final String tempLow;
+        private final String tempHigh;
+        private final String dailySummary;
+        private final Long epochDate;
+
+        public DailyForecastSummary(String dayOfWeek, String tempLow, String tempHigh, String dailySummary, Long epochDate) {
+            this.dayOfWeek = dayOfWeek;
+            this.tempLow = tempLow;
+            this.tempHigh = tempHigh;
+            this.dailySummary = dailySummary;
+            this.epochDate = epochDate;
+        }
+
+        @Override
+        public String toString() {
+            return dayOfWeek + " " + tempLow + "/" + tempHigh + " " + dailySummary;
+        }
+
+    }
+
+
 
     public static class AccuweatherReport {
 
