@@ -53,7 +53,10 @@ public class CreeperConfiguration extends Configuration {
     private Double forageRateLimitPerSecond = 1.5;
 
     @NotEmpty
-    private String weatherUndergroundApiKey = "62651e7a5762cda8";
+    private String weatherUndergroundApiKey = "dead!";
+
+    @NotEmpty
+    private String accuweatherApiKey = "";
 
     @NotNull
     private Integer maxGossipCacheSize = 10000;
@@ -202,6 +205,11 @@ public class CreeperConfiguration extends Configuration {
     public void setWeatherUndergroundApiKey(String weatherUndergroundApiKey) {
         this.weatherUndergroundApiKey = weatherUndergroundApiKey;
     }
+
+    public String getAccuweatherApiKey() {
+        return accuweatherApiKey;
+    }
+
     @JsonProperty
     public Integer getMaxGossipCacheSize() {
         return maxGossipCacheSize;

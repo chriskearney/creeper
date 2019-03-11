@@ -23,20 +23,8 @@ public class WeatherBotCommand extends BotCommand {
     public List<String> process() {
         ArrayList<String> resp = Lists.newArrayList();
         String argumentString = joinArgs(args);
-        if (isNumeric(argumentString)) {
-            try {
-                resp.addAll(botCommandManager.getWeatherManager().getWeather(argumentString));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            String[] split = argumentString.split(",");
-            try {
-                resp.addAll(botCommandManager.getWeatherManager().getWeather(split[0], split[1]));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        String weather = botCommandManager.getWeatherManager().getWeather(argumentString);
+        resp.add(argumentString + ": " + weather);
         return resp;
     }
 }

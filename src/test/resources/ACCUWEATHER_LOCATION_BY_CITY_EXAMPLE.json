@@ -1,0 +1,68 @@
+[
+  {
+    "Version": 1,
+    "Key": "2187979",
+    "Type": "City",
+    "Rank": 55,
+    "LocalizedName": "Lake Oswego",
+    "EnglishName": "Lake Oswego",
+    "PrimaryPostalCode": "97034",
+    "Region": {
+      "ID": "NAM",
+      "LocalizedName": "North America",
+      "EnglishName": "North America"
+    },
+    "Country": {
+      "ID": "US",
+      "LocalizedName": "United States",
+      "EnglishName": "United States"
+    },
+    "AdministrativeArea": {
+      "ID": "OR",
+      "LocalizedName": "Oregon",
+      "EnglishName": "Oregon",
+      "Level": 1,
+      "LocalizedType": "State",
+      "EnglishType": "State",
+      "CountryID": "US"
+    },
+    "TimeZone": {
+      "Code": "PST",
+      "Name": "America/Los_Angeles",
+      "GmtOffset": -8,
+      "IsDaylightSaving": false,
+      "NextOffsetChange": "2019-03-10T10:00:00Z"
+    },
+    "GeoPosition": {
+      "Latitude": 45.421,
+      "Longitude": -122.671,
+      "Elevation": {
+        "Metric": {
+          "Value": 142,
+          "Unit": "m",
+          "UnitType": 5
+        },
+        "Imperial": {
+          "Value": 465,
+          "Unit": "ft",
+          "UnitType": 0
+        }
+      }
+    },
+    "IsAlias": false,
+    "SupplementalAdminAreas": [
+      {
+        "Level": 2,
+        "LocalizedName": "Clackamas",
+        "EnglishName": "Clackamas"
+      }
+    ],
+    "DataSets": [
+      "Alerts",
+      "DailyAirQualityForecast",
+      "DailyPollenForecast",
+      "ForecastConfidence",
+      "MinuteCast"
+    ]
+  }
+]

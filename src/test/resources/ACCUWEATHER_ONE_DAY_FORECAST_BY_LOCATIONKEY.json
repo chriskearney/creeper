@@ -1,0 +1,44 @@
+{
+  "Headline": {
+    "EffectiveDate": "2019-03-11T19:00:00-08:00",
+    "EffectiveEpochDate": 1552359600,
+    "Severity": 4,
+    "Text": "Expect showery weather Monday evening through Tuesday afternoon",
+    "Category": "rain",
+    "EndDate": "2019-03-12T19:00:00-08:00",
+    "EndEpochDate": 1552446000,
+    "MobileLink": "http://m.accuweather.com/en/us/lake-oswego-or/97034/extended-weather-forecast/2187979?lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/2187979?lang=en-us"
+  },
+  "DailyForecasts": [
+    {
+      "Date": "2019-03-09T07:00:00-08:00",
+      "EpochDate": 1552143600,
+      "Temperature": {
+        "Minimum": {
+          "Value": 28,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Maximum": {
+          "Value": 47,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+      "Day": {
+        "Icon": 21,
+        "IconPhrase": "Partly sunny w/ flurries"
+      },
+      "Night": {
+        "Icon": 35,
+        "IconPhrase": "Partly cloudy"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/2187979?day=1&lang=en-us",
+      "Link": "http://www.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/2187979?day=1&lang=en-us"
+    }
+  ]
+}
