@@ -25,6 +25,8 @@ public class AccuweatherManager {
         } else {
             JsonElement locationByCity = accuweatherAPI.getLocationByCity(searchString);
             locationKey = locationByCity.getAsJsonArray().get(0).getAsJsonObject().get("Key").getAsString();
+            englishName = locationByCity.getAsJsonArray().get(0).getAsJsonObject().get("EnglishName").getAsString();
+            administrativeArea = locationByCity.getAsJsonArray().get(0).getAsJsonObject().get("AdministrativeArea").getAsJsonObject().get("ID").getAsString();
         }
 
         JsonElement currentConditions = accuweatherAPI.getCurrentConditions(locationKey);
