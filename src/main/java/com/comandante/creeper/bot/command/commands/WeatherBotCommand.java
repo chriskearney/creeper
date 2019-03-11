@@ -24,7 +24,7 @@ public class WeatherBotCommand extends BotCommand {
         ArrayList<String> resp = Lists.newArrayList();
         String argumentString = joinArgs(args);
         String weather = botCommandManager.getWeatherManager().getWeather(argumentString);
-        resp.add(argumentString + ": " + weather);
+        resp.add(weather);
         return resp;
     }
 }
