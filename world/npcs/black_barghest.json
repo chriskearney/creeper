@@ -1,0 +1,96 @@
+{
+  "name": "black barghest",
+  "colorName": "black @c-bold-on@@c-magenta@barghest@c-reset@",
+  "stats": {
+    "strength": 48,
+    "intelligence": 0,
+    "willpower": 42,
+    "aim": 9,
+    "agile": 42,
+    "armorRating": 46,
+    "meleSkill": 35,
+    "currentHealth": 440,
+    "maxHealth": 340,
+    "weaponRatingMax": 64,
+    "weaponRatingMin": 30,
+    "numberOfWeaponRolls": 1,
+    "experience": 330000,
+    "currentMana": 400,
+    "maxMana": 400,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0,
+    "lockPicking": 0
+  },
+  "dieMessage": "a black @c-bold-on@@c-magenta@barghest@c-reset@ collapses in death, with blood leaking out of its jaws.",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "SOUTH2_ZONE",
+    "SOUTH3_ZONE"
+  ],
+  "validTriggers": [
+    "b",
+    "black",
+    "barghest",
+    "black barghest"
+  ],
+  "spawnRules": [
+    {
+      "area": "SOUTH2_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 2,
+      "maxPerRoom": 1
+    },
+    {
+      "area": "SOUTH3_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 2,
+      "maxPerRoom": 1
+    }
+  ],
+  "loot": {
+    "internalItemNames": [
+      "royal diamond"
+    ],
+    "lootGoldMax": 200,
+    "lootGoldMin": 110
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ growls, bearing its putrid, rotting fangs before attempting to bite @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ howls loud enough for its call to be heard echoing off the nearby mountains, as it charges towards @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ springs high into the air, lunging toward @player-name@\u0027s face!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ builds up an incredible amount of speed as it runs toward @player-name@, sinking its jaws into @player-name@\u0027s side and clawing at @player-name@ while they are unable to escape!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ latches onto @player-name@ with its powerful jaws and rips violently into @player-name@\u0027s flesh as it tears into @player-name@ from side to side!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ charges aggressively at @player-name@!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "A @npc-color-name@ sniffs around the forest floor, quietly growling as if angered."
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "name": "alpine specter",
+  "colorName": "alpine @c-bold-on@@c-magenta@specter@c-reset@",
+  "stats": {
+    "strength": 60,
+    "intelligence": 0,
+    "willpower": 48,
+    "aim": 9,
+    "agile": 50,
+    "armorRating": 51,
+    "meleSkill": 41,
+    "currentHealth": 340,
+    "maxHealth": 340,
+    "weaponRatingMax": 64,
+    "weaponRatingMin": 30,
+    "numberOfWeaponRolls": 1,
+    "experience": 450000,
+    "currentMana": 400,
+    "maxMana": 400,
+    "foraging": 0,
+    "inventorySize": 0,
+    "maxEffects": 0,
+    "lockPicking": 0
+  },
+  "dieMessage": "an alpine @c-bold-on@@c-magenta@specter@c-reset@ emits a bone chilling shriek before fading out of existence.",
+  "temperament": "PASSIVE",
+  "roamAreas": [
+    "BLOODRIDGE3_ZONE",
+    "BLOODRIDGE8_ZONE",
+    "BLOODRIDGE9_ZONE",
+    "BLOODRIDGE10_ZONE",
+    "BLOODRIDGE12_ZONE",
+    "BLOODRIDGE13_ZONE"
+  ],
+  "validTriggers": [
+    "s",
+    "a",
+    "alpine",
+    "specter",
+    "alpine specter"
+  ],
+  "spawnRules": [
+    {
+      "area": "BLOODRIDGE9_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 2,
+      "maxPerRoom": 1
+    },
+    {
+      "area": "BLOODRIDGE12_ZONE",
+      "randomChance": 100,
+      "spawnIntervalTicks": 600,
+      "maxInstances": 2,
+      "maxPerRoom": 1
+    }
+  ],
+  "loot": {
+    "internalItemNames": [
+      "ice amulet"
+    ],
+    "lootGoldMax": 420,
+    "lootGoldMin": 300
+  },
+  "attackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ emits a @c-cyan@chilling@c-reset@ blast of air at @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ summons a @c-yellow@charged@c-reset@ cloud of ions and electricity, engulfing @player-name@!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ directs a @c-black@@c-bold-on@dark wave@c-reset@ of energy toward @player-name@!"
+    }
+  ],
+  "criticalAttackMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ raises its arms into the air, causing a dark cloud to form. As the cloud swirls, a torrent of @c-cyan@ICE CRYSTALS@c-reset@ tears into @player-name@, knocking @player-name@ to the ground and piercing their flesh!"
+    },
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ murmurs a repetitive chant as it looks upward into the sky. Suddenly, the sky begins to glow a deep orange, and a cascade of @c-red@BURNING ASH@c-reset@ rains down on @player-name@, searing their flesh!"
+    }
+  ],
+  "battleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "The @npc-color-name@ raises its arms and swings into the air, causing a painful wave of @c-cyan@ice@c-reset@ crystals hurtling toward @player-name@!"
+    }
+  ],
+  "idleMessages": [
+    {
+      "type": "NORMAL",
+      "message": "An @npc-color-name@ quietly coasts across the icy ground, almost as if floating."
+    }
+  ]
+}
