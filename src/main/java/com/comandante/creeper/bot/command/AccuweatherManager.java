@@ -70,15 +70,17 @@ public class AccuweatherManager {
         for (JsonElement dailyForecastElement : fiveDayForecast.getAsJsonObject().get("DailyForecasts").getAsJsonArray()) {
             long epochDate = dailyForecastElement.getAsJsonObject().get("EpochDate").getAsLong();
             String dayOfTheWeek = getDayOfTheWeek(epochDate);
-            String minTemp = dailyForecastElement.getAsJsonObject().get("Temperature").getAsJsonObject().get("Minimum").getAsJsonObject().get("Value").getAsString() + "F";
-            String maxTemp = dailyForecastElement.getAsJsonObject().get("Temperature").getAsJsonObject().get("Maximum").getAsJsonObject().get("Value").getAsString() + "F";
+            String minTemp = dailyForecastElement.getAsJsonObject().get("Temperature").getAsJsonObject().get("Minimum").getAsJsonObject().get("Value").getAsString();
+            int minRounded = (int) Double.parseDouble(minTemp);
+            String maxTemp = dailyForecastElement.getAsJsonObject().get("Temperature").getAsJsonObject().get("Maximum").getAsJsonObject().get("Value").getAsString();
+            int maxRounded = (int) Double.parseDouble(maxTemp);
             String dailySummary = dailyForecastElement.getAsJsonObject().get("Day").getAsJsonObject().get("IconPhrase").getAsString();
-            forecastSummaries.add(new DailyForecastSummary(dayOfTheWeek, minTemp, maxTemp, dailySummary, epochDate));
+            forecastSummaries.add(new DailyForecastSummary(dayOfTheWeek, minRounded + "F", maxRounded + "F", dailySummary, epochDate));
         }
 
 
         StringBuilder stringBuilder = new StringBuilder();
-        for (DailyForecastSummary dailyForecastSummary: forecastSummaries) {
+        for (DailyForecastSummary dailyForecastSummary : forecastSummaries) {
             stringBuilder.append(dailyForecastSummary.toString());
             stringBuilder.append(" | ");
         }
@@ -91,8 +93,8 @@ public class AccuweatherManager {
 
     private String getDayOfTheWeek(long epochDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE");
-        Date dateFormat = new java.util.Date(epochDate* 1000);
-        String weekday = sdf.format(dateFormat );
+        Date dateFormat = new java.util.Date(epochDate * 1000);
+        String weekday = sdf.format(dateFormat);
         return weekday;
     }
 
@@ -114,11 +116,10 @@ public class AccuweatherManager {
 
         @Override
         public String toString() {
-            return dayOfWeek + " " + tempLow + "/" + tempHigh + " " + dailySummary;
+            return dayOfWeek + " " + tempHigh + "/" + tempLow + " " + dailySummary;
         }
 
     }
-
 
 
     public static class AccuweatherReport {
