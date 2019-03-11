@@ -19,7 +19,8 @@
     "maxMana": 400,
     "foraging": 0,
     "inventorySize": 0,
-    "maxEffects": 0
+    "maxEffects": 0,
+    "lockPicking": 0
   },
   "dieMessage": "a @c-cyan@t@c-green@r@c-red@o@c-yellow@u@c-magenta@b@c-cyan@l@c-green@e@c-red@s@c-yellow@o@c-magenta@m@c-green@e@c-reset@ @c-bold-on@@c-magenta@king@c-reset@ regrets his rule and has unwillingly met his maker.",
   "temperament": "PASSIVE",
@@ -54,7 +55,7 @@
   "attackMessages": [
     {
       "type": "NORMAL",
-      "message": "The @npc-color-name@ tries to use his royal social influence to shame @player-name@'s legacy!"
+      "message": "The @npc-color-name@ tries to use his royal social influence to shame @player-name@\u0027s legacy!"
     },
     {
       "type": "NORMAL",
