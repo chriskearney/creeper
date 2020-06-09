@@ -110,6 +110,7 @@ public class AccuweatherManager {
         JsonElement hourlyForecast = accuweatherAPI.getHourlyForecast(locationKey);
 
         StringBuilder combinedHourlyForecast = new StringBuilder();
+        combinedHourlyForecast.append(searchString).append(" : ");
         for (JsonElement element : hourlyForecast.getAsJsonArray()) {
             String rawDateTime = element.getAsJsonObject().get("DateTime").getAsString();
             ZonedDateTime localDateTime = ZonedDateTime.parse(rawDateTime);
