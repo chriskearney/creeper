@@ -56,6 +56,15 @@ public class CreeperConfiguration extends Configuration {
     private String weatherUndergroundApiKey = "dead!";
 
     @NotEmpty
+    private String twitterConsumerKey = "";
+    @NotEmpty
+    private String twitterConsumerSecret = "";
+    @NotEmpty
+    private String twitterAccessToken = "";
+    @NotEmpty
+    private String twitterAccessTokenSecret = "";
+
+    @NotEmpty
     private String accuweatherApiKey = "";
 
     @NotNull
@@ -97,110 +106,137 @@ public class CreeperConfiguration extends Configuration {
     public Boolean isProduction() {
         return isProduction;
     }
+
     @JsonProperty
     public void setProduction(Boolean production) {
         isProduction = production;
     }
+
     @JsonProperty
     public Integer getTelnetPort() {
         return telnetPort;
     }
+
     @JsonProperty
     public void setTelnetPort(Integer telnetPort) {
         this.telnetPort = telnetPort;
     }
+
     @JsonProperty
     public String getDatabaseFileName() {
         return databaseFileName;
     }
+
     @JsonProperty
     public void setDatabaseFileName(String databaseFileName) {
         this.databaseFileName = databaseFileName;
     }
+
     @JsonProperty
     public String getGraphiteHost() {
         return graphiteHost;
     }
+
     @JsonProperty
     public void setGraphiteHost(String graphiteHost) {
         this.graphiteHost = graphiteHost;
     }
+
     @JsonProperty
     public Integer getGraphitePort() {
         return graphitePort;
     }
+
     @JsonProperty
     public void setGraphitePort(Integer graphitePort) {
         this.graphitePort = graphitePort;
     }
+
     @JsonProperty
     public String getIrcServer() {
         return ircServer;
     }
+
     @JsonProperty
     public void setIrcServer(String ircServer) {
         this.ircServer = ircServer;
     }
+
     @JsonProperty
     public String getIrcUsername() {
         return ircUsername;
     }
+
     @JsonProperty
     public void setIrcUsername(String ircUsername) {
         this.ircUsername = ircUsername;
     }
+
     @JsonProperty
     public String getIrcNickname() {
         return ircNickname;
     }
+
     @JsonProperty
     public void setIrcNickname(String ircNickname) {
         this.ircNickname = ircNickname;
     }
+
     @JsonProperty
     public String getIrcChannel() {
         return ircChannel;
     }
+
     @JsonProperty
     public void setIrcChannel(String ircChannel) {
         this.ircChannel = ircChannel;
     }
+
     @JsonProperty
     public Integer getIrcBridgeroomId() {
         return ircBridgeroomId;
     }
+
     @JsonProperty
     public void setIrcBridgeroomId(Integer ircBridgeroomId) {
         this.ircBridgeroomId = ircBridgeroomId;
     }
+
     @JsonProperty
     public Boolean isIrcEnabled() {
         return ircEnabled;
     }
+
     @JsonProperty
     public void setIrcEnabled(Boolean ircEnabled) {
         this.ircEnabled = ircEnabled;
     }
+
     @JsonProperty
     public Integer getDefaultMapSize() {
         return defaultMapSize;
     }
+
     @JsonProperty
     public void setDefaultMapSize(Integer defaultMapSize) {
         this.defaultMapSize = defaultMapSize;
     }
+
     @JsonProperty
     public Double getForageRateLimitPerSecond() {
         return forageRateLimitPerSecond;
     }
+
     @JsonProperty
     public void setForageRateLimitPerSecond(Double forageRateLimitPerSecond) {
         this.forageRateLimitPerSecond = forageRateLimitPerSecond;
     }
+
     @JsonProperty
     public String getWeatherUndergroundApiKey() {
         return weatherUndergroundApiKey;
     }
+
     @JsonProperty
     public void setWeatherUndergroundApiKey(String weatherUndergroundApiKey) {
         this.weatherUndergroundApiKey = weatherUndergroundApiKey;
@@ -214,8 +250,45 @@ public class CreeperConfiguration extends Configuration {
     public Integer getMaxGossipCacheSize() {
         return maxGossipCacheSize;
     }
+
     @JsonProperty
     public void setMaxGossipCacheSize(Integer maxGossipCacheSize) {
         this.maxGossipCacheSize = maxGossipCacheSize;
+    }
+
+    @JsonProperty
+    public String getTwitterConsumerKey() {
+        return twitterConsumerKey;
+    }
+
+    public void setTwitterConsumerKey(String twitterConsumerKey) {
+        this.twitterConsumerKey = twitterConsumerKey;
+    }
+
+    @JsonProperty
+    public String getTwitterConsumerSecret() {
+        return twitterConsumerSecret;
+    }
+
+    public void setTwitterConsumerSecret(String twitterConsumerSecret) {
+        this.twitterConsumerSecret = twitterConsumerSecret;
+    }
+
+    @JsonProperty
+    public String getTwitterAccessToken() {
+        return twitterAccessToken;
+    }
+
+    public void setTwitterAccessToken(String twitterAccessToken) {
+        this.twitterAccessToken = twitterAccessToken;
+    }
+
+    @JsonProperty
+    public String getTwitterAccessTokenSecret() {
+        return twitterAccessTokenSecret;
+    }
+
+    public void setTwitterAccessTokenSecret(String twitterAccessTokenSecret) {
+        this.twitterAccessTokenSecret = twitterAccessTokenSecret;
     }
 }

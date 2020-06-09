@@ -99,7 +99,6 @@ public class AccuweatherManagerTest {
 
     @Test
     public void testCurrentConditions() throws Exception {
-
         String asdf = accuweatherManager.getHourlyForecast("asdf");
         System.out.printf(asdf);
     }
