@@ -20,6 +20,7 @@ public class BotCommandFactory {
         addCommand(new DictionaryBotCommand(botCommandManager));
         addCommand(new ImdbBotCommand(botCommandManager));
         addCommand(new ForecastCommand(botCommandManager));
+        addCommand(new HourlyCommand(botCommandManager));
         addCommand(new RandomRoomDescriptionCommand(botCommandManager));
         addCommand(new CardsCommand(botCommandManager));
     }

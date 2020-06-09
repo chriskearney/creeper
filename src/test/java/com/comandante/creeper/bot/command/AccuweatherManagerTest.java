@@ -68,6 +68,16 @@ public class AccuweatherManagerTest {
                 throw new RuntimeException(e);
             }
         }
+
+        @Override
+        public JsonElement getHourlyForecast(String locationKey) {
+            try {
+                String oneDayForeCastJson = getResourceFileAsString("ACCUWEATHER_12_HOURS_FORECAST_BY_LOCATIONKEY.json");
+                return jsonParser.parse(oneDayForeCastJson);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     };
 
 
@@ -90,9 +100,8 @@ public class AccuweatherManagerTest {
     @Test
     public void testCurrentConditions() throws Exception {
 
-        String fiveDayForeCast = accuweatherManager.getFiveDayForeCast("n/a");
-        System.out.printf(fiveDayForeCast);
-
+        String asdf = accuweatherManager.getHourlyForecast("asdf");
+        System.out.printf(asdf);
     }
 
 }

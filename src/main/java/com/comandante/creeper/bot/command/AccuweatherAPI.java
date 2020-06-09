@@ -12,4 +12,6 @@ public interface AccuweatherAPI {
     JsonElement getCurrentConditions(String locationKey);
 
     JsonElement getFiveDayForecast(String locationKey);
+
+    JsonElement getHourlyForecast(String locationKey);
 }

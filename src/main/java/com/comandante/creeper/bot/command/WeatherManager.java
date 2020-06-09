@@ -35,9 +35,12 @@ public class WeatherManager {
         return accuweatherManager.getCurrentConditions(searchString).toString();
     }
 
-
     public String getFiveDayForecast(String searchString) {
         return accuweatherManager.getFiveDayForeCast(searchString);
+    }
+
+    public String getHourlyForecast(String searchString) {
+        return accuweatherManager.getHourlyForecast(searchString);
     }
 
 }

@@ -1,0 +1,194 @@
+[
+  {
+    "DateTime": "2020-06-08T22:00:00-07:00",
+    "EpochDateTime": 1591678800,
+    "WeatherIcon": 33,
+    "IconPhrase": "Clear",
+    "HasPrecipitation": false,
+    "IsDaylight": false,
+    "Temperature": {
+      "Value": 68,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 0,
+    "MobileLink": "http://m.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=1&hbhhour=22&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=1&hbhhour=22&lang=en-us"
+  },
+  {
+    "DateTime": "2020-06-08T23:00:00-07:00",
+    "EpochDateTime": 1591682400,
+    "WeatherIcon": 33,
+    "IconPhrase": "Clear",
+    "HasPrecipitation": false,
+    "IsDaylight": false,
+    "Temperature": {
+      "Value": 67,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 0,
+    "MobileLink": "http://m.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=1&hbhhour=23&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=1&hbhhour=23&lang=en-us"
+  },
+  {
+    "DateTime": "2020-06-09T00:00:00-07:00",
+    "EpochDateTime": 1591686000,
+    "WeatherIcon": 33,
+    "IconPhrase": "Clear",
+    "HasPrecipitation": false,
+    "IsDaylight": false,
+    "Temperature": {
+      "Value": 65,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 0,
+    "MobileLink": "http://m.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=0&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=0&lang=en-us"
+  },
+  {
+    "DateTime": "2020-06-09T01:00:00-07:00",
+    "EpochDateTime": 1591689600,
+    "WeatherIcon": 33,
+    "IconPhrase": "Clear",
+    "HasPrecipitation": false,
+    "IsDaylight": false,
+    "Temperature": {
+      "Value": 64,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 0,
+    "MobileLink": "http://m.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=1&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=1&lang=en-us"
+  },
+  {
+    "DateTime": "2020-06-09T02:00:00-07:00",
+    "EpochDateTime": 1591693200,
+    "WeatherIcon": 33,
+    "IconPhrase": "Clear",
+    "HasPrecipitation": false,
+    "IsDaylight": false,
+    "Temperature": {
+      "Value": 63,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 0,
+    "MobileLink": "http://m.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=2&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=2&lang=en-us"
+  },
+  {
+    "DateTime": "2020-06-09T03:00:00-07:00",
+    "EpochDateTime": 1591696800,
+    "WeatherIcon": 33,
+    "IconPhrase": "Clear",
+    "HasPrecipitation": false,
+    "IsDaylight": false,
+    "Temperature": {
+      "Value": 61,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 0,
+    "MobileLink": "http://m.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=3&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=3&lang=en-us"
+  },
+  {
+    "DateTime": "2020-06-09T04:00:00-07:00",
+    "EpochDateTime": 1591700400,
+    "WeatherIcon": 33,
+    "IconPhrase": "Clear",
+    "HasPrecipitation": false,
+    "IsDaylight": false,
+    "Temperature": {
+      "Value": 59,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 0,
+    "MobileLink": "http://m.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=4&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=4&lang=en-us"
+  },
+  {
+    "DateTime": "2020-06-09T05:00:00-07:00",
+    "EpochDateTime": 1591704000,
+    "WeatherIcon": 33,
+    "IconPhrase": "Clear",
+    "HasPrecipitation": false,
+    "IsDaylight": false,
+    "Temperature": {
+      "Value": 58,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 0,
+    "MobileLink": "http://m.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=5&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=5&lang=en-us"
+  },
+  {
+    "DateTime": "2020-06-09T06:00:00-07:00",
+    "EpochDateTime": 1591707600,
+    "WeatherIcon": 1,
+    "IconPhrase": "Sunny",
+    "HasPrecipitation": false,
+    "IsDaylight": true,
+    "Temperature": {
+      "Value": 60,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 0,
+    "MobileLink": "http://m.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=6&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=6&lang=en-us"
+  },
+  {
+    "DateTime": "2020-06-09T07:00:00-07:00",
+    "EpochDateTime": 1591711200,
+    "WeatherIcon": 1,
+    "IconPhrase": "Sunny",
+    "HasPrecipitation": false,
+    "IsDaylight": true,
+    "Temperature": {
+      "Value": 62,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 0,
+    "MobileLink": "http://m.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=7&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=7&lang=en-us"
+  },
+  {
+    "DateTime": "2020-06-09T08:00:00-07:00",
+    "EpochDateTime": 1591714800,
+    "WeatherIcon": 1,
+    "IconPhrase": "Sunny",
+    "HasPrecipitation": false,
+    "IsDaylight": true,
+    "Temperature": {
+      "Value": 67,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 0,
+    "MobileLink": "http://m.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=8&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=8&lang=en-us"
+  },
+  {
+    "DateTime": "2020-06-09T09:00:00-07:00",
+    "EpochDateTime": 1591718400,
+    "WeatherIcon": 1,
+    "IconPhrase": "Sunny",
+    "HasPrecipitation": false,
+    "IsDaylight": true,
+    "Temperature": {
+      "Value": 72,
+      "Unit": "F",
+      "UnitType": 18
+    },
+    "PrecipitationProbability": 0,
+    "MobileLink": "http://m.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=9&lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/santa-barbara-ca/93101/hourly-weather-forecast/327137?day=2&hbhhour=9&lang=en-us"
+  }
+]

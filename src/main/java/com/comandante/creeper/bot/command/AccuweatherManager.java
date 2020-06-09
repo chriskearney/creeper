@@ -4,9 +4,14 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class AccuweatherManager {
@@ -91,6 +96,46 @@ public class AccuweatherManager {
 
     }
 
+    public String getHourlyForecast(String searchString) {
+        String locationKey = null;
+
+        if (Character.isDigit(searchString.charAt(0))) {
+            JsonElement locationByPostalCode = accuweatherAPI.getLocationByPostalCode(searchString);
+            locationKey = locationByPostalCode.getAsJsonArray().get(0).getAsJsonObject().get("Key").getAsString();
+        } else {
+            JsonElement locationByCity = accuweatherAPI.getLocationByCity(searchString);
+            locationKey = locationByCity.getAsJsonArray().get(0).getAsJsonObject().get("Key").getAsString();
+        }
+
+        JsonElement hourlyForecast = accuweatherAPI.getHourlyForecast(locationKey);
+
+        StringBuilder combinedHourlyForecast = new StringBuilder();
+        for (JsonElement element : hourlyForecast.getAsJsonArray()) {
+            String rawDateTime = element.getAsJsonObject().get("DateTime").getAsString();
+            ZonedDateTime localDateTime = ZonedDateTime.parse(rawDateTime);
+            DateTimeFormatter timeFormatter = DateTimeFormatter
+                    .ofLocalizedTime(FormatStyle.SHORT)
+                    .withLocale(Locale.US);
+
+            String rawTemperatureInteger = element.getAsJsonObject().get("Temperature").getAsJsonObject().get("Value").getAsString();
+            Integer temperature = (int) Float.parseFloat(rawTemperatureInteger);
+            String temperatureUnit = element.getAsJsonObject().get("Temperature").getAsJsonObject().get("Unit").getAsString();
+
+            String displayTime = timeFormatter.format(localDateTime);
+            combinedHourlyForecast.append(displayTime.replaceAll(":00 ", ""));
+            combinedHourlyForecast.append(" ")
+                    .append(temperature)
+                    .append(temperatureUnit)
+                    .append("/")
+                    .append(element.getAsJsonObject().get("IconPhrase").getAsString())
+                    .append(" | ");
+        }
+
+        String s = combinedHourlyForecast.toString();
+
+        return s.substring(0, s.length() - 3);
+    }
+
     private String getDayOfTheWeek(long epochDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE");
         Date dateFormat = new java.util.Date(epochDate * 1000);
@@ -120,7 +165,6 @@ public class AccuweatherManager {
         }
 
     }
-
 
     public static class AccuweatherReport {
 
