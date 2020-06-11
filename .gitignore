@@ -1,0 +1,16 @@
+.gradle
+.gradleBuild
+out
+.idea/
+classes/
+build
+logs
+*.iml
+.DS_Store
+conf*yaml
+build.zip
+/bin/
+/.classpath
+/.settings
+/.project
+ids.txt
