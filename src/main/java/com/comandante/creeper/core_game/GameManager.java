@@ -403,7 +403,7 @@ public class GameManager {
     }
 
     private void fireDrawMapEvent(String playerId, Room room) {
-        String map = getMapsManager().drawMap(room.getRoomId(), new Coords(20, 14));
+        String map = getMapsManager().drawMap(room.getRoomId(), new Coords(10, 10));
         CreeperEvent build = new CreeperEvent.Builder()
                 .playerId(playerId)
                 .payload(map)

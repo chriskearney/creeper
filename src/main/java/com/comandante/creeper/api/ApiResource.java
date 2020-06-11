@@ -56,7 +56,7 @@ public class ApiResource {
     @Path("/clientdata")
     public CreeperClientData getClientData(@Auth Player player) {
         final Room playerCurrentRoom = gameManager.getRoomManager().getPlayerCurrentRoom(player).get();
-        String map = gameManager.getMapsManager().drawMap(playerCurrentRoom.getRoomId(), new Coords(20, 14));
+        String map = gameManager.getMapsManager().drawMap(playerCurrentRoom.getRoomId(), new Coords(10, 10));
 
         String prompt = gameManager.buildPrompt(player.getPlayerId());
 
