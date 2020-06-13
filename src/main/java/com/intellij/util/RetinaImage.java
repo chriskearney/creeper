@@ -19,7 +19,8 @@ import com.intellij.openapi.util.SystemInfo;
 import com.intellij.util.ui.DrawUtil;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 

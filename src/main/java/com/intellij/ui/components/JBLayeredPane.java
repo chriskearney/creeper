@@ -15,8 +15,8 @@
  */
 package com.intellij.ui.components;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLayeredPane;
+import java.awt.Dimension;
 
 /**
  * User: Vassiliy.Kudryashov

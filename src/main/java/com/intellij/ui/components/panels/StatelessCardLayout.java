@@ -19,8 +19,13 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.util.ui.JBInsets;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.LayoutManager2;
+import java.awt.Rectangle;
 
 /**
  * This class is intended to lay out only one visible component.

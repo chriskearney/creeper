@@ -4,11 +4,11 @@ import com.intellij.openapi.Disposable
 import com.intellij.util.JBHiDPIScaledImage
 import com.intellij.util.RetinaImage
 import com.intellij.util.ui.DrawUtil
-import terminal.model.StyleState
-import terminal.model.TerminalTextBuffer
-import terminal.ui.TerminalPanel
-import terminal.ui.UIUtil
-import terminal.ui.settings.SettingsProvider
+import com.terminal.model.StyleState
+import com.terminal.model.TerminalTextBuffer
+import com.terminal.ui.TerminalPanel
+import com.terminal.ui.UIUtil
+import com.terminal.ui.settings.SettingsProvider
 import java.awt.Graphics
 import java.awt.Graphics2D
 import java.awt.Image

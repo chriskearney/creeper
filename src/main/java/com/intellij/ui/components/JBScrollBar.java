@@ -23,9 +23,10 @@ import com.intellij.util.ui.RegionPainter;
 import com.intellij.util.ui.UIUtil;
 import org.intellij.lang.annotations.JdkConstants;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JScrollBar;
 import javax.swing.plaf.ScrollBarUI;
-import java.awt.*;
+import java.awt.Adjustable;
 
 /**
  * Our implementation of a scroll bar with the custom UI.

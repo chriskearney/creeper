@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package com.intellij.ui.tabs.impl;
+
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.registry.Registry;
@@ -25,7 +26,11 @@ import com.intellij.util.ui.DrawUtil;
 import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.util.List;
 
 /**

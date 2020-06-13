@@ -18,7 +18,12 @@ package com.intellij.util.ui;
 import com.intellij.openapi.ui.GraphicsConfig;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 

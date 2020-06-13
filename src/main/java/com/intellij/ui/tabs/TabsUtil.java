@@ -15,7 +15,7 @@
  */
 package com.intellij.ui.tabs;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 
 /**
  * @author pegov

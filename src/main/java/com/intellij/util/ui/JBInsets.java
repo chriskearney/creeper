@@ -18,7 +18,9 @@ package com.intellij.util.ui;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.plaf.UIResource;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Rectangle;
 
 import static com.intellij.util.ui.JBUI.scale;
 

@@ -19,7 +19,7 @@ import com.intellij.ui.tabs.JBTabsPosition;
 import com.intellij.ui.tabs.JBTabsPresentation;
 import com.intellij.ui.tabs.TabsUtil;
 
-import java.awt.*;
+import java.awt.Insets;
 
 public class TabsBorder {
 

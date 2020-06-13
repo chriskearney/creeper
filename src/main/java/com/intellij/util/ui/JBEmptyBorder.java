@@ -17,7 +17,7 @@ package com.intellij.util.ui;
 
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.UIResource;
-import java.awt.*;
+import java.awt.Insets;
 
 /**
  * @author Konstantin Bulenkov

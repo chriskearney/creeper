@@ -20,7 +20,7 @@ import com.intellij.openapi.ui.OnePixelDivider;
 import com.intellij.util.Producer;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+import java.awt.Insets;
 
 /**
  * @author Konstantin Bulenkov

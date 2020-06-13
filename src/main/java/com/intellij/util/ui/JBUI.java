@@ -18,15 +18,17 @@ package com.intellij.util.ui;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.util.SystemProperties;
+import com.terminal.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import terminal.util.Pair;
 
-import javax.swing.*;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.plaf.UIResource;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Insets;
 
 /**
  * @author Konstantin Bulenkov

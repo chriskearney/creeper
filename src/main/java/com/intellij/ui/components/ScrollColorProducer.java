@@ -22,8 +22,10 @@ import com.intellij.util.ui.ColorUtil;
 import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JScrollPane;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 
 import static com.intellij.ui.components.JBScrollPane.BRIGHTNESS_FROM_VIEW;
 

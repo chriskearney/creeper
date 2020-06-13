@@ -18,7 +18,7 @@ package com.intellij.ui.tabs.impl;
 import com.intellij.ui.tabs.TabInfo;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
+import java.awt.Rectangle;
 import java.util.List;
 
 public abstract class LayoutPassInfo {

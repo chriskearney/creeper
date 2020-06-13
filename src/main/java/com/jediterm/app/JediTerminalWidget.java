@@ -5,25 +5,26 @@ import com.intellij.openapi.util.Disposer;
 import com.intellij.ui.components.JBScrollBar;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.ui.RegionPainter;
+import com.terminal.SubstringFinder;
+import com.terminal.TerminalStarter;
+import com.terminal.TtyBasedArrayDataStream;
+import com.terminal.TtyConnector;
+import com.terminal.model.JediTerminal;
+import com.terminal.model.StyleState;
+import com.terminal.model.TerminalTextBuffer;
+import com.terminal.ui.JediTermWidget;
+import com.terminal.ui.settings.SettingsProvider;
 import org.jetbrains.annotations.NotNull;
-import terminal.SubstringFinder;
-import terminal.TerminalStarter;
-import terminal.TtyBasedArrayDataStream;
-import terminal.TtyConnector;
-import terminal.model.JediTerminal;
-import terminal.model.StyleState;
-import terminal.model.TerminalTextBuffer;
-import terminal.ui.JediTermWidget;
-import terminal.ui.settings.SettingsProvider;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JScrollBar;
+import java.awt.Color;
+import java.awt.Graphics2D;
 
 public class JediTerminalWidget extends JediTermWidget implements Disposable {
 
   public JediTerminalWidget(SettingsProvider settingsProvider, Disposable parent) {
     super(settingsProvider);
-    setName("terminal");
+    setName("com/terminal");
 
     Disposer.register(parent, this);
   }

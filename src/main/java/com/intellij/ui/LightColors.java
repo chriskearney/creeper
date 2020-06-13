@@ -16,7 +16,7 @@
 
 package com.intellij.ui;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * @author max

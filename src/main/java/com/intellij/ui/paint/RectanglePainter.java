@@ -17,7 +17,9 @@ package com.intellij.ui.paint;
 
 import com.intellij.util.ui.RegionPainter;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;

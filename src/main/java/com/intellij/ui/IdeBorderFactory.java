@@ -23,7 +23,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Insets;
 
 public class IdeBorderFactory {
   public static final int BORDER_ROUNDNESS = 5;

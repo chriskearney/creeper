@@ -20,8 +20,8 @@ import com.intellij.openapi.Disposable;
 import com.intellij.util.concurrency.EdtExecutorService;
 import org.jetbrains.annotations.NonNls;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.SwingUtilities;
+import java.awt.GraphicsEnvironment;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 

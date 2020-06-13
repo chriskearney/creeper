@@ -21,7 +21,8 @@ import com.intellij.ui.tabs.impl.ShapeTransform;
 import com.intellij.ui.tabs.impl.TabLabel;
 import com.intellij.ui.tabs.impl.TabLayout;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 
 public abstract class SingleRowLayoutStrategy {
 

@@ -22,7 +22,7 @@ import com.intellij.ui.tabs.impl.TabLabel;
 import com.intellij.util.ui.GraphicsUtil;
 import com.intellij.util.ui.JBUI;
 
-import java.awt.*;
+import java.awt.Font;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;

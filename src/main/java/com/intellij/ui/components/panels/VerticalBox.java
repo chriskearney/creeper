@@ -15,8 +15,10 @@
  */
 package com.intellij.ui.components.panels;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
+import java.awt.Component;
 
 public class VerticalBox extends Box {
 

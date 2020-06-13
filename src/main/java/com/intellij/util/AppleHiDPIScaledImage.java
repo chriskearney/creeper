@@ -2,7 +2,7 @@ package com.intellij.util;
 
 import apple.awt.CImage;
 
-import java.awt.*;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 /**

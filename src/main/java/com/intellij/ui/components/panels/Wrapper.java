@@ -17,8 +17,11 @@ package com.intellij.ui.components.panels;
 
 import com.intellij.openapi.ui.NullableComponent;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
 
 public class Wrapper extends JPanel implements NullableComponent {
 
