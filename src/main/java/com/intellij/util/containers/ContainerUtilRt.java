@@ -17,10 +17,10 @@ package com.intellij.util.containers;
 
 import com.intellij.util.ArrayUtilRt;
 import com.intellij.util.Function;
+import com.terminal.util.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import terminal.util.Pair;
 
 import java.io.Serializable;
 import java.util.AbstractList;

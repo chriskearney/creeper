@@ -17,7 +17,9 @@ package com.intellij.ui.tabs.impl;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 public abstract class TabLayout {
 

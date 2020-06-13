@@ -15,7 +15,7 @@
  */
 package com.intellij.util.ui;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * @author Konstantin Bulenkov

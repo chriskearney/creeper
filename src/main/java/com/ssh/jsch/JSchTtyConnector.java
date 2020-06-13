@@ -4,14 +4,22 @@
 package com.ssh.jsch;
 
 import com.google.common.net.HostAndPort;
-import com.jcraft.jsch.*;
-
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.KeyPair;
+import com.jcraft.jsch.Session;
+import com.terminal.Questioner;
+import com.terminal.TtyConnector;
 import org.apache.log4j.Logger;
-import terminal.Questioner;
-import terminal.TtyConnector;
 
-import java.awt.*;
-import java.io.*;
+import java.awt.Dimension;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 

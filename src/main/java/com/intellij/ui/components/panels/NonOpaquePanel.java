@@ -17,8 +17,8 @@ package com.intellij.ui.components.panels;
 
 import com.intellij.util.ui.UIUtil;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import java.awt.LayoutManager;
 
 public class NonOpaquePanel extends Wrapper {
   public NonOpaquePanel() {

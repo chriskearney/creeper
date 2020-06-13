@@ -5,7 +5,7 @@ package com.ssh.jsch;
 
 import com.jcraft.jsch.UIKeyboardInteractive;
 import com.jcraft.jsch.UserInfo;
-import terminal.Questioner;
+import com.terminal.Questioner;
 
 class QuestionerUserInfo implements UserInfo, UIKeyboardInteractive {
   private Questioner myQuestioner;

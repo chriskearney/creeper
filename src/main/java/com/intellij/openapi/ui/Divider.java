@@ -15,8 +15,8 @@
  */
 package com.intellij.openapi.ui;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.LayoutManager;
 
 /**
  * @author Konstantin Bulenkov

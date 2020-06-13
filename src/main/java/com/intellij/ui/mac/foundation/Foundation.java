@@ -17,7 +17,12 @@ package com.intellij.ui.mac.foundation;
 
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.containers.HashMap;
-import com.sun.jna.*;
+import com.sun.jna.Callback;
+import com.sun.jna.FromNativeContext;
+import com.sun.jna.Native;
+import com.sun.jna.NativeMapped;
+import com.sun.jna.Pointer;
+import com.sun.jna.Structure;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

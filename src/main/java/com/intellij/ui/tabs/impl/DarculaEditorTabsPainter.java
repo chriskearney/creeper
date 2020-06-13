@@ -17,7 +17,7 @@ package com.intellij.ui.tabs.impl;
 
 import com.intellij.ui.ColorUtil;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * @author Konstantin Bulenkov

@@ -17,7 +17,7 @@ package com.intellij.openapi.ui;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+import java.awt.Component;
 
 public interface Splittable {
   float getMinProportion(boolean first);

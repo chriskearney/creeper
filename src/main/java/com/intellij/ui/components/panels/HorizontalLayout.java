@@ -15,8 +15,12 @@
  */
 package com.intellij.ui.components.panels;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.SwingConstants;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.LayoutManager2;
 import java.util.ArrayList;
 
 /**

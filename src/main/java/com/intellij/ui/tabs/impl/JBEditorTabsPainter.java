@@ -19,7 +19,10 @@ import com.intellij.ui.Gray;
 import com.intellij.util.ui.DrawUtil;
 import com.intellij.util.ui.UIUtil;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Rectangle;
 
 /**
  * @author Konstantin Bulenkov

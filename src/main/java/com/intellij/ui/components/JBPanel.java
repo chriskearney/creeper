@@ -20,9 +20,11 @@ import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.components.JBComponent;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
 
 /**
  * @author Konstantin Bulenkov

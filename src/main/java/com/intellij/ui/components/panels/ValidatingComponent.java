@@ -18,8 +18,11 @@ package com.intellij.ui.components.panels;
 import com.intellij.ui.JBColor;
 import com.intellij.util.ui.UIUtil;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import java.awt.BorderLayout;
+import java.awt.Font;
 
 /**
  * @author kir

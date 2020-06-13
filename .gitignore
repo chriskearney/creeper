@@ -13,4 +13,5 @@ build.zip
 /.classpath
 /.settings
 /.project
+target/
 ids.txt

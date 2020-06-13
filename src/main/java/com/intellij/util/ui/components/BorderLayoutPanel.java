@@ -18,7 +18,8 @@ package com.intellij.util.ui.components;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.util.ui.JBUI;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * @author Konstantin Bulenkov

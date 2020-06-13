@@ -16,13 +16,13 @@
 package com.intellij.execution.filters;
 
 import com.intellij.util.io.URLUtil;
+import com.terminal.model.hyperlinks.HyperlinkFilter;
+import com.terminal.model.hyperlinks.LinkInfo;
+import com.terminal.model.hyperlinks.LinkResult;
+import com.terminal.model.hyperlinks.LinkResultItem;
 import org.jetbrains.annotations.Nullable;
-import terminal.model.hyperlinks.HyperlinkFilter;
-import terminal.model.hyperlinks.LinkInfo;
-import terminal.model.hyperlinks.LinkResult;
-import terminal.model.hyperlinks.LinkResultItem;
 
-import java.awt.*;
+import java.awt.Desktop;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;

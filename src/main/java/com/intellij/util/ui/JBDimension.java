@@ -16,7 +16,7 @@
 package com.intellij.util.ui;
 
 import javax.swing.plaf.UIResource;
-import java.awt.*;
+import java.awt.Dimension;
 
 /**
  * @author Konstantin Bulenkov

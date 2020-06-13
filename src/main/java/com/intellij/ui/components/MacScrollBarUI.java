@@ -26,8 +26,13 @@ import com.sun.jna.Callback;
 import com.sun.jna.Pointer;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import java.awt.AWTEvent;
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.MouseEvent;
 import java.lang.ref.Reference;
@@ -37,7 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.intellij.ui.mac.foundation.Foundation.*;
+import static com.intellij.ui.mac.foundation.Foundation.NSAutoreleasePool;
 import static com.intellij.ui.mac.foundation.Foundation.addMethod;
 import static com.intellij.ui.mac.foundation.Foundation.allocateObjcClassPair;
 import static com.intellij.ui.mac.foundation.Foundation.createSelector;

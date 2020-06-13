@@ -18,7 +18,9 @@ package com.intellij.ui.tabs.impl;
 import com.intellij.ui.ColorUtil;
 import com.intellij.util.ui.UIUtil;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 /**
  * @author Konstantin Bulenkov

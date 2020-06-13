@@ -3,7 +3,7 @@ package com.intellij.ui;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
+import javax.swing.Icon;
 
 public interface ColoredTextContainer {
   void append(@NotNull String fragment, @NotNull SimpleTextAttributes attributes);
