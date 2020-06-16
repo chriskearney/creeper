@@ -10,6 +10,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import static com.comadante.creeper.cclient.CreeperClientMainFrame.RIGHT_SIDE_PANEL_DIMENSIONS;
@@ -56,6 +58,7 @@ public class MapPanel extends JPanel {
                 }
             }
         });
+        setFocusable(false);
     }
 
 

@@ -26,7 +26,6 @@ public class Input extends JPanel {
     private final JTextField field;
     private final EvictingQueue<String> evictingQueue = EvictingQueue.create(MAX_COMMANDS);
     private ListIterator<String> commandScroller;
-    private TerminalSession terminalSession;
     private KeyEvent lastUpOrDownEvent;
     private final InputTextConsumer inputTextConsumer;
 
@@ -78,7 +77,6 @@ public class Input extends JPanel {
                 } else if (keyCode == 10) {
                     String linetext = field.getText();
                     inputTextConsumer.consumer(linetext);
-                    //terminalSession.getTtyConnector().write(linetext + "\n");
                     if (!Strings.isNullOrEmpty(linetext)) {
                         addToHistory(linetext);
                         setListIterator();
@@ -104,7 +102,6 @@ public class Input extends JPanel {
         this.add(field);
         setVisible(true);
         setFocusable(true);
-        SwingUtilities.invokeLater(() -> field.requestFocus());
     }
 
     public JTextField getField() {
