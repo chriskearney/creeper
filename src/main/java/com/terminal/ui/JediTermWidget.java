@@ -188,6 +188,10 @@ public class JediTermWidget extends JPanel implements TerminalSession, TerminalW
     }
   }
 
+  public JScrollBar getMyScrollBar() {
+    return myScrollBar;
+  }
+
   public void start() {
     if (!mySessionRunning.get()) {
       myEmuThread = new Thread(new EmulatorTask());

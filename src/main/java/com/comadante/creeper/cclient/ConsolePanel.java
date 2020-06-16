@@ -46,6 +46,7 @@ public class ConsolePanel extends JPanel {
         this.input = new Input(line -> {
             try {
                 jediTermWidget.getCurrentSession().getTtyConnector().write(line + "\n");
+                jediTermWidget.getMyScrollBar().setValue(jediTermWidget.getMyScrollBar().getMaximum());
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Problem writing to the com.terminal.");
