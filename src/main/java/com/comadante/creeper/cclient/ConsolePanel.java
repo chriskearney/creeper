@@ -1,5 +1,8 @@
 package com.comadante.creeper.cclient;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
 import com.terminal.TtyConnector;
 import com.terminal.emulator.JediEmulator;
@@ -18,10 +21,13 @@ import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Supplier;
 
 public class ConsolePanel extends JPanel {
+
+    private final ObjectMapper objectMapper;
 
     private final ConsoleStatusBar consoleStatusBar;
     private final JediTermWidget jediTermWidget;
@@ -33,8 +39,10 @@ public class ConsolePanel extends JPanel {
     public ConsolePanel(ConsoleStatusBar consoleStatusBar,
                         MapPanel.MapWindowMovementHandler mapWindowMovementHandler,
                         List<JediEmulator.NonControlCharListener> nonControlCharListeners,
-                        Supplier<TtyConnector> ttyConnectorSupplier
+                        Supplier<TtyConnector> ttyConnectorSupplier,
+                        ObjectMapper objectMapper
     ) {
+        this.objectMapper = objectMapper;
         this.consoleStatusBar = consoleStatusBar;
         this.nonControlCharListeners = nonControlCharListeners;
         this.jediTermWidget = createTerminalWidget(new DefaultTabbedSettingsProvider(), nonControlCharListeners);
@@ -138,5 +146,33 @@ public class ConsolePanel extends JPanel {
     @Subscribe
     public void resetEvent(ResetEvent resetEvent) {
         reset();
+    }
+
+    @Subscribe
+    public void creeperEvent(CreeperEvent creeperEvent) throws IOException {
+        if (!creeperEvent.getCreeperEventType().equals(CreeperEventType.PLAYERDATA)) {
+            return;
+        }
+        JsonNode jsonNode = objectMapper.readValue(creeperEvent.getPayload(), JsonNode.class);
+        Boolean isInFight = jsonNode.get("inFight").asBoolean();
+        if (isInFight) {
+            border.setBorder(BorderFactory.createLineBorder(Color.red));
+            repaint();
+        } else {
+            border.setBorder(BorderFactory.createLineBorder(Color.green));
+            repaint();
+        }
+//        java.util.List<String> coolDowns = Lists.newArrayList();
+//        if (jsonNode.get("playerMetadata").has("coolDownMap")) {
+//            jsonNode.get("playerMetadata").get("coolDownMap").forEach(j -> {
+//                if (j.get("active").asBoolean()) {
+//                    coolDowns.add(j.get("coolDownType").asText());
+//                } else {
+//                    System.out.println("Found inactive cooldown: " + j.get("coolDownType").asText());
+//                    border.setBorder(BorderFactory.createLineBorder(Color.green));
+//                    repaint();
+//                }
+//            });
+//        }
     }
 }

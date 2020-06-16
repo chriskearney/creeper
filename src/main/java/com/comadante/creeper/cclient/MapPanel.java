@@ -1,5 +1,7 @@
 package com.comadante.creeper.cclient;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.eventbus.Subscribe;
 import com.terminal.ui.ColorPane;
 import com.terminal.ui.ResetEvent;
@@ -17,15 +19,18 @@ import java.io.IOException;
 import static com.comadante.creeper.cclient.CreeperClientMainFrame.RIGHT_SIDE_PANEL_DIMENSIONS;
 
 public class MapPanel extends JPanel {
+    private final ObjectMapper objectMapper;
     private final ColorPane colorPane;
     private final MapStatusBar mapStatusBar;
     private final MapWindowMovementHandler mapWindowMovementHandler;
-    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Map");;
+    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Map");
 
-    public MapPanel(MapStatusBar mapStatusBar, MapWindowMovementHandler mapWindowMovementHandler) {
+
+    public MapPanel(MapStatusBar mapStatusBar, MapWindowMovementHandler mapWindowMovementHandler, ObjectMapper objectMapper) {
         this.mapWindowMovementHandler = mapWindowMovementHandler;
         this.colorPane = new ColorPane();
         this.mapStatusBar = mapStatusBar;
+        this.objectMapper = objectMapper;
         this.border.setTitleColor(Color.white);
 
         setBorder(border);
@@ -64,6 +69,19 @@ public class MapPanel extends JPanel {
 
     @Subscribe
     public void creeperEvent(CreeperEvent creeperEvent) throws IOException {
+        if (creeperEvent.getCreeperEventType().equals(CreeperEventType.PLAYERDATA)) {
+
+            JsonNode jsonNode = objectMapper.readValue(creeperEvent.getPayload(), JsonNode.class);
+            Boolean isInFight = jsonNode.get("inFight").asBoolean();
+            if (isInFight) {
+                border.setBorder(BorderFactory.createLineBorder(Color.red));
+                repaint();
+            } else {
+                border.setBorder(BorderFactory.createLineBorder(Color.green));
+                repaint();
+            }
+        }
+
         if (!creeperEvent.getCreeperEventType().equals(CreeperEventType.DRAW_MAP)) {
             return;
         }
