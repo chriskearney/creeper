@@ -59,12 +59,14 @@ com/intellij/openapi/util/Ref.class
 com/intellij/openapi/util/text/StringUtil$MyHtml2Text.class
 com/terminal/TerminalMode$1.class
 com/comadante/creeper/cclient/NearPanel$2$1.class
+com/comadante/creeper/cclient/Creeper$6.class
 com/terminal/model/JediTerminal$1.class
 com/terminal/emulator/charset/CharacterSet$8.class
 com/jediterm/app/JediTabbedTerminalWidget$JediTerminalTabs$TerminalTabLabel$1.class
 com/terminal/emulator/JediEmulator.class
 com/intellij/openapi/util/objectTree/ObjectTreeAction.class
 com/intellij/ui/tabs/impl/singleRow/SingleRowLayout$RowDropPolicy.class
+com/comadante/creeper/cclient/CreeperClientMainFrame$1.class
 com/terminal/ui/TerminalSession.class
 com/terminal/ui/TabbedTerminalWidget$TabRenamer$1.class
 com/comadante/creeper/cclient/NearPanel$2.class
@@ -95,6 +97,7 @@ com/intellij/ui/tabs/impl/singleRow/SingleRowLayoutStrategy.class
 com/intellij/openapi/ui/OnePixelDivider$MyMouseAdapter.class
 com/intellij/util/ui/StatusText$1.class
 com/intellij/ui/components/panels/Wrapper.class
+com/comadante/creeper/cclient/Creeper$5.class
 com/comadante/creeper/cclient/GossipWindow.class
 com/terminal/emulator/charset/CharacterSet$4.class
 com/intellij/ui/components/JBScrollPane$ViewportBorder.class
@@ -147,6 +150,7 @@ com/terminal/TextStyle$Option.class
 com/intellij/openapi/util/Pair$1.class
 com/intellij/util/ui/UIUtil$7.class
 com/intellij/ui/components/panels/HorizontalBox$1.class
+com/comadante/creeper/cclient/ConsolePanel$1.class
 com/intellij/util/ui/JBInsets$JBInsetsUIResource.class
 com/intellij/util/ui/DrawUtil.class
 com/terminal/ui/JediTermWidget$TerminalLayout.class
@@ -219,6 +223,7 @@ com/terminal/ui/TerminalPanel$11.class
 com/intellij/ui/tabs/impl/singleRow/SingleRowLayout$1.class
 com/intellij/ui/components/JBScrollPane$1.class
 com/terminal/ui/JediTermWidget$5.class
+com/terminal/ui/ColorPane$2.class
 com/intellij/ui/components/JBScrollPane$Layout.class
 com/intellij/openapi/ui/Splitter$DividerImpl.class
 com/intellij/openapi/util/ActionCallback$IgnoreExecutionCallback.class
@@ -258,6 +263,7 @@ com/jediterm/app/JediTabbedTerminalWidget$JediTerminalTabs$TerminalTabLabel$2.cl
 com/comadante/creeper/cclient/InventoryPanel$2$1.class
 com/terminal/ui/MainMenubar.class
 com/intellij/util/ui/JBFont$JBFontUIResource.class
+com/comadante/creeper/cclient/Creeper$4.class
 com/terminal/model/TerminalTextBuffer.class
 com/intellij/openapi/util/text/StringUtil$BombedCharSequence.class
 com/intellij/ui/mac/foundation/Foundation$NSArray.class
@@ -460,7 +466,6 @@ com/intellij/ui/mac/foundation/MacUtil$1.class
 com/intellij/ui/components/JBRadioButton.class
 com/intellij/ui/tabs/impl/TabsSideSplitter.class
 com/comadante/creeper/cclient/Creeper$3.class
-com/comadante/creeper/cclient/MainToolbar$ConnectAction.class
 com/intellij/openapi/util/ExecutionCallback$1.class
 com/intellij/ui/tabs/impl/singleRow/SingleRowLayout$GhostComponent$1.class
 com/intellij/ui/components/JBScrollPane$MyScrollBar.class
@@ -614,7 +619,6 @@ com/intellij/ui/tabs/impl/JBTabsImpl$AccessibleJBTabsImpl$1.class
 com/intellij/util/ui/UIUtil$4.class
 com/terminal/ui/TerminalPanel$7.class
 com/intellij/openapi/util/ExecutionCallback$CompositeRunnable.class
-com/comadante/creeper/cclient/MainToolbar.class
 com/intellij/util/concurrency/BlockingSet.class
 com/intellij/ui/components/ScrollPainter$Thumb$Mac$Overlay.class
 com/comadante/creeper/cclient/NearPanel$NearMeItem.class
@@ -624,7 +628,6 @@ com/terminal/ui/TabbedTerminalWidget$TabRenamer$2.class
 com/intellij/openapi/wm/IdeGlassPane.class
 com/terminal/ui/AbstractTerminalFrame$4.class
 com/comadante/creeper/cclient/Creeper.class
-com/comadante/creeper/cclient/MainToolbar$DisconnectAction.class
 com/terminal/model/JediTerminal$3.class
 com/intellij/ui/components/TwoWayAnimator$1.class
 com/intellij/ui/tabs/impl/singleRow/SingleRowLayout.class
