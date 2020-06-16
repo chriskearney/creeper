@@ -194,6 +194,15 @@ public class InventoryPanel extends JPanel {
                 try {
                     JsonNode jsonNode = objectMapper.readValue(creeperEvent.getPayload(), JsonNode.class);
 
+                    Boolean isInFight = jsonNode.get("inFight").asBoolean();
+                    if (isInFight) {
+                        border.setBorder(BorderFactory.createLineBorder(Color.red));
+                        repaint();
+                    } else {
+                        border.setBorder(BorderFactory.createLineBorder(Color.green));
+                        repaint();
+                    }
+
                     //itemName -> itemIds
                     Map<String, Set<InventoryItem>> rolledUpInventory = Maps.newHashMap();
 

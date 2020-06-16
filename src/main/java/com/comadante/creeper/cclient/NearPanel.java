@@ -125,6 +125,17 @@ public class NearPanel extends JPanel {
             public void run() {
                 try {
                     JsonNode jsonNode = objectMapper.readValue(creeperEvent.getPayload(), JsonNode.class);
+
+                    Boolean isInFight = jsonNode.get("inFight").asBoolean();
+                    if (isInFight) {
+                        border.setBorder(BorderFactory.createLineBorder(Color.red));
+                        repaint();
+                    } else {
+                        border.setBorder(BorderFactory.createLineBorder(Color.green));
+                        repaint();
+                    }
+
+
                     java.util.List<NearMeItem> nearMeItemList = Lists.newArrayList();
                     Iterator<String> npcs = jsonNode.get("npcs").fieldNames();
                     while (npcs.hasNext()) {
