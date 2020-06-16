@@ -27,6 +27,7 @@ public class StatsWindow extends JInternalFrame{
         setIconifiable(true);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         setClosable(true);
+        setFocusable(false);
         pack();
     }
 

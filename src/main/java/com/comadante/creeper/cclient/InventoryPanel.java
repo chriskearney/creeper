@@ -54,7 +54,9 @@ public class InventoryPanel extends JPanel {
         setBorder(border);
         setPreferredSize(CreeperClientMainFrame.RIGHT_SIDE_PANEL_DIMENSIONS_BIGGER);
         add(pane);
+        setFocusable(false);
         setVisible(true);
+
 
         rolledUpInventoryItems.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {

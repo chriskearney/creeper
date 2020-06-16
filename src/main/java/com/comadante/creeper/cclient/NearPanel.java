@@ -64,6 +64,7 @@ public class NearPanel extends JPanel {
         add(pane);
         setBorder(border);
         setPreferredSize(CreeperClientMainFrame.RIGHT_SIDE_PANEL_DIMENSIONS_BIGGER);
+        setFocusable(false);
         setVisible(true);
     }
 

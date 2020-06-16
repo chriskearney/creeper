@@ -11,11 +11,13 @@ import com.terminal.ui.settings.DefaultTabbedSettingsProvider;
 import com.terminal.ui.settings.TabbedSettingsProvider;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -37,12 +39,12 @@ public class ConsolePanel extends JPanel {
         this.nonControlCharListeners = nonControlCharListeners;
         this.jediTermWidget = createTerminalWidget(new DefaultTabbedSettingsProvider(), nonControlCharListeners);
         this.ttyConnectorSupplier = ttyConnectorSupplier;
-        this.border.setTitleColor(Color.white);
 
         jediTermWidget.getTerminalDisplay().setCursorVisible(false);
         jediTermWidget.getTerminalDisplay().setScrollingEnabled(true);
-        setBackground(Color.black);
-        setBorder(border);
+
+        consoleStatusBar.setBackground(Color.darkGray);
+        JPanel inputAndStatus = new JPanel(new BorderLayout());
         this.input = new Input(line -> {
             try {
                 jediTermWidget.getCurrentSession().getTtyConnector().write(line + "\n");
@@ -52,15 +54,47 @@ public class ConsolePanel extends JPanel {
                 System.out.println("Problem writing to the com.terminal.");
             }
         },mapWindowMovementHandler);
-        consoleStatusBar.setBackground(Color.darkGray);
-        JPanel inputAndStatus = new JPanel(new BorderLayout());
+
+
         inputAndStatus.add(input, BorderLayout.PAGE_END);
         inputAndStatus.add(consoleStatusBar, BorderLayout.PAGE_START);
-        setLayout(new BorderLayout());
-        add(jediTermWidget.getComponent(), BorderLayout.CENTER);
-        add(inputAndStatus, BorderLayout.PAGE_END);
-        setVisible(true);
-        openSession(jediTermWidget);
+
+
+        this.setBackground(Color.black);
+        this.border.setTitleColor(Color.white);
+        this.setBorder(border);
+        this.setLayout(new BorderLayout());
+        this.add(jediTermWidget.getComponent(), BorderLayout.CENTER);
+        this.add(inputAndStatus, BorderLayout.PAGE_END);
+        this.setFocusable(false);
+
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                getInput().getField().requestFocus();
+            }
+        });
+
+//        addKeyListener(new java.awt.event.KeyAdapter() {
+//            public void keyPressed(java.awt.event.KeyEvent evt) {
+//                System.out.println("hi");
+//                try {
+//                    SwingUtilities.invokeLater(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            getInput().getField().requestFocus();
+//                            getJediTermWidget().getMyScrollBar().setValue(getJediTermWidget().getMyScrollBar().getMaximum());
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+
+        this.setVisible(true);
+        this.openSession(jediTermWidget);
     }
 
 
@@ -91,6 +125,14 @@ public class ConsolePanel extends JPanel {
             System.out.println("failed to write to com.terminal tty");
         }
 
+    }
+
+    public JediTermWidget getJediTermWidget() {
+        return jediTermWidget;
+    }
+
+    public Input getInput() {
+        return input;
     }
 
     @Subscribe

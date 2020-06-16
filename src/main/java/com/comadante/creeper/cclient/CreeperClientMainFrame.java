@@ -1,16 +1,21 @@
 package com.comadante.creeper.cclient;
 
+import com.google.common.base.Strings;
 import com.terminal.ui.AbstractTerminalFrame;
 import com.terminal.ui.UIUtil;
 import org.apache.log4j.Logger;
 
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public abstract class CreeperClientMainFrame extends JFrame {
 
@@ -18,11 +23,10 @@ public abstract class CreeperClientMainFrame extends JFrame {
     public final static Dimension MAIN_FRAME = new Dimension(1142, 1135);
     public final static Dimension RIGHT_SIDE_PANEL_DIMENSIONS = new Dimension(270, 214);
     public final static Dimension RIGHT_SIDE_PANEL_DIMENSIONS_BIGGER = new Dimension(270, 236);
-    protected CreeperClientMainFrame(ConsolePanel consoleWindow,
+    protected CreeperClientMainFrame(ConsolePanel consolePanel,
                                      GossipWindow gossipWindow,
                                      MapPanel mapPanel,
                                      StatsWindow statsWindow,
-                                     MainToolbar mainToolbar,
                                      InventoryPanel inventoryPanel,
                                      NearPanel nearPanel) {
 
@@ -34,21 +38,22 @@ public abstract class CreeperClientMainFrame extends JFrame {
         rightSidePanel.add(nearPanel);
         rightSidePanel.add(mapPanel);
         rightSidePanel.setBackground(Color.BLACK);
-//        Dimension dimension = new Dimension(274, 206);
-//        rightSidePanel.setPreferredSize(dimension);
-//        rightSidePanel.setMinimumSize(dimension);
-//        rightSidePanel.setMaximumSize(dimension);
-
 
         CreeperClientMainMenuBar creeperClientMainMenuBar = new CreeperClientMainMenuBar();
         setJMenuBar(creeperClientMainMenuBar);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        add(consoleWindow, BorderLayout.CENTER);
+        add(consolePanel, BorderLayout.CENTER);
         add(rightSidePanel, BorderLayout.LINE_END);
         setBackground(Color.BLACK);
-        setVisible(true);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                SwingUtilities.invokeLater(() -> consolePanel.getInput().getField().requestFocus());
+            }
+        });
         pack();
+        setVisible(true);
     }
 
     public static Font getTerminalFont() {

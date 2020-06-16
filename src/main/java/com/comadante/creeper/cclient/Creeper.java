@@ -12,7 +12,11 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import javax.swing.UIManager;
+import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 
@@ -25,10 +29,9 @@ public class Creeper extends CreeperClientMainFrame {
                    MapPanel mapPanel,
                    StatsWindow statsWindow,
                    ConsolePanel consoleWindow,
-                   MainToolbar mainToolbar,
                    InventoryPanel inventoryPanel,
                    NearPanel nearMeWindow) {
-        super(consoleWindow, gossipWindow, mapPanel, statsWindow, mainToolbar, inventoryPanel, nearMeWindow);
+        super(consoleWindow, gossipWindow, mapPanel, statsWindow, inventoryPanel, nearMeWindow);
     }
 
     public static void main(final String[] arg) throws Exception {
@@ -44,7 +47,7 @@ public class Creeper extends CreeperClientMainFrame {
         final ConsoleStatusBar consoleStatusBar = new ConsoleStatusBar(objectMapper);
         final StatsWindow statsWindow = new StatsWindow(objectMapper);
         final ConsolePanel consoleWindow = new ConsolePanel(consoleStatusBar, getMovementHandler(creeperApiHttpClient), Lists.newArrayList(basicAuthStringSupplier), () -> new JSchShellTtyConnector(hostname, "bridge", "b"));
-        final MapStatusBar mapStatusBar = new MapStatusBar("Awaiting connection to creeper.", objectMapper);
+        final MapStatusBar mapStatusBar = new MapStatusBar("", objectMapper);
         final MapPanel mapPanel = new MapPanel(mapStatusBar, getMovementHandler(creeperApiHttpClient));
         final InventoryPanel inventoryPanel = new InventoryPanel(objectMapper, getUseItemIdHandler(creeperApiHttpClient));
         final NearPanel nearMeWindow = new NearPanel(objectMapper, getNearMeHandler(creeperApiHttpClient));
@@ -59,20 +62,30 @@ public class Creeper extends CreeperClientMainFrame {
         eventBus.register(consoleWindow);
         eventBus.register(nearMeWindow);
 
-        MainToolbar mainToolbar = new MainToolbar(() -> {
-            consoleWindow.connect();
-            eventBus.register(consoleStatusBar);
-        }, () -> {
-            eventBus.post(new ResetEvent());
-            eventBus.unregister(consoleStatusBar);
+
+        mapPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                consoleWindow.getInput().getField().requestFocus();
+            }
         });
 
-        mainToolbar.addManagedComponent("MAP", mapPanel);
-        mainToolbar.addManagedComponent("GOSSIP", gossipWindow);
-        mainToolbar.addManagedComponent("INVENTORY", inventoryPanel);
-        mainToolbar.addManagedComponent("STATS", statsWindow);
-        mainToolbar.addManagedComponent("NEAR", nearMeWindow);
-        Creeper creeper = new Creeper(gossipWindow, mapPanel, statsWindow, consoleWindow, mainToolbar, inventoryPanel, nearMeWindow);
+        inventoryPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                consoleWindow.getInput().getField().requestFocus();
+            }
+        });
+
+        nearMeWindow.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                consoleWindow.getInput().getField().requestFocus();
+            }
+        });
+
+        Creeper creeper = new Creeper(gossipWindow, mapPanel, statsWindow, consoleWindow, inventoryPanel, nearMeWindow);
+
     }
 
     public static ObjectMapper registerJdkModuleAndGetMapper() {

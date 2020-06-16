@@ -58,6 +58,7 @@ public class MapPanel extends JPanel {
                 }
             }
         });
+        setFocusable(false);
     }
 
 

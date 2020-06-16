@@ -18,7 +18,7 @@ import static com.terminal.ui.ColorPane.getTerminalFont;
 
 public class ConsoleStatusBar extends JLabel {
     private final ObjectMapper objectMapper;
-    private static final String DEFAULT_TEXT = "Awaiting connection to creeper.";
+    private static final String DEFAULT_TEXT = "";
 
     public ConsoleStatusBar(ObjectMapper objectMapper) {
         super(DEFAULT_TEXT);
