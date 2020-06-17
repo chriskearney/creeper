@@ -9,8 +9,6 @@ import com.comandante.creeper.server.player_communication.Color;
 import com.comandante.creeper.world.model.Coords;
 import com.comandante.creeper.world.model.Room;
 import com.google.common.collect.Maps;
-import events.CreeperEvent;
-import events.CreeperEventType;
 import events.ListenerService;
 import org.apache.log4j.Logger;
 

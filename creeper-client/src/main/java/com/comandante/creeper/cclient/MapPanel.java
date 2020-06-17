@@ -1,7 +1,10 @@
 package com.comandante.creeper.cclient;
 
+import com.comandante.creeper.events.PlayerData;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
 import com.google.common.eventbus.Subscribe;
 import com.terminal.ui.ColorPane;
 import com.terminal.ui.ResetEvent;
@@ -64,22 +67,21 @@ public class MapPanel extends JPanel {
         setFocusable(false);
     }
 
+    @Subscribe
+    public void creeperEvent(PlayerData playerData) throws IOException {
+        Boolean isInFight = playerData.getInFight();
+        if (isInFight) {
+            border.setBorder(BorderFactory.createLineBorder(Color.red));
+            repaint();
+        } else {
+            border.setBorder(BorderFactory.createLineBorder(Color.green));
+            repaint();
+        }
+    }
+
 
     @Subscribe
     public void creeperEvent(CreeperEvent creeperEvent) throws IOException {
-        if (creeperEvent.getCreeperEventType().equals(CreeperEventType.PLAYERDATA)) {
-
-            JsonNode jsonNode = objectMapper.readValue(creeperEvent.getPayload(), JsonNode.class);
-            Boolean isInFight = jsonNode.get("inFight").asBoolean();
-            if (isInFight) {
-                border.setBorder(BorderFactory.createLineBorder(Color.red));
-                repaint();
-            } else {
-                border.setBorder(BorderFactory.createLineBorder(Color.green));
-                repaint();
-            }
-        }
-
         if (!creeperEvent.getCreeperEventType().equals(CreeperEventType.DRAW_MAP)) {
             return;
         }

@@ -56,7 +56,7 @@ public class ItemMetadataTest {
 //        itemMetadata.setValueInGold(30);
 //        itemMetadata.setItemHalfLifeTicks(60);
 //        itemMetadata.setRarity(Rarity.BASIC);
-//         itemMetadata.setValidTimeOfDays(Sets.newHashSet(TimeTracker.TimeOfDay.MORNING, TimeTracker.TimeOfDay.NIGHT));
+//         itemMetadata.setValidTimeOfDays(Sets.newHashSet(TimeOfDay.MORNING, TimeOfDay.NIGHT));
 //
 //        SpawnRule spawnRule1 = new SpawnRuleBuilder().setArea(Area.NEWBIE_ZONE).setSpawnIntervalTicks(600).setMaxInstances(100).setMaxPerRoom(5).setRandomPercent(40).createSpawnRule();
 //        SpawnRule spawnRule2 = new SpawnRuleBuilder().setArea(Area.FANCYHOUSE_ZONE).setSpawnIntervalTicks(600).setMaxInstances(12).setMaxPerRoom(2).setRandomPercent(50).createSpawnRule();

@@ -16,6 +16,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.comandante</groupId>
+            <artifactId>creeper-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>13.0</version>

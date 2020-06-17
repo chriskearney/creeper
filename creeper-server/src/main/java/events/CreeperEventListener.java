@@ -1,6 +1,6 @@
 package events;
 
-import org.glassfish.jersey.media.sse.EventOutput;
+import com.comandante.creeper.events.CreeperEvent;
 
 import java.io.IOException;
 

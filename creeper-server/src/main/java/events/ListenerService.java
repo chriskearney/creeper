@@ -1,6 +1,6 @@
 package events;
 
-import com.comandante.creeper.items.EffectsManager;
+import com.comandante.creeper.events.CreeperEvent;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.AbstractScheduledService;
@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 public class ListenerService extends AbstractScheduledService {
 

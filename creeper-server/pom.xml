@@ -34,6 +34,11 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
+            <groupId>com.comandante</groupId>
+            <artifactId>creeper-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.linkedin.urls</groupId>
             <artifactId>url-detector</artifactId>
             <version>0.1.17</version>

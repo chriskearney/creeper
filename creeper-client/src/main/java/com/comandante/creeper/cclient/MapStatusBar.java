@@ -1,5 +1,8 @@
 package com.comandante.creeper.cclient;
 
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
+import com.comandante.creeper.events.PlayerData;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Sets;
@@ -28,14 +31,13 @@ public class MapStatusBar extends JLabel {
     }
 
     @Subscribe
-    public void creeperEvent(CreeperEvent creeperEvent) throws IOException {
-        if (!creeperEvent.getCreeperEventType().equals(CreeperEventType.PLAYERDATA)) {
-            return;
-        }
-        JsonNode jsonNode = objectMapper.readValue(creeperEvent.getPayload(), JsonNode.class);
-        long currentRoomId = jsonNode.get("currentRoomId").asLong();
+    public void creeperEvent(PlayerData playerData) throws IOException {
+
+        long currentRoomId = playerData.getCurrentRoomId();
         Set<String> currentAreas = Sets.newHashSet();
-        jsonNode.get("currentAreas").forEach(jsonNode1 -> currentAreas.add(jsonNode1.asText()));
+        playerData.getCurrentAreas().forEach(area -> {
+            currentAreas.add(area.getName());
+        });
         StringJoiner stringJoiner = new StringJoiner(",");
         for (String s: currentAreas) {
             stringJoiner.add(s);

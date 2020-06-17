@@ -1,7 +1,11 @@
 package com.comandante.creeper.cclient;
 
+import com.comandante.creeper.events.PlayerData;
+import com.comandante.creeper.items.Item;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
 import com.terminal.ui.ResetEvent;
@@ -115,18 +119,14 @@ public class NearPanel extends JPanel {
     }
 
     @Subscribe
-    public void updateNearMe(CreeperEvent creeperEvent) throws IOException {
-        if (!creeperEvent.getCreeperEventType().equals(CreeperEventType.PLAYERDATA)) {
-            return;
-        }
+    public void updateNearMe(PlayerData playerData) throws IOException {
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 try {
-                    JsonNode jsonNode = objectMapper.readValue(creeperEvent.getPayload(), JsonNode.class);
 
-                    Boolean isInFight = jsonNode.get("inFight").asBoolean();
+                    Boolean isInFight = playerData.getInFight();
                     if (isInFight) {
                         border.setBorder(BorderFactory.createLineBorder(Color.red));
                         repaint();
@@ -137,34 +137,34 @@ public class NearPanel extends JPanel {
 
 
                     java.util.List<NearMeItem> nearMeItemList = Lists.newArrayList();
-                    Iterator<String> npcs = jsonNode.get("npcs").fieldNames();
+                    Iterator<String> npcs = playerData.getNpcs().keySet().iterator();
                     while (npcs.hasNext()) {
                         String npcID = npcs.next();
-                        String npcName = jsonNode.get("npcs").get(npcID).asText();
+                        String npcName = playerData.getNpcs().get(npcID);
                         NearMeItem nearMeItem = new NearMeItem(Optional.of(new Tuple<String, String>(npcID, npcName)), Optional.empty(), Optional.empty());
                         nearMeItemList.add(nearMeItem);
                     }
 
-                    jsonNode.get("presentItems").forEach(new Consumer<JsonNode>() {
+                    playerData.getPresentItems().forEach(new Consumer<Item>() {
                         @Override
-                        public void accept(JsonNode jsonNode) {
-                            String itemId = jsonNode.get("itemId").asText();
-                            String itemName = jsonNode.get("itemName").asText();
+                        public void accept(Item item) {
+                            String itemId = item.getItemId();
+                            String itemName = item.getItemName();
                             nearMeItemList.add(new NearMeItem(Optional.empty(), Optional.empty(), Optional.of(new Tuple<String, String>(itemId, itemName))));
                         }
                     });
 
-                    Iterator<String> players = jsonNode.get("presentPlayers").fieldNames();
+                    Iterator<String> players = playerData.getPresentPlayers().keySet().iterator();
                     while (players.hasNext()) {
                         String playerId = players.next();
-                        String playerName = jsonNode.get("presentPlayers").get(playerId).asText();
+                        String playerName = playerData.getPresentPlayers().get(playerId);
                         NearMeItem nearMeItem = new NearMeItem(Optional.empty(), Optional.of(new Tuple<>(playerId, playerName)), Optional.empty());
                         nearMeItemList.add(nearMeItem);
                     }
 
                     while (npcs.hasNext()) {
                         String npcID = npcs.next();
-                        String npcName = jsonNode.get("npcs").get(npcID).asText();
+                        String npcName = playerData.getNpcs().get(npcID);
                         NearMeItem nearMeItem = new NearMeItem(Optional.of(new Tuple<String, String>(npcID, npcName)), Optional.empty(), Optional.empty());
                         nearMeItemList.add(nearMeItem);
                     }

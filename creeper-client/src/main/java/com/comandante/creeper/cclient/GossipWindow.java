@@ -2,6 +2,8 @@ package com.comandante.creeper.cclient;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
 import com.google.common.eventbus.Subscribe;
 import com.terminal.Questioner;
 import com.terminal.TtyConnector;
@@ -41,7 +43,7 @@ public class GossipWindow extends JInternalFrame implements GetDataListener {
         textPane.setFont(CreeperClientMainFrame.getTerminalFont());
         textPane.setBackground(Color.BLACK);
         textPane.setForeground(Color.WHITE);
-        textPane.setContentType( "text/html" );
+        textPane.setContentType("text/html");
         textPane.setEditable(false);
         this.scrollPane = new JScrollPane(textPane);
         scrollPane.setBorder(createEmptyBorder());
@@ -59,7 +61,6 @@ public class GossipWindow extends JInternalFrame implements GetDataListener {
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         getContentPane().add(input);
         addInternalFrameListener(new InternalFrameAdapter() {
-
 
 
             @Override
@@ -86,7 +87,7 @@ public class GossipWindow extends JInternalFrame implements GetDataListener {
 
     public void appendChatMessage(Long timestamp, String name, String message) {
 
-        HTMLDocument doc=(HTMLDocument) textPane.getStyledDocument();
+        HTMLDocument doc = (HTMLDocument) textPane.getStyledDocument();
         try {
             doc.insertAfterEnd(doc.getCharacterElement(doc.getLength()), buildHtmlChatMessage(name, message));
             textPane.setCaretPosition(textPane.getDocument().getLength());
@@ -108,7 +109,8 @@ public class GossipWindow extends JInternalFrame implements GetDataListener {
     }
 
     private String buildHtmlChatMessage(String name, String message) {
-        return "<font style='font-family: " + getFont().getFamily() + "' color='white'>[</font><font style='font-family: " + getFont().getFamily() + "' color='#FF00FF'>" + name + "</font><font style='font-family: " + getFont().getFamily() + "' color='white'>]</font>&nbsp;<font style='font-family: " + getFont().getFamily() + "' color='#00FFFF'>" + message + "</font><br>";    }
+        return "<font style='font-family: " + getFont().getFamily() + "' color='white'>[</font><font style='font-family: " + getFont().getFamily() + "' color='#FF00FF'>" + name + "</font><font style='font-family: " + getFont().getFamily() + "' color='white'>]</font>&nbsp;<font style='font-family: " + getFont().getFamily() + "' color='#00FFFF'>" + message + "</font><br>";
+    }
 
     @Override
     public void process(JsonNode jsonNode) {

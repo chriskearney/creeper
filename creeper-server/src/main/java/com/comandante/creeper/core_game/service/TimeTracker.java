@@ -57,19 +57,6 @@ public class TimeTracker extends CreeperEntity {
         }
     }
 
-    public enum TimeOfDay {
-        MORNING(Color.YELLOW),
-        AFTERNOON(Color.GREEN),
-        EVENING(Color.RED),
-        NIGHT(Color.CYAN);
-
-        public String color;
-
-        TimeOfDay(String color) {
-            this.color = color;
-        }
-    }
-
     private long milliSecondsSinceMidnight() {
         Calendar c = Calendar.getInstance();
         long now = c.getTimeInMillis();

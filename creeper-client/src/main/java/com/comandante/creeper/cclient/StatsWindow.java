@@ -1,7 +1,10 @@
 package com.comandante.creeper.cclient;
 
+import com.comandante.creeper.events.PlayerData;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
 import com.google.common.eventbus.Subscribe;
 import com.terminal.ui.ColorPane;
 import com.terminal.ui.ResetEvent;
@@ -33,12 +36,8 @@ public class StatsWindow extends JInternalFrame{
 
 
     @Subscribe
-    public void creeperEvent(CreeperEvent creeperEvent) throws IOException {
-        if (!creeperEvent.getCreeperEventType().equals(CreeperEventType.PLAYERDATA)) {
-            return;
-        }
-        JsonNode jsonNode = objectMapper.readValue(creeperEvent.getPayload(), JsonNode.class);
-        statsPane.appendANSI(jsonNode.get("lookSelf").asText());
+    public void creeperEvent(PlayerData playerData) throws IOException {
+        statsPane.appendANSI(playerData.getLookSelf());
     }
 
     @Subscribe

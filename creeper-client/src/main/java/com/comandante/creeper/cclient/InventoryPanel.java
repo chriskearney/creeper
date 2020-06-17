@@ -1,6 +1,10 @@
 package com.comandante.creeper.cclient;
 
+import com.comandante.creeper.events.PlayerData;
+import com.comandante.creeper.items.Item;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -34,7 +38,8 @@ public class InventoryPanel extends JPanel {
     private final DefaultListModel<RolledUpInventoryItem> defaultListModel;
     private final ObjectMapper objectMapper;
     private final UseItemIdHandler useItemIdHandler;
-    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Inventory");;
+    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Inventory");
+    ;
 
     public InventoryPanel(ObjectMapper objectMapper, UseItemIdHandler useItemIdHandler) {
         this.useItemIdHandler = useItemIdHandler;
@@ -181,20 +186,12 @@ public class InventoryPanel extends JPanel {
     }
 
     @Subscribe
-    public void updateInventory(CreeperEvent creeperEvent) throws IOException {
-        if (!creeperEvent.getCreeperEventType().equals(CreeperEventType.PLAYERDATA)) {
-            return;
-        }
-
-
-
+    public void updateInventory(PlayerData playerData) throws IOException {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 try {
-                    JsonNode jsonNode = objectMapper.readValue(creeperEvent.getPayload(), JsonNode.class);
-
-                    Boolean isInFight = jsonNode.get("inFight").asBoolean();
+                    Boolean isInFight = playerData.getInFight();
                     if (isInFight) {
                         border.setBorder(BorderFactory.createLineBorder(Color.red));
                         repaint();
@@ -206,20 +203,22 @@ public class InventoryPanel extends JPanel {
                     //itemName -> itemIds
                     Map<String, Set<InventoryItem>> rolledUpInventory = Maps.newHashMap();
 
-                    jsonNode.get("itemMap").forEach(new Consumer<JsonNode>() {
+                    playerData.getItemMap().keySet().forEach(new Consumer<String>() {
                         @Override
-                        public void accept(JsonNode jsonNode) {
-                            String itemName = jsonNode.get("itemName").asText();
-                            String itemInternalName = jsonNode.get("internalItemName").asText();
-                            String itemId = jsonNode.get("itemId").asText();
-                            Integer numberOfUses = jsonNode.get("numberOfUses").asInt();
-                            Boolean isEquipable = !jsonNode.get("equipment").asText().equals("null");
+                        public void accept(String s) {
+                            Item item = playerData.getItemMap().get(s);
+                            String itemName = item.getItemName();
+                            String itemInternalName = item.getInternalItemName();
+                            String itemId = item.getItemId();
+                            Integer numberOfUses = item.getNumberOfUses();
+                            Boolean isEquipable = true;
+                            if (item.getEquipment() == null) {
+                                isEquipable = false;
+                            }
                             rolledUpInventory.putIfAbsent(itemName, Sets.newHashSet());
                             rolledUpInventory.get(itemName).add(new InventoryItem(itemName, itemId, isEquipable));
-                           // inventoryItemList.add(new InventoryItem(itemName, itemId, isEquipable));
                         }
                     });
-
 
                     List<RolledUpInventoryItem> rolledUpInventoryItemsList = Lists.newArrayList();
 

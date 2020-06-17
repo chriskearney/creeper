@@ -134,7 +134,7 @@ public class Player extends CreeperEntity implements Principal {
 
     private void processFightRounds() {
 
-        DamageProcessor playerDamageProcesor = getPlayerClass().getDamageProcessor();
+        DamageProcessor playerDamageProcesor = DamageProcessor.getDamageProcessor(getPlayerClass());
         Set<Map.Entry<Long, ActiveFight>> entries = activeFights.entrySet();
         for (Map.Entry<Long, ActiveFight> next : entries) {
             Optional<String> npcIdOptional = next.getValue().getNpcId();
@@ -948,7 +948,7 @@ public class Player extends CreeperEntity implements Principal {
                 return Sets.newHashSet();
             }
             PlayerMetadata playerMetadata = playerMetadataOptional.get();
-            return playerMetadata.getCoolDowns();
+            return playerMetadata.getCooldownSet();
         }
     }
 
@@ -959,7 +959,7 @@ public class Player extends CreeperEntity implements Principal {
                 return false;
             }
             PlayerMetadata playerMetadata = playerMetadataOptional.get();
-            return playerMetadata.getCoolDowns().size() > 0;
+            return playerMetadata.getCooldownSet().size() > 0;
         }
     }
 
@@ -980,7 +980,7 @@ public class Player extends CreeperEntity implements Principal {
                 return false;
             }
             PlayerMetadata playerMetadata = playerMetadataOptional.get();
-            Set<CoolDown> coolDowns = playerMetadata.getCoolDowns();
+            Set<CoolDown> coolDowns = playerMetadata.getCooldownSet();
             for (CoolDown c : coolDowns) {
                 if (c.getCoolDownType().equals(coolDownType)) {
                     if (c.isActive()) {
@@ -999,10 +999,10 @@ public class Player extends CreeperEntity implements Principal {
                 return;
             }
             PlayerMetadata playerMetadata = playerMetadataOptional.get();
-            if (playerMetadata.getCoolDownMap().isEmpty()) {
+            if (playerMetadata.getCoolDowns().isEmpty()) {
                 return;
             }
-            playerMetadata.getCoolDownMap().entrySet().removeIf(new Predicate<Map.Entry<CoolDownType, CoolDown>>() {
+            playerMetadata.getCoolDowns().entrySet().removeIf(new Predicate<Map.Entry<CoolDownType, CoolDown>>() {
                 @Override
                 public boolean test(Map.Entry<CoolDownType, CoolDown> coolDownTypeCoolDownEntry) {
                     if (coolDownTypeCoolDownEntry.getValue().isActive() &&
@@ -1026,7 +1026,7 @@ public class Player extends CreeperEntity implements Principal {
                 return false;
             }
             PlayerMetadata playerMetadata = playerMetadataOptional.get();
-            Set<CoolDown> coolDowns = playerMetadata.getCoolDowns();
+            Set<CoolDown> coolDowns = playerMetadata.getCooldownSet();
             for (CoolDown coolDown : coolDowns) {
                 if (coolDown.getName().equalsIgnoreCase(spellName)) {
                     return true;
@@ -1043,10 +1043,10 @@ public class Player extends CreeperEntity implements Principal {
                 return;
             }
             PlayerMetadata playerMetadata = playerMetadataOptional.get();
-            if (playerMetadata.getCoolDownMap().isEmpty()) {
+            if (playerMetadata.getCoolDowns().isEmpty()) {
                 return;
             }
-            playerMetadata.getCoolDownMap().entrySet().removeIf(coolDownTypeCoolDownEntry -> {
+            playerMetadata.getCoolDowns().entrySet().removeIf(coolDownTypeCoolDownEntry -> {
                 if (coolDownTypeCoolDownEntry.getValue().isActive()) {
                     coolDownTypeCoolDownEntry.getValue().decrementTick();
                 } else {

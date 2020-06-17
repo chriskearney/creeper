@@ -1,6 +1,8 @@
 package com.comandante.creeper.cclient;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.comandante.creeper.events.PlayerData;
+import com.comandante.creeper.player.PlayerMetadata;
+import com.comandante.creeper.world.model.Area;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -13,6 +15,7 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.util.Set;
 import java.util.StringJoiner;
+import java.util.function.Consumer;
 
 import static com.terminal.ui.ColorPane.getTerminalFont;
 
@@ -55,39 +58,46 @@ public class ConsoleStatusBar extends JLabel {
     }
 
     @Subscribe
-    public void creeperEvent(CreeperEvent creeperEvent) throws IOException {
-        if (!creeperEvent.getCreeperEventType().equals(CreeperEventType.PLAYERDATA)) {
-            return;
-        }
-        JsonNode jsonNode = objectMapper.readValue(creeperEvent.getPayload(), JsonNode.class);
-        String playerName = jsonNode.get("playerMetadata").get("playerName").asText();
-        long currentHealth = jsonNode.get("playerMetadata").get("stats").get("currentHealth").asLong();
-        long maxHealth = jsonNode.get("playerStatsWithLevel").get("maxHealth").asLong();
-        long currentMana = jsonNode.get("playerMetadata").get("stats").get("currentMana").asLong();
-        long maxMana = jsonNode.get("playerStatsWithLevel").get("maxMana").asLong();
-        long gold = jsonNode.get("playerMetadata").get("gold").asLong();
-        long goldInBankAccount = jsonNode.get("playerMetadata").get("goldInBank").asLong();
-        long xp = jsonNode.get("playerMetadata").get("stats").get("experience").asLong();
-        long currentLevel = jsonNode.get("level").asLong();
-        long xpToNextLevel = jsonNode.get("xpToNextLevel").asLong();
-        Boolean isInFight = jsonNode.get("inFight").asBoolean();
+    public void creeperEvent(PlayerData playerData) throws IOException {
+
+        PlayerMetadata playerMetadata = playerData.getPlayerMetadata();
+
+        String playerName = playerMetadata.getPlayerName();
+        long currentHealth = playerMetadata.getStats().getCurrentHealth();
+        long maxHealth = playerData.getPlayerStatsWithLevel().getMaxHealth();
+        long currentMana = playerMetadata.getStats().getCurrentMana();
+        long maxMana = playerData.getPlayerStatsWithLevel().getMaxMana();
+        long gold = playerMetadata.getGold();
+        long goldInBankAccount = playerMetadata.getGoldInBank();
+        long xp = playerMetadata.getStats().getExperience();
+        long currentLevel = playerData.getLevel();
+        long xpToNextLevel = playerData.getXpToNextLevel();
+        Boolean isInFight = playerData.getInFight();
         java.util.List<String> coolDowns = Lists.newArrayList();
-        if (jsonNode.get("playerMetadata").has("coolDownMap")) {
-            jsonNode.get("playerMetadata").get("coolDownMap").forEach(j -> {
-                if (j.get("active").asBoolean()) {
-                    coolDowns.add(j.get("coolDownType").asText());
-                } else {
-                    System.out.println("Found inactive cooldown: " + j.get("coolDownType").asText());
-                }
-            });
-        }
+
+
+        playerMetadata.getCooldownSet().forEach(coolDown -> {
+            if (coolDown.isActive()) {
+                coolDowns.add(coolDown.getCoolDownType().toString());
+            } else {
+                System.out.println("Found inactive cooldown: " + coolDown.getCoolDownType().toString());
+
+            }
+        });
+
         Boolean isDead = false;
         if (coolDowns.contains("DEATH")) {
             isDead = true;
         }
 
         Set<String> currentAreas = Sets.newHashSet();
-        jsonNode.get("currentAreas").forEach(jsonNode1 -> currentAreas.add(jsonNode1.asText()));
+        playerData.getCurrentAreas().forEach(new Consumer<Area>() {
+            @Override
+            public void accept(Area area) {
+                currentAreas.add(area.getName());
+            }
+        });
+
         StringJoiner stringJoiner = new StringJoiner(",");
         for (String s : currentAreas) {
             stringJoiner.add(s);
