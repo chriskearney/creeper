@@ -1,5 +1,6 @@
 package events;
 
+import com.comandante.creeper.events.CreeperEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.eventbus.Subscribe;
 import org.apache.log4j.Logger;

@@ -1,5 +1,8 @@
 package com.comandante.creeper.cclient;
 
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
+import com.comandante.creeper.events.PlayerData;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.eventbus.Subscribe;
@@ -147,12 +150,8 @@ public class ConsolePanel extends JPanel {
     }
 
     @Subscribe
-    public void creeperEvent(CreeperEvent creeperEvent) throws IOException {
-        if (!creeperEvent.getCreeperEventType().equals(CreeperEventType.PLAYERDATA)) {
-            return;
-        }
-        JsonNode jsonNode = objectMapper.readValue(creeperEvent.getPayload(), JsonNode.class);
-        Boolean isInFight = jsonNode.get("inFight").asBoolean();
+    public void creeperEvent(PlayerData playerData) throws IOException {
+        Boolean isInFight = playerData.getInFight();
         if (isInFight) {
             border.setBorder(BorderFactory.createLineBorder(Color.red));
             repaint();
@@ -160,17 +159,5 @@ public class ConsolePanel extends JPanel {
             border.setBorder(BorderFactory.createLineBorder(Color.green));
             repaint();
         }
-//        java.util.List<String> coolDowns = Lists.newArrayList();
-//        if (jsonNode.get("playerMetadata").has("coolDownMap")) {
-//            jsonNode.get("playerMetadata").get("coolDownMap").forEach(j -> {
-//                if (j.get("active").asBoolean()) {
-//                    coolDowns.add(j.get("coolDownType").asText());
-//                } else {
-//                    System.out.println("Found inactive cooldown: " + j.get("coolDownType").asText());
-//                    border.setBorder(BorderFactory.createLineBorder(Color.green));
-//                    repaint();
-//                }
-//            });
-//        }
     }
 }

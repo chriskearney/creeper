@@ -1,7 +1,7 @@
 package com.comandante.creeper.command.commands;
 
 import com.comandante.creeper.core_game.GameManager;
-import com.comandante.creeper.core_game.service.TimeTracker;
+import com.comandante.creeper.core_game.service.TimeOfDay;
 import com.comandante.creeper.server.player_communication.Color;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.MessageEvent;
@@ -21,7 +21,7 @@ public class TimeCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         execCommand(ctx, e, () -> {
-            TimeTracker.TimeOfDay timeOfDay = gameManager.getTimeTracker().getTimeOfDay();
+            TimeOfDay timeOfDay = gameManager.getTimeTracker().getTimeOfDay();
             write(timeOfDay.color + timeOfDay + Color.RESET);
         });
     }

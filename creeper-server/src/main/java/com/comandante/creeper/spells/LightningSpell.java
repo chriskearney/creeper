@@ -64,10 +64,10 @@ public class LightningSpell implements SpellRunnable {
 
     private EffectBuilder selectEffect(Stats stats) {
         if (Math.random() < 0.1) {
-            long electrofiedPower = (long) ((stats.getLevel() * .3) + (5 * stats.getIntelligence()));
+            long electrofiedPower = (long) ((stats.calculateLevel() * .3) + (5 * stats.getIntelligence()));
             return getElectrofried(electrofiedPower, 4);
           }
-        long burnEffectPower = (long) ((stats.getLevel() * .05) + (1 * stats.getIntelligence()));
+        long burnEffectPower = (long) ((stats.calculateLevel() * .05) + (1 * stats.getIntelligence()));
         return getBurnEffect(burnEffectPower, 2);
     }
 

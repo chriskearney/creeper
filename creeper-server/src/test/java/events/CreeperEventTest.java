@@ -1,11 +1,11 @@
 package events;
 
 import com.comandante.creeper.Creeper;
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class CreeperEventTest {
 

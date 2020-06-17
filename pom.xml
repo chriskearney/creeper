@@ -12,6 +12,7 @@
 <modules>
         <module>creeper-server</module>
         <module>creeper-client</module>
+        <module>creeper-common</module>
 </modules>
 
 </project>

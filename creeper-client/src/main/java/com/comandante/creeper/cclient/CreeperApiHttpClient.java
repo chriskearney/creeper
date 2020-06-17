@@ -1,5 +1,9 @@
 package com.comandante.creeper.cclient;
 
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
+import com.comandante.creeper.events.PlayerData;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
@@ -110,6 +114,11 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
                             return;
                         }
                         CreeperEvent creeperEvent = objectMapper.readValue(inboundSseEvent.readData(), CreeperEvent.class);
+                        if (creeperEvent.getCreeperEventType().equals(CreeperEventType.PLAYERDATA)) {
+                            objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT);
+                            PlayerData playerData = objectMapper.readValue(creeperEvent.getPayload(), PlayerData.class);
+                            eventBus.post(playerData);
+                        }
                         eventBus.post(creeperEvent);
                     }
                 } catch (Exception e) {

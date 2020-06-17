@@ -2,6 +2,7 @@ package com.comandante.creeper.world.model;
 
 import com.comandante.creeper.api.ApiResource;
 import com.comandante.creeper.core_game.GameManager;
+import com.comandante.creeper.core_game.service.TimeOfDay;
 import com.comandante.creeper.core_game.service.TimeTracker;
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.items.Forage;
@@ -436,8 +437,8 @@ public abstract class Room extends CreeperEntity {
             if (itemEntity.isHasBeenWithPlayer()) {
                 continue;
             }
-            Set<TimeTracker.TimeOfDay> itemValidTimeOfDays = itemEntity.getValidTimeOfDays();
-            TimeTracker.TimeOfDay timeOfDay = gameManager.getTimeTracker().getTimeOfDay();
+            Set<TimeOfDay> itemValidTimeOfDays = itemEntity.getValidTimeOfDays();
+            TimeOfDay timeOfDay = gameManager.getTimeTracker().getTimeOfDay();
             if (itemValidTimeOfDays.size() > 0 && !itemValidTimeOfDays.contains(timeOfDay)) {
                 gameManager.getEntityManager().removeItem(itemId);
                 removePresentItem(itemId);

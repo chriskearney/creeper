@@ -13,10 +13,10 @@ import com.comandante.creeper.world.model.Room;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import events.CreeperEvent;
-import events.CreeperEventType;
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
 import events.ListenerService;
-import events.PlayerData;
+import com.comandante.creeper.events.PlayerData;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
