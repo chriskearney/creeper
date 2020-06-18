@@ -53,11 +53,6 @@ public class PlayerManager {
 
     public void emitPlayerInformationEvent(String playerId) {
         PlayerMetadata playerMetadata = getPlayerMetadata(playerId).get();
-        try {
-            System.out.println(objectMapper.writeValueAsString(playerMetadata));
-        } catch (Exception e) {
-
-        }
         Player player = getPlayer(playerId);
         if (player == null) {
             return;

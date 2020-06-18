@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 
 public class Creeper extends CreeperClientMainFrame {
 
-    public static String hostname = "192.168.88.142";
+    public static String hostname = "creeper.ktwit.net";
     public static Integer httpPort = 9000;
 
     public Creeper(GossipWindow gossipWindow,
@@ -43,7 +43,7 @@ public class Creeper extends CreeperClientMainFrame {
         final GossipWindow gossipWindow = new GossipWindow(new Input(line -> creeperApiHttpClient.gossip(line), null), objectMapper);
         final ConsoleStatusBar consoleStatusBar = new ConsoleStatusBar(objectMapper);
         final StatsWindow statsWindow = new StatsWindow(objectMapper);
-        final ConsolePanel consoleWindow = new ConsolePanel(consoleStatusBar, getMovementHandler(creeperApiHttpClient), Lists.newArrayList(basicAuthStringSupplier), () -> new JSchShellTtyConnector("192.168.88.250", "bridge", "b"), objectMapper);
+        final ConsolePanel consoleWindow = new ConsolePanel(consoleStatusBar, getMovementHandler(creeperApiHttpClient), Lists.newArrayList(basicAuthStringSupplier), () -> new JSchShellTtyConnector(hostname, "bridge", "b"), objectMapper);
         final MapStatusBar mapStatusBar = new MapStatusBar("", objectMapper);
         final MapPanel mapPanel = new MapPanel(mapStatusBar, getMovementHandler(creeperApiHttpClient), objectMapper);
         final InventoryPanel inventoryPanel = new InventoryPanel(objectMapper, getUseItemIdHandler(creeperApiHttpClient));
