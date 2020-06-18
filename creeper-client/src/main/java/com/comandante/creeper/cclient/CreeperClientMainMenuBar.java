@@ -3,10 +3,15 @@ package com.comandante.creeper.cclient;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CreeperClientMainMenuBar extends JMenuBar {
 
-    public CreeperClientMainMenuBar() {
+    private final GossipWindow gossipWindow;
+
+    public CreeperClientMainMenuBar(GossipWindow gossipWindow) {
+        this.gossipWindow = gossipWindow;
 
         // FILE MENU
         JMenu file = new JMenu("File");
@@ -46,6 +51,14 @@ public class CreeperClientMainMenuBar extends JMenuBar {
         JMenuItem about = new JMenuItem("About");
         help.add(documentation);
         help.add(about);
+
+        gossip.addActionListener(e -> {
+            if (!gossipWindow.isVisible()) {
+                gossipWindow.setVisible(true);
+            } else {
+                gossipWindow.setVisible(false);
+            }
+        });
 
         add(file);
         add(edit);
