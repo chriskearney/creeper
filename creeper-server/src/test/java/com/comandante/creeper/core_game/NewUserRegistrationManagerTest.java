@@ -1,11 +1,8 @@
 package com.comandante.creeper.core_game;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class NewUserRegistrationManagerTest {
     @Test

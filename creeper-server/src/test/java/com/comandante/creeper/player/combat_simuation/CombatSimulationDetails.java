@@ -1,6 +1,5 @@
 package com.comandante.creeper.player.combat_simuation;
 
-import com.comandante.creeper.items.Equipment;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.npc.Npc;
 

@@ -23,6 +23,15 @@ public class TerminalStarter implements TerminalOutputStream {
   private final Emulator myEmulator;
 
   private final Terminal myTerminal;
+
+  public Emulator getMyEmulator() {
+    return myEmulator;
+  }
+
+  public TerminalDataStream getMyDataStream() {
+    return myDataStream;
+  }
+
   private final TerminalDataStream myDataStream;
 
   private final TtyConnector myTtyConnector;

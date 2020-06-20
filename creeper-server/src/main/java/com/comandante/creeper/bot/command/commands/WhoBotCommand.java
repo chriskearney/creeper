@@ -3,7 +3,6 @@ package com.comandante.creeper.bot.command.commands;
 import com.comandante.creeper.bot.command.BotCommandManager;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerMetadata;
-import com.comandante.creeper.stats.DefaultStats;
 import com.comandante.creeper.stats.Levels;
 import com.google.api.client.util.Lists;
 import com.google.common.collect.Sets;

@@ -5,8 +5,6 @@ import com.comandante.creeper.core_game.SessionManager;
 import com.comandante.creeper.storage.MapDBCreeperStorage;
 import com.comandante.creeper.world.model.Room;
 import com.google.common.collect.Sets;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import events.ListenerService;
 import org.junit.Assert;
 import org.junit.Before;

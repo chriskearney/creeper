@@ -1,9 +1,6 @@
 package com.comandante.creeper.cclient;
 
-import com.comandante.creeper.events.CreeperEvent;
-import com.comandante.creeper.events.CreeperEventType;
 import com.comandante.creeper.events.PlayerData;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Sets;
 import com.google.common.eventbus.Subscribe;

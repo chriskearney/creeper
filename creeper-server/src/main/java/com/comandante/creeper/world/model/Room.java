@@ -1,13 +1,10 @@
 package com.comandante.creeper.world.model;
 
-import com.comandante.creeper.api.ApiResource;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.service.TimeOfDay;
-import com.comandante.creeper.core_game.service.TimeTracker;
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.items.Forage;
 import com.comandante.creeper.items.Item;
-import com.comandante.creeper.items.ItemMetadata;
 import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.player.Player;
@@ -19,7 +16,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class Room extends CreeperEntity {

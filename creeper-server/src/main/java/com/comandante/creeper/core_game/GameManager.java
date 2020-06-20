@@ -11,6 +11,8 @@ import com.comandante.creeper.core_game.service.TimeTracker;
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.entity.EntityManager;
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
 import com.comandante.creeper.items.Effect;
 import com.comandante.creeper.items.EffectsManager;
 import com.comandante.creeper.items.ForageManager;
@@ -59,8 +61,6 @@ import com.google.common.collect.Interners;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.comandante.creeper.events.CreeperEvent;
-import com.comandante.creeper.events.CreeperEventType;
 import events.ListenerService;
 import org.apache.http.client.HttpClient;
 import org.apache.log4j.Logger;
@@ -324,6 +324,7 @@ public class GameManager {
         HashMap<Object, Object> dto = Maps.newHashMap();
         dto.put("name", player.getPlayerName());
         dto.put("message", message);
+        dto.put("gossipMessage", gossipMessage);
         dto.put("timestamp", System.currentTimeMillis());
         try {
             CreeperEvent build = new CreeperEvent.Builder()

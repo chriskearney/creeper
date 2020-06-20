@@ -3,7 +3,11 @@ package com.comandante.creeper.blackjack;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 public class Deck implements Iterator<BlackJack.Card> {
 

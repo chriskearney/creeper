@@ -5,7 +5,6 @@ import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.comandante.creeper.server.player_communication.GossipCache;
 import com.google.api.client.util.Maps;
-import org.apache.commons.configuration.MapConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 

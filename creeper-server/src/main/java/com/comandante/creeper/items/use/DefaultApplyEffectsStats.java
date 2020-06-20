@@ -5,7 +5,6 @@ import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.items.Effect;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.items.ItemMetadata;
-import com.comandante.creeper.items.ItemUseAction;
 import com.comandante.creeper.items.ItemUseHandler;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.stats.Stats;

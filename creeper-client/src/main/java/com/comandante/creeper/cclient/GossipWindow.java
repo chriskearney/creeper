@@ -1,67 +1,77 @@
 package com.comandante.creeper.cclient;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.comandante.creeper.events.CreeperEvent;
 import com.comandante.creeper.events.CreeperEventType;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.eventbus.Subscribe;
+import com.terminal.TerminalMode;
+import com.terminal.emulator.JediEmulator;
+import com.terminal.ui.JediTermWidget;
 import com.terminal.ui.ResetEvent;
+import com.terminal.ui.TerminalSession;
+import com.terminal.ui.TerminalWidget;
+import com.terminal.ui.settings.DefaultTabbedSettingsProvider;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
-import javax.swing.border.Border;
-import javax.swing.text.DefaultCaret;
-import javax.swing.text.html.HTMLDocument;
+import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.IOException;
+import java.util.Collections;
 
-import static javax.swing.BorderFactory.createEmptyBorder;
+import static com.comandante.creeper.server.player_communication.Color.CYAN;
+import static com.comandante.creeper.server.player_communication.Color.MAGENTA;
+import static com.comandante.creeper.server.player_communication.Color.RESET;
+import static com.comandante.creeper.server.player_communication.Color.WHITE;
 
 public class GossipWindow extends JFrame {
 
     private final ObjectMapper objectMapper;
+    private final SimpleTtyConnector simpleTtyConnector = new SimpleTtyConnector("Gossip");
+    private final JediTermWidget jediTermWidget;
 
-    private final JTextPane textPane;
-    private final JScrollPane scrollPane;
+    private final TitledBorder mainBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Gossip");
 
-    public GossipWindow(Input input, ObjectMapper objectMapper) {
-        setTitle("Gossip");
-        Border lineBorder = BorderFactory.createLineBorder(Color.green);
 
+    public GossipWindow(Input input, ObjectMapper objectMapper) throws IOException {
         this.objectMapper = objectMapper;
-        this.textPane = new JTextPane();
-        this.textPane.setFont(CreeperClientMainFrame.getTerminalFont());
-        this.textPane.setBackground(Color.BLACK);
-        this.textPane.setForeground(Color.WHITE);
-        this.textPane.setContentType("text/html");
-        this.textPane.setEditable(false);
+        setTitle("Gossip");
+        JediEmulator.NonControlCharListener nonControlCharListener = new JediEmulator.NonControlCharListener() {
+            @Override
+            public void processNonControlChar(String nonControlCharacters) {
 
-        this.scrollPane = new JScrollPane(textPane);
-        this.scrollPane.setViewportView(textPane);
-        this.scrollPane.setBorder(lineBorder);
+            }
+        };
+        this.jediTermWidget = new JediTermWidget(new DefaultTabbedSettingsProvider(), Collections.singletonList(nonControlCharListener));
+        jediTermWidget.getTerminal().reset();
+        jediTermWidget.getTerminalDisplay().setCursorVisible(false);
+        jediTermWidget.getTerminal().setModeEnabled(TerminalMode.ANSI, true);
+        jediTermWidget.getTerminal().setAnsiConformanceLevel(2);
+        openSession(jediTermWidget, simpleTtyConnector);
 
-        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-        getContentPane().add(scrollPane);
+        setBackground(Color.BLACK);
+        setLayout(new BorderLayout());
 
-        input.setPreferredSize(new Dimension(Integer.MAX_VALUE, 30));
-        input.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-        input.setBorder(lineBorder);
         input.setRequestFocusEnabled(true);
         input.setFocusable(true);
 
-        DefaultCaret caret = (DefaultCaret) textPane.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        JPanel jPanel = new JPanel();
+        jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.PAGE_AXIS));
+        jPanel.add(jediTermWidget);
+        jPanel.add(input);
+        jPanel.setBorder(mainBorder);
+        jPanel.setBackground(Color.BLACK);
+        add(jPanel, BorderLayout.CENTER);
 
         setDefaultCloseOperation(HIDE_ON_CLOSE);
-        getContentPane().add(input);
 
-        textPane.addFocusListener(new FocusAdapter() {
+        jediTermWidget.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent aE) {
                 input.getField().requestFocus();
@@ -73,14 +83,22 @@ public class GossipWindow extends JFrame {
         pack();
     }
 
-    public void appendChatMessage(Long timestamp, String name, String message) {
+    protected void openSession(TerminalWidget terminal, SimpleTtyConnector simpleTtyConnector) {
+        if (terminal.canOpenSession()) {
+            TerminalSession session = terminal.createTerminalSession(simpleTtyConnector);
+            session.start();
+        }
+    }
 
-        HTMLDocument doc = (HTMLDocument) textPane.getStyledDocument();
+    public void appendChatMessage(Long timestamp, String name, String message) {
         try {
-            doc.insertAfterEnd(doc.getCharacterElement(doc.getLength()), buildHtmlChatMessage(name, message));
-            textPane.setCaretPosition(textPane.getDocument().getLength());
+            String gossipMessage = WHITE + "[" + RESET + MAGENTA + name + WHITE + "] " + RESET + CYAN + message + RESET;
+            simpleTtyConnector.write(gossipMessage);
+            jediTermWidget.getTerminal().newLine();
+            int cursorY = jediTermWidget.getTerminal().getCursorY();
+            jediTermWidget.getTerminal().cursorPosition(0, cursorY);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -96,20 +114,8 @@ public class GossipWindow extends JFrame {
         appendChatMessage(timestamp, name, message);
     }
 
-    private String buildHtmlChatMessage(String name, String message) {
-        return "<font style='font-family: " + getFont().getFamily() + "' color='white'>[</font><font style='font-family: " + getFont().getFamily() + "' color='#FF00FF'>" + name + "</font><font style='font-family: " + getFont().getFamily() + "' color='white'>]</font>&nbsp;<font style='font-family: " + getFont().getFamily() + "' color='#00FFFF'>" + message + "</font><br>";
-    }
-
-    public JTextPane getTextPane() {
-        return textPane;
-    }
-
-    public JScrollPane getScrollPane() {
-        return scrollPane;
-    }
 
     @Subscribe
     public void resetEvent(ResetEvent resetEvent) {
-        textPane.setText("");
     }
 }

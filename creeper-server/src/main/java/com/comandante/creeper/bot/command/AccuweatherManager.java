@@ -4,15 +4,12 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 public class AccuweatherManager {
 

@@ -1,9 +1,6 @@
 package com.comandante.creeper.cclient;
 
-import com.comandante.creeper.events.CreeperEvent;
-import com.comandante.creeper.events.CreeperEventType;
 import com.comandante.creeper.events.PlayerData;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.eventbus.Subscribe;
 import com.terminal.TtyConnector;
@@ -16,7 +13,8 @@ import com.terminal.ui.settings.DefaultTabbedSettingsProvider;
 import com.terminal.ui.settings.TabbedSettingsProvider;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -11,7 +11,11 @@ import org.nocrala.tools.texttablefmt.Table;
 
 import java.net.InetSocketAddress;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 public class UsersCommand extends Command {
 
