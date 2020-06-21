@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.IOException;
@@ -47,6 +48,9 @@ public class GossipWindow extends JFrame {
 
         input.setRequestFocusEnabled(true);
         input.setFocusable(true);
+
+        gossipUserPanel.setPreferredSize(new Dimension(150, 236));
+
 
         JPanel jPanel = new JPanel();
         jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.PAGE_AXIS));
