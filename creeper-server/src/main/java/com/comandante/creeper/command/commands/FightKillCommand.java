@@ -24,18 +24,6 @@ public class FightKillCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         execCommand(ctx, e, () -> {
-            if (player.getCurrentHealth() <= 0) {
-                write("You have no health and as such you can not attack.");
-                return;
-            }
-            if (player.getActiveFights().size() > 0) {
-                write("You are already in a fight!");
-                return;
-            }
-            if (player.isActive(CoolDownType.DEATH)) {
-                write("You are dead and can not attack.");
-                return;
-            }
             if (originalMessageParts.size() == 1) {
                 write("You need to specify who you want to fight.");
                 return;

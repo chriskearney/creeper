@@ -33,34 +33,7 @@ public class GossipCommand extends Command {
                 originalMessageParts.remove(0);
             }
             String msg = Joiner.on(" ").join(originalMessageParts);
-            try {
-                if (msg.startsWith("!!")) {
-                    String botCommandOutput = getBotCommandOutput(msg);
-                    msg = msg + "\r\n" + botCommandOutput;
-                }
-            } catch (Exception ex) {
-                log.error("Problem executing bot command from gossip channel!", ex);
-            }
             gameManager.gossip(player, msg);
         });
     }
-
-    private String getBotCommandOutput(String cmd) {
-        ArrayList<String> originalMessageParts = Lists.newArrayList(Arrays.asList(cmd.split("!!")));
-        originalMessageParts.remove(0);
-        final String msg = Joiner.on(" ").join(originalMessageParts);
-        BotCommand command = gameManager.getBotCommandFactory().getCommand(null, msg);
-        if (command != null) {
-            List<String> process = command.process();
-            StringBuilder sb = new StringBuilder();
-            for (String line : process) {
-                sb.append(line).append("\r\n");
-            }
-            return sb.toString();
-        } else {
-            return "";
-        }
-    }
-
-
 }

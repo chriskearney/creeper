@@ -5,6 +5,7 @@ import com.comandante.creeper.Creeper;
 import com.comandante.creeper.bot.IrcBotService;
 import com.comandante.creeper.bot.command.BotCommandFactory;
 import com.comandante.creeper.bot.command.BotCommandManager;
+import com.comandante.creeper.bot.command.commands.BotCommand;
 import com.comandante.creeper.chat.Gossip;
 import com.comandante.creeper.chat.Utils;
 import com.comandante.creeper.common.FriendlyTime;
@@ -57,6 +58,7 @@ import com.comandante.creeper.world.model.RemoteExit;
 import com.comandante.creeper.world.model.Room;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.util.Lists;
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interner;
 import com.google.common.collect.Interners;
@@ -71,6 +73,8 @@ import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -299,11 +303,36 @@ public class GameManager {
         return lockPickingManager;
     }
 
+    private String getBotCommandOutput(String cmd) {
+        ArrayList<String> originalMessageParts = com.google.common.collect.Lists.newArrayList(Arrays.asList(cmd.split("!!")));
+        originalMessageParts.remove(0);
+        final String msg = Joiner.on(" ").join(originalMessageParts);
+        BotCommand command = getBotCommandFactory().getCommand(null, msg);
+        if (command != null) {
+            List<String> process = command.process();
+            StringBuilder sb = new StringBuilder();
+            for (String line : process) {
+                sb.append(line).append("\r\n");
+            }
+            return sb.toString();
+        } else {
+            return "";
+        }
+    }
+
     public void gossip(Player player, String message) {
         gossip(player, message, false);
     }
 
     public void gossip(Player player, String message, boolean apiSource) {
+        try {
+            if (message.startsWith("!!")) {
+                String botCommandOutput = getBotCommandOutput(message);
+                message = message + "\r\n" + botCommandOutput;
+            }
+        } catch (Exception ex) {
+            log.error("Problem executing bot command from gossip channel!", ex);
+        }
         String gossipMessage = Utils.buildGossipString("", player.getPlayerName(), message);
         playerManager.getAllPlayersMap().forEach((s, destinationPlayer) -> {
             if (destinationPlayer.getPlayerId().equals(player.getPlayerId())) {
@@ -318,8 +347,8 @@ public class GameManager {
             }
         });
 
-        Map<String,String> users = Maps.newHashMap();
-        for (Player p: getAllPlayers()) {
+        Map<String, String> users = Maps.newHashMap();
+        for (Player p : getAllPlayers()) {
             users.put(p.getPlayerId(), p.getPlayerName());
         }
         try {
