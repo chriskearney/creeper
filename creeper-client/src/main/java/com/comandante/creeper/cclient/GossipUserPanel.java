@@ -14,10 +14,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.LayoutManager;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.function.Consumer;
 
 public class GossipUserPanel extends JPanel {
 

@@ -2,9 +2,6 @@ package com.comandante.creeper.cclient;
 
 import com.comandante.creeper.chat.Gossip;
 import com.comandante.creeper.chat.Utils;
-import com.comandante.creeper.events.CreeperEvent;
-import com.comandante.creeper.events.CreeperEventType;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.eventbus.Subscribe;
 import com.terminal.TerminalMode;

@@ -72,7 +72,6 @@ import org.nocrala.tools.texttablefmt.Table;
 
 import java.text.NumberFormat;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -81,7 +80,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.function.Function;
 
 import static com.comandante.creeper.server.player_communication.Color.BOLD_OFF;
 import static com.comandante.creeper.server.player_communication.Color.BOLD_ON;

@@ -4,7 +4,6 @@ import com.comandante.creeper.chat.Gossip;
 import com.comandante.creeper.events.CreeperEvent;
 import com.comandante.creeper.events.CreeperEventType;
 import com.comandante.creeper.events.PlayerData;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;

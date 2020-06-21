@@ -20,7 +20,6 @@ public abstract class CreeperClientMainFrame extends JFrame {
     private final static Logger LOG = Logger.getLogger(AbstractTerminalFrame.class);
     public final static Dimension MAIN_FRAME = new Dimension(1080, 720);
     public final static Dimension MAIN_FRAME_HALF = new Dimension(1080, 410);
-
     public final static Dimension RIGHT_SIDE_PANEL_DIMENSIONS = new Dimension(270, 215);
     public final static Dimension RIGHT_SIDE_PANEL_DIMENSIONS_BIGGER = new Dimension(270, 236);
     protected CreeperClientMainFrame(ConsolePanel consolePanel,
@@ -52,6 +51,10 @@ public abstract class CreeperClientMainFrame extends JFrame {
                 SwingUtilities.invokeLater(() -> consolePanel.getInput().getField().requestFocus());
             }
         });
+
+        setMinimumSize(MAIN_FRAME);
+        setPreferredSize(MAIN_FRAME);
+
         pack();
         setVisible(true);
     }
