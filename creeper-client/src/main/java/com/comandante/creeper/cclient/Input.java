@@ -30,7 +30,8 @@ public class Input extends JPanel {
     public Input(InputTextConsumer inputTextConsumer, MapPanel.MapWindowMovementHandler mapWindowMovementHandler) {
         this.inputTextConsumer = inputTextConsumer;
         setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(1, 26));
+        setPreferredSize(new Dimension(Integer.MAX_VALUE, 26));
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 26));
         field = new JTextField();
 
         field.setBackground(Color.black);
