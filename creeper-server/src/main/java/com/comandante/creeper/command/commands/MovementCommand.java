@@ -27,28 +27,6 @@ public class MovementCommand extends Command {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         this.execCommand(ctx, e, () -> {
-            if (player.isActiveFights()) {
-                MovementCommand.this.write("You can't move while in a fight!");
-                return;
-            }
-            if (player.isActive(CoolDownType.DEATH)) {
-                MovementCommand.this.write("You are dead and can not move.");
-                return;
-            }
-            if (player.areAnyAlertedNpcsInCurrentRoom()) {
-                MovementCommand.this.write("You are unable to progress, but can return to where you came from by typing \"back\".");
-                return;
-            }
-            java.util.Optional<PlayerMetadata> playerMetadataOptional = playerManager.getPlayerMetadata(playerId);
-            if (!playerMetadataOptional.isPresent()) {
-                return;
-            }
-            for (Effect effect : playerMetadataOptional.get().getEffects()) {
-                if (effect.isFrozenMovement()) {
-                    MovementCommand.this.write("You are frozen and can not move.");
-                    return;
-                }
-            }
             final String command = rootCommand;
             Optional<Room.Direction> direction = Room.Direction.from(command.toLowerCase());
             if (!direction.isPresent()) {

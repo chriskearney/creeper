@@ -3,6 +3,7 @@ package com.comandante.creeper.player;
 
 import com.codahale.metrics.Meter;
 import com.comandante.creeper.Creeper;
+import com.comandante.creeper.command.commands.MovementCommand;
 import com.comandante.creeper.common.CreeperUtils;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SentryManager;
@@ -1174,6 +1175,31 @@ public class Player extends CreeperEntity implements Principal {
 
     public void movePlayer(PlayerMovement playerMovement) {
         synchronized (interner.intern(playerId)) {
+            if (isActiveFights()) {
+                writeMessage("You can't move while in a fight!");
+                return;
+            }
+            if (isActive(CoolDownType.DEATH)) {
+                writeMessage("You are dead and can not move.");
+                return;
+            }
+            if (areAnyAlertedNpcsInCurrentRoom()) {
+                writeMessage("You are unable to progress, but can return to where you came from by typing \"back\".");
+                return;
+            }
+
+            java.util.Optional<PlayerMetadata> playerMetadataOptional = getPlayerMetadata();
+            if (!playerMetadataOptional.isPresent()) {
+                return;
+            }
+
+            for (Effect effect : playerMetadataOptional.get().getEffects()) {
+                if (effect.isFrozenMovement()) {
+                    writeMessage("You are frozen and can not move.");
+                    return;
+                }
+            }
+
             Optional<Room> sourceRoom = Optional.empty();
             if (playerMovement.getSourceRoomId() != null) {
                 sourceRoom = Optional.ofNullable(gameManager.getRoomManager().getRoom(playerMovement.getSourceRoomId()));
@@ -1736,6 +1762,19 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public boolean addActiveFight(Npc npc) {
+        if (getCurrentHealth() <= 0) {
+            writeMessage("You have no health and as such you can not attack.");
+            return false;
+        }
+        if (getActiveFights().size() > 0) {
+            writeMessage("You are already in a fight!");
+            return false;
+        }
+        if (isActive(CoolDownType.DEATH)) {
+            writeMessage("You are dead and can not attack.");
+            return false;
+        }
+
         synchronized (interner.intern(playerId)) {
             if (gameManager.getEntityManager().getNpcEntity(npc.getEntityId()) != null) {
                 if (!doesActiveFightExist(npc)) {
