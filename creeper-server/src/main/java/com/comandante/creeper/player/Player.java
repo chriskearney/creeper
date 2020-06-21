@@ -273,6 +273,10 @@ public class Player extends CreeperEntity implements Principal {
         gameManager.getChannelUtils().write(getPlayerId(), msg);
     }
 
+    public void writeMessageLeadingBlankLine(String msg) {
+        gameManager.getChannelUtils().write(getPlayerId(), msg, true);
+    }
+
     public long getAvailableMana() {
         return getPlayerStatsWithEquipmentAndLevel().getCurrentMana();
     }
@@ -1174,17 +1178,36 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public void movePlayer(PlayerMovement playerMovement) {
+        movePlayer(playerMovement, false);
+    }
+
+    public void movePlayer(PlayerMovement playerMovement, boolean apiSource) {
         synchronized (interner.intern(playerId)) {
             if (isActiveFights()) {
-                writeMessage("You can't move while in a fight!");
+                String message = "You can't move while in a fight!";
+                if (apiSource) {
+                    writeMessageLeadingBlankLine(message);
+                } else {
+                    writeMessage(message);
+                }
                 return;
             }
             if (isActive(CoolDownType.DEATH)) {
-                writeMessage("You are dead and can not move.");
+                String message = "You are dead and can not move.";
+                if (apiSource) {
+                    writeMessageLeadingBlankLine(message);
+                } else {
+                    writeMessage(message);
+                }
                 return;
             }
             if (areAnyAlertedNpcsInCurrentRoom()) {
-                writeMessage("You are unable to progress, but can return to where you came from by typing \"back\".");
+                String message = "You are unable to progress, but can return to where you came from by typing \"back\".";
+                if (apiSource) {
+                    writeMessageLeadingBlankLine(message);
+                } else {
+                    writeMessage(message);
+                }
                 return;
             }
 
@@ -1195,7 +1218,12 @@ public class Player extends CreeperEntity implements Principal {
 
             for (Effect effect : playerMetadataOptional.get().getEffects()) {
                 if (effect.isFrozenMovement()) {
-                    writeMessage("You are frozen and can not move.");
+                    String message = "You are frozen and can not move.";
+                    if (apiSource) {
+                        writeMessageLeadingBlankLine(message);
+                    } else {
+                        writeMessage(message);
+                    }
                     return;
                 }
             }

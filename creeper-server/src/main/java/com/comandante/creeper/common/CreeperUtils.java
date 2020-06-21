@@ -10,9 +10,8 @@ import java.util.stream.Collectors;
 
 public class CreeperUtils {
 
-    public static String asciiColorPattern = "\u001B\\[[;\\d]*m";
-
-    private static Random random = new Random();
+    private static final String asciiColorPattern = "\u001B\\[[;\\d]*m";
+    private static final Random random = new Random();
 
     /*  Prints things "next" to each other, like this:
     -+=[ fibs ]=+-                        | -+=[ fibs ]=+-
@@ -104,10 +103,7 @@ public class CreeperUtils {
     }
 
     public static List<String> splitToArrayLines(String s) {
-      //return  Lists.newArrayList(Splitter.on(Pattern.compile("[\\r\\n]+")).split(s));
         return  Lists.newArrayList(Splitter.on(Pattern.compile("\r?\n")).split(s));
-
-        //return Lists.newArrayList(s.split("[\\r\\n]+"));
     }
 
     public static String trimTrailingBlanks(String str) {

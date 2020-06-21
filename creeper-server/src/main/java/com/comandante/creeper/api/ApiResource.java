@@ -204,6 +204,6 @@ public class ApiResource {
         if (!playerMovement.isPresent()) {
             return;
         }
-        player.movePlayer(playerMovement.get());
+        player.movePlayer(playerMovement.get(), true);
     }
 }
