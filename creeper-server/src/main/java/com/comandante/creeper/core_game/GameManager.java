@@ -5,12 +5,16 @@ import com.comandante.creeper.Creeper;
 import com.comandante.creeper.bot.IrcBotService;
 import com.comandante.creeper.bot.command.BotCommandFactory;
 import com.comandante.creeper.bot.command.BotCommandManager;
+import com.comandante.creeper.chat.Gossip;
+import com.comandante.creeper.chat.Utils;
 import com.comandante.creeper.common.FriendlyTime;
 import com.comandante.creeper.core_game.service.CreeperAsyncJobService;
 import com.comandante.creeper.core_game.service.TimeTracker;
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.entity.EntityManager;
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
 import com.comandante.creeper.items.Effect;
 import com.comandante.creeper.items.EffectsManager;
 import com.comandante.creeper.items.ForageManager;
@@ -59,8 +63,6 @@ import com.google.common.collect.Interners;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.comandante.creeper.events.CreeperEvent;
-import com.comandante.creeper.events.CreeperEventType;
 import events.ListenerService;
 import org.apache.http.client.HttpClient;
 import org.apache.log4j.Logger;
@@ -70,7 +72,6 @@ import org.nocrala.tools.texttablefmt.Table;
 
 import java.text.NumberFormat;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -82,10 +83,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import static com.comandante.creeper.server.player_communication.Color.BOLD_OFF;
 import static com.comandante.creeper.server.player_communication.Color.BOLD_ON;
-import static com.comandante.creeper.server.player_communication.Color.CYAN;
-import static com.comandante.creeper.server.player_communication.Color.MAGENTA;
 import static com.comandante.creeper.server.player_communication.Color.RESET;
-import static com.comandante.creeper.server.player_communication.Color.WHITE;
 
 public class GameManager {
 
@@ -306,8 +304,7 @@ public class GameManager {
     }
 
     public void gossip(Player player, String message, boolean apiSource) {
-        String gossipMessage = WHITE + "[" + RESET + MAGENTA + player.getPlayerName() + WHITE + "] " + RESET + CYAN + message + RESET;
-
+        String gossipMessage = Utils.buildGossipString("", player.getPlayerName(), message);
         playerManager.getAllPlayersMap().forEach((s, destinationPlayer) -> {
             if (destinationPlayer.getPlayerId().equals(player.getPlayerId())) {
                 if (apiSource) {
@@ -321,14 +318,14 @@ public class GameManager {
             }
         });
 
-        HashMap<Object, Object> dto = Maps.newHashMap();
-        dto.put("name", player.getPlayerName());
-        dto.put("message", message);
-        dto.put("timestamp", System.currentTimeMillis());
+        Map<String,String> users = Maps.newHashMap();
+        for (Player p: getAllPlayers()) {
+            users.put(p.getPlayerId(), p.getPlayerName());
+        }
         try {
             CreeperEvent build = new CreeperEvent.Builder()
                     .playerId(player.getPlayerId())
-                    .payload(objectMapper.writeValueAsString(dto))
+                    .payload(objectMapper.writeValueAsString(new Gossip(users, message, player.getPlayerName(), "", System.currentTimeMillis())))
                     .epochTimestamp(System.currentTimeMillis())
                     .creeperEventType(CreeperEventType.GOSSIP)
                     .audience(CreeperEvent.Audience.EVERYONE)

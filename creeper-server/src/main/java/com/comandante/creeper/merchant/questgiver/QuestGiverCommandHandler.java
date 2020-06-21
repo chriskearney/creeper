@@ -4,8 +4,6 @@ import com.comandante.creeper.command.commands.CommandAuditLog;
 import com.comandante.creeper.configuration.ConfigureCommands;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.merchant.Merchant;
-import com.comandante.creeper.merchant.lockers.LockerCommand;
-import com.comandante.creeper.merchant.playerclass_selector.PlayerClassCommand;
 import com.comandante.creeper.server.model.CreeperSession;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ExceptionEvent;

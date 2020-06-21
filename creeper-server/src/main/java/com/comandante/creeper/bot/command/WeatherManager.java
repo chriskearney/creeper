@@ -2,21 +2,7 @@ package com.comandante.creeper.bot.command;
 
 
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
-import com.google.api.client.http.*;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.GenericJson;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.JsonObjectParser;
-import com.google.api.client.json.jackson.JacksonFactory;
-import com.google.api.client.util.ArrayMap;
-import com.google.api.client.util.Lists;
-import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class WeatherManager {
 

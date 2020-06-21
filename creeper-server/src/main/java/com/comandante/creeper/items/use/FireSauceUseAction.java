@@ -2,16 +2,13 @@ package com.comandante.creeper.items.use;
 
 import com.comandante.creeper.command.commands.UseCommand;
 import com.comandante.creeper.core_game.GameManager;
-import com.comandante.creeper.items.Effect;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.items.ItemMetadata;
-import com.comandante.creeper.items.ItemUseAction;
 import com.comandante.creeper.player.CoolDown;
 import com.comandante.creeper.player.CoolDownType;
 import com.comandante.creeper.player.Player;
 
 import java.util.Optional;
-import java.util.Set;
 
 public class FireSauceUseAction extends BaseUseAction {
 

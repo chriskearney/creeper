@@ -1,6 +1,5 @@
 package com.comandante.creeper.world.model;
 
-import com.google.common.collect.Sets;
 import com.google.gson.GsonBuilder;
 
 import java.util.Map;

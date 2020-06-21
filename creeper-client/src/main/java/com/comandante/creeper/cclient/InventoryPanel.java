@@ -2,9 +2,6 @@ package com.comandante.creeper.cclient;
 
 import com.comandante.creeper.events.PlayerData;
 import com.comandante.creeper.items.Item;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.comandante.creeper.events.CreeperEvent;
-import com.comandante.creeper.events.CreeperEventType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -39,7 +36,6 @@ public class InventoryPanel extends JPanel {
     private final ObjectMapper objectMapper;
     private final UseItemIdHandler useItemIdHandler;
     private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Inventory");
-    ;
 
     public InventoryPanel(ObjectMapper objectMapper, UseItemIdHandler useItemIdHandler) {
         this.useItemIdHandler = useItemIdHandler;

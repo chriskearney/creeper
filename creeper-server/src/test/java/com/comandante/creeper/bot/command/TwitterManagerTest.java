@@ -1,12 +1,9 @@
 package com.comandante.creeper.bot.command;
 
-import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Optional;
-
-import static org.junit.Assert.*;
 
 public class TwitterManagerTest {
 

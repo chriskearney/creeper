@@ -14,9 +14,14 @@ import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
-import static com.comandante.creeper.server.player_communication.Color.*;
+import static com.comandante.creeper.server.player_communication.Color.RED;
+import static com.comandante.creeper.server.player_communication.Color.RESET;
 
 public class MyListener extends ListenerAdapter {
 

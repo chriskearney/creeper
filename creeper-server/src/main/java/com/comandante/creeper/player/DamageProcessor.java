@@ -2,8 +2,6 @@ package com.comandante.creeper.player;
 
 import com.comandante.creeper.npc.Npc;
 
-import static com.comandante.creeper.player.PlayerClass.*;
-
 public interface DamageProcessor {
 
     long getAttackAmount(Player player, Npc npc);

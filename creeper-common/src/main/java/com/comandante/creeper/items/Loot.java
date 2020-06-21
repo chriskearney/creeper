@@ -1,7 +1,5 @@
 package com.comandante.creeper.items;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Sets;
 
 import java.io.Serializable;

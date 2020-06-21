@@ -1,13 +1,11 @@
 package com.comandante.creeper.command.commands;
 
 import com.comandante.creeper.Creeper;
-import com.comandante.creeper.api.ApiResource;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.items.LootManager;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
-import com.comandante.creeper.player.PlayerMovement;
 import com.comandante.creeper.player.PlayerRole;
 import com.comandante.creeper.server.model.CreeperSession;
 import com.comandante.creeper.server.player_communication.ChannelCommunicationUtils;
@@ -26,7 +24,11 @@ import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public abstract class Command extends SimpleChannelUpstreamHandler {
 

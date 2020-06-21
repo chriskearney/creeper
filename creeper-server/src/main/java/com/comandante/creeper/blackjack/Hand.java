@@ -1,13 +1,9 @@
 package com.comandante.creeper.blackjack;
 
-import static com.comandante.creeper.blackjack.Hand.Category.*;
-import static com.comandante.creeper.blackjack.Hand.Rank.*;
-import static com.comandante.creeper.blackjack.Hand.Suit.*;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.collect.Ordering.from;
-import static com.google.common.collect.Ordering.natural;
-import static java.util.Comparator.comparing;
-import static java.util.Comparator.comparingInt;
+import com.google.common.collect.EnumMultiset;
+import com.google.common.collect.Multiset;
+import com.google.common.collect.Multiset.Entry;
+import com.google.common.collect.Ordering;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -16,13 +12,38 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
-import com.google.common.collect.EnumMultiset;
-import com.google.common.collect.Multiset;
-import com.google.common.collect.Multiset.Entry;
-import com.google.common.collect.Ordering;
+import static com.comandante.creeper.blackjack.Hand.Category.FLUSH;
+import static com.comandante.creeper.blackjack.Hand.Category.FOUR_OF_A_KIND;
+import static com.comandante.creeper.blackjack.Hand.Category.FULL_HOUSE;
+import static com.comandante.creeper.blackjack.Hand.Category.HIGH_CARD;
+import static com.comandante.creeper.blackjack.Hand.Category.ONE_PAIR;
+import static com.comandante.creeper.blackjack.Hand.Category.STRAIGHT;
+import static com.comandante.creeper.blackjack.Hand.Category.STRAIGHT_FLUSH;
+import static com.comandante.creeper.blackjack.Hand.Category.THREE_OF_A_KIND;
+import static com.comandante.creeper.blackjack.Hand.Category.TWO_PAIR;
+import static com.comandante.creeper.blackjack.Hand.Rank.ACE;
+import static com.comandante.creeper.blackjack.Hand.Rank.EIGHT;
+import static com.comandante.creeper.blackjack.Hand.Rank.FIVE;
+import static com.comandante.creeper.blackjack.Hand.Rank.FOUR;
+import static com.comandante.creeper.blackjack.Hand.Rank.JACK;
+import static com.comandante.creeper.blackjack.Hand.Rank.KING;
+import static com.comandante.creeper.blackjack.Hand.Rank.NINE;
+import static com.comandante.creeper.blackjack.Hand.Rank.QUEEN;
+import static com.comandante.creeper.blackjack.Hand.Rank.SEVEN;
+import static com.comandante.creeper.blackjack.Hand.Rank.SIX;
+import static com.comandante.creeper.blackjack.Hand.Rank.TEN;
+import static com.comandante.creeper.blackjack.Hand.Rank.THREE;
+import static com.comandante.creeper.blackjack.Hand.Rank.TWO;
+import static com.comandante.creeper.blackjack.Hand.Suit.CLUBS;
+import static com.comandante.creeper.blackjack.Hand.Suit.DIAMONDS;
+import static com.comandante.creeper.blackjack.Hand.Suit.HEARTS;
+import static com.comandante.creeper.blackjack.Hand.Suit.SPADES;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.Ordering.from;
+import static com.google.common.collect.Ordering.natural;
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.comparingInt;
 public class Hand implements Comparable<Hand> {
     public final Category category;
 

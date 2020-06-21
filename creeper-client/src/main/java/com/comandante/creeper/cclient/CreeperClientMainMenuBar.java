@@ -6,7 +6,10 @@ import javax.swing.JMenuItem;
 
 public class CreeperClientMainMenuBar extends JMenuBar {
 
-    public CreeperClientMainMenuBar() {
+    private final GossipWindow gossipWindow;
+
+    public CreeperClientMainMenuBar(GossipWindow gossipWindow) {
+        this.gossipWindow = gossipWindow;
 
         // FILE MENU
         JMenu file = new JMenu("File");
@@ -46,6 +49,14 @@ public class CreeperClientMainMenuBar extends JMenuBar {
         JMenuItem about = new JMenuItem("About");
         help.add(documentation);
         help.add(about);
+
+        gossip.addActionListener(e -> {
+            if (!gossipWindow.isVisible()) {
+                gossipWindow.setVisible(true);
+            } else {
+                gossipWindow.setVisible(false);
+            }
+        });
 
         add(file);
         add(edit);

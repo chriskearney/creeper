@@ -2,7 +2,6 @@ package com.comandante.creeper.world;
 
 import com.codahale.metrics.Timer;
 import com.comandante.creeper.Creeper;
-
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.comandante.creeper.server.player_communication.Color;

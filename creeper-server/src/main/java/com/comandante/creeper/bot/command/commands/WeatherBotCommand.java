@@ -4,7 +4,6 @@ import com.comandante.creeper.bot.command.BotCommandManager;
 import com.google.api.client.util.Lists;
 import com.google.common.collect.Sets;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

@@ -1,10 +1,5 @@
 package com.comandante.creeper.items;
 
-import com.comandante.creeper.server.player_communication.Color;
-import com.comandante.creeper.stats.StatsBuilder;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
 

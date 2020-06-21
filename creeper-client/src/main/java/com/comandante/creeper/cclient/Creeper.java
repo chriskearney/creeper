@@ -11,7 +11,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import javax.swing.*;
+import javax.swing.UIManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Optional;
@@ -40,7 +40,8 @@ public class Creeper extends CreeperClientMainFrame {
         final EventBus eventBus = new AsyncEventBus(Executors.newCachedThreadPool());
         final CreeperApiHttpClient creeperApiHttpClient = new CreeperApiHttpClient(hostname, httpPort, eventBus, basicAuthStringSupplier, objectMapper);
         creeperApiHttpClient.startAsync().awaitRunning();
-        final GossipWindow gossipWindow = new GossipWindow(new Input(line -> creeperApiHttpClient.gossip(line), null), objectMapper);
+        GossipUserPanel gossipUserPanel = new GossipUserPanel();
+        final GossipWindow gossipWindow = new GossipWindow(new Input(line -> creeperApiHttpClient.gossip(line), null), gossipUserPanel, objectMapper);
         final ConsoleStatusBar consoleStatusBar = new ConsoleStatusBar(objectMapper);
         final StatsWindow statsWindow = new StatsWindow(objectMapper);
         final ConsolePanel consoleWindow = new ConsolePanel(consoleStatusBar, getMovementHandler(creeperApiHttpClient), Lists.newArrayList(basicAuthStringSupplier), () -> new JSchShellTtyConnector(hostname, "bridge", "b"), objectMapper);
@@ -58,6 +59,7 @@ public class Creeper extends CreeperClientMainFrame {
         eventBus.register(basicAuthStringSupplier);
         eventBus.register(consoleWindow);
         eventBus.register(nearMeWindow);
+        eventBus.register(gossipUserPanel);
 
 
         mapPanel.addMouseListener(new MouseAdapter() {
