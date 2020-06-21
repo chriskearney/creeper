@@ -36,7 +36,6 @@ public class InventoryPanel extends JPanel {
     private final ObjectMapper objectMapper;
     private final UseItemIdHandler useItemIdHandler;
     private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Inventory");
-    ;
 
     public InventoryPanel(ObjectMapper objectMapper, UseItemIdHandler useItemIdHandler) {
         this.useItemIdHandler = useItemIdHandler;

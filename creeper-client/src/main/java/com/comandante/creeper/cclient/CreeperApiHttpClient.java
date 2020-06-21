@@ -1,5 +1,6 @@
 package com.comandante.creeper.cclient;
 
+import com.comandante.creeper.chat.Gossip;
 import com.comandante.creeper.events.CreeperEvent;
 import com.comandante.creeper.events.CreeperEventType;
 import com.comandante.creeper.events.PlayerData;
@@ -115,9 +116,11 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
                         }
                         CreeperEvent creeperEvent = objectMapper.readValue(inboundSseEvent.readData(), CreeperEvent.class);
                         if (creeperEvent.getCreeperEventType().equals(CreeperEventType.PLAYERDATA)) {
-                            objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT);
                             PlayerData playerData = objectMapper.readValue(creeperEvent.getPayload(), PlayerData.class);
                             eventBus.post(playerData);
+                        } else if (creeperEvent.getCreeperEventType().equals(CreeperEventType.GOSSIP)) {
+                            Gossip gossip = objectMapper.readValue(creeperEvent.getPayload(), Gossip.class);
+                            eventBus.post(gossip);
                         }
                         eventBus.post(creeperEvent);
                     }

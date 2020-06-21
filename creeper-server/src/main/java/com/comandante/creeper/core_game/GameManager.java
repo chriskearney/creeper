@@ -5,6 +5,8 @@ import com.comandante.creeper.Creeper;
 import com.comandante.creeper.bot.IrcBotService;
 import com.comandante.creeper.bot.command.BotCommandFactory;
 import com.comandante.creeper.bot.command.BotCommandManager;
+import com.comandante.creeper.chat.Gossip;
+import com.comandante.creeper.chat.Utils;
 import com.comandante.creeper.common.FriendlyTime;
 import com.comandante.creeper.core_game.service.CreeperAsyncJobService;
 import com.comandante.creeper.core_game.service.TimeTracker;
@@ -79,13 +81,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.function.Function;
 
 import static com.comandante.creeper.server.player_communication.Color.BOLD_OFF;
 import static com.comandante.creeper.server.player_communication.Color.BOLD_ON;
-import static com.comandante.creeper.server.player_communication.Color.CYAN;
-import static com.comandante.creeper.server.player_communication.Color.MAGENTA;
 import static com.comandante.creeper.server.player_communication.Color.RESET;
-import static com.comandante.creeper.server.player_communication.Color.WHITE;
 
 public class GameManager {
 
@@ -306,8 +306,7 @@ public class GameManager {
     }
 
     public void gossip(Player player, String message, boolean apiSource) {
-        String gossipMessage = WHITE + "[" + RESET + MAGENTA + player.getPlayerName() + WHITE + "] " + RESET + CYAN + message + RESET;
-
+        String gossipMessage = Utils.buildGossipString("", player.getPlayerName(), message);
         playerManager.getAllPlayersMap().forEach((s, destinationPlayer) -> {
             if (destinationPlayer.getPlayerId().equals(player.getPlayerId())) {
                 if (apiSource) {
@@ -321,15 +320,14 @@ public class GameManager {
             }
         });
 
-        HashMap<Object, Object> dto = Maps.newHashMap();
-        dto.put("name", player.getPlayerName());
-        dto.put("message", message);
-        dto.put("gossipMessage", gossipMessage);
-        dto.put("timestamp", System.currentTimeMillis());
+        Map<String,String> users = Maps.newHashMap();
+        for (Player p: getAllPlayers()) {
+            users.put(p.getPlayerId(), p.getPlayerName());
+        }
         try {
             CreeperEvent build = new CreeperEvent.Builder()
                     .playerId(player.getPlayerId())
-                    .payload(objectMapper.writeValueAsString(dto))
+                    .payload(objectMapper.writeValueAsString(new Gossip(users, message, player.getPlayerName(), "", System.currentTimeMillis())))
                     .epochTimestamp(System.currentTimeMillis())
                     .creeperEventType(CreeperEventType.GOSSIP)
                     .audience(CreeperEvent.Audience.EVERYONE)
