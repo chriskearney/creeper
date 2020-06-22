@@ -217,11 +217,11 @@ public class Player extends CreeperEntity implements Principal {
                     gameManager.getChannelUtils().write(getPlayerId(), "You just " + Color.BOLD_ON + Color.RED + "lost " + Color.RESET + newGold + Color.YELLOW + " gold" + Color.RESET + "!\r\n");
                 }
                 removeActiveAlertStatus();
-                CoolDown death = new CoolDown(CoolDownType.DEATH);
-                addCoolDown(death);
                 gameManager.writeToPlayerCurrentRoom(getPlayerId(), getPlayerName() + " is now dead." + "\r\n");
                 PlayerMovement playerMovement = new PlayerMovement(this, gameManager.getRoomManager().getPlayerCurrentRoom(this).get().getRoomId(), GameManager.LOBBY_ID, "vanished into the ether.");
                 movePlayer(playerMovement);
+                CoolDown death = new CoolDown(CoolDownType.DEATH);
+                addCoolDown(death);
                 String prompt = gameManager.buildPrompt(playerId);
                 gameManager.getChannelUtils().write(getPlayerId(), prompt, true);
             }
