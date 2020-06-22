@@ -210,7 +210,7 @@ public class ApiResource {
     @POST
     @Path("/seed")
     @PermitAll
-    public void seedInitialEvents(@Auth Player player, @FormParam("direction") String dir) {
+    public void seedInitialEvents(@Auth Player player) {
         gameManager.getPlayerManager().emitPlayerInformationEvent(player.getPlayerId());
         gameManager.fireDrawMapEvent(player.getPlayerId(), player.getCurrentRoom());
         gameManager.emitUsersEvent(player.getPlayerId());
