@@ -1,6 +1,7 @@
 package com.comandante.creeper.cclient;
 
 import com.comandante.creeper.chat.Gossip;
+import com.comandante.creeper.chat.Users;
 import com.comandante.creeper.events.CreeperEvent;
 import com.comandante.creeper.events.CreeperEventType;
 import com.comandante.creeper.events.PlayerData;
@@ -120,6 +121,9 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
                         } else if (creeperEvent.getCreeperEventType().equals(CreeperEventType.GOSSIP)) {
                             Gossip gossip = objectMapper.readValue(creeperEvent.getPayload(), Gossip.class);
                             eventBus.post(gossip);
+                        } else if (creeperEvent.getCreeperEventType().equals(CreeperEventType.USERS)) {
+                            Users users = objectMapper.readValue(creeperEvent.getPayload(), Users.class);
+                            eventBus.post(users);
                         }
                         eventBus.post(creeperEvent);
                     }
@@ -129,6 +133,7 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
                 }
             });
             eventSource.open();
+            seedEvents();
         } catch (Throwable e) {
             System.out.println("Unable to run event loop.");
             e.printStackTrace();
@@ -160,6 +165,10 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
         callApi(new BasicNameValuePair("itemId", itemId), "show");
     }
 
+    public void seedEvents() {
+        callApi("seed");
+    }
+
     public void look(Optional<String> npcId, Optional<String> playerId) {
         List<NameValuePair> form = new ArrayList<>();
         npcId.ifPresent(s -> form.add(new BasicNameValuePair("npcId", npcId.get())));
@@ -184,6 +193,10 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
         callApi(new BasicNameValuePair("playerId", playerId), "compare");
     }
 
+    public void callApi(String apiMethod) {
+        this.callApi(Lists.newArrayList(), apiMethod);
+    }
+
     public void callApi(NameValuePair basicNameValuePair, String apiMethod) {
         this.callApi(Lists.newArrayList(basicNameValuePair), apiMethod);
     }
@@ -193,9 +206,11 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
             return;
         }
         HttpPost httpPost = new HttpPost("http://" + hostname + ":" + port + "/api/" + apiMethod);
-        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(basicNameValuePairs, Consts.UTF_8);
+        if (!basicNameValuePairs.isEmpty()) {
+            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(basicNameValuePairs, Consts.UTF_8);
+            httpPost.setEntity(entity);
+        }
         httpPost.setHeader("Authorization", "Basic " + basicAuthSupplier.get().get());
-        httpPost.setEntity(entity);
         try (CloseableHttpResponse response = closeableHttpClient.execute(httpPost)) {
             EntityUtils.consume(response.getEntity());
         } catch (Exception e) {
@@ -203,7 +218,6 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
             e.printStackTrace();
         }
     }
-
 
 
 }

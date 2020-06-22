@@ -206,4 +206,13 @@ public class ApiResource {
         }
         player.movePlayer(playerMovement.get(), true);
     }
+
+    @POST
+    @Path("/seed")
+    @PermitAll
+    public void seedInitialEvents(@Auth Player player, @FormParam("direction") String dir) {
+        gameManager.getPlayerManager().emitPlayerInformationEvent(player.getPlayerId());
+        gameManager.fireDrawMapEvent(player.getPlayerId(), player.getCurrentRoom());
+        gameManager.emitUsersEvent(player.getPlayerId());
+    }
 }

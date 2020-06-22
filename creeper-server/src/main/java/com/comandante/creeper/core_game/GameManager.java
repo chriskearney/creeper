@@ -7,6 +7,7 @@ import com.comandante.creeper.bot.command.BotCommandFactory;
 import com.comandante.creeper.bot.command.BotCommandManager;
 import com.comandante.creeper.bot.command.commands.BotCommand;
 import com.comandante.creeper.chat.Gossip;
+import com.comandante.creeper.chat.Users;
 import com.comandante.creeper.chat.Utils;
 import com.comandante.creeper.common.FriendlyTime;
 import com.comandante.creeper.core_game.service.CreeperAsyncJobService;
@@ -347,14 +348,10 @@ public class GameManager {
             }
         });
 
-        Map<String, String> users = Maps.newHashMap();
-        for (Player p : getAllPlayers()) {
-            users.put(p.getPlayerId(), p.getPlayerName());
-        }
         try {
             CreeperEvent build = new CreeperEvent.Builder()
                     .playerId(player.getPlayerId())
-                    .payload(objectMapper.writeValueAsString(new Gossip(users, message, player.getPlayerName(), "", System.currentTimeMillis())))
+                    .payload(objectMapper.writeValueAsString(new Gossip(message, player.getPlayerName(), "", System.currentTimeMillis())))
                     .epochTimestamp(System.currentTimeMillis())
                     .creeperEventType(CreeperEventType.GOSSIP)
                     .audience(CreeperEvent.Audience.EVERYONE)
@@ -428,7 +425,7 @@ public class GameManager {
         currentRoomLogic(playerId, playerCurrentRoom);
     }
 
-    private void fireDrawMapEvent(String playerId, Room room) {
+    public void fireDrawMapEvent(String playerId, Room room) {
         String map = getMapsManager().drawMap(room.getRoomId(), new Coords(10, 10));
         CreeperEvent build = new CreeperEvent.Builder()
                 .playerId(playerId)
@@ -1011,6 +1008,26 @@ public class GameManager {
         }
 
         return sb.toString();
+    }
+
+    public void emitUsersEvent(String playerId) {
+        try {
+            Map<String, String> users = Maps.newHashMap();
+            for (Player p : getAllPlayers()) {
+                users.put(p.getPlayerId(), p.getPlayerName());
+            }
+            CreeperEvent event = new CreeperEvent.Builder()
+                    .playerId(playerId)
+                    .payload(objectMapper.writeValueAsString(new Users(users, playerId)))
+                    .epochTimestamp(System.currentTimeMillis())
+                    .creeperEventType(CreeperEventType.USERS)
+                    .audience(CreeperEvent.Audience.EVERYONE)
+                    .build();
+
+            getListenerService().post(event);
+        } catch (Exception e) {
+            log.error("Unable to emit event!", e);
+        }
     }
 
     public Room getDetainmentRoom() {

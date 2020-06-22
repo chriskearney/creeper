@@ -25,7 +25,7 @@ public class CreeperAuthenticationHandler extends SimpleChannelUpstreamHandler {
     private static final Logger log = Logger.getLogger(CreeperAuthenticationHandler.class);
     public CreeperAuthenticationHandler(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.creeperAuthenticator = new GameAuth(gameManager);
+        this.creeperAuthenticator = new GameAuth(gameManager.getObjectMapper(), gameManager);
     }
 
 

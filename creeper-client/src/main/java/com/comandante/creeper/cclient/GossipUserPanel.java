@@ -1,6 +1,7 @@
 package com.comandante.creeper.cclient;
 
 import com.comandante.creeper.chat.Gossip;
+import com.comandante.creeper.chat.Users;
 import com.google.common.eventbus.Subscribe;
 import com.terminal.ui.ColorPane;
 
@@ -71,10 +72,11 @@ public class GossipUserPanel extends JPanel {
     }
 
     @Subscribe
-    public void gossipEvent(Gossip gossip) throws IOException {
+    public void usersEvent(Users users) throws IOException {
         defaultListModel.removeAllElements();
-        gossip.getUserMap().values().stream().sorted().forEach(s -> defaultListModel.addElement(new UserListItem(s)));
+        users.getUserMap().values().stream().sorted().forEach(s -> defaultListModel.addElement(new UserListItem(s)));
         userListItems.revalidate();
         userListItems.repaint();
     }
+
 }

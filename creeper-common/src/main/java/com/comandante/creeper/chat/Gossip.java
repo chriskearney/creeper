@@ -4,14 +4,12 @@ import java.util.Map;
 
 public class Gossip {
 
-    private Map<String, String> userMap;
     private String message;
     private String name;
     private String topic;
     private long timestamp;
 
-    public Gossip(Map<String, String> userMap, String message, String name, String topic, long timestamp) {
-        this.userMap = userMap;
+    public Gossip(String message, String name, String topic, long timestamp) {
         this.message = message;
         this.name = name;
         this.topic = topic;
@@ -19,11 +17,6 @@ public class Gossip {
     }
 
     public Gossip() {
-
-    }
-
-    public Map<String, String> getUserMap() {
-        return userMap;
     }
 
     public String getMessage() {

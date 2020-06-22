@@ -1,20 +1,32 @@
 package com.comandante.creeper.server.auth;
 
 import com.comandante.creeper.Creeper;
+import com.comandante.creeper.chat.Gossip;
+import com.comandante.creeper.chat.Users;
 import com.comandante.creeper.core_game.GameManager;
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.world.model.Room;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Maps;
+import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class GameAuth implements CreeperAuthenticator {
 
     private final GameManager gameManager;
+    private final ObjectMapper objectMapper;
+    private static final Logger log = Logger.getLogger(GameAuth.class);
 
-    public GameAuth(GameManager gameManager) {
+    public GameAuth(ObjectMapper objectMapper, GameManager gameManager) {
         this.gameManager = gameManager;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -54,6 +66,9 @@ public class GameAuth implements CreeperAuthenticator {
         if (currentRoom == null) {
             gameManager.placePlayerInLobby(player);
         }
+
+        gameManager.emitUsersEvent(player.getPlayerId());
+
         return true;
     }
 }
