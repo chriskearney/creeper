@@ -8,6 +8,7 @@ import com.comandante.creeper.events.CreeperEvent;
 import com.comandante.creeper.events.CreeperEventType;
 import com.comandante.creeper.events.PlayerData;
 import com.comandante.creeper.items.Item;
+import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.stats.Levels;
 import com.comandante.creeper.stats.Stats;
@@ -72,15 +73,20 @@ public class PlayerManager {
                 }
             });
 
-            Map<String, String> presentNpcs = Maps.newLinkedHashMap();
+
             List<Npc> currentRoomNpcs = player.getCurrentRoom().getPresentNpcs();
-            Map<String, String> npcs = Maps.newLinkedHashMap();
-            currentRoomNpcs.forEach(npc -> npcs.put(npc.getEntityId(), npc.getColorName()));
+
+            Map<String, String> presentNpcs = Maps.newLinkedHashMap();
             currentRoomNpcs.forEach(npc -> presentNpcs.put(npc.getEntityId(), npc.getColorName()));
+
             List<Item> presentItems = player.getCurrentRoom().getPresentItems();
             Map<String, String> presentPlayers = Maps.newLinkedHashMap();
             player.getCurrentRoom().getPresentPlayers().stream()
                     .forEach(player1 -> presentPlayers.put(player1.getPlayerId(), player1.getPlayerName()));
+
+            Map<String, String> presentMerchants = Maps.newHashMap();
+            Set<Merchant> merchants = player.getCurrentRoom().getMerchants();
+            merchants.forEach(merchant -> presentMerchants.put(merchant.getColorName(), merchant.getMerchantType().toString()));
 
             PlayerData playerData = new PlayerData(playerMetadata,
                     level,
@@ -94,7 +100,8 @@ public class PlayerManager {
                     itemMap,
                     presentPlayers,
                     Sets.newLinkedHashSet(presentItems),
-                    npcs);
+                    presentNpcs,
+                    presentMerchants);
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
                     .creeperEventType(CreeperEventType.PLAYERDATA)

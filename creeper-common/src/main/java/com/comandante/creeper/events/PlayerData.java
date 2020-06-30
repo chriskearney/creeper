@@ -24,7 +24,8 @@ public class PlayerData {
     private Map<String, Item> itemMap;
     private Map<String, String> presentPlayers;
     private Set<Item> presentItems;
-    private Map<String, String> npcs;
+    private Map<String, String> presentNpcs;
+    private Map<String, String> presentMerchants;
 
     public PlayerData() {
     }
@@ -41,7 +42,8 @@ public class PlayerData {
                       Map<String, Item> itemMap,
                       Map<String, String> presentPlayers,
                       Set<Item> presentItems,
-                      Map<String, String> npcs) {
+                      Map<String, String> presentNpcs,
+                      Map<String, String> presentMerchants) {
         this.playerMetadata = playerMetadata;
         this.level = level;
         this.xpToNextLevel = xpToNextLevel;
@@ -54,7 +56,7 @@ public class PlayerData {
         this.itemMap = itemMap;
         this.presentPlayers = presentPlayers;
         this.presentItems = presentItems;
-        this.npcs = npcs;
+        this.presentNpcs = presentNpcs;
     }
 
     public PlayerMetadata getPlayerMetadata() {
@@ -105,7 +107,11 @@ public class PlayerData {
         return presentItems;
     }
 
-    public Map<String, String> getNpcs() {
-        return npcs;
+    public Map<String, String> getPresentNpcs() {
+        return presentNpcs;
+    }
+
+    public Map<String, String> getPresentMerchants() {
+        return presentMerchants;
     }
 }

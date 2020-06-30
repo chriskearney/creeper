@@ -133,11 +133,10 @@ public class NearPanel extends JPanel {
 
 
                     java.util.List<NearMeItem> nearMeItemList = Lists.newArrayList();
-                    Iterator<String> npcs = playerData.getNpcs().keySet().iterator();
-                    while (npcs.hasNext()) {
-                        String npcID = npcs.next();
-                        String npcName = playerData.getNpcs().get(npcID);
-                        NearMeItem nearMeItem = new NearMeItem(Optional.of(new Tuple<String, String>(npcID, npcName)), Optional.empty(), Optional.empty());
+
+                    for (String npcID : playerData.getPresentNpcs().keySet()) {
+                        String npcName = playerData.getPresentNpcs().get(npcID);
+                        NearMeItem nearMeItem = new NearMeItem(Optional.of(new Tuple<String, String>(npcID, npcName)), Optional.empty(), Optional.empty(), Optional.empty());
                         nearMeItemList.add(nearMeItem);
                     }
 
@@ -146,25 +145,21 @@ public class NearPanel extends JPanel {
                         public void accept(Item item) {
                             String itemId = item.getItemId();
                             String itemName = item.getItemName();
-                            nearMeItemList.add(new NearMeItem(Optional.empty(), Optional.empty(), Optional.of(new Tuple<String, String>(itemId, itemName))));
+                            nearMeItemList.add(new NearMeItem(Optional.empty(), Optional.empty(), Optional.of(new Tuple<String, String>(itemId, itemName)), Optional.empty()));
                         }
                     });
 
-                    Iterator<String> players = playerData.getPresentPlayers().keySet().iterator();
-                    while (players.hasNext()) {
-                        String playerId = players.next();
+                    for (String playerId : playerData.getPresentPlayers().keySet()) {
                         String playerName = playerData.getPresentPlayers().get(playerId);
-                        NearMeItem nearMeItem = new NearMeItem(Optional.empty(), Optional.of(new Tuple<>(playerId, playerName)), Optional.empty());
+                        NearMeItem nearMeItem = new NearMeItem(Optional.empty(), Optional.of(new Tuple<>(playerId, playerName)), Optional.empty(), Optional.empty());
                         nearMeItemList.add(nearMeItem);
                     }
 
-                    while (npcs.hasNext()) {
-                        String npcID = npcs.next();
-                        String npcName = playerData.getNpcs().get(npcID);
-                        NearMeItem nearMeItem = new NearMeItem(Optional.of(new Tuple<String, String>(npcID, npcName)), Optional.empty(), Optional.empty());
+                    for (String merchantName: playerData.getPresentMerchants().keySet()) {
+                        String merchantType = playerData.getPresentMerchants().get(merchantName);
+                        NearMeItem nearMeItem = new NearMeItem(Optional.empty(), Optional.empty(), Optional.empty(), Optional.of(new Tuple<>(merchantType, merchantName)));
                         nearMeItemList.add(nearMeItem);
                     }
-
 
                     if (!defaultListModel.isEmpty()) {
                         java.util.List<NearMeItem> existingNearMeItems = Lists.newArrayList();
@@ -199,11 +194,13 @@ public class NearPanel extends JPanel {
         private final Optional<Tuple<String, String>> npc;
         private final Optional<Tuple<String, String>> player;
         private final Optional<Tuple<String, String>> item;
+        private final Optional<Tuple<String, String>> merchant;
 
-        public NearMeItem(Optional<Tuple<String, String>> npc, Optional<Tuple<String, String>> player, Optional<Tuple<String, String>> item) {
+        public NearMeItem(Optional<Tuple<String, String>> npc, Optional<Tuple<String, String>> player, Optional<Tuple<String, String>> item, Optional<Tuple<String, String>> merchant) {
             this.npc = npc;
             this.player = player;
             this.item = item;
+            this.merchant = merchant;
         }
 
         public Optional<Tuple<String, String>> getNpc() {
@@ -218,6 +215,10 @@ public class NearPanel extends JPanel {
             return item;
         }
 
+        public Optional<Tuple<String, String>> getMerchant() {
+            return merchant;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -225,13 +226,13 @@ public class NearPanel extends JPanel {
             NearMeItem that = (NearMeItem) o;
             return Objects.equals(npc, that.npc) &&
                     Objects.equals(player, that.player) &&
-                    Objects.equals(item, that.item);
+                    Objects.equals(item, that.item) &&
+                    Objects.equals(merchant, that.merchant);
         }
 
         @Override
         public int hashCode() {
-
-            return Objects.hash(npc, player, item);
+            return Objects.hash(npc, player, item, merchant);
         }
     }
 
