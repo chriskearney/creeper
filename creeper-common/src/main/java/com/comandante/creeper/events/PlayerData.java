@@ -57,6 +57,7 @@ public class PlayerData {
         this.presentPlayers = presentPlayers;
         this.presentItems = presentItems;
         this.presentNpcs = presentNpcs;
+        this.presentMerchants = presentMerchants;
     }
 
     public PlayerMetadata getPlayerMetadata() {
