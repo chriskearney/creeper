@@ -40,39 +40,7 @@ public class TalkCommand extends Command {
             }
             originalMessageParts.remove(0);
             String desiredMerchantTalk = Joiner.on(" ").join(originalMessageParts);
-            Set<Merchant> merchants = currentRoom.getMerchants();
-            for (Merchant merchant : merchants) {
-                if (merchant.getValidTriggers().contains(desiredMerchantTalk)) {
-                    if (merchant.getMerchantType() != Merchant.MerchantType.QUESTGIVER) {
-                        write(merchant.getWelcomeMessage() + "\r\n");
-                    }
-                    if (merchant.getMerchantType() == Merchant.MerchantType.BASIC) {
-                        write(merchant.getMenu() + "\r\n");
-                        gameManager.getChannelUtils().write(playerId, "\r\n" + MerchantCommandHandler.buildPrompt());
-                    } else if (merchant.getMerchantType() == Merchant.MerchantType.BANK) {
-                        write(BankCommand.getPrompt());
-                    } else if (merchant.getMerchantType() == Merchant.MerchantType.LOCKER) {
-                        write(LockerCommand.getPrompt());
-                    } else if (merchant.getMerchantType() == Merchant.MerchantType.QUESTGIVER) {
-                        write(merchant.getQuestsIntro(player));
-                        write(QuestGiverCommand.getPrompt(merchant, player));
-                    } else if (merchant.getMerchantType() == Merchant.MerchantType.PLAYERCLASS_SELECTOR) {
-                        if (player.getLevel() < 2) {
-                            write("Before you can pick a character class, you must be at least level 2.");
-                            return;
-                        }
-                        if (!player.getPlayerClass().equals(PlayerClass.BASIC)) {
-                            write("You've already selected a character class. " +
-                                    "\r\nIf you'd like to re-select you must present the old wise man with a " +
-                                    "" + Color.YELLOW + "golden" + Color.MAGENTA + " fortune cookie" + Color.RESET);
-                            return;
-                        }
-                        write(PlayerClassCommand.getPrompt());
-                    }
-                    creeperSession.setGrabMerchant(Optional.of(
-                            new CreeperEntry<>(merchant, talkCommand)));
-                }
-            }
+            player.talkMerchant(desiredMerchantTalk);
         });
     }
 }

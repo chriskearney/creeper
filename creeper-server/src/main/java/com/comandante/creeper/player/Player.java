@@ -4,6 +4,7 @@ package com.comandante.creeper.player;
 import com.codahale.metrics.Meter;
 import com.comandante.creeper.Creeper;
 import com.comandante.creeper.command.commands.MovementCommand;
+import com.comandante.creeper.common.CreeperEntry;
 import com.comandante.creeper.common.CreeperUtils;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SentryManager;
@@ -16,10 +17,16 @@ import com.comandante.creeper.items.Item;
 import com.comandante.creeper.items.ItemBuilder;
 import com.comandante.creeper.items.ItemMetadata;
 import com.comandante.creeper.merchant.Merchant;
+import com.comandante.creeper.merchant.MerchantCommandHandler;
+import com.comandante.creeper.merchant.bank.commands.BankCommand;
+import com.comandante.creeper.merchant.lockers.LockerCommand;
+import com.comandante.creeper.merchant.playerclass_selector.PlayerClassCommand;
+import com.comandante.creeper.merchant.questgiver.QuestGiverCommand;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.npc.NpcStatsChangeBuilder;
 import com.comandante.creeper.npc.Temperament;
 import com.comandante.creeper.server.ASCIIArt;
+import com.comandante.creeper.server.model.CreeperSession;
 import com.comandante.creeper.server.player_communication.Color;
 import com.comandante.creeper.stats.Levels;
 import com.comandante.creeper.stats.Stats;
@@ -395,7 +402,7 @@ public class Player extends CreeperEntity implements Principal {
         StringBuilder sb = new StringBuilder();
         sb.append(Color.BOLD_ON).append(Color.YELLOW).append("Quests").append(Color.RESET).append("\r\n");
         int i = 0;
-        for (Quest quest: quests) {
+        for (Quest quest : quests) {
             i++;
             sb.append(i).append(") ");
             if (quest.getDependentOnCompletionOfQuestName() != null && !player.isQuestCompleted(quest.getDependentOnCompletionOfQuestName())) {
@@ -415,7 +422,7 @@ public class Player extends CreeperEntity implements Principal {
             sb.append(Color.RED + " [" + Color.RESET);
             StringJoiner stringJoiner = new StringJoiner(", ");
             if (quest.getLimitedClasses() != null && !quest.getLimitedClasses().isEmpty()) {
-                for (PlayerClass playerClass: quest.getLimitedClasses()) {
+                for (PlayerClass playerClass : quest.getLimitedClasses()) {
                     stringJoiner.add(ASCIIArt.capitalizeFirstLetter(playerClass.getIdentifier()));
                 }
             } else {
@@ -507,10 +514,10 @@ public class Player extends CreeperEntity implements Principal {
         StringBuilder sb = new StringBuilder();
         sb.append(ASCIIArt.centerOnWidth(Color.BOLD_ON + Color.CYAN + quest.getQuestName() + Color.RESET, 80, " ")).append("\r\n\r\n");
         sb.append(Color.BOLD_ON).append(Color.YELLOW).append("Description").append(Color.RESET).append("\r\n");
-        sb.append(ASCIIArt.wrap("    " + quest.getQuestDescription() + "\r\n"+ "\r\n"));
+        sb.append(ASCIIArt.wrap("    " + quest.getQuestDescription() + "\r\n" + "\r\n"));
         List<Quest.ItemsAmount> requiredItems = quest.getCriteria().getItems();
         sb.append(Color.BOLD_ON + Color.YELLOW + "Retrieve" + Color.RESET + "\r\n");
-        for (Quest.ItemsAmount itemsAmount: requiredItems) {
+        for (Quest.ItemsAmount itemsAmount : requiredItems) {
             Optional<ItemMetadata> itemMetadata = gameManager.getItemStorage().get(itemsAmount.getInternalItemName());
             if (!itemMetadata.isPresent()) {
                 sb.append("ERROR: internal item name is not working: " + itemsAmount.getInternalItemName() + "\r\n");
@@ -656,7 +663,7 @@ public class Player extends CreeperEntity implements Principal {
         synchronized (interner.intern(playerId)) {
             Optional<PlayerMetadata> playerMetadataOptional = Optional.empty();
             if (playerMetadataSource.isPresent()) {
-                playerMetadataOptional =playerMetadataSource;
+                playerMetadataOptional = playerMetadataSource;
             } else {
                 playerMetadataOptional = getPlayerMetadata();
             }
@@ -1132,6 +1139,43 @@ public class Player extends CreeperEntity implements Principal {
         PlayerMetadata playerMetadata = playerMetadataOptional.get();
         playerMetadata.getNpcKillLog().forEach(builder::put);
         return builder.build();
+    }
+
+    public void talkMerchant(String targetMerchant) {
+        Set<Merchant> merchants = currentRoom.getMerchants();
+        for (Merchant merchant : merchants) {
+            if (merchant.getValidTriggers().contains(targetMerchant)) {
+                if (merchant.getMerchantType() != Merchant.MerchantType.QUESTGIVER) {
+                    gameManager.getChannelUtils().write(playerId, merchant.getWelcomeMessage() + "\r\n");
+                }
+                if (merchant.getMerchantType() == Merchant.MerchantType.BASIC) {
+                    gameManager.getChannelUtils().write(playerId, merchant.getMenu() + "\r\n");
+                    gameManager.getChannelUtils().write(playerId, "\r\n" + MerchantCommandHandler.buildPrompt());
+                } else if (merchant.getMerchantType() == Merchant.MerchantType.BANK) {
+                    gameManager.getChannelUtils().write(playerId, BankCommand.getPrompt());
+                } else if (merchant.getMerchantType() == Merchant.MerchantType.LOCKER) {
+                    gameManager.getChannelUtils().write(playerId, LockerCommand.getPrompt());
+                } else if (merchant.getMerchantType() == Merchant.MerchantType.QUESTGIVER) {
+                    gameManager.getChannelUtils().write(playerId, merchant.getQuestsIntro(this));
+                    gameManager.getChannelUtils().write(playerId, QuestGiverCommand.getPrompt(merchant, this));
+                } else if (merchant.getMerchantType() == Merchant.MerchantType.PLAYERCLASS_SELECTOR) {
+                    if (getLevel() < 2) {
+                        gameManager.getChannelUtils().write(playerId, "Before you can pick a character class, you must be at least level 2.");
+                        return;
+                    }
+                    if (!getPlayerClass().equals(PlayerClass.BASIC)) {
+                        gameManager.getChannelUtils().write(playerId, "You've already selected a character class. " +
+                                "\r\nIf you'd like to re-select you must present the old wise man with a " +
+                                "" + Color.YELLOW + "golden" + Color.MAGENTA + " fortune cookie" + Color.RESET);
+                        return;
+                    }
+                    gameManager.getChannelUtils().write(playerId, PlayerClassCommand.getPrompt());
+                }
+                CreeperSession creeperSession = (CreeperSession) getChannel().getAttachment();
+                creeperSession.setGrabMerchant(Optional.of(
+                        new CreeperEntry<>(merchant, null)));
+            }
+        }
     }
 
     public void removePlayerFromRoom(Room room) {

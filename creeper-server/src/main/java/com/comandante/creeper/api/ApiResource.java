@@ -215,4 +215,11 @@ public class ApiResource {
         gameManager.fireDrawMapEvent(player.getPlayerId(), player.getCurrentRoom());
         gameManager.emitUsersEvent(player.getPlayerId());
     }
+
+    @POST
+    @Path("/talk")
+    @PermitAll
+    public void talk(@Auth Player player, @FormParam("target") String target) {
+        player.talkMerchant(target);
+    }
 }

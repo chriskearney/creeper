@@ -22,7 +22,7 @@ public class NearMePaneCellRenderer implements ListCellRenderer {
         } else if (nearMeItem.getItem().isPresent()) {
             displayName = nearMeItem.getItem().get().getY();
         } else if (nearMeItem.getMerchant().isPresent()) {
-            displayName = nearMeItem.getItem().get().getY();
+            displayName = nearMeItem.getMerchant().get().getY();
         }
         if (displayName != null) {
             colorPane.appendANSI(displayName);

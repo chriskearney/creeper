@@ -184,6 +184,10 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
         callApi(new BasicNameValuePair("playerId", playerId), "compare");
     }
 
+    public void talk(String target) {
+        callApi(new BasicNameValuePair("target", target), "talk");
+    }
+
     public void callApi(String apiMethod) {
         this.callApi(Lists.newArrayList(), apiMethod);
     }

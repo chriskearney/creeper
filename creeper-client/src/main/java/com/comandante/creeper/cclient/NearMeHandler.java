@@ -11,4 +11,6 @@ public interface NearMeHandler {
     void pick(String itemId);
 
     void compare(String playerId);
+
+    void talk(String target);
 }
