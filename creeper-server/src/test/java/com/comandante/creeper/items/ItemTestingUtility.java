@@ -23,6 +23,5 @@ public class ItemTestingUtility {
         Equipment equipment = new Equipment(EquipmentSlotType.HEAD, DefaultStats.DEFAULT_PLAYER.createStats(), Sets.newHashSet(PlayerClass.WARRIOR));
         Gson gson = new Gson();
         String s = gson.toJson(equipment, Equipment.class);
-        System.out.println(s);
     }
 }

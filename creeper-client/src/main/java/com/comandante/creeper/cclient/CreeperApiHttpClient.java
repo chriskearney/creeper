@@ -47,6 +47,9 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
     private final BasicAuthStringSupplier basicAuthSupplier;
     private final ObjectMapper objectMapper;
 
+    private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreeperApiHttpClient.class);
+
+
     private WebTarget target;
     private EventSource eventSource;
 
@@ -65,15 +68,6 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
         this.client = ClientBuilder.newBuilder()
                 .register(new SseFeature())
                 .build();
-    }
-
-    public static class LoggingFilter implements ClientRequestFilter {
-        private static final Logger LOG = Logger.getLogger(LoggingFilter.class.getName());
-
-        @Override
-        public void filter(ClientRequestContext requestContext) throws IOException {
-//            System.out.println(requestContext.getEntity().toString());
-        }
     }
 
     @Override
@@ -100,7 +94,6 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
             final String[] values = credentials.split(":", 2);
             Feature feature = HttpAuthenticationFeature.basic(values[0], values[1]);
             client.register(feature);
-            client.register(new LoggingFilter());
 
             target = client.target("http://" + hostname + ":" + port + url);
             eventSource = EventSource.target(target)
@@ -111,7 +104,7 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
                 try {
                     if (inboundSseEvent != null) {
                         if (inboundSseEvent.getName().equals("ping")) {
-                            System.out.println("ping received from server.");
+                            LOG.debug("Ping received from server.");
                             return;
                         }
                         CreeperEvent creeperEvent = objectMapper.readValue(inboundSseEvent.readData(), CreeperEvent.class);
@@ -128,15 +121,13 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
                         eventBus.post(creeperEvent);
                     }
                 } catch (Exception e) {
-                    System.out.println("Unable to run event loop.");
-                    e.printStackTrace();
+                    LOG.error("Unable to run event loop.", e);
                 }
             });
             eventSource.open();
             seedEvents();
         } catch (Throwable e) {
-            System.out.println("Unable to run event loop.");
-            e.printStackTrace();
+            LOG.error("Unable to run event loop.", e);
         }
     }
 
@@ -214,8 +205,7 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
         try (CloseableHttpResponse response = closeableHttpClient.execute(httpPost)) {
             EntityUtils.consume(response.getEntity());
         } catch (Exception e) {
-            System.out.println("unable to post api message for: " + apiMethod);
-            e.printStackTrace();
+            LOG.error("Unable to post api message for: " + apiMethod, e);
         }
     }
 

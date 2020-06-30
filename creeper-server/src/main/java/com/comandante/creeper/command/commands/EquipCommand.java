@@ -23,7 +23,7 @@ public class EquipCommand extends Command {
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         execCommand(ctx, e, () -> {
             if (originalMessageParts.size() == 1) {
-                write("No equipment item specified.");
+                write(player.buildEquipmentString(8));
                 return;
             }
             originalMessageParts.remove(0);

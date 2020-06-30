@@ -25,15 +25,14 @@ import java.io.IOException;
 
 public class GossipWindow extends JFrame {
 
-    private final ObjectMapper objectMapper;
     private final SimpleTtyConnector simpleTtyConnector = new SimpleTtyConnector("Gossip");
     private final JediTermWidget jediTermWidget;
 
     private final TitledBorder mainBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Gossip");
 
+    private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GossipWindow.class);
 
-    public GossipWindow(Input input, GossipUserPanel gossipUserPanel, ObjectMapper objectMapper) throws IOException {
-        this.objectMapper = objectMapper;
+    public GossipWindow(Input input, GossipUserPanel gossipUserPanel) throws IOException {
         this.jediTermWidget = new JediTermWidget(new DefaultTabbedSettingsProvider());
         this.jediTermWidget.getTerminal().reset();
         this.jediTermWidget.getTerminalDisplay().setCursorVisible(false);
@@ -88,7 +87,7 @@ public class GossipWindow extends JFrame {
             int cursorY = jediTermWidget.getTerminal().getCursorY();
             jediTermWidget.getTerminal().cursorPosition(0, cursorY);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            LOG.error("Unable to append chat message.", e);
         }
     }
 

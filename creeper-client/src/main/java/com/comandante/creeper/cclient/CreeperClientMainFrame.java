@@ -17,7 +17,8 @@ import java.awt.event.WindowEvent;
 
 public abstract class CreeperClientMainFrame extends JFrame {
 
-    private final static Logger LOG = Logger.getLogger(AbstractTerminalFrame.class);
+    private final static Logger LOG = Logger.getLogger(CreeperClientMainFrame.class);
+
     public final static Dimension MAIN_FRAME = new Dimension(1080, 720);
     public final static Dimension MAIN_FRAME_HALF = new Dimension(1080, 410);
     public final static Dimension RIGHT_SIDE_PANEL_DIMENSIONS = new Dimension(270, 215);
@@ -28,8 +29,6 @@ public abstract class CreeperClientMainFrame extends JFrame {
                                      StatsWindow statsWindow,
                                      InventoryPanel inventoryPanel,
                                      NearPanel nearPanel) {
-
-
 
         JPanel rightSidePanel = new JPanel();
         rightSidePanel.setLayout(new BoxLayout(rightSidePanel, BoxLayout.PAGE_AXIS));
@@ -58,17 +57,4 @@ public abstract class CreeperClientMainFrame extends JFrame {
         pack();
         setVisible(true);
     }
-
-    public static Font getTerminalFont() {
-        String fontName;
-        if (UIUtil.isWindows) {
-            fontName = "Consolas";
-        } else if (UIUtil.isMac) {
-            fontName = "Menlo";
-        } else {
-            fontName = "Monospaced";
-        }
-        return new Font(fontName, Font.PLAIN, 12);
-    }
-
 }

@@ -22,7 +22,6 @@ public class CreeperEventTest {
                 .build();
 
         String creeperEventJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(creeperEvent);
-        System.out.println(creeperEventJson);
 
         CreeperEvent creeperEvent1 = mapper.readValue(creeperEventJson, CreeperEvent.class);
 

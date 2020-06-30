@@ -11,9 +11,6 @@ public class FriendlyTimeTest {
 
         FriendlyTime friendlyTime = new FriendlyTime(400);
 
-        System.out.println("Friendly Long: " + friendlyTime.getFriendlyFormatted());
-
-        System.out.println("Friendly Short: " + friendlyTime.getFriendlyFormattedShort());
     }
 
 }

@@ -5,3 +5,15 @@ server:
   applicationConnectors:
   - type: http
     port: 9000
+ircEnabled: false
+ircNickname: crp
+ircUsername: creeper
+ircServer: us.undernet.org
+ircChannel: '#nexus'
+ircBridgeroomId: 376
+weatherUndergroundApiKey: 62sdafascda8
+accuweatherApiKey: LSmasdf6LTlezaWk7wQLGfAFwZRmb0w2Q
+twitterConsumerKey: zAKZC4Cadsua8X2
+twitterConsumerSecret: uAn07Lnsdsd
+twitterAccessToken: 1270254739259678722-aS3dssd
+twitterAccessTokenSecret: QDzds4eLZEto8Dsdsdsds

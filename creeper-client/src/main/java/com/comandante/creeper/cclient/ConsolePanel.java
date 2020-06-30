@@ -26,23 +26,19 @@ import java.util.function.Supplier;
 
 public class ConsolePanel extends JPanel {
 
-    private final ObjectMapper objectMapper;
-
-    private final ConsoleStatusBar consoleStatusBar;
     private final JediTermWidget jediTermWidget;
     private final List<JediEmulator.NonControlCharListener> nonControlCharListeners;
     private final Supplier<TtyConnector> ttyConnectorSupplier;
     private final Input input;
-    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Console");;
+    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Console");
+
+    private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ConsolePanel.class);
 
     public ConsolePanel(ConsoleStatusBar consoleStatusBar,
                         MapPanel.MapWindowMovementHandler mapWindowMovementHandler,
                         List<JediEmulator.NonControlCharListener> nonControlCharListeners,
-                        Supplier<TtyConnector> ttyConnectorSupplier,
-                        ObjectMapper objectMapper
+                        Supplier<TtyConnector> ttyConnectorSupplier
     ) {
-        this.objectMapper = objectMapper;
-        this.consoleStatusBar = consoleStatusBar;
         this.nonControlCharListeners = nonControlCharListeners;
         this.jediTermWidget = createTerminalWidget(new DefaultTabbedSettingsProvider(), nonControlCharListeners);
         this.ttyConnectorSupplier = ttyConnectorSupplier;
@@ -56,19 +52,17 @@ public class ConsolePanel extends JPanel {
             try {
                 jediTermWidget.getCurrentSession().getTtyConnector().write(line + "\n");
                 jediTermWidget.getMyScrollBar().setValue(jediTermWidget.getMyScrollBar().getMaximum());
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("Problem writing to the com.terminal.");
+            } catch (IOException e) {
+                LOG.error("Unable to write to terminal!", e);
             }
-        },mapWindowMovementHandler);
+        }, mapWindowMovementHandler);
 
 
         inputAndStatus.add(input, BorderLayout.PAGE_END);
         inputAndStatus.add(consoleStatusBar, BorderLayout.PAGE_START);
 
-
-        this.setBackground(Color.black);
         this.border.setTitleColor(Color.white);
+        this.setBackground(Color.black);
         this.setBorder(border);
         this.setLayout(new BorderLayout());
         this.add(jediTermWidget.getComponent(), BorderLayout.CENTER);
@@ -82,23 +76,6 @@ public class ConsolePanel extends JPanel {
                 getInput().getField().requestFocus();
             }
         });
-
-//        addKeyListener(new java.awt.event.KeyAdapter() {
-//            public void keyPressed(java.awt.event.KeyEvent evt) {
-//                System.out.println("hi");
-//                try {
-//                    SwingUtilities.invokeLater(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            getInput().getField().requestFocus();
-//                            getJediTermWidget().getMyScrollBar().setValue(getJediTermWidget().getMyScrollBar().getMaximum());
-//                        }
-//                    });
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
 
         this.setVisible(true);
         this.openSession(jediTermWidget);
@@ -129,7 +106,7 @@ public class ConsolePanel extends JPanel {
             jediTermWidget.getCurrentSession().getTtyConnector().close();
             jediTermWidget.getCurrentSession().getTerminal().writeCharacters("\n" + "Disconnected." + "\n");
         } catch (Exception e) {
-            System.out.println("failed to write to com.terminal tty");
+            LOG.error("Failed to write to terminal!", e);
         }
 
     }

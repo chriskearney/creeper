@@ -17,7 +17,6 @@ public class CreeperToSSEEventListener implements CreeperEventListener {
     private final String playerId;
     private static final Logger log = Logger.getLogger(CreeperToSSEEventListener.class);
 
-
     public CreeperToSSEEventListener(String playerId, EventOutput eventOutput, ObjectMapper objectMapper) {
         this.playerId = playerId;
         this.eventOutput = eventOutput;
@@ -45,7 +44,7 @@ public class CreeperToSSEEventListener implements CreeperEventListener {
         try {
             eventOutput.write(new OutboundEvent.Builder().name("ping").data(String.class, "EOM").build());
         } catch (Exception e) {
-            System.out.println("CONNECTION LOST!");
+            log.error("Connect lost!", e);
             return false;
         }
         return true;

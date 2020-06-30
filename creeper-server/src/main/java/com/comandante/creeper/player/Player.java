@@ -505,8 +505,8 @@ public class Player extends CreeperEntity implements Principal {
 
     public String getQuestReview(Quest quest) {
         StringBuilder sb = new StringBuilder();
-        sb.append(ASCIIArt.centerOnWidth(Color.BOLD_ON + Color.CYAN + quest.getQuestName() + Color.RESET, 80, " ") + "\r\n\r\n");
-        sb.append(Color.BOLD_ON + Color.YELLOW + "Description" + Color.RESET + "\r\n");
+        sb.append(ASCIIArt.centerOnWidth(Color.BOLD_ON + Color.CYAN + quest.getQuestName() + Color.RESET, 80, " ")).append("\r\n\r\n");
+        sb.append(Color.BOLD_ON).append(Color.YELLOW).append("Description").append(Color.RESET).append("\r\n");
         sb.append(ASCIIArt.wrap("    " + quest.getQuestDescription() + "\r\n"+ "\r\n"));
         List<Quest.ItemsAmount> requiredItems = quest.getCriteria().getItems();
         sb.append(Color.BOLD_ON + Color.YELLOW + "Retrieve" + Color.RESET + "\r\n");
@@ -1712,9 +1712,13 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public String buildEquipmentString() {
+        return buildEquipmentString(16);
+    }
+
+    public String buildEquipmentString(int minWidth) {
         Table t = new Table(2, BorderStyle.CLASSIC_COMPATIBLE,
                 ShownBorders.NONE);
-        t.setColumnWidth(0, 16, 20);
+        t.setColumnWidth(0, minWidth, 20);
 
         List<EquipmentSlotType> all = EquipmentSlotType.getAll();
         for (EquipmentSlotType slot : all) {

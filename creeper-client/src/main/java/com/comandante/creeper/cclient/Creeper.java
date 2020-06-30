@@ -41,10 +41,10 @@ public class Creeper extends CreeperClientMainFrame {
         final CreeperApiHttpClient creeperApiHttpClient = new CreeperApiHttpClient(hostname, httpPort, eventBus, basicAuthStringSupplier, objectMapper);
         creeperApiHttpClient.startAsync().awaitRunning();
         GossipUserPanel gossipUserPanel = new GossipUserPanel();
-        final GossipWindow gossipWindow = new GossipWindow(new Input(line -> creeperApiHttpClient.gossip(line), null), gossipUserPanel, objectMapper);
+        final GossipWindow gossipWindow = new GossipWindow(new Input(line -> creeperApiHttpClient.gossip(line), null), gossipUserPanel);
         final ConsoleStatusBar consoleStatusBar = new ConsoleStatusBar(objectMapper);
         final StatsWindow statsWindow = new StatsWindow(objectMapper);
-        final ConsolePanel consoleWindow = new ConsolePanel(consoleStatusBar, getMovementHandler(creeperApiHttpClient), Lists.newArrayList(basicAuthStringSupplier), () -> new JSchShellTtyConnector(hostname, "bridge", "b"), objectMapper);
+        final ConsolePanel consoleWindow = new ConsolePanel(consoleStatusBar, getMovementHandler(creeperApiHttpClient), Lists.newArrayList(basicAuthStringSupplier), () -> new JSchShellTtyConnector(hostname, "bridge", "b"));
         final MapStatusBar mapStatusBar = new MapStatusBar("", objectMapper);
         final MapPanel mapPanel = new MapPanel(mapStatusBar, getMovementHandler(creeperApiHttpClient), objectMapper);
         final InventoryPanel inventoryPanel = new InventoryPanel(objectMapper, getUseItemIdHandler(creeperApiHttpClient));
