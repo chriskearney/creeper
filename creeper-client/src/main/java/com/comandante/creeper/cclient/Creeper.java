@@ -165,6 +165,10 @@ public class Creeper extends CreeperClientMainFrame {
                 creeperApiHttpClient.compare(playerId);
             }
 
+            @Override
+            public void talk(String target) {
+                creeperApiHttpClient.talk(target);
+            }
         };
     }
 }

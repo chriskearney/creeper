@@ -86,7 +86,7 @@ public class PlayerManager {
 
             Map<String, String> presentMerchants = Maps.newHashMap();
             Set<Merchant> merchants = player.getCurrentRoom().getMerchants();
-            merchants.forEach(merchant -> presentMerchants.put(merchant.getColorName(), merchant.getMerchantType().toString()));
+            merchants.forEach(merchant -> presentMerchants.put(merchant.getColorName(), merchant.getInternalName()));
 
             PlayerData playerData = new PlayerData(playerMetadata,
                     level,

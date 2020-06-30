@@ -57,6 +57,7 @@ public class NearPanel extends JPanel {
                     selectedValue.npc.ifPresent(stringStringTuple -> configureNpcMenu(menu, stringStringTuple));
                     selectedValue.player.ifPresent(stringStringTuple -> configurePlayerMenu(menu, stringStringTuple));
                     selectedValue.item.ifPresent(stringStringTuple -> configureItemMenu(menu, stringStringTuple));
+                    selectedValue.merchant.ifPresent(stringStringTuple -> configureMerchantMenu(menu, stringStringTuple));
                     menu.show(nearMeItems, e.getPoint().x, e.getPoint().y);
                 }
             }
@@ -95,6 +96,14 @@ public class NearPanel extends JPanel {
             nearMeHandler.compare(player.getX());
         });
         menu.add(comparePlayer);
+    }
+
+    private void configureMerchantMenu(JPopupMenu menu, Tuple<String, String> merchant) {
+        JMenuItem talkMerchant = new JMenuItem("Talk");
+        talkMerchant.addActionListener(e1 -> {
+            nearMeHandler.talk(merchant.getX());
+        });
+        menu.add(talkMerchant);
     }
 
     private void configureItemMenu(JPopupMenu menu, Tuple<String, String> item) {
