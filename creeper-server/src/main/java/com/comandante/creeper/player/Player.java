@@ -1142,6 +1142,10 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public void talkMerchant(String targetMerchant) {
+        CreeperSession creeperSession = (CreeperSession) getChannel().getAttachment();
+        if (creeperSession.getGrabMerchant().isPresent()) {
+            return;
+        }
         Set<Merchant> merchants = currentRoom.getMerchants();
         for (Merchant merchant : merchants) {
             if (merchant.getValidTriggers().contains(targetMerchant)) {
@@ -1171,7 +1175,6 @@ public class Player extends CreeperEntity implements Principal {
                     }
                     gameManager.getChannelUtils().write(playerId, PlayerClassCommand.getPrompt());
                 }
-                CreeperSession creeperSession = (CreeperSession) getChannel().getAttachment();
                 creeperSession.setGrabMerchant(Optional.of(
                         new CreeperEntry<>(merchant, null)));
             }

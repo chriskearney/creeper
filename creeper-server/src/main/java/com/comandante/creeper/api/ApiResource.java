@@ -220,6 +220,7 @@ public class ApiResource {
     @Path("/talk")
     @PermitAll
     public void talk(@Auth Player player, @FormParam("target") String target) {
+        player.getChannel().write("\r\n");
         player.talkMerchant(target);
     }
 }
