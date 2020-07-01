@@ -9,10 +9,6 @@ public class JSchExecTtyConnector extends JSchTtyConnector<ChannelExec> {
   public JSchExecTtyConnector() {
   }
 
-  public JSchExecTtyConnector(String host, String user, String password) {
-    super(host, DEFAULT_PORT, user, password);
-  }
-
   public JSchExecTtyConnector(String host, int port, String user, String password) {
     super(host, port, user, password);
   }

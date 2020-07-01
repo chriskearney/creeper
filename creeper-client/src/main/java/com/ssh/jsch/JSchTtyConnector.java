@@ -27,18 +27,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public abstract class JSchTtyConnector<T extends Channel> implements TtyConnector {
     public static final Logger LOG = Logger.getLogger(JSchTtyConnector.class);
 
-    // Local Dev
-    //public static final int DEFAULT_PORT = 22;
-
-    public static final int DEFAULT_PORT = 30000;
-
     private InputStream myInputStream = null;
     private OutputStream myOutputStream = null;
     private Session mySession;
     private T myChannelShell;
     private AtomicBoolean isInitiated = new AtomicBoolean(false);
 
-    private int myPort = DEFAULT_PORT;
+    private int myPort;
 
     private String myUser = null;
     private String myHost = null;
@@ -52,7 +47,6 @@ public abstract class JSchTtyConnector<T extends Channel> implements TtyConnecto
     private ClientConnectionInfo clientConnectionInfo;
 
     public JSchTtyConnector() {
-
     }
 
     public JSchTtyConnector(ClientConnectionInfo clientConnectionInfo) {
@@ -61,10 +55,6 @@ public abstract class JSchTtyConnector<T extends Channel> implements TtyConnecto
         this.myUser = clientConnectionInfo.getSshUser();
         this.myPassword = clientConnectionInfo.getSshPass();
         this.clientConnectionInfo = clientConnectionInfo;
-    }
-
-    public JSchTtyConnector(String host, String user, String password) {
-        this(host, DEFAULT_PORT, user, password);
     }
 
     public JSchTtyConnector(String host, int port, String user, String password) {
