@@ -1,5 +1,6 @@
 package com.comandante.creeper.cclient;
 
+import com.comandante.creeper.api.ClientConnectionInfo;
 import com.comandante.creeper.chat.Gossip;
 import com.comandante.creeper.chat.Users;
 import com.comandante.creeper.events.CreeperEvent;
@@ -13,6 +14,7 @@ import org.apache.http.Consts;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -210,6 +212,14 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
             EntityUtils.consume(response.getEntity());
         } catch (Exception e) {
             LOG.error("Unable to post api message for: " + apiMethod, e);
+        }
+    }
+
+    public ClientConnectionInfo getClientConnectionInfo() throws IOException {
+        HttpGet httpGet = new HttpGet("http://" + hostname + ":" + port + "/api/server_info");
+        try (CloseableHttpResponse response = closeableHttpClient.execute(httpGet)) {
+            String rawJson = EntityUtils.toString(response.getEntity());
+            return objectMapper.readValue(rawJson, ClientConnectionInfo.class);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.ssh.jsch;
 
+import com.comandante.creeper.api.ClientConnectionInfo;
 import com.jcraft.jsch.ChannelShell;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -9,8 +10,8 @@ public class JSchShellTtyConnector extends JSchTtyConnector<ChannelShell> {
   public JSchShellTtyConnector() {
   }
 
-  public JSchShellTtyConnector(String host, String user, String password) {
-    super(host, DEFAULT_PORT, user, password);
+  public JSchShellTtyConnector(ClientConnectionInfo clientConnectionInfo) {
+    super(clientConnectionInfo);
   }
 
   public JSchShellTtyConnector(String host, int port, String user, String password) {

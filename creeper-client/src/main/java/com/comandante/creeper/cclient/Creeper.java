@@ -1,5 +1,6 @@
 package com.comandante.creeper.cclient;
 
+import com.comandante.creeper.api.ClientConnectionInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.formdev.flatlaf.FlatDarculaLaf;
@@ -40,11 +41,12 @@ public class Creeper extends CreeperClientMainFrame {
         final EventBus eventBus = new AsyncEventBus(Executors.newCachedThreadPool());
         final CreeperApiHttpClient creeperApiHttpClient = new CreeperApiHttpClient(hostname, httpPort, eventBus, basicAuthStringSupplier, objectMapper);
         creeperApiHttpClient.startAsync().awaitRunning();
+        ClientConnectionInfo clientConnectionInfo = creeperApiHttpClient.getClientConnectionInfo();
         GossipUserPanel gossipUserPanel = new GossipUserPanel();
         final GossipWindow gossipWindow = new GossipWindow(new Input(line -> creeperApiHttpClient.gossip(line), null), gossipUserPanel);
         final ConsoleStatusBar consoleStatusBar = new ConsoleStatusBar(objectMapper);
         final StatsWindow statsWindow = new StatsWindow(objectMapper);
-        final ConsolePanel consoleWindow = new ConsolePanel(consoleStatusBar, getMovementHandler(creeperApiHttpClient), Lists.newArrayList(basicAuthStringSupplier), () -> new JSchShellTtyConnector(hostname, "bridge", "b"));
+        final ConsolePanel consoleWindow = new ConsolePanel(consoleStatusBar, getMovementHandler(creeperApiHttpClient), Lists.newArrayList(basicAuthStringSupplier), () -> new JSchShellTtyConnector(clientConnectionInfo));
         final MapStatusBar mapStatusBar = new MapStatusBar("", objectMapper);
         final MapPanel mapPanel = new MapPanel(mapStatusBar, getMovementHandler(creeperApiHttpClient), objectMapper);
         final InventoryPanel inventoryPanel = new InventoryPanel(objectMapper, getUseItemIdHandler(creeperApiHttpClient));

@@ -222,4 +222,10 @@ public class ApiResource {
     public void talk(@Auth Player player, @FormParam("target") String target) {
         player.talkMerchant(target, true);
     }
+
+    @GET
+    @Path("/server_info")
+    public ClientConnectionInfo getClientConnectionInfo() {
+        return gameManager.getClientConectionInfo();
+    }
 }

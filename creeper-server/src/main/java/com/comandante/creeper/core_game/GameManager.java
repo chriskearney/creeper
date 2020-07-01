@@ -2,6 +2,7 @@ package com.comandante.creeper.core_game;
 
 
 import com.comandante.creeper.Creeper;
+import com.comandante.creeper.api.ClientConnectionInfo;
 import com.comandante.creeper.bot.IrcBotService;
 import com.comandante.creeper.bot.command.BotCommandFactory;
 import com.comandante.creeper.bot.command.BotCommandManager;
@@ -1032,6 +1033,19 @@ public class GameManager {
 
     public Room getDetainmentRoom() {
         return detainmentRoom;
+    }
+
+    public ClientConnectionInfo getClientConectionInfo() {
+        return new ClientConnectionInfo(
+                creeperConfiguration.getClientPrivateKey(),
+                creeperConfiguration.getClientPublicKey(),
+                creeperConfiguration.getClientPassPhrase(),
+                creeperConfiguration.getClientConnectHostname(),
+                creeperConfiguration.getSshHostname(),
+                creeperConfiguration.getSshPort(),
+                creeperConfiguration.getSshUser(),
+                creeperConfiguration.getSshPass()
+        );
     }
 }
 
