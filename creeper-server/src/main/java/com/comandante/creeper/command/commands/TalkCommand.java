@@ -40,7 +40,7 @@ public class TalkCommand extends Command {
             }
             originalMessageParts.remove(0);
             String desiredMerchantTalk = Joiner.on(" ").join(originalMessageParts);
-            player.talkMerchant(desiredMerchantTalk);
+            player.talkMerchant(desiredMerchantTalk, false);
         });
     }
 }

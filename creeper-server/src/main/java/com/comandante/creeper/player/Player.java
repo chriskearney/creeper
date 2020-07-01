@@ -1141,10 +1141,13 @@ public class Player extends CreeperEntity implements Principal {
         return builder.build();
     }
 
-    public void talkMerchant(String targetMerchant) {
+    public void talkMerchant(String targetMerchant, boolean apiSource) {
         CreeperSession creeperSession = (CreeperSession) getChannel().getAttachment();
         if (creeperSession.getGrabMerchant().isPresent()) {
             return;
+        }
+        if (apiSource) {
+            getChannel().write("\r\n");
         }
         Set<Merchant> merchants = currentRoom.getMerchants();
         for (Merchant merchant : merchants) {
