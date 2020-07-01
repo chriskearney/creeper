@@ -1,5 +1,7 @@
 package com.comandante.creeper.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class ClientConnectionInfo {
 
     private String privateKey;
@@ -20,6 +22,9 @@ public class ClientConnectionInfo {
         this.sshPort = sshPort;
         this.sshUser = sshUser;
         this.sshPass = sshPass;
+    }
+
+    public ClientConnectionInfo() {
     }
 
     public String getPrivateKey() {
