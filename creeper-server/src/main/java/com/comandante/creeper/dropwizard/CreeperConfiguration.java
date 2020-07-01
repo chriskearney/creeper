@@ -49,8 +49,6 @@ public class CreeperConfiguration extends Configuration {
     private String twitterConsumerSecret = "";
     private String twitterAccessToken = "";
     private String twitterAccessTokenSecret = "";
-
-    @NotEmpty
     private String accuweatherApiKey = "";
 
     @NotNull
