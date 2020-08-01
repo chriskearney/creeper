@@ -21,6 +21,7 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
@@ -190,6 +191,46 @@ public class NearPanel extends JPanel {
                             defaultListModel.addElement(nearMeItem);
                         }
                     });
+
+                    nearMeItemList.sort((o1, o2) -> {
+                        String o_1 = null;
+                        String o_2 = null;
+
+                        if (o1.item.isPresent()) {
+                            o_1 = o1.item.get().getY();
+                        }
+
+                        if (o1.merchant.isPresent()) {
+                            o_1 = o1.merchant.get().getY();
+                        }
+
+                        if (o1.npc.isPresent()) {
+                            o_1 = o1.npc.get().getY();
+                        }
+
+                        if (o1.player.isPresent()) {
+                            o_1 = o1.player.get().getY();
+                        }
+
+                        if (o2.item.isPresent()) {
+                            o_2 = o2.item.get().getY();
+                        }
+
+                        if (o2.merchant.isPresent()) {
+                            o_2 = o2.merchant.get().getY();
+                        }
+
+                        if (o2.npc.isPresent()) {
+                            o_2 = o2.npc.get().getY();
+                        }
+
+                        if (o2.player.isPresent()) {
+                            o_2 = o2.player.get().getY();
+                        }
+
+                        return o_1.compareTo(o_2);
+                    });
+
                     nearMeItems.revalidate();
                     nearMeItems.repaint();
                 } catch (Exception e) {
@@ -243,6 +284,8 @@ public class NearPanel extends JPanel {
         public int hashCode() {
             return Objects.hash(npc, player, item, merchant);
         }
+
+
     }
 
     public class Tuple<X, Y> {
