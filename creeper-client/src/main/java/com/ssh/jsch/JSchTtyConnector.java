@@ -153,7 +153,7 @@ public abstract class JSchTtyConnector<T extends Channel> implements TtyConnecto
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         load.writePrivateKey(byteArrayOutputStream);
-        jsch.addIdentity(clientConnectionInfo.getSshHostname(), byteArrayOutputStream.toByteArray(), load.getPublicKeyBlob(), new byte[0]);
+        jsch.addIdentity(clientConnectionInfo.getSshHostname(), byteArrayOutputStream.toByteArray(), load.getPublicKeyBlob(), passPhraseBytes);
     }
 
     protected void configureSession(Session session, final java.util.Properties config) throws JSchException {

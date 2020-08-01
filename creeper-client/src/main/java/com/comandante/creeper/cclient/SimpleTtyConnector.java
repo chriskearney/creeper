@@ -72,7 +72,6 @@ public class SimpleTtyConnector implements TtyConnector {
     @Override
     public void write(String string) throws IOException {
         write(string.getBytes(Charset.defaultCharset()));
-
     }
 
     @Override

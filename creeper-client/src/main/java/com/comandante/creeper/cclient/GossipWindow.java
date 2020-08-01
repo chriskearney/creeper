@@ -21,6 +21,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class GossipWindow extends JFrame {
@@ -62,12 +64,23 @@ public class GossipWindow extends JFrame {
 
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
-        jediTermWidget.addFocusListener(new FocusAdapter() {
+        jPanel.addMouseListener(new MouseAdapter() {
             @Override
-            public void focusGained(FocusEvent aE) {
+            public void mouseEntered(MouseEvent e) {
+                input.getField().requestFocus();
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
                 input.getField().requestFocus();
             }
         });
+
+
+        gossipUserPanel.addMouseListener(new MouseAdapter() {
+
+        });
+
 
         setPreferredSize(CreeperClientMainFrame.MAIN_FRAME_HALF);
         pack();
@@ -83,7 +96,9 @@ public class GossipWindow extends JFrame {
     public void appendChatMessage(Long timestamp, String name, String message) {
         try {
             simpleTtyConnector.write(Utils.buildGossipString(timestamp.toString(), name, message));
-            jediTermWidget.getTerminal().newLine();
+            if (jediTermWidget.getTerminal().getCursorX() > 1) {
+                jediTermWidget.getTerminal().newLine();
+            }
             int cursorY = jediTermWidget.getTerminal().getCursorY();
             jediTermWidget.getTerminal().cursorPosition(0, cursorY);
         } catch (Exception e) {

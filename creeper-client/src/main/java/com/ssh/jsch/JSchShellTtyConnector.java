@@ -7,15 +7,8 @@ import com.jcraft.jsch.Session;
 
 public class JSchShellTtyConnector extends JSchTtyConnector<ChannelShell> {
 
-  public JSchShellTtyConnector() {
-  }
-
   public JSchShellTtyConnector(ClientConnectionInfo clientConnectionInfo) {
     super(clientConnectionInfo);
-  }
-
-  public JSchShellTtyConnector(String host, int port, String user, String password) {
-    super(host, port, user, password);
   }
 
   @Override

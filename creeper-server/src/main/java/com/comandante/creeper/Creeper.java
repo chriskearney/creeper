@@ -13,6 +13,7 @@ import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.player.PlayerManagementManager;
 import com.comandante.creeper.player.PlayerManager;
+import com.comandante.creeper.server.SshInterface;
 import com.comandante.creeper.server.player_communication.ChannelUtils;
 import com.comandante.creeper.server.telnet.CreeperServer;
 import com.comandante.creeper.storage.MapDBCreeperStorage;
@@ -79,6 +80,9 @@ public class Creeper extends AbstractIdleService {
                     .build(pickledGraphite);
             reporter.start(1, TimeUnit.MINUTES);
         }
+
+        SshInterface sshInterface = new SshInterface();
+        sshInterface.configureServer();
 
         Files.isDirectory().apply(new File("world/"));
 
