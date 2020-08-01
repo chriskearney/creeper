@@ -184,14 +184,6 @@ public class NearPanel extends JPanel {
 
                     }
 
-                    defaultListModel.removeAllElements();
-                    nearMeItemList.forEach(new Consumer<NearMeItem>() {
-                        @Override
-                        public void accept(NearMeItem nearMeItem) {
-                            defaultListModel.addElement(nearMeItem);
-                        }
-                    });
-
                     nearMeItemList.sort((o1, o2) -> {
                         String o_1 = null;
                         String o_2 = null;
@@ -230,6 +222,15 @@ public class NearPanel extends JPanel {
 
                         return o_1.compareTo(o_2);
                     });
+
+                    defaultListModel.removeAllElements();
+                    nearMeItemList.forEach(new Consumer<NearMeItem>() {
+                        @Override
+                        public void accept(NearMeItem nearMeItem) {
+                            defaultListModel.addElement(nearMeItem);
+                        }
+                    });
+
 
                     nearMeItems.revalidate();
                     nearMeItems.repaint();
