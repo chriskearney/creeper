@@ -1,44 +1,250 @@
 {
   "Headline": {
-    "EffectiveDate": "2019-03-11T19:00:00-08:00",
-    "EffectiveEpochDate": 1552359600,
-    "Severity": 4,
-    "Text": "Expect showery weather Monday evening through Tuesday afternoon",
-    "Category": "rain",
-    "EndDate": "2019-03-12T19:00:00-08:00",
-    "EndEpochDate": 1552446000,
-    "MobileLink": "http://m.accuweather.com/en/us/lake-oswego-or/97034/extended-weather-forecast/2187979?lang=en-us",
-    "Link": "http://www.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/2187979?lang=en-us"
+    "EffectiveDate": "2020-09-17T20:00:00-07:00",
+    "EffectiveEpochDate": 1600398000,
+    "Severity": 2,
+    "Text": "Air quality will be hazardous tonight",
+    "Category": "air quality",
+    "EndDate": "2020-09-18T08:00:00-07:00",
+    "EndEpochDate": 1600441200,
+    "MobileLink": "http://m.accuweather.com/en/us/lake-oswego-or/97034/extended-weather-forecast/40816_pc?lang=en-us",
+    "Link": "http://www.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/40816_pc?lang=en-us"
   },
   "DailyForecasts": [
     {
-      "Date": "2019-03-09T07:00:00-08:00",
-      "EpochDate": 1552143600,
+      "Date": "2020-09-17T07:00:00-07:00",
+      "EpochDate": 1600351200,
+      "Sun": {
+        "Rise": "2020-09-17T06:53:00-07:00",
+        "EpochRise": 1600350780,
+        "Set": "2020-09-17T19:16:00-07:00",
+        "EpochSet": 1600395360
+      },
+      "Moon": {
+        "Rise": "2020-09-17T06:56:00-07:00",
+        "EpochRise": 1600350960,
+        "Set": "2020-09-17T19:57:00-07:00",
+        "EpochSet": 1600397820,
+        "Phase": "New",
+        "Age": 0
+      },
       "Temperature": {
         "Minimum": {
-          "Value": 28,
+          "Value": 60,
           "Unit": "F",
           "UnitType": 18
         },
         "Maximum": {
-          "Value": 47,
+          "Value": 73,
           "Unit": "F",
           "UnitType": 18
         }
       },
+      "RealFeelTemperature": {
+        "Minimum": {
+          "Value": 57,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Maximum": {
+          "Value": 74,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+      "RealFeelTemperatureShade": {
+        "Minimum": {
+          "Value": 57,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Maximum": {
+          "Value": 74,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+      "HoursOfSun": 1.5,
+      "DegreeDaySummary": {
+        "Heating": {
+          "Value": 0,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Cooling": {
+          "Value": 2,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+      "AirAndPollen": [
+        {
+          "Name": "AirQuality",
+          "Value": 265,
+          "Category": "Very Unhealthy",
+          "CategoryValue": 5,
+          "Type": "Particle Pollution"
+        },
+        {
+          "Name": "Grass",
+          "Value": 0,
+          "Category": "Low",
+          "CategoryValue": 1
+        },
+        {
+          "Name": "Mold",
+          "Value": 0,
+          "Category": "Low",
+          "CategoryValue": 1
+        },
+        {
+          "Name": "Ragweed",
+          "Value": 0,
+          "Category": "Low",
+          "CategoryValue": 1
+        },
+        {
+          "Name": "Tree",
+          "Value": 0,
+          "Category": "Low",
+          "CategoryValue": 1
+        },
+        {
+          "Name": "UVIndex",
+          "Value": 2,
+          "Category": "Low",
+          "CategoryValue": 1
+        }
+      ],
       "Day": {
-        "Icon": 21,
-        "IconPhrase": "Partly sunny w/ flurries"
+        "Icon": 6,
+        "IconPhrase": "Mostly cloudy",
+        "HasPrecipitation": false,
+        "ShortPhrase": "Mainly cloudy and warmer",
+        "LongPhrase": "Mainly cloudy and warmer; air quality will be hazardous",
+        "PrecipitationProbability": 35,
+        "ThunderstormProbability": 24,
+        "RainProbability": 34,
+        "SnowProbability": 0,
+        "IceProbability": 0,
+        "Wind": {
+          "Speed": {
+            "Value": 2.3,
+            "Unit": "mi/h",
+            "UnitType": 9
+          },
+          "Direction": {
+            "Degrees": 332,
+            "Localized": "NNW",
+            "English": "NNW"
+          }
+        },
+        "WindGust": {
+          "Speed": {
+            "Value": 6.9,
+            "Unit": "mi/h",
+            "UnitType": 9
+          },
+          "Direction": {
+            "Degrees": 267,
+            "Localized": "W",
+            "English": "W"
+          }
+        },
+        "TotalLiquid": {
+          "Value": 0,
+          "Unit": "in",
+          "UnitType": 1
+        },
+        "Rain": {
+          "Value": 0,
+          "Unit": "in",
+          "UnitType": 1
+        },
+        "Snow": {
+          "Value": 0,
+          "Unit": "in",
+          "UnitType": 1
+        },
+        "Ice": {
+          "Value": 0,
+          "Unit": "in",
+          "UnitType": 1
+        },
+        "HoursOfPrecipitation": 0,
+        "HoursOfRain": 0,
+        "HoursOfSnow": 0,
+        "HoursOfIce": 0,
+        "CloudCover": 90
       },
       "Night": {
-        "Icon": 35,
-        "IconPhrase": "Partly cloudy"
+        "Icon": 18,
+        "IconPhrase": "Rain",
+        "HasPrecipitation": true,
+        "PrecipitationType": "Rain",
+        "PrecipitationIntensity": "Moderate",
+        "ShortPhrase": "Some rain and a thunderstorm",
+        "LongPhrase": "Mainly cloudy with occasional rain and a thunderstorm; air quality will be hazardous",
+        "PrecipitationProbability": 60,
+        "ThunderstormProbability": 60,
+        "RainProbability": 60,
+        "SnowProbability": 0,
+        "IceProbability": 0,
+        "Wind": {
+          "Speed": {
+            "Value": 3.5,
+            "Unit": "mi/h",
+            "UnitType": 9
+          },
+          "Direction": {
+            "Degrees": 280,
+            "Localized": "W",
+            "English": "W"
+          }
+        },
+        "WindGust": {
+          "Speed": {
+            "Value": 6.9,
+            "Unit": "mi/h",
+            "UnitType": 9
+          },
+          "Direction": {
+            "Degrees": 259,
+            "Localized": "W",
+            "English": "W"
+          }
+        },
+        "TotalLiquid": {
+          "Value": 0.33,
+          "Unit": "in",
+          "UnitType": 1
+        },
+        "Rain": {
+          "Value": 0.33,
+          "Unit": "in",
+          "UnitType": 1
+        },
+        "Snow": {
+          "Value": 0,
+          "Unit": "in",
+          "UnitType": 1
+        },
+        "Ice": {
+          "Value": 0,
+          "Unit": "in",
+          "UnitType": 1
+        },
+        "HoursOfPrecipitation": 3,
+        "HoursOfRain": 3,
+        "HoursOfSnow": 0,
+        "HoursOfIce": 0,
+        "CloudCover": 94
       },
       "Sources": [
         "AccuWeather"
       ],
-      "MobileLink": "http://m.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/2187979?day=1&lang=en-us",
-      "Link": "http://www.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/2187979?day=1&lang=en-us"
+      "MobileLink": "http://m.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/40816_pc?day=1&lang=en-us",
+      "Link": "http://www.accuweather.com/en/us/lake-oswego-or/97034/daily-weather-forecast/40816_pc?day=1&lang=en-us"
     }
   ]
 }
