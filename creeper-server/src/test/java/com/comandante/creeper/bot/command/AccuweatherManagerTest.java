@@ -20,7 +20,7 @@ public class AccuweatherManagerTest {
         @Override
         public JsonElement getOneDayForecast(String locationKey) {
             try {
-                String oneDayForeCastJson = new String(Files.readAllBytes(Paths.get(getClass().getResource("ACCUWEATHER_ONE_DAY_FORECAST_BY_LOCATIONKEY.json").toURI())));
+                String oneDayForeCastJson = getResourceFileAsString("ACCUWEATHER_ONE_DAY_FORECAST_BY_LOCATIONKEY.json");
                 return jsonParser.parse(oneDayForeCastJson);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -97,7 +97,7 @@ public class AccuweatherManagerTest {
 
     @Test
     public void testCurrentConditions() throws Exception {
-        String asdf = accuweatherManager.getHourlyForecast("asdf");
+        String asdf = accuweatherManager.getAQI("Lake Oswego");
         System.out.printf(asdf);
     }
 

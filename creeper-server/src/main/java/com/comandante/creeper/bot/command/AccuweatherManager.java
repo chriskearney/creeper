@@ -1,6 +1,7 @@
 package com.comandante.creeper.bot.command;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 import java.text.SimpleDateFormat;
@@ -8,6 +9,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -132,6 +134,30 @@ public class AccuweatherManager {
         String s = combinedHourlyForecast.toString();
 
         return s.substring(0, s.length() - 3);
+    }
+
+    public String getAQI(String searchString) {
+        String locationKey = null;
+
+        if (Character.isDigit(searchString.charAt(0))) {
+            JsonElement locationByPostalCode = accuweatherAPI.getLocationByPostalCode(searchString);
+            locationKey = locationByPostalCode.getAsJsonArray().get(0).getAsJsonObject().get("Key").getAsString();
+        } else {
+            JsonElement locationByCity = accuweatherAPI.getLocationByCity(searchString);
+            locationKey = locationByCity.getAsJsonArray().get(0).getAsJsonObject().get("Key").getAsString();
+        }
+
+        JsonElement oneDayForecast = accuweatherAPI.getOneDayForecast(locationKey);
+        String aqi = null;
+
+        JsonArray AQI = oneDayForecast.getAsJsonObject().get("DailyForecasts").getAsJsonArray().get(0).getAsJsonObject().get("AirAndPollen").getAsJsonArray();
+        for (JsonElement next : AQI) {
+            if (next.getAsJsonObject().has("Name") && next.getAsJsonObject().get("Name").getAsString().equals("AirQuality" )) {
+                aqi = next.getAsJsonObject().get("Value").getAsString();
+            }
+        }
+
+        return "AQI:  " + aqi;
     }
 
     private String getDayOfTheWeek(long epochDate) {
