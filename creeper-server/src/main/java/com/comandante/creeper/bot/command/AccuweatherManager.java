@@ -157,7 +157,7 @@ public class AccuweatherManager {
             }
         }
 
-        return "AQI:  " + aqi;
+        return "AQI: " + aqi;
     }
 
     private String getDayOfTheWeek(long epochDate) {
