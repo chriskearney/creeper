@@ -34,7 +34,7 @@ public class AccuweatherClient implements AccuweatherAPI {
 
     @Override
     public JsonElement getOneDayForecast(String locationKey) {
-        HttpGet request = getAuthWiredRequest(ONE_DAY_FORECAST_ENDPOINT + "/" + locationKey, Lists.newArrayList());
+        HttpGet request = getAuthWiredRequest(ONE_DAY_FORECAST_ENDPOINT + "/" + locationKey, Lists.newArrayList(new Tuple<>("details", "true")));
         return getJsonElementFromRequest(request);
     }
 
