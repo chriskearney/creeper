@@ -18,9 +18,9 @@ public class WeatherManager {
     }
 
     public String getWeather(String searchString) {
-        String currentConditions = accuweatherManager.getCurrentConditions(searchString).toString().trim();
-        currentConditions += " | " + accuweatherManager.getAQI(searchString);
-        return currentConditions;
+        String currentConditions = accuweatherManager.getCurrentConditions(searchString).toString();
+        String trim = currentConditions.trim();
+        return trim + " | " + accuweatherManager.getAQI(searchString);
     }
 
     public String getFiveDayForecast(String searchString) {
