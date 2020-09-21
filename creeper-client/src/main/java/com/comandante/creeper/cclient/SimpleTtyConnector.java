@@ -9,23 +9,25 @@ import java.io.InputStreamReader;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 public class SimpleTtyConnector implements TtyConnector {
 
-    private final String name;
-
-//    byte[] buf = new byte[4096];
-//    private final OutputStream outputStream = new ByteArrayOutputStream();
-//    private final InputStream inputStream = new ByteArrayInputStream(buf);
-
-    PipedInputStream inputStream = new PipedInputStream();
-    PipedOutputStream outputStream = new PipedOutputStream(inputStream);
+    private final PipedInputStream inputStream;
+    private final PipedOutputStream outputStream;
+    private final String name =  UUID.randomUUID().toString();
 
     private final InputStreamReader inputStreamReader;
 
-    public SimpleTtyConnector(String name) throws IOException {
-        this.name = name;
-        this.inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+    public SimpleTtyConnector() {
+        this.inputStream = new PipedInputStream();
+        try {
+            this.inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            this.outputStream = new PipedOutputStream(inputStream);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

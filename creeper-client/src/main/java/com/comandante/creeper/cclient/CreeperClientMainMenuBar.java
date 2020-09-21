@@ -7,9 +7,11 @@ import javax.swing.JMenuItem;
 public class CreeperClientMainMenuBar extends JMenuBar {
 
     private final GossipWindow gossipWindow;
+    private final BattleWindow battleWindow;
 
-    public CreeperClientMainMenuBar(GossipWindow gossipWindow) {
+    public CreeperClientMainMenuBar(GossipWindow gossipWindow, BattleWindow battleWindow) {
         this.gossipWindow = gossipWindow;
+        this.battleWindow = battleWindow;
 
         // FILE MENU
         JMenu file = new JMenu("File");
@@ -33,11 +35,13 @@ public class CreeperClientMainMenuBar extends JMenuBar {
         // WINDOW MENU
         JMenu window = new JMenu("Window");
         JMenuItem gossip = new JMenuItem("Gossip");
+        JMenuItem battle = new JMenuItem("Battle");
         JMenuItem stats = new JMenuItem("Stats");
         JMenuItem map = new JMenuItem("Map");
         JMenuItem near = new JMenuItem("Near");
         JMenuItem inventory = new JMenuItem("Inventory");
         window.add(gossip);
+        window.add(battle);
         window.add(stats);
         window.add(map);
         window.add(near);
@@ -55,6 +59,14 @@ public class CreeperClientMainMenuBar extends JMenuBar {
                 gossipWindow.setVisible(true);
             } else {
                 gossipWindow.setVisible(false);
+            }
+        });
+
+        battle.addActionListener(e -> {
+            if (!battleWindow.isVisible()) {
+                battleWindow.setVisible(true);
+            } else {
+                battleWindow.setVisible(false);
             }
         });
 

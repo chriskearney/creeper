@@ -25,6 +25,7 @@ public abstract class CreeperClientMainFrame extends JFrame {
     public final static Dimension RIGHT_SIDE_PANEL_DIMENSIONS_BIGGER = new Dimension(270, 236);
     protected CreeperClientMainFrame(ConsolePanel consolePanel,
                                      GossipWindow gossipWindow,
+                                     BattleWindow battleWindow,
                                      MapPanel mapPanel,
                                      StatsWindow statsWindow,
                                      InventoryPanel inventoryPanel,
@@ -37,7 +38,7 @@ public abstract class CreeperClientMainFrame extends JFrame {
         rightSidePanel.add(mapPanel);
         rightSidePanel.setBackground(Color.BLACK);
 
-        CreeperClientMainMenuBar creeperClientMainMenuBar = new CreeperClientMainMenuBar(gossipWindow);
+        CreeperClientMainMenuBar creeperClientMainMenuBar = new CreeperClientMainMenuBar(gossipWindow, battleWindow);
         setJMenuBar(creeperClientMainMenuBar);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
