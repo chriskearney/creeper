@@ -225,6 +225,9 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
         }
         httpPost.setHeader("Authorization", "Basic " + basicAuthSupplier.get().get());
         try (CloseableHttpResponse response = closeableHttpClient.execute(httpPost)) {
+            if (response.getEntity() == null) {
+                return Optional.empty();
+            }
             byte[] bytes = EntityUtils.toByteArray(response.getEntity());
             return Optional.of(bytes);
         } catch (Exception e) {
