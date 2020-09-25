@@ -88,10 +88,16 @@ public class PlayerManager {
             Set<Merchant> merchants = player.getCurrentRoom().getMerchants();
             merchants.forEach(merchant -> presentMerchants.put(merchant.getColorName(), merchant.getInternalName()));
 
+            String activeFightNpcId = null;
+            if (player.getPrimaryActiveFight().isPresent() && player.getPrimaryActiveFight().get().getNpcId().isPresent()) {
+                activeFightNpcId = player.getPrimaryActiveFight().get().getNpcId().get();
+            }
+
             PlayerData playerData = new PlayerData(playerMetadata,
                     level,
                     expToNextLevel,
                     player.isActiveFights(),
+                    activeFightNpcId,
                     player.getPlayerStatsWithEquipmentAndLevel(),
                     player.getCurrentRoom().getRoomId(),
                     player.getCurrentRoom().getAreas(),

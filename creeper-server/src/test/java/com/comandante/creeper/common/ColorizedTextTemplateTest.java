@@ -51,26 +51,6 @@ public class ColorizedTextTemplateTest {
     @Test
     public void testConvertToTemplateLanguage() throws Exception {
 
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        NpcStorage npcStorage = new NpcStorage(null, new FilebasedJsonStorage(gson));
-
-
-        List<NpcMetadata> npcMetadata = npcStorage.getNpcMetadatas();
-
-        npcMetadata.forEach(new Consumer<NpcMetadata>() {
-            @Override
-            public void accept(NpcMetadata npcMetadata) {
-                System.out.println(npcMetadata.getColorName());
-                try {
-                    npcStorage.saveNpcMetadata(npcMetadata);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
 //
 //        MerchantStorage merchantStorage = new MerchantStorage(null, new FilebasedJsonStorage(gson));
 //        List<MerchantMetadata> merchantMetadatas = merchantStorage.getMerchantMetadatas();

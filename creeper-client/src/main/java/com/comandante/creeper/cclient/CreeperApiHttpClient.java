@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.AbstractScheduledService;
 import org.apache.http.Consts;
+import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -24,16 +25,19 @@ import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.glassfish.jersey.media.sse.EventSource;
 import org.glassfish.jersey.media.sse.SseFeature;
 
+import javax.imageio.ImageIO;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Feature;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -171,7 +175,6 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
 
     public void move(String direction) {
         callApi(new BasicNameValuePair("direction", direction), "move");
-
     }
 
     public void attackNpc(String npcId) {
@@ -190,17 +193,37 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
         callApi(new BasicNameValuePair("target", target), "talk");
     }
 
+    public Optional<BufferedImage> getNpcArt(String npcId) {
+        Optional<HttpEntity> httpEntity = callApiWithEntity(Collections.singletonList(new BasicNameValuePair("npcId", npcId)), "npcArt");
+        try {
+            ImageIO.read(httpEntity.get().getContent());
+        } catch (IOException e) {
+        }
+        return Optional.empty();
+    }
+
     public void callApi(String apiMethod) {
         this.callApi(Lists.newArrayList(), apiMethod);
     }
 
     public void callApi(NameValuePair basicNameValuePair, String apiMethod) {
-        this.callApi(Lists.newArrayList(basicNameValuePair), apiMethod);
+        callApi(Lists.newArrayList(basicNameValuePair), apiMethod);
     }
 
     public void callApi(List<NameValuePair> basicNameValuePairs, String apiMethod) {
+        Optional<HttpEntity> httpEntity = callApiWithEntity(basicNameValuePairs, apiMethod);
+        if (httpEntity.isPresent()) {
+            try {
+                EntityUtils.consume(httpEntity.get());
+            } catch (IOException e) {
+                LOG.info("Unable to consume entity: " + apiMethod, e);
+            }
+        }
+    }
+
+    public Optional<HttpEntity> callApiWithEntity(List<NameValuePair> basicNameValuePairs, String apiMethod) {
         if (!basicAuthSupplier.get().isPresent()) {
-            return;
+            return Optional.empty();
         }
         HttpPost httpPost = new HttpPost("http://" + hostname + ":" + port + "/api/" + apiMethod);
         if (!basicNameValuePairs.isEmpty()) {
@@ -209,10 +232,11 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
         }
         httpPost.setHeader("Authorization", "Basic " + basicAuthSupplier.get().get());
         try (CloseableHttpResponse response = closeableHttpClient.execute(httpPost)) {
-            EntityUtils.consume(response.getEntity());
+            return Optional.of(response.getEntity());
         } catch (Exception e) {
             LOG.error("Unable to post api message for: " + apiMethod, e);
         }
+        return Optional.empty();
     }
 
     public ClientConnectionInfo getClientConnectionInfo() throws IOException {

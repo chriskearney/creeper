@@ -45,7 +45,7 @@ public class Creeper extends CreeperClientMainFrame {
         ClientConnectionInfo clientConnectionInfo = creeperApiHttpClient.getClientConnectionInfo();
         GossipUserPanel gossipUserPanel = new GossipUserPanel();
         final GossipWindow gossipWindow = new GossipWindow(new Input(line -> creeperApiHttpClient.gossip(line), null), gossipUserPanel);
-        final BattleWindow battleWindow = new BattleWindow();
+        final BattleWindow battleWindow = new BattleWindow(creeperApiHttpClient);
         final ConsoleStatusBar consoleStatusBar = new ConsoleStatusBar(objectMapper);
         final StatsWindow statsWindow = new StatsWindow(objectMapper);
         final ConsolePanel consoleWindow = new ConsolePanel(consoleStatusBar, getMovementHandler(creeperApiHttpClient), Lists.newArrayList(basicAuthStringSupplier), () -> new JSchShellTtyConnector(clientConnectionInfo));

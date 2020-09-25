@@ -132,7 +132,6 @@ public class GameManager {
     private final MerchantStorage merchantStorage;
     private final LockPickingManager lockPickingManager;
 
-
     public GameManager(MapDBCreeperStorage mapDBCreeperStorage,
                        CreeperConfiguration creeperConfiguration,
                        RoomManager roomManager,

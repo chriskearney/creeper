@@ -31,6 +31,7 @@ import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;
 
+import java.awt.image.BufferedImage;
 import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
@@ -78,6 +79,7 @@ public class Npc extends CreeperEntity {
     private final Set<CreeperMessage> battleMessages;
     // Things that npcs say randomly when idle
     private final Set<CreeperMessage> idleMessages;
+    private final Optional<BufferedImage> art;
 
     private final Interner<String> interner = Interners.newWeakInterner();
 
@@ -96,7 +98,8 @@ public class Npc extends CreeperEntity {
                   Set<CreeperMessage> attackMessages,
                   Set<CreeperMessage> criticalAttackMessages,
                   Set<CreeperMessage> battleMessages,
-                  Set<CreeperMessage> idleMessages) {
+                  Set<CreeperMessage> idleMessages,
+                  Optional<BufferedImage> art) {
         this.gameManager = gameManager;
         this.name = name;
         this.colorName = colorName;
@@ -112,6 +115,7 @@ public class Npc extends CreeperEntity {
         this.criticalAttackMessages = criticalAttackMessages;
         this.battleMessages = battleMessages;
         this.idleMessages = idleMessages;
+        this.art = art;
     }
 
     @Override
@@ -524,5 +528,9 @@ public class Npc extends CreeperEntity {
 
     public Set<CreeperMessage> getIdleMessages() {
         return idleMessages;
+    }
+
+    public Optional<BufferedImage> getArt() {
+        return art;
     }
 }

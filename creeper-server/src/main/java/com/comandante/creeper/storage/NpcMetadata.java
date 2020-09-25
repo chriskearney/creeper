@@ -28,6 +28,7 @@ public class NpcMetadata {
     private Set<CreeperMessage> battleMessages;
     // Things that npcs say randomly when idle
     private Set<CreeperMessage> idleMessages;
+    private String originalJsonFilename;
 
     public NpcMetadata() {
     }
@@ -134,6 +135,14 @@ public class NpcMetadata {
 
     public void setLoot(Loot loot) {
         this.loot = loot;
+    }
+
+    public String getOriginalJsonFilename() {
+        return originalJsonFilename;
+    }
+
+    public void setOriginalJsonFilename(String originalJsonFilename) {
+        this.originalJsonFilename = originalJsonFilename;
     }
 }
 

@@ -16,6 +16,7 @@ public class PlayerData {
     private Long level;
     private Long xpToNextLevel;
     private Boolean inFight;
+    private String activeFightNpcId;
     private Stats playerStatsWithLevel;
     private Integer currentRoomId;
     private Set<Area> currentAreas;
@@ -34,6 +35,7 @@ public class PlayerData {
                       Long level,
                       Long xpToNextLevel,
                       Boolean inFight,
+                      String activeFightNpcId,
                       Stats playerStatsWithLevel,
                       Integer currentRoomId,
                       Set<Area> currentAreas,
@@ -48,6 +50,7 @@ public class PlayerData {
         this.level = level;
         this.xpToNextLevel = xpToNextLevel;
         this.inFight = inFight;
+        this.activeFightNpcId = activeFightNpcId;
         this.playerStatsWithLevel = playerStatsWithLevel;
         this.currentRoomId = currentRoomId;
         this.currentAreas = currentAreas;
@@ -114,5 +117,9 @@ public class PlayerData {
 
     public Map<String, String> getPresentMerchants() {
         return presentMerchants;
+    }
+
+    public String getActiveFightNpcId() {
+        return activeFightNpcId;
     }
 }

@@ -1,6 +1,7 @@
 package com.comandante.creeper.storage;
 
 import com.comandante.creeper.Creeper;
+import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import org.apache.commons.io.FileUtils;
@@ -12,14 +13,15 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class FilebasedJsonStorage {
-
 
     private final Gson gson;
     private static final Logger log = Logger.getLogger(FilebasedJsonStorage.class);
@@ -28,18 +30,22 @@ public class FilebasedJsonStorage {
         this.gson = gson;
     }
 
+    public <E> Map<String, E> readAllMetadatasWithFilenames(String storageDirectory, boolean recursive, E a) {
+
+        Map<String, E> fileNameToEntity = Maps.newHashMap();
+
+        Map<String, String> allJsonStrings = getAllJsonStrings(storageDirectory, recursive);
+
+        for (Map.Entry<String, String> fileNameToContents : allJsonStrings.entrySet()) {
+            fileNameToEntity.put(fileNameToContents.getKey(), (E) gson.fromJson(fileNameToContents.getValue(), a.getClass()));
+        }
+
+        return fileNameToEntity;
+    }
+
     public <E> List<E> readAllMetadatas(String storageDirectory, boolean recursive, E a) {
-        return getAllJsonStrings(storageDirectory, recursive).stream()
-                .map(s -> {
-                    try {
-                        return (E) gson.fromJson(s, a.getClass());
-                    } catch (JsonSyntaxException e) {
-                        log.error("Unable to read NpcMetaData from Json! " + s, e);
-                    }
-                    return null;
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+        return readAllMetadatasWithFilenames(storageDirectory, recursive, a).values()
+                .stream().collect(Collectors.toList());
     }
 
     public void saveMetadata(String name, String storageDirectory, Object metadata) throws IOException {
@@ -48,28 +54,29 @@ public class FilebasedJsonStorage {
         org.apache.commons.io.FileUtils.writeStringToFile(file, gson.toJson(metadata));
     }
 
-    private List<String> getAllJsonStrings(String storageDirectory, boolean recursive) {
+    private Map<String, String> getAllJsonStrings(String storageDirectory, boolean recursive) {
         boolean mkdirs = new File(storageDirectory).mkdirs();
         if (mkdirs) {
             log.info("Created directory: " + storageDirectory);
         }
-        Iterator iterator = FileUtils.iterateFiles(new File(storageDirectory), new String[]{"json"}, recursive);
-        return toListOfJsonStrings(iterator);
+        return toListOfJsonStrings(getFilesWithExtension(storageDirectory, "json", recursive));
     }
 
-    private List<String> toListOfJsonStrings(final Iterator<File> iterator) {
-        return StreamSupport
-                .stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED), false)
-                .map(f -> {
+    public Iterator<File> getFilesWithExtension(String storageDirectory, String extension, boolean recursive) {
+        return FileUtils.iterateFiles(new File(storageDirectory), new String[]{extension}, recursive);
+    }
+
+    private Map<String, String> toListOfJsonStrings(final Iterator<File> iterator) {
+        Map<String, String> fileNameToContents = Maps.newHashMap();
+        StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED), false)
+                .forEach(file -> {
                     try {
-                        Creeper.startUpMessage("Reading: " + f.getAbsolutePath());
-                        return new String(Files.readAllBytes(f.toPath()));
+                        fileNameToContents.put(file.getName(), new String(Files.readAllBytes(file.toPath())));
                     } catch (IOException e) {
-                        log.error("Unable to read: " + f.getAbsolutePath(), e);
+                        e.printStackTrace();
                     }
-                    return null;
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toCollection(ArrayList::new));
+                });
+
+        return fileNameToContents;
     }
 }

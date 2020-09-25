@@ -26,7 +26,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringJoiner;
@@ -187,7 +189,7 @@ public class ApiResource {
                 return;
             }
             String targetLookString = foundPlayer.getLookString();
-            gameManager.getChannelUtils().write(player.getPlayerId(), CreeperUtils.printStringsNextToEachOther(Lists.newArrayList(player.getLookString(), targetLookString), " | ")+ "\r\n", true);
+            gameManager.getChannelUtils().write(player.getPlayerId(), CreeperUtils.printStringsNextToEachOther(Lists.newArrayList(player.getLookString(), targetLookString), " | ") + "\r\n", true);
         }
     }
 
@@ -227,5 +229,16 @@ public class ApiResource {
     @Path("/server_info")
     public ClientConnectionInfo getClientConnectionInfo() {
         return gameManager.getClientConectionInfo();
+    }
+
+    @POST
+    @Path("/npcArt")
+    @PermitAll
+    public Optional<BufferedImage> getNpcArt(@Auth Player player, @FormParam("npcId") String npcId) {
+        Npc npcEntity = gameManager.getEntityManager().getNpcEntity(npcId);
+        if (npcEntity.getArt().isPresent()) {
+            return Optional.of(npcEntity.getArt().get());
+        }
+        return Optional.empty();
     }
 }

@@ -8,6 +8,8 @@ import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.storage.NpcMetadata;
 import com.comandante.creeper.world.model.Area;
 
+import java.awt.image.BufferedImage;
+import java.util.Optional;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -32,6 +34,7 @@ public class NpcBuilder {
     private Set<CreeperMessage> battleMessages;
     // Things that npcs say randomly when idle
     private Set<CreeperMessage> idleMessages;
+    private String originalJsonFilename;
 
     public NpcBuilder() {
     }
@@ -68,6 +71,7 @@ public class NpcBuilder {
         this.criticalAttackMessages = npcMetadata.getCriticalAttackMessages();
         this.battleMessages = npcMetadata.getBattleMessages();
         this.idleMessages = npcMetadata.getIdleMessages();
+        this.originalJsonFilename = npcMetadata.getOriginalJsonFilename();
     }
 
     public NpcBuilder setGameManager(GameManager gameManager) {
@@ -145,6 +149,11 @@ public class NpcBuilder {
         return this;
     }
 
+    public NpcBuilder setOriginalJsonFilename(String originalJsonFilename) {
+        this.originalJsonFilename = originalJsonFilename;
+        return this;
+    }
+
     public Npc createNpc() {
         checkNotNull(gameManager);
         if (loot != null ) {
@@ -152,6 +161,7 @@ public class NpcBuilder {
                 throw new RuntimeException("Invalid loot configuration.");
             }
         }
-        return new Npc(gameManager, name, colorName, lastPhraseTimestamp, stats, dieMessage, temperament, roamAreas, validTriggers, loot, spawnRules, attackMessages, criticalAttackMessages, battleMessages, idleMessages);
+        Optional<BufferedImage> npcArt = gameManager.getNpcStorage().getNpcArt(originalJsonFilename);
+        return new Npc(gameManager, name, colorName, lastPhraseTimestamp, stats, dieMessage, temperament, roamAreas, validTriggers, loot, spawnRules, attackMessages, criticalAttackMessages, battleMessages, idleMessages, npcArt);
     }
 }
