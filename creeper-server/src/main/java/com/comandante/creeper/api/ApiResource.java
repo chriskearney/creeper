@@ -241,7 +241,7 @@ public class ApiResource {
     public Response getNpcArt(@Auth Player player, @FormParam("npcId") String npcId) throws IOException {
         Npc npcEntity = gameManager.getEntityManager().getNpcEntity(npcId);
 
-        if (npcEntity.getArt().isPresent()) {
+        if (npcEntity.getArt() != null && npcEntity.getArt().isPresent()) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(npcEntity.getArt().get(), "png", baos);
             byte[] imageData = baos.toByteArray();
