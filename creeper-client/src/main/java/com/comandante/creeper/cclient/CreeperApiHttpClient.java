@@ -33,6 +33,7 @@ import javax.ws.rs.client.ClientRequestFilter;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Feature;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -196,7 +197,8 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
     public Optional<BufferedImage> getNpcArt(String npcId) {
         Optional<HttpEntity> httpEntity = callApiWithEntity(Collections.singletonList(new BasicNameValuePair("npcId", npcId)), "npcArt");
         try {
-            ImageIO.read(httpEntity.get().getContent());
+            byte[] bytes = EntityUtils.toByteArray(httpEntity.get());
+            return Optional.ofNullable(ImageIO.read(new ByteArrayInputStream(bytes)));
         } catch (IOException e) {
         }
         return Optional.empty();
@@ -232,7 +234,7 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
         }
         httpPost.setHeader("Authorization", "Basic " + basicAuthSupplier.get().get());
         try (CloseableHttpResponse response = closeableHttpClient.execute(httpPost)) {
-            return Optional.of(response.getEntity());
+            return Optional.ofNullable(response.getEntity());
         } catch (Exception e) {
             LOG.error("Unable to post api message for: " + apiMethod, e);
         }

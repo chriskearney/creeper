@@ -21,6 +21,7 @@ import org.glassfish.jersey.media.sse.EventOutput;
 import org.glassfish.jersey.media.sse.SseFeature;
 
 import javax.annotation.security.PermitAll;
+import javax.imageio.ImageIO;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -28,7 +29,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringJoiner;
@@ -234,11 +238,15 @@ public class ApiResource {
     @POST
     @Path("/npcArt")
     @PermitAll
-    public Optional<BufferedImage> getNpcArt(@Auth Player player, @FormParam("npcId") String npcId) {
+    public Response getNpcArt(@Auth Player player, @FormParam("npcId") String npcId) throws IOException {
         Npc npcEntity = gameManager.getEntityManager().getNpcEntity(npcId);
+
         if (npcEntity.getArt().isPresent()) {
-            return Optional.of(npcEntity.getArt().get());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(npcEntity.getArt().get(), "png", baos);
+            byte[] imageData = baos.toByteArray();
+            return Response.ok(imageData).build();
         }
-        return Optional.empty();
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 }
