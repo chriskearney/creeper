@@ -46,17 +46,19 @@ public class BattleWindow extends JFrame {
         this.imagePanel.setMaximumSize(new Dimension(240, 240));
         this.imagePanel.setMinimumSize(new Dimension(240, 240));
         this.imagePanel.setPreferredSize(new Dimension(240, 240));
+        this.imagePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.red)));
         setTitle("Battle");
         setBackground(Color.BLACK);
         setLayout(new BorderLayout());
 
         JPanel jpanelTop = new JPanel();
         jpanelTop.setLayout(new BorderLayout());
-        jpanelTop.add(imagePanel, BorderLayout.PAGE_START);
+        jpanelTop.add(imagePanel, BorderLayout.CENTER);
         jpanelTop.add(npcHealthBar, BorderLayout.PAGE_END);
-        jpanelTop.setMaximumSize(new Dimension(240, 260));
-        jpanelTop.setMinimumSize(new Dimension(240, 260));
-        jpanelTop.setPreferredSize(new Dimension(240, 260));
+        jpanelTop.setMaximumSize(new Dimension(240, 300));
+        jpanelTop.setMinimumSize(new Dimension(240, 300));
+        jpanelTop.setPreferredSize(new Dimension(240, 300));
+        jpanelTop.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Enemy"));
 
 
         JPanel jpanelBottom = new JPanel();
@@ -72,9 +74,9 @@ public class BattleWindow extends JFrame {
         add(jpanelBottom, BorderLayout.PAGE_END);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
-        setPreferredSize(new Dimension(240, 720));
-        setMinimumSize(new Dimension(240, 720));
-        setMaximumSize(new Dimension(240, 720));
+        setPreferredSize(new Dimension(240, 760));
+        setMinimumSize(new Dimension(240, 760));
+        setMaximumSize(new Dimension(240, 760));
 
         pack();
     }
