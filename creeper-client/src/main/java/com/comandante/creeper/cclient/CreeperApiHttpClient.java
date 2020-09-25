@@ -28,8 +28,6 @@ import org.glassfish.jersey.media.sse.SseFeature;
 import javax.imageio.ImageIO;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.ClientRequestContext;
-import javax.ws.rs.client.ClientRequestFilter;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Feature;
 import java.awt.image.BufferedImage;
@@ -42,7 +40,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 public class CreeperApiHttpClient extends AbstractScheduledService {
 
@@ -195,10 +192,11 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
     }
 
     public Optional<BufferedImage> getNpcArt(String npcId) {
-        Optional<HttpEntity> httpEntity = callApiWithEntity(Collections.singletonList(new BasicNameValuePair("npcId", npcId)), "npcArt");
+        Optional<byte[]> bytes = callApiWithEntity(Collections.singletonList(new BasicNameValuePair("npcId", npcId)), "npcArt");
         try {
-            byte[] bytes = EntityUtils.toByteArray(httpEntity.get());
-            return Optional.ofNullable(ImageIO.read(new ByteArrayInputStream(bytes)));
+            if (bytes.isPresent()) {
+                return Optional.ofNullable(ImageIO.read(new ByteArrayInputStream(bytes.get())));
+            }
         } catch (IOException e) {
         }
         return Optional.empty();
@@ -213,17 +211,10 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
     }
 
     public void callApi(List<NameValuePair> basicNameValuePairs, String apiMethod) {
-        Optional<HttpEntity> httpEntity = callApiWithEntity(basicNameValuePairs, apiMethod);
-        if (httpEntity.isPresent()) {
-            try {
-                EntityUtils.consume(httpEntity.get());
-            } catch (IOException e) {
-                LOG.info("Unable to consume entity: " + apiMethod, e);
-            }
-        }
+        Optional<byte[]> bytes = callApiWithEntity(basicNameValuePairs, apiMethod);
     }
 
-    public Optional<HttpEntity> callApiWithEntity(List<NameValuePair> basicNameValuePairs, String apiMethod) {
+    public Optional<byte[]> callApiWithEntity(List<NameValuePair> basicNameValuePairs, String apiMethod) {
         if (!basicAuthSupplier.get().isPresent()) {
             return Optional.empty();
         }
@@ -234,7 +225,8 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
         }
         httpPost.setHeader("Authorization", "Basic " + basicAuthSupplier.get().get());
         try (CloseableHttpResponse response = closeableHttpClient.execute(httpPost)) {
-            return Optional.ofNullable(response.getEntity());
+            byte[] bytes = EntityUtils.toByteArray(response.getEntity());
+            return Optional.of(bytes);
         } catch (Exception e) {
             LOG.error("Unable to post api message for: " + apiMethod, e);
         }
