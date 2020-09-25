@@ -162,9 +162,6 @@ public class NpcBuilder {
             }
         }
         Optional<BufferedImage> npcArt = gameManager.getNpcStorage().getNpcArt(originalJsonFilename);
-        if (npcArt.isPresent()) {
-            System.out.println("hi");
-        }
         return new Npc(gameManager, name, colorName, lastPhraseTimestamp, stats, dieMessage, temperament, roamAreas, validTriggers, loot, spawnRules, attackMessages, criticalAttackMessages, battleMessages, idleMessages, npcArt);
     }
 }

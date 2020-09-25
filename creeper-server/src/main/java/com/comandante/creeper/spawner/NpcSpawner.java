@@ -8,6 +8,7 @@ import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.npc.Npc;
 import com.comandante.creeper.npc.NpcBuilder;
 import com.comandante.creeper.player.Player;
+import com.comandante.creeper.storage.NpcMetadata;
 import com.comandante.creeper.world.model.Area;
 import com.comandante.creeper.world.model.Room;
 
@@ -19,15 +20,15 @@ import java.util.stream.Collectors;
 
 public class NpcSpawner extends CreeperEntity {
 
-    private final Npc npc;
+    private final NpcMetadata npcMetadata;
     private final GameManager gameManager;
     private final SpawnRule spawnRule;
     private int noTicks;
     private final Random random = new Random();
 
 
-    public NpcSpawner(Npc npc, GameManager gameManager, SpawnRule spawnRule) {
-        this.npc = npc;
+    public NpcSpawner(NpcMetadata npcMetadata, GameManager gameManager, SpawnRule spawnRule) {
+        this.npcMetadata = npcMetadata;
         this.gameManager = gameManager;
         this.spawnRule = spawnRule;
         this.noTicks = spawnRule.getSpawnIntervalTicks();
@@ -59,7 +60,7 @@ public class NpcSpawner extends CreeperEntity {
             if (room.getAreas().contains(spawnArea)) {
                 for (String i : room.getNpcIds()) {
                     Npc currentNpc = gameManager.getEntityManager().getNpcEntity(i);
-                    if (currentNpc.getName().equals(npc.getName())) {
+                    if (currentNpc.getName().equals(npcMetadata.getName())) {
                         numberCurrentlyInArea++;
                     }
                 }
@@ -70,24 +71,25 @@ public class NpcSpawner extends CreeperEntity {
 
     private void createAndAddItem(Area spawnArea) {
         List<Room> rooms = gameManager.getRoomManager().getRoomsByArea(spawnArea).stream()
-                .filter(findRoomsWithOccupancy(npc))
+                .filter(findRoomsWithOccupancy(npcMetadata))
                 .collect(Collectors.toList());
         Room room = rooms.get(random.nextInt(rooms.size()));
-        NpcBuilder npcBuilder = new NpcBuilder(npc);
+        NpcBuilder npcBuilder = new NpcBuilder(npcMetadata);
+        npcBuilder.setGameManager(gameManager);
         Npc newNpc = npcBuilder.createNpc();
         newNpc.setCurrentRoom(room);
         gameManager.getEntityManager().addEntity(newNpc);
         room.addPresentNpc(newNpc.getEntityId());
         gameManager.writeToRoom(room.getRoomId(), newNpc.getColorName() + " appears." + "\r\n");
         room.getPresentPlayers().forEach(Player::processNpcAggro);
-        Creeper.metrics.counter(MetricRegistry.name(NpcSpawner.class, npc.getName() + "-spawn")).inc();
+        Creeper.metrics.counter(MetricRegistry.name(NpcSpawner.class, npcMetadata.getName() + "-spawn")).inc();
     }
 
-    private Predicate<Room> findRoomsWithOccupancy(Npc npc) {
+    private Predicate<Room> findRoomsWithOccupancy(NpcMetadata npcMetadata) {
         return room -> {
             long count = room.getNpcIds().stream()
                     .map(npcId -> gameManager.getEntityManager().getNpcEntity(npcId))
-                    .filter(n -> n.getName().equals(npc.getName()))
+                    .filter(n -> n.getName().equals(npcMetadata.getName()))
                     .count();
 
             return count < spawnRule.getMaxPerRoom();

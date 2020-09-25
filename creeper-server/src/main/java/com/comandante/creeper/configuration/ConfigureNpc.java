@@ -8,9 +8,11 @@ import com.comandante.creeper.items.Forage;
 import com.comandante.creeper.items.ItemMetadata;
 import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.npc.Npc;
+import com.comandante.creeper.npc.NpcBuilder;
 import com.comandante.creeper.spawner.ItemSpawner;
 import com.comandante.creeper.spawner.NpcSpawner;
 import com.comandante.creeper.spawner.SpawnRule;
+import com.comandante.creeper.storage.NpcMetadata;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,13 +22,15 @@ public class ConfigureNpc {
 
     public static void configureAllNpcs(GameManager gameManager) throws IOException {
         EntityManager entityManager = gameManager.getEntityManager();
-        List<Npc> npcsFromFile = gameManager.getNpcStorage().getAllNpcs();
-        for (Npc npc : npcsFromFile) {
-            Creeper.startUpMessage("Adding npc spawn: " + npc.getName());
-            entityManager.addEntity(npc);
-            Set<SpawnRule> spawnRules = npc.getSpawnRules();
+        List<NpcMetadata> npcsFromFile = gameManager.getNpcStorage().readAllNpcs();
+
+        for (NpcMetadata npcMetadata : npcsFromFile) {
+            Creeper.startUpMessage("Adding npc spawn: " + npcMetadata.getName());
+//            Npc npc = new NpcBuilder(npcMetadata).setGameManager(gameManager).createNpc();
+//            entityManager.addEntity(npc);
+            Set<SpawnRule> spawnRules = npcMetadata.getSpawnRules();
             for (SpawnRule spawnRule : spawnRules) {
-                entityManager.addEntity(new NpcSpawner(npc, gameManager, spawnRule));
+                entityManager.addEntity(new NpcSpawner(npcMetadata, gameManager, spawnRule));
             }
         }
     }

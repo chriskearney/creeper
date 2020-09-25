@@ -58,7 +58,7 @@ public class NpcStorage {
         filebasedJsonStorage.saveMetadata(npcMetadata.getName(), LOCAL_NPC_DIRECTORY, npcMetadata);
     }
 
-    private List<NpcMetadata> readAllNpcs() {
+    public List<NpcMetadata> readAllNpcs() {
         Map<String, NpcMetadata> fileNameToNpcMetaData = filebasedJsonStorage.readAllMetadatasWithFilenames(LOCAL_NPC_DIRECTORY, true, new NpcMetadata());
 
         for (Map.Entry<String, NpcMetadata> fileNameToData : fileNameToNpcMetaData.entrySet()) {
