@@ -1,6 +1,7 @@
 package com.comandante.creeper.cclient;
 
 import com.comandante.creeper.events.KillNpcEvent;
+import com.comandante.creeper.events.NpcDamageTakenEvent;
 import com.comandante.creeper.events.PlayerData;
 import com.google.common.base.Strings;
 import com.google.common.eventbus.Subscribe;
@@ -120,6 +121,15 @@ public class BattlePanel extends JPanel {
         SwingUtilities.invokeLater(() -> {
             if (killNpcEvent.getNpcId().equals(lastNpcId)) {
                 npcHealthBar.setValue(0);
+            }
+        });
+    }
+
+    @Subscribe
+    public void creeperEvent(NpcDamageTakenEvent npcDamageTakenEvent) {
+        SwingUtilities.invokeLater(() -> {
+            if (npcDamageTakenEvent.getNpcId().equals(lastNpcId)) {
+                creeperTerminal.append("damage: " + npcDamageTakenEvent.getDamageAmount());
             }
         });
     }

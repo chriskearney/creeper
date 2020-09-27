@@ -3,7 +3,8 @@ package com.comandante.creeper.events;
 public enum CreeperEventType {
     GOSSIP,
     PLAYERDATA,
-    KILL_NPC,
+    NPC_DAMAGE,
+    NPC_KILL,
     DRAW_MAP,
     USERS;
 }

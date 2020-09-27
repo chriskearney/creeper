@@ -9,6 +9,7 @@ import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.events.CreeperEvent;
 import com.comandante.creeper.events.CreeperEventType;
 import com.comandante.creeper.events.KillNpcEvent;
+import com.comandante.creeper.events.NpcDamageTakenEvent;
 import com.comandante.creeper.items.Effect;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.items.Loot;
@@ -229,8 +230,17 @@ public class Npc extends CreeperEntity {
                     }
                 }
             }
+            NpcDamageTakenEvent npcDamageTakenEvent = new NpcDamageTakenEvent(npcStatsChange.getPlayer().getPlayerId(), this.getEntityId(), damageReportAmt);
+            CreeperEvent build = new CreeperEvent.Builder()
+                    .audience(CreeperEvent.Audience.PLAYER_ONLY)
+                    .creeperEventType(CreeperEventType.NPC_DAMAGE)
+                    .epochTimestamp(System.currentTimeMillis())
+                    .payload(gameManager.getObjectMapper().writeValueAsString(npcDamageTakenEvent))
+                    .playerId(npcStatsChange.getPlayer().getPlayerId())
+                    .build();
+            gameManager.getListenerService().post(build);
         } catch (Exception e) {
-            SentryManager.logSentry(this.getClass(), e, "Problem processing NPC Stat Change!");
+
         }
     }
 
@@ -318,7 +328,7 @@ public class Npc extends CreeperEntity {
                         .playerId(player.getPlayerId())
                         .payload(gameManager.getObjectMapper().writeValueAsString(new KillNpcEvent(p.getPlayerId(), getEntityId(), xpEarned, getName())))
                                 .epochTimestamp(System.currentTimeMillis())
-                                .creeperEventType(CreeperEventType.KILL_NPC)
+                                .creeperEventType(CreeperEventType.NPC_KILL)
                                 .audience(CreeperEvent.Audience.PLAYER_ONLY)
                                 .build();
 

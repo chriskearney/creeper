@@ -7,13 +7,13 @@ import com.comandante.creeper.events.CreeperEvent;
 import com.comandante.creeper.events.CreeperEventType;
 import com.comandante.creeper.events.DrawMapEvent;
 import com.comandante.creeper.events.KillNpcEvent;
+import com.comandante.creeper.events.NpcDamageTakenEvent;
 import com.comandante.creeper.events.PlayerData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.AbstractScheduledService;
 import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -123,14 +123,15 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
                         } else if (creeperEvent.getCreeperEventType().equals(CreeperEventType.USERS)) {
                             Users users = objectMapper.readValue(creeperEvent.getPayload(), Users.class);
                             eventBus.post(users);
-                        }
-                        else if (creeperEvent.getCreeperEventType().equals(CreeperEventType.KILL_NPC)) {
+                        } else if (creeperEvent.getCreeperEventType().equals(CreeperEventType.NPC_KILL)) {
                             KillNpcEvent killNpcEvent = objectMapper.readValue(creeperEvent.getPayload(), KillNpcEvent.class);
                             eventBus.post(killNpcEvent);
-                        }
-                        else if (creeperEvent.getCreeperEventType().equals(CreeperEventType.DRAW_MAP)) {
+                        } else if (creeperEvent.getCreeperEventType().equals(CreeperEventType.DRAW_MAP)) {
                             DrawMapEvent drawMapEvent = objectMapper.readValue(creeperEvent.getPayload(), DrawMapEvent.class);
                             eventBus.post(drawMapEvent);
+                        } else if (creeperEvent.getCreeperEventType().equals(CreeperEventType.NPC_DAMAGE)) {
+                            NpcDamageTakenEvent npcDamageTakenEvent = objectMapper.readValue(creeperEvent.getPayload(), NpcDamageTakenEvent.class);
+                            eventBus.post(npcDamageTakenEvent);
                         }
                     }
                 } catch (Exception e) {
