@@ -4,6 +4,7 @@ package com.comandante.creeper.player;
 import com.codahale.metrics.Gauge;
 import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.SessionManager;
+import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.events.CreeperEvent;
 import com.comandante.creeper.events.CreeperEventType;
 import com.comandante.creeper.events.PlayerData;
@@ -36,13 +37,15 @@ public class PlayerManager {
     private static final Logger log = Logger.getLogger(PlayerManager.class);
 
     private final CreeperStorage creeperStorage;
+    private final EntityManager entityManager;
     private final SessionManager sessionManager;
     private final ListenerService listenerService;
     private final ConcurrentHashMap<String, Player> players = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper;
 
-    public PlayerManager(CreeperStorage creeperStorage, SessionManager sessionManager, ListenerService listenerService, ObjectMapper objectMapper) {
+    public PlayerManager(CreeperStorage creeperStorage, EntityManager entityManager, SessionManager sessionManager, ListenerService listenerService, ObjectMapper objectMapper) {
         this.creeperStorage = creeperStorage;
+        this.entityManager = entityManager;
         this.sessionManager = sessionManager;
         this.listenerService = listenerService;
         this.objectMapper = objectMapper;
@@ -89,8 +92,15 @@ public class PlayerManager {
             merchants.forEach(merchant -> presentMerchants.put(merchant.getColorName(), merchant.getInternalName()));
 
             String activeFightNpcId = null;
+            Double activeFightNpcHealthPercentage = null;
             if (player.getPrimaryActiveFight().isPresent() && player.getPrimaryActiveFight().get().getNpcId().isPresent()) {
                 activeFightNpcId = player.getPrimaryActiveFight().get().getNpcId().get();
+                Npc npcEntity = entityManager.getNpcEntity(activeFightNpcId);
+                if (npcEntity != null) {
+                    try {
+                        activeFightNpcHealthPercentage = ((double) npcEntity.getStats().getCurrentHealth() / npcEntity.getStats().getMaxHealth()) * 100;
+                    } catch (Exception ignored) { }
+                }
             }
 
             PlayerData playerData = new PlayerData(playerMetadata,
@@ -98,6 +108,7 @@ public class PlayerManager {
                     expToNextLevel,
                     player.isActiveFights(),
                     activeFightNpcId,
+                    activeFightNpcHealthPercentage,
                     player.getPlayerStatsWithEquipmentAndLevel(),
                     player.getCurrentRoom().getRoomId(),
                     player.getCurrentRoom().getAreas(),

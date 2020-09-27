@@ -17,6 +17,7 @@ public class PlayerData {
     private Long xpToNextLevel;
     private Boolean inFight;
     private String activeFightNpcId;
+    private Double activeFightNpcHealthPercentage;
     private Stats playerStatsWithLevel;
     private Integer currentRoomId;
     private Set<Area> currentAreas;
@@ -36,6 +37,7 @@ public class PlayerData {
                       Long xpToNextLevel,
                       Boolean inFight,
                       String activeFightNpcId,
+                      Double activeFightNpcHealthPercentage,
                       Stats playerStatsWithLevel,
                       Integer currentRoomId,
                       Set<Area> currentAreas,
@@ -51,6 +53,7 @@ public class PlayerData {
         this.xpToNextLevel = xpToNextLevel;
         this.inFight = inFight;
         this.activeFightNpcId = activeFightNpcId;
+        this.activeFightNpcHealthPercentage = activeFightNpcHealthPercentage;
         this.playerStatsWithLevel = playerStatsWithLevel;
         this.currentRoomId = currentRoomId;
         this.currentAreas = currentAreas;
@@ -121,5 +124,9 @@ public class PlayerData {
 
     public String getActiveFightNpcId() {
         return activeFightNpcId;
+    }
+
+    public Double getActiveFightNpcHealthPercentage() {
+        return activeFightNpcHealthPercentage;
     }
 }

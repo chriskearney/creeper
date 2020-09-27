@@ -83,6 +83,9 @@ public class BattlePanel extends JPanel {
     public void creeperEvent(PlayerData playerData) {
         SwingUtilities.invokeLater(() -> {
             if (!Strings.isNullOrEmpty(playerData.getActiveFightNpcId())) {
+                int percentage = (int) ((1 - playerData.getActiveFightNpcHealthPercentage()) * 100);
+                npcHealthBar.setValue(percentage);
+
                 if (lastNpcId != null && lastNpcId.equals(playerData.getActiveFightNpcId())) {
                     return;
                 }
