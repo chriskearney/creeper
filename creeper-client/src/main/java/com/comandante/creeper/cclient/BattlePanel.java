@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,6 +28,7 @@ public class BattlePanel extends JPanel {
     private final ImagePanel imagePanel;
     private final JProgressBar npcHealthBar;
     private String lastNpcId;
+    private final TitledBorder enemyPanelBorder;
 
     private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BattlePanel.class);
 
@@ -45,6 +48,7 @@ public class BattlePanel extends JPanel {
         this.imagePanel.setMinimumSize(new Dimension(240, 240));
         this.imagePanel.setPreferredSize(new Dimension(240, 240));
         this.imagePanel.setBackground(Color.BLACK);
+        this.enemyPanelBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Enemy");
         //setTitle("Battle");
         setBackground(Color.BLACK);
         setLayout(new BorderLayout());
@@ -57,7 +61,7 @@ public class BattlePanel extends JPanel {
         jpanelTop.setMaximumSize(new Dimension(250, 278));
         jpanelTop.setMinimumSize(new Dimension(250, 278));
         jpanelTop.setPreferredSize(new Dimension(250, 278));
-        jpanelTop.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Enemy"));
+        jpanelTop.setBorder(enemyPanelBorder);
 
 
         JPanel jpanelBottom = new JPanel();
@@ -71,7 +75,7 @@ public class BattlePanel extends JPanel {
 
         add(jpanelBottom, BorderLayout.LINE_START);
         add(jpanelTop, BorderLayout.PAGE_END);
-       // setDefaultCloseOperation(HIDE_ON_CLOSE);
+        // setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         setPreferredSize(new Dimension(250, 800));
         setMinimumSize(new Dimension(250, 800));
@@ -83,26 +87,33 @@ public class BattlePanel extends JPanel {
     @Subscribe
     public void creeperEvent(PlayerData playerData) {
         SwingUtilities.invokeLater(() -> {
-            if (!Strings.isNullOrEmpty(playerData.getActiveFightNpcId())) {
-                if (playerData.getActiveFightNpcHealthPercentage() != null) {
-                    npcHealthBar.setValue((int) Math.round(playerData.getActiveFightNpcHealthPercentage()));
-                }
-                if (lastNpcId != null && lastNpcId.equals(playerData.getActiveFightNpcId())) {
-                    return;
-                }
-                lastNpcId = playerData.getActiveFightNpcId();
-                Optional<BufferedImage> npcArt = creeperApiHttpClient.getNpcArt(playerData.getActiveFightNpcId());
-                if (npcArt.isPresent()) {
-                    try {
-                        imagePanel.setImage(resizeImage(npcArt.get(), 240, 240));
-                        imagePanel.repaint();
-                    } catch (Exception e) {
-                        LOG.error("Problem with image", e);
-                    }
+            if (playerData.getInFight()) {
+                enemyPanelBorder.setBorder(BorderFactory.createLineBorder(Color.red));
+                repaint();
+            } else {
+                enemyPanelBorder.setBorder(BorderFactory.createLineBorder(Color.green));
+                repaint();
+            }
+        if (!Strings.isNullOrEmpty(playerData.getActiveFightNpcId())) {
+            if (playerData.getActiveFightNpcHealthPercentage() != null) {
+                npcHealthBar.setValue((int) Math.round(playerData.getActiveFightNpcHealthPercentage()));
+            }
+            if (lastNpcId != null && lastNpcId.equals(playerData.getActiveFightNpcId())) {
+                return;
+            }
+            lastNpcId = playerData.getActiveFightNpcId();
+            Optional<BufferedImage> npcArt = creeperApiHttpClient.getNpcArt(playerData.getActiveFightNpcId());
+            if (npcArt.isPresent()) {
+                try {
+                    imagePanel.setImage(resizeImage(npcArt.get(), 240, 240));
+                    imagePanel.repaint();
+                } catch (Exception e) {
+                    LOG.error("Problem with image", e);
                 }
             }
-        });
-    }
+        }
+    });
+}
 
     @Subscribe
     public void creeperEvent(KillNpcEvent killNpcEvent) {

@@ -68,19 +68,6 @@ public class MapPanel extends JPanel {
     }
 
     @Subscribe
-    public void creeperEvent(PlayerData playerData) throws IOException {
-        Boolean isInFight = playerData.getInFight();
-        if (isInFight) {
-            border.setBorder(BorderFactory.createLineBorder(Color.red));
-            repaint();
-        } else {
-            border.setBorder(BorderFactory.createLineBorder(Color.green));
-            repaint();
-        }
-    }
-
-
-    @Subscribe
     public void creeperEvent(DrawMapEvent drawMapEvent) throws IOException {
         colorPane.appendANSI(drawMapEvent.getMap());
     }

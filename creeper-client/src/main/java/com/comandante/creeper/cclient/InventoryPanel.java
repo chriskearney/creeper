@@ -187,15 +187,6 @@ public class InventoryPanel extends JPanel {
             @Override
             public void run() {
                 try {
-                    Boolean isInFight = playerData.getInFight();
-                    if (isInFight) {
-                        border.setBorder(BorderFactory.createLineBorder(Color.red));
-                        repaint();
-                    } else {
-                        border.setBorder(BorderFactory.createLineBorder(Color.green));
-                        repaint();
-                    }
-
                     //itemName -> itemIds
                     Map<String, Set<InventoryItem>> rolledUpInventory = Maps.newHashMap();
 

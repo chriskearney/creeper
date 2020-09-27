@@ -123,16 +123,4 @@ public class ConsolePanel extends JPanel {
     public void resetEvent(ResetEvent resetEvent) {
         reset();
     }
-
-    @Subscribe
-    public void creeperEvent(PlayerData playerData) throws IOException {
-        Boolean isInFight = playerData.getInFight();
-        if (isInFight) {
-            border.setBorder(BorderFactory.createLineBorder(Color.red));
-            repaint();
-        } else {
-            border.setBorder(BorderFactory.createLineBorder(Color.green));
-            repaint();
-        }
-    }
 }

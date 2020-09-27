@@ -127,116 +127,102 @@ public class NearPanel extends JPanel {
     @Subscribe
     public void updateNearMe(PlayerData playerData) throws IOException {
 
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
+        SwingUtilities.invokeLater(() -> {
+            try {
+                java.util.List<NearMeItem> nearMeItemList = Lists.newArrayList();
 
-                    Boolean isInFight = playerData.getInFight();
-                    if (isInFight) {
-                        border.setBorder(BorderFactory.createLineBorder(Color.red));
-                        repaint();
-                    } else {
-                        border.setBorder(BorderFactory.createLineBorder(Color.green));
-                        repaint();
-                    }
-
-
-                    java.util.List<NearMeItem> nearMeItemList = Lists.newArrayList();
-
-                    for (String npcID : playerData.getPresentNpcs().keySet()) {
-                        String npcName = playerData.getPresentNpcs().get(npcID);
-                        NearMeItem nearMeItem = new NearMeItem(Optional.of(new Tuple<String, String>(npcID, npcName)), Optional.empty(), Optional.empty(), Optional.empty());
-                        nearMeItemList.add(nearMeItem);
-                    }
-
-                    playerData.getPresentItems().forEach(new Consumer<Item>() {
-                        @Override
-                        public void accept(Item item) {
-                            String itemId = item.getItemId();
-                            String itemName = item.getItemName();
-                            nearMeItemList.add(new NearMeItem(Optional.empty(), Optional.empty(), Optional.of(new Tuple<String, String>(itemId, itemName)), Optional.empty()));
-                        }
-                    });
-
-                    for (String playerId : playerData.getPresentPlayers().keySet()) {
-                        String playerName = playerData.getPresentPlayers().get(playerId);
-                        NearMeItem nearMeItem = new NearMeItem(Optional.empty(), Optional.of(new Tuple<>(playerId, playerName)), Optional.empty(), Optional.empty());
-                        nearMeItemList.add(nearMeItem);
-                    }
-
-                    for (String merchantName: playerData.getPresentMerchants().keySet()) {
-                        String merchantType = playerData.getPresentMerchants().get(merchantName);
-                        NearMeItem nearMeItem = new NearMeItem(Optional.empty(), Optional.empty(), Optional.empty(), Optional.of(new Tuple<>(merchantType, merchantName)));
-                        nearMeItemList.add(nearMeItem);
-                    }
-
-                    if (!defaultListModel.isEmpty()) {
-                        java.util.List<NearMeItem> existingNearMeItems = Lists.newArrayList();
-                        Object[] objects = defaultListModel.toArray();
-                        for (Object o : objects) {
-                            existingNearMeItems.add((NearMeItem) o);
-                        }
-                        if (existingNearMeItems.equals(nearMeItemList)) {
-                            nearMeItems.revalidate();
-                            return;
-                        }
-
-                    }
-
-                    nearMeItemList.sort((o1, o2) -> {
-                        String o_1 = null;
-                        String o_2 = null;
-
-                        if (o1.item.isPresent()) {
-                            o_1 = o1.item.get().getY();
-                        }
-
-                        if (o1.merchant.isPresent()) {
-                            o_1 = o1.merchant.get().getY();
-                        }
-
-                        if (o1.npc.isPresent()) {
-                            o_1 = o1.npc.get().getY();
-                        }
-
-                        if (o1.player.isPresent()) {
-                            o_1 = o1.player.get().getY();
-                        }
-
-                        if (o2.item.isPresent()) {
-                            o_2 = o2.item.get().getY();
-                        }
-
-                        if (o2.merchant.isPresent()) {
-                            o_2 = o2.merchant.get().getY();
-                        }
-
-                        if (o2.npc.isPresent()) {
-                            o_2 = o2.npc.get().getY();
-                        }
-
-                        if (o2.player.isPresent()) {
-                            o_2 = o2.player.get().getY();
-                        }
-
-                        return o_1.compareTo(o_2);
-                    });
-
-                    defaultListModel.removeAllElements();
-                    nearMeItemList.forEach(new Consumer<NearMeItem>() {
-                        @Override
-                        public void accept(NearMeItem nearMeItem) {
-                            defaultListModel.addElement(nearMeItem);
-                        }
-                    });
-
-
-                    nearMeItems.revalidate();
-                    nearMeItems.repaint();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                for (String npcID : playerData.getPresentNpcs().keySet()) {
+                    String npcName = playerData.getPresentNpcs().get(npcID);
+                    NearMeItem nearMeItem = new NearMeItem(Optional.of(new Tuple<String, String>(npcID, npcName)), Optional.empty(), Optional.empty(), Optional.empty());
+                    nearMeItemList.add(nearMeItem);
                 }
+
+                playerData.getPresentItems().forEach(new Consumer<Item>() {
+                    @Override
+                    public void accept(Item item) {
+                        String itemId = item.getItemId();
+                        String itemName = item.getItemName();
+                        nearMeItemList.add(new NearMeItem(Optional.empty(), Optional.empty(), Optional.of(new Tuple<String, String>(itemId, itemName)), Optional.empty()));
+                    }
+                });
+
+                for (String playerId : playerData.getPresentPlayers().keySet()) {
+                    String playerName = playerData.getPresentPlayers().get(playerId);
+                    NearMeItem nearMeItem = new NearMeItem(Optional.empty(), Optional.of(new Tuple<>(playerId, playerName)), Optional.empty(), Optional.empty());
+                    nearMeItemList.add(nearMeItem);
+                }
+
+                for (String merchantName: playerData.getPresentMerchants().keySet()) {
+                    String merchantType = playerData.getPresentMerchants().get(merchantName);
+                    NearMeItem nearMeItem = new NearMeItem(Optional.empty(), Optional.empty(), Optional.empty(), Optional.of(new Tuple<>(merchantType, merchantName)));
+                    nearMeItemList.add(nearMeItem);
+                }
+
+                if (!defaultListModel.isEmpty()) {
+                    java.util.List<NearMeItem> existingNearMeItems = Lists.newArrayList();
+                    Object[] objects = defaultListModel.toArray();
+                    for (Object o : objects) {
+                        existingNearMeItems.add((NearMeItem) o);
+                    }
+                    if (existingNearMeItems.equals(nearMeItemList)) {
+                        nearMeItems.revalidate();
+                        return;
+                    }
+
+                }
+
+                nearMeItemList.sort((o1, o2) -> {
+                    String o_1 = null;
+                    String o_2 = null;
+
+                    if (o1.item.isPresent()) {
+                        o_1 = o1.item.get().getY();
+                    }
+
+                    if (o1.merchant.isPresent()) {
+                        o_1 = o1.merchant.get().getY();
+                    }
+
+                    if (o1.npc.isPresent()) {
+                        o_1 = o1.npc.get().getY();
+                    }
+
+                    if (o1.player.isPresent()) {
+                        o_1 = o1.player.get().getY();
+                    }
+
+                    if (o2.item.isPresent()) {
+                        o_2 = o2.item.get().getY();
+                    }
+
+                    if (o2.merchant.isPresent()) {
+                        o_2 = o2.merchant.get().getY();
+                    }
+
+                    if (o2.npc.isPresent()) {
+                        o_2 = o2.npc.get().getY();
+                    }
+
+                    if (o2.player.isPresent()) {
+                        o_2 = o2.player.get().getY();
+                    }
+
+                    return o_1.compareTo(o_2);
+                });
+
+                defaultListModel.removeAllElements();
+                nearMeItemList.forEach(new Consumer<NearMeItem>() {
+                    @Override
+                    public void accept(NearMeItem nearMeItem) {
+                        defaultListModel.addElement(nearMeItem);
+                    }
+                });
+
+
+                nearMeItems.revalidate();
+                nearMeItems.repaint();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
