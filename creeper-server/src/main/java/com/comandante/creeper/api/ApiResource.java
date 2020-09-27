@@ -257,22 +257,4 @@ public class ApiResource {
         }
         return Response.status(Response.Status.NOT_FOUND).build();
     }
-
-    @GET
-    @Produces(MediaType.TEXT_HTML)
-    @Path("/trigger/muted/nexus/balls/hello/we/out/here/hahah/ok")
-    public Response hello() {
-        int count = 0;
-        StreamingOutput stream = new StreamingOutput() {
-            @Override
-            public void write(OutputStream os) throws IOException, WebApplicationException {
-                Writer writer = new BufferedWriter(new OutputStreamWriter(os));
-                for (int count = 0; count < 5000000; count++) {
-                    writer.write(UUID.randomUUID().toString());
-                }
-                writer.flush();
-            }
-        };
-        return Response.ok(stream).build();
-    }
 }
