@@ -2,10 +2,13 @@ package com.comandante.creeper.events;
 
 public class KillNpcEvent {
 
-    private final String playerId;
-    private final String npcId;
-    private final long xpEarned;
-    private final String name;
+    private String playerId;
+    private String npcId;
+    private long xpEarned;
+    private String name;
+
+    public KillNpcEvent() {
+    }
 
     public KillNpcEvent(String playerId, String npcId, long xpEarned, String name) {
         this.playerId = playerId;

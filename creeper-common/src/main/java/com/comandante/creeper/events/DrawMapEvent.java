@@ -2,7 +2,10 @@ package com.comandante.creeper.events;
 
 public class DrawMapEvent {
 
-    private final String map;
+    private String map;
+
+    public DrawMapEvent() {
+    }
 
     public DrawMapEvent(String map) {
         this.map = map;
