@@ -1,6 +1,6 @@
 {
-  "name": "demon cat",
-  "colorName": "demon @c-bold-on@@c-magenta@cat@c-reset@",
+  "name": "blood root",
+  "colorName": "@c-red@blood@c-reset@  @c-bold-on@@c-magenta@root@c-reset@",
   "stats": {
     "strength": 7,
     "intelligence": 0,
@@ -22,17 +22,17 @@
     "maxEffects": 0,
     "lockPicking": 0
   },
-  "dieMessage": "a demon @c-bold-on@@c-magenta@cat@c-reset@ breathes his last breath in a pool of @c-bold-on@@c-red@blood@c-reset@",
+  "dieMessage": "a @c-red@blood@c-reset@  @c-bold-on@@c-magenta@root@c-reset@ breathes his last breath in a pool of @c-bold-on@@c-red@blood@c-reset@",
   "temperament": "PASSIVE",
   "roamAreas": [
     "NEWBIE_ZONE"
   ],
   "validTriggers": [
-    "d",
-    "demon",
-    "demon cat",
-    "c",
-    "cat"
+    "b",
+    "blood",
+    "blood root",
+    "r",
+    "root"
   ],
   "spawnRules": [
     {
@@ -79,7 +79,7 @@
   "idleMessages": [
     {
       "type": "NORMAL",
-      "message": "A @npc-color-name@ scratches it\u0027s nose."
+      "message": "A @npc-color-name@ scratches it's nose."
     }
   ]
 }
