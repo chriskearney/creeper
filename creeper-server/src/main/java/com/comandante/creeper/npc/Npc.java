@@ -230,7 +230,7 @@ public class Npc extends CreeperEntity {
                     }
                 }
             }
-            NpcDamageTakenEvent npcDamageTakenEvent = new NpcDamageTakenEvent(npcStatsChange.getPlayer().getPlayerId(), this.getEntityId(), damageReportAmt);
+            NpcDamageTakenEvent npcDamageTakenEvent = new NpcDamageTakenEvent(npcStatsChange.getPlayer().getPlayerId(), this.getEntityId(), damageReportAmt, colorName);
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
                     .creeperEventType(CreeperEventType.NPC_DAMAGE)

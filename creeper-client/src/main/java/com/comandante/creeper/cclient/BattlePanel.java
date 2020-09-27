@@ -102,6 +102,9 @@ public class BattlePanel extends JPanel {
             if (lastNpcId != null && lastNpcId.equals(playerData.getActiveFightNpcId())) {
                 return;
             }
+            if (lastNpcId != null && lastNpcId != playerData.getActiveFightNpcId()) {
+                creeperTerminal.append("reset");
+            }
             lastNpcId = playerData.getActiveFightNpcId();
             Optional<BufferedImage> npcArt = creeperApiHttpClient.getNpcArt(playerData.getActiveFightNpcId());
             if (npcArt.isPresent()) {
