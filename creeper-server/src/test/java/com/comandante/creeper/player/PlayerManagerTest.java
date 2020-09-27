@@ -2,6 +2,7 @@ package com.comandante.creeper.player;
 
 import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.SessionManager;
+import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.storage.MapDBCreeperStorage;
 import com.comandante.creeper.world.model.Room;
 import com.google.common.collect.Sets;
@@ -34,7 +35,7 @@ public class PlayerManagerTest {
         MockitoAnnotations.initMocks(this);
         DB db = DBMaker.memoryDB().transactionEnable().make();
         MapDBCreeperStorage mapDBCreeperStorage = new MapDBCreeperStorage(db);
-        playerManager = new PlayerManager(mapDBCreeperStorage, sessionManager, mock(ListenerService.class), Creeper.registerJdkModuleAndGetMapper());
+        playerManager = new PlayerManager(mapDBCreeperStorage, mock(EntityManager.class), sessionManager, mock(ListenerService.class), Creeper.registerJdkModuleAndGetMapper());
     }
 
     @Test

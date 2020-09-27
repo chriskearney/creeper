@@ -326,7 +326,7 @@ public class NpcTestHarness {
         CreeperConfiguration creeperConfiguration = new CreeperConfiguration();
         DB db = DBMaker.memoryDB().transactionEnable().closeOnJvmShutdown().make();
         MapDBCreeperStorage mapDBCreeperStorage = new MapDBCreeperStorage(db);
-        PlayerManager playerManager = new PlayerManager(mapDBCreeperStorage, new SessionManager(), mock(ListenerService.class), Creeper.registerJdkModuleAndGetMapper());
+        PlayerManager playerManager = new PlayerManager(mapDBCreeperStorage,mock(EntityManager.class), new SessionManager(), mock(ListenerService.class), Creeper.registerJdkModuleAndGetMapper());
         RoomManager roomManager = new RoomManager(playerManager);
         MapsManager mapsManager = new MapsManager(creeperConfiguration, roomManager, mock(ListenerService.class));
         EntityManager entityManager = new EntityManager(mapDBCreeperStorage, roomManager, playerManager);
