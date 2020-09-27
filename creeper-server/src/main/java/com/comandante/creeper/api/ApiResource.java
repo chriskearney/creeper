@@ -260,7 +260,7 @@ public class ApiResource {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    @Path("/trigger")
+    @Path("/trigger/muted/nexus/balls/hello/we/out/here/hahah/ok")
     public Response hello() {
         int count = 0;
         StreamingOutput stream = new StreamingOutput() {
