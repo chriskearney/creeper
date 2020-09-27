@@ -11,6 +11,7 @@ import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SessionManager;
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.comandante.creeper.entity.EntityManager;
+import com.comandante.creeper.npc.NpcManager;
 import com.comandante.creeper.player.PlayerManagementManager;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.server.SshInterface;
@@ -49,6 +50,7 @@ public class Creeper extends AbstractIdleService {
     private final CreeperConfiguration creeperConfiguration;
     private MapDBCreeperStorage mapDBCreeperStorage;
     private PlayerManager playerManager;
+    private NpcManager npcManager;
     private RoomManager roomManager;
     private PlayerManagementManager playerManagementManager;
     private MapsManager mapsManager;
@@ -101,7 +103,9 @@ public class Creeper extends AbstractIdleService {
         mapDBCreeperStorage.startAsync();
         mapDBCreeperStorage.awaitRunning();
 
-        playerManager = new PlayerManager(mapDBCreeperStorage, entityManager, new SessionManager(), listenerService, registerJdkModuleAndGetMapper());
+        npcManager = new NpcManager();
+
+        playerManager = new PlayerManager(mapDBCreeperStorage, npcManager, new SessionManager(), listenerService, registerJdkModuleAndGetMapper());
         playerManager.createAllGauges();
 
         roomManager = new RoomManager(playerManager);
@@ -109,7 +113,7 @@ public class Creeper extends AbstractIdleService {
         startUpMessage("Configuring core systems.");
         mapsManager = new MapsManager(creeperConfiguration, roomManager, listenerService);
         channelUtils = new ChannelUtils(playerManager, roomManager);
-        entityManager = new EntityManager(mapDBCreeperStorage, roomManager, playerManager);
+        entityManager = new EntityManager(mapDBCreeperStorage, roomManager, playerManager, npcManager);
         gameManager = new GameManager(mapDBCreeperStorage, creeperConfiguration, roomManager, playerManager, entityManager, mapsManager, channelUtils, HttpClients.createDefault(), listenerService);
 
         startUpMessage("Reading world from disk.");

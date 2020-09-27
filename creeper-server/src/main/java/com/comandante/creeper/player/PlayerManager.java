@@ -3,6 +3,7 @@ package com.comandante.creeper.player;
 
 import com.codahale.metrics.Gauge;
 import com.comandante.creeper.Creeper;
+import com.comandante.creeper.core_game.SentryManager;
 import com.comandante.creeper.core_game.SessionManager;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.events.CreeperEvent;
@@ -11,6 +12,7 @@ import com.comandante.creeper.events.PlayerData;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.merchant.Merchant;
 import com.comandante.creeper.npc.Npc;
+import com.comandante.creeper.npc.NpcManager;
 import com.comandante.creeper.stats.Levels;
 import com.comandante.creeper.stats.Stats;
 import com.comandante.creeper.storage.CreeperStorage;
@@ -31,21 +33,22 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 import static com.codahale.metrics.MetricRegistry.name;
+import static com.comandante.creeper.entity.EntityManager.SLEEP_MILLIS;
 
 public class PlayerManager {
 
     private static final Logger log = Logger.getLogger(PlayerManager.class);
 
     private final CreeperStorage creeperStorage;
-    private final EntityManager entityManager;
+    private final NpcManager npcManager;
     private final SessionManager sessionManager;
     private final ListenerService listenerService;
     private final ConcurrentHashMap<String, Player> players = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper;
 
-    public PlayerManager(CreeperStorage creeperStorage, EntityManager entityManager, SessionManager sessionManager, ListenerService listenerService, ObjectMapper objectMapper) {
+    public PlayerManager(CreeperStorage creeperStorage, NpcManager npcManager, SessionManager sessionManager, ListenerService listenerService, ObjectMapper objectMapper) {
         this.creeperStorage = creeperStorage;
-        this.entityManager = entityManager;
+        this.npcManager = npcManager;
         this.sessionManager = sessionManager;
         this.listenerService = listenerService;
         this.objectMapper = objectMapper;
@@ -95,7 +98,7 @@ public class PlayerManager {
             Double activeFightNpcHealthPercentage = null;
             if (player.getPrimaryActiveFight().isPresent() && player.getPrimaryActiveFight().get().getNpcId().isPresent()) {
                 activeFightNpcId = player.getPrimaryActiveFight().get().getNpcId().get();
-                Npc npcEntity = entityManager.getNpcEntity(activeFightNpcId);
+                Npc npcEntity = npcManager.getNpc(activeFightNpcId);
                 if (npcEntity != null) {
                     try {
                         activeFightNpcHealthPercentage = ((double) npcEntity.getStats().getCurrentHealth() / npcEntity.getStats().getMaxHealth()) * 100;

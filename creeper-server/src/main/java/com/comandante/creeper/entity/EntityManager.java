@@ -5,6 +5,7 @@ import com.comandante.creeper.core_game.SentryManager;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.items.ItemBuilder;
 import com.comandante.creeper.npc.Npc;
+import com.comandante.creeper.npc.NpcManager;
 import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.storage.CreeperStorage;
@@ -29,14 +30,15 @@ public class EntityManager {
     private final CreeperStorage creeperStorage;
     private final RoomManager roomManager;
     private final PlayerManager playerManager;
-    private final Map<String, Npc> npcs = new ConcurrentHashMap<>();
+    private final NpcManager npcManager;
     private final Map<String, CreeperEntity> entities = new ConcurrentHashMap<>();
     private final ExecutorService mainTickExecutorService = Executors.newFixedThreadPool(50);
 
-    public EntityManager(CreeperStorage creeperStorage, RoomManager roomManager, PlayerManager playerManager) {
+    public EntityManager(CreeperStorage creeperStorage, RoomManager roomManager, PlayerManager playerManager, NpcManager npcManager) {
         this.creeperStorage = creeperStorage;
         this.roomManager = roomManager;
         this.playerManager = playerManager;
+        this.npcManager = npcManager;
         ExecutorService tickOrchestratorService = Executors.newFixedThreadPool(5);
         tickOrchestratorService.submit(new PlayerTicker());
         tickOrchestratorService.submit(new RoomTicker());
@@ -45,7 +47,7 @@ public class EntityManager {
     }
 
     public Map<String, Npc> getNpcs() {
-        return npcs;
+        return npcManager.getNpcs();
     }
 
     public Map<String, CreeperEntity> getEntities() {
@@ -55,7 +57,7 @@ public class EntityManager {
     public void addEntity(CreeperEntity creeperEntity) {
         if (creeperEntity instanceof Npc) {
             Npc npc = (Npc) creeperEntity;
-            npcs.put(creeperEntity.getEntityId(), npc);
+            npcManager.addNpc(npc);
         } else if (creeperEntity instanceof Room) {
             roomManager.addRoom((Room) creeperEntity);
         } else {
@@ -81,11 +83,11 @@ public class EntityManager {
     }
 
     public void deleteNpcEntity(String npcId) {
-        npcs.remove(npcId);
+        npcManager.deleteNpcEntity(npcId);
     }
 
     public Npc getNpcEntity(String npcId) {
-        return npcs.get(npcId);
+        return npcManager.getNpc(npcId);
     }
 
     public static final int SLEEP_MILLIS = 500;
@@ -144,7 +146,7 @@ public class EntityManager {
             while (true) {
                 try {
                     final com.codahale.metrics.Timer.Context context = ticktime.time();
-                    for (Map.Entry<String, Npc> next : npcs.entrySet()) {
+                    for (Map.Entry<String, Npc> next : npcManager.getNpcs().entrySet()) {
                         mainTickExecutorService.submit(next.getValue());
                     }
                     context.stop();
