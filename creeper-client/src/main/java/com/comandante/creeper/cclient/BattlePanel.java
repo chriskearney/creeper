@@ -114,6 +114,9 @@ public class BattlePanel extends JPanel {
                 } catch (Exception e) {
                     LOG.error("Problem with image", e);
                 }
+            } else {
+                imagePanel.setImage(null);
+                imagePanel.repaint();
             }
         }
     });
@@ -132,7 +135,7 @@ public class BattlePanel extends JPanel {
     public void creeperEvent(NpcDamageTakenEvent npcDamageTakenEvent) {
         SwingUtilities.invokeLater(() -> {
             if (npcDamageTakenEvent.getNpcId().equals(lastNpcId)) {
-                creeperTerminal.append("damage: " + npcDamageTakenEvent.getDamageAmount());
+                creeperTerminal.append("damage to " + npcDamageTakenEvent.getColorName() + ": " + npcDamageTakenEvent.getDamageAmount());
             }
         });
     }
