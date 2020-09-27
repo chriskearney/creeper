@@ -26,16 +26,24 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
@@ -248,5 +256,23 @@ public class ApiResource {
             return Response.ok(imageData).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/trigger")
+    public Response hello() {
+        int count = 0;
+        StreamingOutput stream = new StreamingOutput() {
+            @Override
+            public void write(OutputStream os) throws IOException, WebApplicationException {
+                Writer writer = new BufferedWriter(new OutputStreamWriter(os));
+                for (int count = 0; count < 5000000; count++) {
+                    writer.write(UUID.randomUUID().toString());
+                }
+                writer.flush();
+            }
+        };
+        return Response.ok(stream).build();
     }
 }
