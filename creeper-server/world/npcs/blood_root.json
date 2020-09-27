@@ -1,6 +1,6 @@
 {
   "name": "blood root",
-  "colorName": "@c-red@blood@c-reset@  @c-bold-on@@c-magenta@root@c-reset@",
+  "colorName": "@c-red@blood@c-reset@ @c-bold-on@@c-magenta@root@c-reset@",
   "stats": {
     "strength": 7,
     "intelligence": 0,
@@ -22,7 +22,7 @@
     "maxEffects": 0,
     "lockPicking": 0
   },
-  "dieMessage": "a @c-red@blood@c-reset@  @c-bold-on@@c-magenta@root@c-reset@ breathes his last breath in a pool of @c-bold-on@@c-red@blood@c-reset@",
+  "dieMessage": "a @c-red@blood@c-reset@ @c-bold-on@@c-magenta@root@c-reset@ breathes his last breath in a pool of @c-bold-on@@c-red@blood@c-reset@",
   "temperament": "PASSIVE",
   "roamAreas": [
     "NEWBIE_ZONE"

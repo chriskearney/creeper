@@ -36,25 +36,26 @@ public class BattlePanel extends JPanel {
         this.npcHealthBar.setValue(100);
         this.npcHealthBar.setStringPainted(true);
 
-        this.npcHealthBar.setMaximumSize(new Dimension(240, 20));
-        this.npcHealthBar.setPreferredSize(new Dimension(240, 20));
-        this.npcHealthBar.setMinimumSize(new Dimension(240, 20));
+//        this.npcHealthBar.setMaximumSize(new Dimension(240, 20));
+//        this.npcHealthBar.setPreferredSize(new Dimension(240, 20));
+//        this.npcHealthBar.setMinimumSize(new Dimension(240, 20));
 
         this.imagePanel.setMaximumSize(new Dimension(240, 240));
         this.imagePanel.setMinimumSize(new Dimension(240, 240));
         this.imagePanel.setPreferredSize(new Dimension(240, 240));
-        this.imagePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.red)));
+        this.imagePanel.setBackground(Color.BLACK);
         //setTitle("Battle");
         setBackground(Color.BLACK);
         setLayout(new BorderLayout());
 
         JPanel jpanelTop = new JPanel();
-        jpanelTop.setLayout(new BorderLayout());
-        jpanelTop.add(imagePanel, BorderLayout.CENTER);
-        jpanelTop.add(npcHealthBar, BorderLayout.PAGE_END);
-        jpanelTop.setMaximumSize(new Dimension(240, 300));
-        jpanelTop.setMinimumSize(new Dimension(240, 300));
-        jpanelTop.setPreferredSize(new Dimension(240, 300));
+        jpanelTop.setLayout(new BoxLayout(jpanelTop, BoxLayout.PAGE_AXIS));
+        jpanelTop.add(imagePanel);
+        jpanelTop.add(npcHealthBar);
+        jpanelTop.setBackground(Color.BLACK);
+        jpanelTop.setMaximumSize(new Dimension(250, 278));
+        jpanelTop.setMinimumSize(new Dimension(250, 278));
+        jpanelTop.setPreferredSize(new Dimension(250, 278));
         jpanelTop.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Enemy"));
 
 
@@ -63,17 +64,17 @@ public class BattlePanel extends JPanel {
         jpanelBottom.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Battle Log"));
         jpanelBottom.add(creeperTerminal);
         jpanelBottom.setBackground(Color.BLACK);
-        jpanelBottom.setMaximumSize(new Dimension(240, 440));
-        jpanelBottom.setMinimumSize(new Dimension(240, 440));
-        jpanelBottom.setPreferredSize(new Dimension(240, 440));
+        jpanelBottom.setMaximumSize(new Dimension(250, 300));
+        jpanelBottom.setMinimumSize(new Dimension(250, 300));
+        jpanelBottom.setPreferredSize(new Dimension(250, 300));
 
-        add(jpanelTop, BorderLayout.CENTER);
-        add(jpanelBottom, BorderLayout.PAGE_END);
+        add(jpanelBottom, BorderLayout.LINE_START);
+        add(jpanelTop, BorderLayout.PAGE_END);
        // setDefaultCloseOperation(HIDE_ON_CLOSE);
 
-        setPreferredSize(new Dimension(240, 760));
-        setMinimumSize(new Dimension(240, 760));
-        setMaximumSize(new Dimension(240, 760));
+        setPreferredSize(new Dimension(250, 800));
+        setMinimumSize(new Dimension(250, 800));
+        setMaximumSize(new Dimension(250, 800));
 
         //pack();
     }
