@@ -2,6 +2,7 @@ package com.comandante.creeper.cclient;
 
 import com.comandante.creeper.events.CreeperEvent;
 import com.comandante.creeper.events.CreeperEventType;
+import com.comandante.creeper.events.DrawMapEvent;
 import com.comandante.creeper.events.PlayerData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.eventbus.Subscribe;
@@ -80,11 +81,8 @@ public class MapPanel extends JPanel {
 
 
     @Subscribe
-    public void creeperEvent(CreeperEvent creeperEvent) throws IOException {
-        if (!creeperEvent.getCreeperEventType().equals(CreeperEventType.DRAW_MAP)) {
-            return;
-        }
-        colorPane.appendANSI(creeperEvent.getPayload());
+    public void creeperEvent(DrawMapEvent drawMapEvent) throws IOException {
+        colorPane.appendANSI(drawMapEvent.getMap());
     }
 
     public MapWindowMovementHandler getMapWindowMovementHandler() {

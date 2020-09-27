@@ -1,5 +1,6 @@
 package com.comandante.creeper.cclient;
 
+import com.comandante.creeper.events.KillNpcEvent;
 import com.comandante.creeper.events.PlayerData;
 import com.google.common.base.Strings;
 import com.google.common.eventbus.Subscribe;
@@ -34,11 +35,11 @@ public class BattlePanel extends JPanel {
         this.imagePanel = new ImagePanel();
         this.npcHealthBar = new JProgressBar(0, 100);
         this.npcHealthBar.setValue(100);
-        this.npcHealthBar.setStringPainted(true);
+        this.npcHealthBar.setStringPainted(false);
 
-//        this.npcHealthBar.setMaximumSize(new Dimension(240, 20));
-//        this.npcHealthBar.setPreferredSize(new Dimension(240, 20));
-//        this.npcHealthBar.setMinimumSize(new Dimension(240, 20));
+        this.npcHealthBar.setMaximumSize(new Dimension(240, 14));
+        this.npcHealthBar.setPreferredSize(new Dimension(240, 14));
+        this.npcHealthBar.setMinimumSize(new Dimension(240, 14));
 
         this.imagePanel.setMaximumSize(new Dimension(240, 240));
         this.imagePanel.setMinimumSize(new Dimension(240, 240));
@@ -83,9 +84,9 @@ public class BattlePanel extends JPanel {
     public void creeperEvent(PlayerData playerData) {
         SwingUtilities.invokeLater(() -> {
             if (!Strings.isNullOrEmpty(playerData.getActiveFightNpcId())) {
-                int percentage = (int) ((1 - playerData.getActiveFightNpcHealthPercentage()) * 100);
-                npcHealthBar.setValue(percentage);
-
+                if (playerData.getActiveFightNpcHealthPercentage() != null) {
+                    npcHealthBar.setValue((int) Math.round(playerData.getActiveFightNpcHealthPercentage()));
+                }
                 if (lastNpcId != null && lastNpcId.equals(playerData.getActiveFightNpcId())) {
                     return;
                 }
@@ -99,6 +100,15 @@ public class BattlePanel extends JPanel {
                         LOG.error("Problem with image", e);
                     }
                 }
+            }
+        });
+    }
+
+    @Subscribe
+    public void creeperEvent(KillNpcEvent killNpcEvent) {
+        SwingUtilities.invokeLater(() -> {
+            if (killNpcEvent.getNpcId().equals(lastNpcId)) {
+                npcHealthBar.setValue(0);
             }
         });
     }

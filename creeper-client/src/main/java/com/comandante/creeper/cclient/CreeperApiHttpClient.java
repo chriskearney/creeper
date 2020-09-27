@@ -5,6 +5,8 @@ import com.comandante.creeper.chat.Gossip;
 import com.comandante.creeper.chat.Users;
 import com.comandante.creeper.events.CreeperEvent;
 import com.comandante.creeper.events.CreeperEventType;
+import com.comandante.creeper.events.DrawMapEvent;
+import com.comandante.creeper.events.KillNpcEvent;
 import com.comandante.creeper.events.PlayerData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
@@ -122,7 +124,14 @@ public class CreeperApiHttpClient extends AbstractScheduledService {
                             Users users = objectMapper.readValue(creeperEvent.getPayload(), Users.class);
                             eventBus.post(users);
                         }
-                        eventBus.post(creeperEvent);
+                        else if (creeperEvent.getCreeperEventType().equals(CreeperEventType.KILL_NPC)) {
+                            KillNpcEvent killNpcEvent = objectMapper.readValue(creeperEvent.getPayload(), KillNpcEvent.class);
+                            eventBus.post(killNpcEvent);
+                        }
+                        else if (creeperEvent.getCreeperEventType().equals(CreeperEventType.DRAW_MAP)) {
+                            DrawMapEvent drawMapEvent = objectMapper.readValue(creeperEvent.getPayload(), DrawMapEvent.class);
+                            eventBus.post(drawMapEvent);
+                        }
                     }
                 } catch (Exception e) {
                     LOG.error("Unable to run event loop.", e);

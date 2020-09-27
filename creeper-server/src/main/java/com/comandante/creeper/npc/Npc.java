@@ -6,6 +6,9 @@ import com.comandante.creeper.common.CreeperMessage;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SentryManager;
 import com.comandante.creeper.entity.CreeperEntity;
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
+import com.comandante.creeper.events.KillNpcEvent;
 import com.comandante.creeper.items.Effect;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.items.Loot;
@@ -178,7 +181,7 @@ public class Npc extends CreeperEntity {
     }
 
     private void processAddEffect(List<Effect> addEffects) {
-        for (Effect effect: addEffects) {
+        for (Effect effect : addEffects) {
             if (effects.size() >= maxEffects) {
                 continue;
             }
@@ -310,6 +313,19 @@ public class Npc extends CreeperEntity {
             p.addExperience(xpEarned);
             gameManager.getChannelUtils().write(p.getPlayerId(), getBattleReport(xpEarned) + "\r\n", true);
             p.addNpcKillLog(getName());
+            try {
+                CreeperEvent build = new CreeperEvent.Builder()
+                        .playerId(player.getPlayerId())
+                        .payload(gameManager.getObjectMapper().writeValueAsString(new KillNpcEvent(p.getPlayerId(), getEntityId(), xpEarned, getName())))
+                                .epochTimestamp(System.currentTimeMillis())
+                                .creeperEventType(CreeperEventType.KILL_NPC)
+                                .audience(CreeperEvent.Audience.PLAYER_ONLY)
+                                .build();
+
+                gameManager.getListenerService().post(build);
+            } catch (Exception ignored) {
+
+            }
         }
     }
 
@@ -496,7 +512,7 @@ public class Npc extends CreeperEntity {
         int size = attackMessages.size();
         int item = random.nextInt(size); // In real life, the Random object should be rather more shared than this
         int i = 0;
-        for(CreeperMessage attackMessage : attackMessages) {
+        for (CreeperMessage attackMessage : attackMessages) {
             if (i == item) {
                 return attackMessage;
             }

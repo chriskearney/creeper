@@ -18,6 +18,7 @@ import com.comandante.creeper.entity.CreeperEntity;
 import com.comandante.creeper.entity.EntityManager;
 import com.comandante.creeper.events.CreeperEvent;
 import com.comandante.creeper.events.CreeperEventType;
+import com.comandante.creeper.events.DrawMapEvent;
 import com.comandante.creeper.items.Effect;
 import com.comandante.creeper.items.EffectsManager;
 import com.comandante.creeper.items.ForageManager;
@@ -426,18 +427,20 @@ public class GameManager {
     }
 
     public void fireDrawMapEvent(String playerId, Room room) {
-        String map = getMapsManager().drawMap(room.getRoomId(), new Coords(10, 10));
-        CreeperEvent build = new CreeperEvent.Builder()
-                .playerId(playerId)
-                .payload(map)
-                .epochTimestamp(System.currentTimeMillis())
-                .creeperEventType(CreeperEventType.DRAW_MAP)
-                .audience(CreeperEvent.Audience.PLAYER_ONLY)
-                .build();
+        try {
+            String map = getMapsManager().drawMap(room.getRoomId(), new Coords(10, 10));
+            CreeperEvent build = new CreeperEvent.Builder()
+                    .playerId(playerId)
+                    .payload(objectMapper.writeValueAsString(new DrawMapEvent(map)))
+                    .epochTimestamp(System.currentTimeMillis())
+                    .creeperEventType(CreeperEventType.DRAW_MAP)
+                    .audience(CreeperEvent.Audience.PLAYER_ONLY)
+                    .build();
 
-        getListenerService().post(build);
+            getListenerService().post(build);
+        } catch (Exception ignore){
+        }
     }
-
 
     public void currentRoomLogic(String playerId, Room playerCurrentRoom) {
         Player player = playerManager.getPlayer(playerId);
