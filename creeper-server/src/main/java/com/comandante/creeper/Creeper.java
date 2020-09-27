@@ -101,7 +101,7 @@ public class Creeper extends AbstractIdleService {
         mapDBCreeperStorage.startAsync();
         mapDBCreeperStorage.awaitRunning();
 
-        playerManager = new PlayerManager(mapDBCreeperStorage, new SessionManager(), listenerService, registerJdkModuleAndGetMapper());
+        playerManager = new PlayerManager(mapDBCreeperStorage, entityManager, new SessionManager(), listenerService, registerJdkModuleAndGetMapper());
         playerManager.createAllGauges();
 
         roomManager = new RoomManager(playerManager);
