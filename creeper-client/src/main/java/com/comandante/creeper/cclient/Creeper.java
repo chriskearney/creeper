@@ -24,13 +24,13 @@ public class Creeper extends CreeperClientMainFrame {
     public static Integer httpPort = 9000;
 
     public Creeper(GossipWindow gossipWindow,
-                   BattleWindow battleWindow,
+                   BattlePanel battlePanel,
                    MapPanel mapPanel,
                    StatsWindow statsWindow,
                    ConsolePanel consoleWindow,
                    InventoryPanel inventoryPanel,
                    NearPanel nearMeWindow) {
-        super(consoleWindow, gossipWindow, battleWindow, mapPanel, statsWindow, inventoryPanel, nearMeWindow);
+        super(consoleWindow, gossipWindow, battlePanel, mapPanel, statsWindow, inventoryPanel, nearMeWindow);
     }
 
     public static void main(final String[] arg) throws Exception {
@@ -45,7 +45,7 @@ public class Creeper extends CreeperClientMainFrame {
         ClientConnectionInfo clientConnectionInfo = creeperApiHttpClient.getClientConnectionInfo();
         GossipUserPanel gossipUserPanel = new GossipUserPanel();
         final GossipWindow gossipWindow = new GossipWindow(new Input(line -> creeperApiHttpClient.gossip(line), null), gossipUserPanel);
-        final BattleWindow battleWindow = new BattleWindow(creeperApiHttpClient);
+        final BattlePanel battlePanel = new BattlePanel(creeperApiHttpClient);
         final ConsoleStatusBar consoleStatusBar = new ConsoleStatusBar(objectMapper);
         final StatsWindow statsWindow = new StatsWindow(objectMapper);
         final ConsolePanel consoleWindow = new ConsolePanel(consoleStatusBar, getMovementHandler(creeperApiHttpClient), Lists.newArrayList(basicAuthStringSupplier), () -> new JSchShellTtyConnector(clientConnectionInfo));
@@ -57,7 +57,7 @@ public class Creeper extends CreeperClientMainFrame {
         eventBus.register(mapStatusBar);
         eventBus.register(mapPanel);
         eventBus.register(gossipWindow);
-        eventBus.register(battleWindow);
+        eventBus.register(battlePanel);
         eventBus.register(statsWindow);
         eventBus.register(consoleStatusBar);
         eventBus.register(inventoryPanel);
@@ -88,7 +88,7 @@ public class Creeper extends CreeperClientMainFrame {
             }
         });
 
-        Creeper creeper = new Creeper(gossipWindow, battleWindow, mapPanel, statsWindow, consoleWindow, inventoryPanel, nearMeWindow);
+        Creeper creeper = new Creeper(gossipWindow, battlePanel, mapPanel, statsWindow, consoleWindow, inventoryPanel, nearMeWindow);
 
     }
 
