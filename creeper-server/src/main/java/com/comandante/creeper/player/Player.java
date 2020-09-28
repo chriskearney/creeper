@@ -9,6 +9,10 @@ import com.comandante.creeper.common.CreeperUtils;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SentryManager;
 import com.comandante.creeper.entity.CreeperEntity;
+import com.comandante.creeper.events.CreeperEvent;
+import com.comandante.creeper.events.CreeperEventType;
+import com.comandante.creeper.events.NpcDamageTakenEvent;
+import com.comandante.creeper.events.PlayerUpdateHealthEvent;
 import com.comandante.creeper.items.Effect;
 import com.comandante.creeper.items.Equipment;
 import com.comandante.creeper.items.EquipmentSlotType;
@@ -238,6 +242,23 @@ public class Player extends CreeperEntity implements Principal {
 
     public boolean updatePlayerHealth(long amount, Npc npc) {
         synchronized (interner.intern(playerId)) {
+            String npcId = null;
+            if (npc != null) {
+                npcId = npc.getEntityId();
+            }
+            try {
+                PlayerUpdateHealthEvent playerUpdateHealthEvent = new PlayerUpdateHealthEvent(npcId, amount, getPlayerName());
+                CreeperEvent build = new CreeperEvent.Builder()
+                        .audience(CreeperEvent.Audience.PLAYER_ONLY)
+                        .creeperEventType(CreeperEventType.PLAYER_UPDATE_HEALTH)
+                        .epochTimestamp(System.currentTimeMillis())
+                        .payload(gameManager.getObjectMapper().writeValueAsString(playerUpdateHealthEvent))
+                        .playerId(playerId)
+                        .build();
+                gameManager.getListenerService().post(build);
+            } catch (Exception ignore) {
+
+            }
             Optional<PlayerMetadata> playerMetadataOptional = gameManager.getPlayerManager().getPlayerMetadata(playerId);
             if (!playerMetadataOptional.isPresent()) {
                 return false;

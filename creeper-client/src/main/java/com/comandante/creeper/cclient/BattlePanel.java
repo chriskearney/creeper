@@ -3,6 +3,7 @@ package com.comandante.creeper.cclient;
 import com.comandante.creeper.events.KillNpcEvent;
 import com.comandante.creeper.events.NpcDamageTakenEvent;
 import com.comandante.creeper.events.PlayerData;
+import com.comandante.creeper.events.PlayerUpdateHealthEvent;
 import com.google.common.base.Strings;
 import com.google.common.eventbus.Subscribe;
 
@@ -95,32 +96,32 @@ public class BattlePanel extends JPanel {
                 enemyPanelBorder.setBorder(BorderFactory.createLineBorder(Color.green));
                 repaint();
             }
-        if (!Strings.isNullOrEmpty(playerData.getActiveFightNpcId())) {
-            if (playerData.getActiveFightNpcHealthPercentage() != null) {
-                npcHealthBar.setValue((int) Math.round(playerData.getActiveFightNpcHealthPercentage()));
-            }
-            if (lastNpcId != null && lastNpcId.equals(playerData.getActiveFightNpcId())) {
-                return;
-            }
-            if (lastNpcId != null && lastNpcId != playerData.getActiveFightNpcId()) {
-                creeperTerminal.append("reset");
-            }
-            lastNpcId = playerData.getActiveFightNpcId();
-            Optional<BufferedImage> npcArt = creeperApiHttpClient.getNpcArt(playerData.getActiveFightNpcId());
-            if (npcArt.isPresent()) {
-                try {
-                    imagePanel.setImage(resizeImage(npcArt.get(), 240, 240));
-                    imagePanel.repaint();
-                } catch (Exception e) {
-                    LOG.error("Problem with image", e);
+            if (!Strings.isNullOrEmpty(playerData.getActiveFightNpcId())) {
+                if (playerData.getActiveFightNpcHealthPercentage() != null) {
+                    npcHealthBar.setValue((int) Math.round(playerData.getActiveFightNpcHealthPercentage()));
                 }
-            } else {
-                imagePanel.setImage(null);
-                imagePanel.repaint();
+                if (lastNpcId != null && lastNpcId.equals(playerData.getActiveFightNpcId())) {
+                    return;
+                }
+                if (lastNpcId != null && lastNpcId != playerData.getActiveFightNpcId()) {
+                    creeperTerminal.append("reset");
+                }
+                lastNpcId = playerData.getActiveFightNpcId();
+                Optional<BufferedImage> npcArt = creeperApiHttpClient.getNpcArt(playerData.getActiveFightNpcId());
+                if (npcArt.isPresent()) {
+                    try {
+                        imagePanel.setImage(resizeImage(npcArt.get(), 240, 240));
+                        imagePanel.repaint();
+                    } catch (Exception e) {
+                        LOG.error("Problem with image", e);
+                    }
+                } else {
+                    imagePanel.setImage(null);
+                    imagePanel.repaint();
+                }
             }
-        }
-    });
-}
+        });
+    }
 
     @Subscribe
     public void creeperEvent(KillNpcEvent killNpcEvent) {
@@ -135,7 +136,18 @@ public class BattlePanel extends JPanel {
     public void creeperEvent(NpcDamageTakenEvent npcDamageTakenEvent) {
         SwingUtilities.invokeLater(() -> {
             if (npcDamageTakenEvent.getNpcId().equals(lastNpcId)) {
-                creeperTerminal.append("damage to " + npcDamageTakenEvent.getColorName() + ": " + npcDamageTakenEvent.getDamageAmount());
+                creeperTerminal.append(npcDamageTakenEvent.getDamageAmount() + " damage to " + npcDamageTakenEvent.getColorName());
+            }
+        });
+    }
+
+    @Subscribe
+    public void creeperEvent(PlayerUpdateHealthEvent playerUpdateHealthEvent) {
+        SwingUtilities.invokeLater(() -> {
+            if (playerUpdateHealthEvent.getAmount() > 0) {
+                creeperTerminal.append(playerUpdateHealthEvent.getAmount() + " damage to " + playerUpdateHealthEvent.getPlayerName());
+            } else {
+                creeperTerminal.append(playerUpdateHealthEvent.getAmount() + " health to " + playerUpdateHealthEvent.getPlayerName());
             }
         });
     }

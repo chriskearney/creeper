@@ -218,6 +218,15 @@ public class Npc extends CreeperEntity {
                 damage = getPlayerDamageMap().get(npcStatsChange.getPlayer().getPlayerId());
             }
             addDamageToMap(npcStatsChange.getPlayer().getPlayerId(), damage + damageReportAmt);
+            NpcDamageTakenEvent npcDamageTakenEvent = new NpcDamageTakenEvent(npcStatsChange.getPlayer().getPlayerId(), this.getEntityId(), damageReportAmt, colorName);
+            CreeperEvent build = new CreeperEvent.Builder()
+                    .audience(CreeperEvent.Audience.PLAYER_ONLY)
+                    .creeperEventType(CreeperEventType.NPC_DAMAGE)
+                    .epochTimestamp(System.currentTimeMillis())
+                    .payload(gameManager.getObjectMapper().writeValueAsString(npcDamageTakenEvent))
+                    .playerId(npcStatsChange.getPlayer().getPlayerId())
+                    .build();
+            gameManager.getListenerService().post(build);
             if (getStats().getCurrentHealth() == 0) {
                 killNpc(npcStatsChange.getPlayer());
                 return;
@@ -230,15 +239,6 @@ public class Npc extends CreeperEntity {
                     }
                 }
             }
-            NpcDamageTakenEvent npcDamageTakenEvent = new NpcDamageTakenEvent(npcStatsChange.getPlayer().getPlayerId(), this.getEntityId(), damageReportAmt, colorName);
-            CreeperEvent build = new CreeperEvent.Builder()
-                    .audience(CreeperEvent.Audience.PLAYER_ONLY)
-                    .creeperEventType(CreeperEventType.NPC_DAMAGE)
-                    .epochTimestamp(System.currentTimeMillis())
-                    .payload(gameManager.getObjectMapper().writeValueAsString(npcDamageTakenEvent))
-                    .playerId(npcStatsChange.getPlayer().getPlayerId())
-                    .build();
-            gameManager.getListenerService().post(build);
         } catch (Exception e) {
 
         }
