@@ -144,10 +144,13 @@ public class BattlePanel extends JPanel {
     @Subscribe
     public void creeperEvent(PlayerUpdateHealthEvent playerUpdateHealthEvent) {
         SwingUtilities.invokeLater(() -> {
+            if (playerUpdateHealthEvent.getAmount() == 0) {
+                return;
+            }
             if (playerUpdateHealthEvent.getAmount() > 0) {
-                creeperTerminal.append(playerUpdateHealthEvent.getAmount() + " damage to " + playerUpdateHealthEvent.getPlayerName());
-            } else {
                 creeperTerminal.append(playerUpdateHealthEvent.getAmount() + " health to " + playerUpdateHealthEvent.getPlayerName());
+            } else {
+                creeperTerminal.append(-playerUpdateHealthEvent.getAmount() + " damage to " + playerUpdateHealthEvent.getPlayerName());
             }
         });
     }

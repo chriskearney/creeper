@@ -1,6 +1,8 @@
 package com.comandante.creeper.cclient;
 
 import com.comandante.creeper.chat.Utils;
+import com.google.common.collect.Interner;
+import com.google.common.collect.Interners;
 import com.terminal.TerminalMode;
 import com.terminal.ui.JediTermWidget;
 import com.terminal.ui.TerminalSession;
@@ -17,6 +19,7 @@ public class CreeperTerminal extends JediTermWidget {
 
     private final String name;
     private final SimpleTtyConnector simpleTtyConnector;
+    private final Interner<String> nameInterner;
 
     public CreeperTerminal(String name) {
         super(new DefaultTabbedSettingsProvider());
@@ -26,6 +29,7 @@ public class CreeperTerminal extends JediTermWidget {
         this.getTerminal().setAnsiConformanceLevel(2);
         this.name = name;
         this.simpleTtyConnector = new SimpleTtyConnector();
+        this.nameInterner = Interners.newStrongInterner();
         if (this.canOpenSession()) {
             TerminalSession session = this.createTerminalSession(simpleTtyConnector);
             session.start();
@@ -33,15 +37,17 @@ public class CreeperTerminal extends JediTermWidget {
     }
 
     public void append(String append) {
-        try {
-            simpleTtyConnector.write(append);
-            if (this.getTerminal().getCursorX() > 1) {
-                this.getTerminal().newLine();
+        synchronized (nameInterner) {
+            try {
+                simpleTtyConnector.write(append);
+                if (this.getTerminal().getCursorX() > 1) {
+                    this.getTerminal().newLine();
+                }
+                int cursorY = this.getTerminal().getCursorY();
+                this.getTerminal().cursorPosition(0, cursorY);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-            int cursorY = this.getTerminal().getCursorY();
-            this.getTerminal().cursorPosition(0, cursorY);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
     }
 }
