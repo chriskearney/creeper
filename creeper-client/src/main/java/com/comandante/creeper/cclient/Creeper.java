@@ -29,8 +29,9 @@ public class Creeper extends CreeperClientMainFrame {
                    StatsWindow statsWindow,
                    ConsolePanel consoleWindow,
                    InventoryPanel inventoryPanel,
-                   NearPanel nearMeWindow) {
-        super(consoleWindow, gossipWindow, battlePanel, mapPanel, statsWindow, inventoryPanel, nearMeWindow);
+                   NearPanel nearMeWindow,
+                   EquipmentPanel equipmentPanel) {
+        super(consoleWindow, gossipWindow, battlePanel, mapPanel, statsWindow, inventoryPanel, nearMeWindow, equipmentPanel);
     }
 
     public static void main(final String[] arg) throws Exception {
@@ -45,7 +46,8 @@ public class Creeper extends CreeperClientMainFrame {
         ClientConnectionInfo clientConnectionInfo = creeperApiHttpClient.getClientConnectionInfo();
         GossipUserPanel gossipUserPanel = new GossipUserPanel();
         final GossipWindow gossipWindow = new GossipWindow(new Input(line -> creeperApiHttpClient.gossip(line), null), gossipUserPanel);
-        final BattlePanel battlePanel = new BattlePanel(creeperApiHttpClient);
+        final EquipmentPanel equipmentPanel = new EquipmentPanel();
+        final BattlePanel battlePanel = new BattlePanel(creeperApiHttpClient, equipmentPanel);
         final ConsoleStatusBar consoleStatusBar = new ConsoleStatusBar(objectMapper);
         final StatsWindow statsWindow = new StatsWindow(objectMapper);
         final ConsolePanel consoleWindow = new ConsolePanel(consoleStatusBar, getMovementHandler(creeperApiHttpClient), Lists.newArrayList(basicAuthStringSupplier), () -> new JSchShellTtyConnector(clientConnectionInfo));
@@ -65,6 +67,7 @@ public class Creeper extends CreeperClientMainFrame {
         eventBus.register(consoleWindow);
         eventBus.register(nearMeWindow);
         eventBus.register(gossipUserPanel);
+        eventBus.register(equipmentPanel);
 
 
         mapPanel.addMouseListener(new MouseAdapter() {
@@ -88,7 +91,7 @@ public class Creeper extends CreeperClientMainFrame {
             }
         });
 
-        Creeper creeper = new Creeper(gossipWindow, battlePanel, mapPanel, statsWindow, consoleWindow, inventoryPanel, nearMeWindow);
+        Creeper creeper = new Creeper(gossipWindow, battlePanel, mapPanel, statsWindow, consoleWindow, inventoryPanel, nearMeWindow, equipmentPanel);
 
     }
 

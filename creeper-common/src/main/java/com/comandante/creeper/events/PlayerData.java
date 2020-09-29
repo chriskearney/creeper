@@ -1,5 +1,6 @@
 package com.comandante.creeper.events;
 
+import com.comandante.creeper.items.Equipment;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.stats.Stats;
@@ -24,6 +25,7 @@ public class PlayerData {
     private String lookSelf;
     private List<String> inventory;
     private Map<String, Item> itemMap;
+    private Map<String, Item> equipmentMap;
     private Map<String, String> presentPlayers;
     private Set<Item> presentItems;
     private Map<String, String> presentNpcs;
@@ -44,6 +46,7 @@ public class PlayerData {
                       String lookSelf,
                       List<String> inventory,
                       Map<String, Item> itemMap,
+                      Map<String, Item> equipmentMap,
                       Map<String, String> presentPlayers,
                       Set<Item> presentItems,
                       Map<String, String> presentNpcs,
@@ -60,6 +63,7 @@ public class PlayerData {
         this.lookSelf = lookSelf;
         this.inventory = inventory;
         this.itemMap = itemMap;
+        this.equipmentMap = equipmentMap;
         this.presentPlayers = presentPlayers;
         this.presentItems = presentItems;
         this.presentNpcs = presentNpcs;
@@ -128,5 +132,9 @@ public class PlayerData {
 
     public Double getActiveFightNpcHealthPercentage() {
         return activeFightNpcHealthPercentage;
+    }
+
+    public Map<String, Item> getEquipmentMap() {
+        return equipmentMap;
     }
 }

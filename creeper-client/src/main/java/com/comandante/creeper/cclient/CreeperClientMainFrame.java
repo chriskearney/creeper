@@ -29,7 +29,8 @@ public abstract class CreeperClientMainFrame extends JFrame {
                                      MapPanel mapPanel,
                                      StatsWindow statsWindow,
                                      InventoryPanel inventoryPanel,
-                                     NearPanel nearPanel) {
+                                     NearPanel nearPanel,
+                                     EquipmentPanel equipmentPanel) {
 
         JPanel rightSidePanel = new JPanel();
         rightSidePanel.setLayout(new BoxLayout(rightSidePanel, BoxLayout.PAGE_AXIS));

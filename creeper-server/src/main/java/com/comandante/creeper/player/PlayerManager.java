@@ -79,6 +79,11 @@ public class PlayerManager {
                 }
             });
 
+            Map<String, Item> equipmentMap = Maps.newLinkedHashMap();
+            Set<Item> equipment = player.getEquipment();
+            for (Item q : equipment) {
+                equipmentMap.put(q.getItemId(), q);
+            }
 
             List<Npc> currentRoomNpcs = player.getCurrentRoom().getPresentNpcs();
 
@@ -118,6 +123,7 @@ public class PlayerManager {
                     player.getLookString(),
                     player.getRolledUpInventory(),
                     itemMap,
+                    equipmentMap,
                     presentPlayers,
                     Sets.newLinkedHashSet(presentItems),
                     presentNpcs,

@@ -23,6 +23,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Optional;
 
+import static com.comandante.creeper.cclient.CreeperClientMainFrame.RIGHT_SIDE_PANEL_DIMENSIONS;
+import static com.comandante.creeper.cclient.CreeperClientMainFrame.RIGHT_SIDE_PANEL_DIMENSIONS_BIGGER;
+
 public class BattlePanel extends JPanel {
 
     private final CreeperTerminal creeperTerminal;
@@ -34,7 +37,7 @@ public class BattlePanel extends JPanel {
 
     private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BattlePanel.class);
 
-    public BattlePanel(CreeperApiHttpClient creeperApiHttpClient) {
+    public BattlePanel(CreeperApiHttpClient creeperApiHttpClient, EquipmentPanel equipmentPanel) {
         this.creeperApiHttpClient = creeperApiHttpClient;
         this.creeperTerminal = new CreeperTerminal("Battle");
         this.imagePanel = new ImagePanel();
@@ -42,46 +45,45 @@ public class BattlePanel extends JPanel {
         this.npcHealthBar.setValue(100);
         this.npcHealthBar.setStringPainted(false);
 
-        this.npcHealthBar.setMaximumSize(new Dimension(240, 14));
-        this.npcHealthBar.setPreferredSize(new Dimension(240, 14));
-        this.npcHealthBar.setMinimumSize(new Dimension(240, 14));
+        this.npcHealthBar.setMaximumSize(new Dimension(270, 14));
+        this.npcHealthBar.setPreferredSize(new Dimension(270, 14));
+        this.npcHealthBar.setMinimumSize(new Dimension(270, 14));
 
-        this.imagePanel.setMaximumSize(new Dimension(240, 240));
-        this.imagePanel.setMinimumSize(new Dimension(240, 240));
-        this.imagePanel.setPreferredSize(new Dimension(240, 240));
+        this.imagePanel.setMaximumSize(new Dimension(270, 240));
+        this.imagePanel.setMinimumSize(new Dimension(270, 240));
+        this.imagePanel.setPreferredSize(new Dimension(270, 240));
         this.imagePanel.setBackground(Color.BLACK);
         this.enemyPanelBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Enemy");
         //setTitle("Battle");
         setBackground(Color.BLACK);
-        setLayout(new BorderLayout());
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         JPanel jpanelTop = new JPanel();
         jpanelTop.setLayout(new BoxLayout(jpanelTop, BoxLayout.PAGE_AXIS));
         jpanelTop.add(imagePanel);
         jpanelTop.add(npcHealthBar);
         jpanelTop.setBackground(Color.BLACK);
-        jpanelTop.setMaximumSize(new Dimension(250, 278));
-        jpanelTop.setMinimumSize(new Dimension(250, 278));
-        jpanelTop.setPreferredSize(new Dimension(250, 278));
         jpanelTop.setBorder(enemyPanelBorder);
 
-
+        equipmentPanel.setMaximumSize(RIGHT_SIDE_PANEL_DIMENSIONS);
+        equipmentPanel.setMinimumSize(RIGHT_SIDE_PANEL_DIMENSIONS);
+        equipmentPanel.setPreferredSize(RIGHT_SIDE_PANEL_DIMENSIONS);
         JPanel jpanelBottom = new JPanel();
         jpanelBottom.setLayout(new BoxLayout(jpanelBottom, BoxLayout.PAGE_AXIS));
-        jpanelBottom.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Battle Log"));
-        jpanelBottom.add(creeperTerminal);
+        jpanelBottom.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Equipment"));
+        jpanelBottom.add(equipmentPanel);
         jpanelBottom.setBackground(Color.BLACK);
-        jpanelBottom.setMaximumSize(new Dimension(250, 300));
-        jpanelBottom.setMinimumSize(new Dimension(250, 300));
-        jpanelBottom.setPreferredSize(new Dimension(250, 300));
 
-        add(jpanelBottom, BorderLayout.LINE_START);
-        add(jpanelTop, BorderLayout.PAGE_END);
+
+
+        //add(equipmentPanel);
+        add(jpanelBottom);
+        add(jpanelTop);
         // setDefaultCloseOperation(HIDE_ON_CLOSE);
 
-        setPreferredSize(new Dimension(250, 800));
-        setMinimumSize(new Dimension(250, 800));
-        setMaximumSize(new Dimension(250, 800));
+//        setPreferredSize(new Dimension(250, 800));
+//        setMinimumSize(new Dimension(250, 800));
+//        setMaximumSize(new Dimension(250, 800));
 
         //pack();
     }
