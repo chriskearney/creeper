@@ -1,5 +1,7 @@
 package com.terminal.ui;
 
+import com.intellij.ui.ColorUtil;
+
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
@@ -14,22 +16,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class ColorPane extends JTextPane {
-    static final Color D_Black = Color.getHSBColor(0.000f, 0.000f, 0.000f);
-    static final Color D_Red = Color.getHSBColor(0.000f, 1.000f, 0.502f);
-    static final Color D_Blue = Color.getHSBColor(0.667f, 1.000f, 0.502f);
-    static final Color D_Magenta = Color.getHSBColor(0.833f, 1.000f, 0.502f);
-    static final Color D_Green = Color.getHSBColor(0.333f, 1.000f, 0.502f);
-    static final Color D_Yellow = Color.getHSBColor(0.167f, 1.000f, 0.502f);
-    static final Color D_Cyan = Color.getHSBColor(0.500f, 1.000f, 0.502f);
-    static final Color D_White = Color.getHSBColor(0.000f, 0.000f, 0.753f);
-    static final Color B_Black = Color.getHSBColor(0.000f, 0.000f, 0.502f);
-    static final Color B_Red = Color.getHSBColor(0.000f, 1.000f, 1.000f);
-    static final Color B_Blue = Color.getHSBColor(0.667f, 1.000f, 1.000f);
-    static final Color B_Magenta = Color.getHSBColor(0.833f, 1.000f, 1.000f);
-    static final Color B_Green = Color.getHSBColor(0.333f, 1.000f, 1.000f);
-    static final Color B_Yellow = Color.getHSBColor(0.167f, 1.000f, 1.000f);
-    static final Color B_Cyan = Color.getHSBColor(0.500f, 1.000f, 1.000f);
-    static final Color B_White = Color.getHSBColor(0.000f, 0.000f, 1.000f);
+    static final Color D_Black = new Color(0x000000);
+    static final Color D_Red = new Color(0xcd0000);
+    static final Color D_Blue = new Color(0x1e90ff);
+    static final Color D_Magenta = new Color(0xcd00cd);
+    static final Color D_Green = new Color(0x00cd00);
+    static final Color D_Yellow = new Color(0xcdcd00);
+    static final Color D_Cyan = new Color(0x00cdcd);
+    static final Color D_White = new Color(0xe5e5e5);
+    static final Color B_Black = new Color(0x4c4c4c);
+    static final Color B_Red = new Color(0xff0000);
+    static final Color B_Blue = new Color(0x4682b4);
+    static final Color B_Magenta = new Color(0xff00ff);
+    static final Color B_Green = new Color(0x00ff00);
+    static final Color B_Yellow = new Color(0xffff00);
+    static final Color B_Cyan = new Color(0x00ffff);
+    static final Color B_White = new Color(0xffffff);
     static final Color cReset = Color.getHSBColor(0.000f, 0.000f, 1.000f);
     static Color colorCurrent = cReset;
     String remaining = "";
@@ -152,6 +154,7 @@ public class ColorPane extends JTextPane {
         } else if (ANSIColor.equals("\u001B[33m")) {
             return D_Yellow;
         } else if (ANSIColor.equals("\u001B[34m")) {
+//            return D_Blue;
             return D_Blue;
         } else if (ANSIColor.equals("\u001B[35m")) {
             return D_Magenta;
@@ -178,12 +181,14 @@ public class ColorPane extends JTextPane {
         } else if (ANSIColor.equals("\u001B[1;30m")) {
             return B_Black;
         } else if (ANSIColor.equals("\u001B[1;31m")) {
+            //return B_Red;
             return B_Red;
         } else if (ANSIColor.equals("\u001B[1;32m")) {
             return B_Green;
         } else if (ANSIColor.equals("\u001B[1;33m")) {
             return B_Yellow;
         } else if (ANSIColor.equals("\u001B[1;34m")) {
+           // return B_Blue;
             return B_Blue;
         } else if (ANSIColor.equals("\u001B[1;35m")) {
             return B_Magenta;
