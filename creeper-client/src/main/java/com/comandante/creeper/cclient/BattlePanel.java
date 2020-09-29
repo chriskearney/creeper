@@ -65,9 +65,9 @@ public class BattlePanel extends JPanel {
         jpanelTop.setBackground(Color.BLACK);
         jpanelTop.setBorder(enemyPanelBorder);
 
-        equipmentPanel.setMaximumSize(RIGHT_SIDE_PANEL_DIMENSIONS);
-        equipmentPanel.setMinimumSize(RIGHT_SIDE_PANEL_DIMENSIONS);
-        equipmentPanel.setPreferredSize(RIGHT_SIDE_PANEL_DIMENSIONS);
+        equipmentPanel.setMaximumSize(new Dimension(270, 138));
+        equipmentPanel.setMinimumSize(new Dimension(270, 138));
+        equipmentPanel.setPreferredSize(new Dimension(270, 138));
         JPanel jpanelBottom = new JPanel();
         jpanelBottom.setLayout(new BoxLayout(jpanelBottom, BoxLayout.PAGE_AXIS));
         jpanelBottom.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Equipment"));

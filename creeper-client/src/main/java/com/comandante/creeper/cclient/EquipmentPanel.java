@@ -3,6 +3,7 @@ package com.comandante.creeper.cclient;
 import com.comandante.creeper.events.PlayerData;
 import com.comandante.creeper.items.EquipmentSlotType;
 import com.comandante.creeper.items.Item;
+import com.google.common.collect.Maps;
 import com.google.common.eventbus.Subscribe;
 import com.terminal.ui.ColorPane;
 
@@ -20,6 +21,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
@@ -37,7 +39,6 @@ public class EquipmentPanel extends JPanel {
         rolledUpInventoryItems.setCellRenderer(new EquipmentSlotRenderer());
         JScrollPane pane = new JScrollPane(rolledUpInventoryItems);
         pane.setBorder(BorderFactory.createEmptyBorder());
-
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
         setPreferredSize(CreeperClientMainFrame.RIGHT_SIDE_PANEL_DIMENSIONS_BIGGER);
@@ -48,22 +49,10 @@ public class EquipmentPanel extends JPanel {
 
     public static class EquipmentSlot {
 
-        private EquipmentSlotType equipmentSlotType;
-        private String equipmentName;
         private Item item;
 
-        public EquipmentSlot(EquipmentSlotType equipmentSlotType, String equipmentName, Item item) {
-            this.equipmentSlotType = equipmentSlotType;
-            this.equipmentName = equipmentName;
+        public EquipmentSlot(Item item) {
             this.item = item;
-        }
-
-        public EquipmentSlotType getEquipmentSlotType() {
-            return equipmentSlotType;
-        }
-
-        public String getEquipmentName() {
-            return equipmentName;
         }
 
         public Item getItem() {
@@ -78,7 +67,7 @@ public class EquipmentPanel extends JPanel {
             EquipmentSlot equipmentSlot = (EquipmentSlot) value;
             ColorPane colorPane = new ColorPane();
             colorPane.setOpaque(true);
-            colorPane.appendANSI(equipmentSlot.equipmentSlotType.getName() + ": " + equipmentSlot.equipmentName);
+            colorPane.appendANSI(equipmentSlot.getItem().getEquipment().getEquipmentSlotType().getName() + "\t| " + equipmentSlot.getItem().getItemName());
             if (isSelected) {
                 colorPane.setBackground(Color.darkGray);
             } else {
@@ -95,13 +84,23 @@ public class EquipmentPanel extends JPanel {
             public void run() {
                 defaultListModel.removeAllElements();
 
+                Map<EquipmentSlotType, Item> slotToItemMap = Maps.newHashMap();
                 for (Item equipment: playerData.getEquipmentMap().values()) {
-                    defaultListModel.addElement(new EquipmentSlot(equipment.getEquipment().getEquipmentSlotType(), equipment.getItemName(), equipment));
+                    slotToItemMap.put(equipment.getEquipment().getEquipmentSlotType(), equipment);
                 }
+                defaultListModel.addElement(new EquipmentSlot(slotToItemMap.get(EquipmentSlotType.HAND)));
+                defaultListModel.addElement(new EquipmentSlot(slotToItemMap.get(EquipmentSlotType.HEAD)));
+                defaultListModel.addElement(new EquipmentSlot(slotToItemMap.get(EquipmentSlotType.FEET)));
+                defaultListModel.addElement(new EquipmentSlot(slotToItemMap.get(EquipmentSlotType.LEGS)));
+                defaultListModel.addElement(new EquipmentSlot(slotToItemMap.get(EquipmentSlotType.WRISTS)));
+                defaultListModel.addElement(new EquipmentSlot(slotToItemMap.get(EquipmentSlotType.CHEST)));
+                defaultListModel.addElement(new EquipmentSlot(slotToItemMap.get(EquipmentSlotType.BAG)));
 
                 rolledUpInventoryItems.revalidate();
                 rolledUpInventoryItems.repaint();
             }
         });
     }
+
+
 }
