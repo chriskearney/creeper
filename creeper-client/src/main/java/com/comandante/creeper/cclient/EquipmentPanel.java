@@ -88,8 +88,8 @@ public class EquipmentPanel extends JPanel {
                 for (Item equipment: playerData.getEquipmentMap().values()) {
                     slotToItemMap.put(equipment.getEquipment().getEquipmentSlotType(), equipment);
                 }
-                defaultListModel.addElement(new EquipmentSlot(slotToItemMap.get(EquipmentSlotType.HAND)));
                 defaultListModel.addElement(new EquipmentSlot(slotToItemMap.get(EquipmentSlotType.HEAD)));
+                defaultListModel.addElement(new EquipmentSlot(slotToItemMap.get(EquipmentSlotType.HAND)));
                 defaultListModel.addElement(new EquipmentSlot(slotToItemMap.get(EquipmentSlotType.FEET)));
                 defaultListModel.addElement(new EquipmentSlot(slotToItemMap.get(EquipmentSlotType.LEGS)));
                 defaultListModel.addElement(new EquipmentSlot(slotToItemMap.get(EquipmentSlotType.WRISTS)));

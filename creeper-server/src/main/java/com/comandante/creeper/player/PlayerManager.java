@@ -121,6 +121,8 @@ public class PlayerManager {
                     player.getCurrentRoom().getRoomId(),
                     player.getCurrentRoom().getAreas(),
                     player.getLookString(),
+                    player.getOrnatePlayerName(),
+                    player.getLevelAndClassString(),
                     player.getRolledUpInventory(),
                     itemMap,
                     equipmentMap,

@@ -37,7 +37,7 @@ public class BattlePanel extends JPanel {
 
     private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BattlePanel.class);
 
-    public BattlePanel(CreeperApiHttpClient creeperApiHttpClient, EquipmentPanel equipmentPanel) {
+    public BattlePanel(CreeperApiHttpClient creeperApiHttpClient, EquipmentPanel equipmentPanel, PlayerInfoPanel playerInfoPanel) {
         this.creeperApiHttpClient = creeperApiHttpClient;
         this.creeperTerminal = new CreeperTerminal("Battle");
         this.imagePanel = new ImagePanel();
@@ -74,9 +74,19 @@ public class BattlePanel extends JPanel {
         jpanelBottom.add(equipmentPanel);
         jpanelBottom.setBackground(Color.BLACK);
 
+        playerInfoPanel.setMaximumSize(new Dimension(270, 138));
+        playerInfoPanel.setMinimumSize(new Dimension(270, 138));
+        playerInfoPanel.setPreferredSize(new Dimension(270, 138));
+        JPanel jpanelPlayerInfo = new JPanel();
+        jpanelPlayerInfo.setLayout(new BoxLayout(jpanelPlayerInfo, BoxLayout.PAGE_AXIS));
+        jpanelPlayerInfo.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Player"));
+        jpanelPlayerInfo.add(playerInfoPanel);
+        jpanelPlayerInfo.setBackground(Color.BLACK);
+
 
 
         //add(equipmentPanel);
+        add(jpanelPlayerInfo);
         add(jpanelBottom);
         add(jpanelTop);
         // setDefaultCloseOperation(HIDE_ON_CLOSE);

@@ -1691,17 +1691,30 @@ public class Player extends CreeperEntity implements Principal {
         }
     }
 
+    public String getOrnatePlayerName() {
+        return "-+=[ " + Color.RESET + playerName + Color.MAGENTA + " ]=+- " + Color.RESET;
+    }
+
+    public String getLevelAndClassString(long playerLevel) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Level ").append(playerLevel).append(" ")
+                .append(Color.YELLOW).append("[").append(Color.RESET).append(CreeperUtils.capitalize(getPlayerClass().getIdentifier())).append(Color.YELLOW).append("]").append(Color.RESET)
+                .append("\r\n");
+
+        return sb.toString();
+    }
+
+    public String getLevelAndClassString() {
+        return getLevelAndClassString(Levels.getLevel(gameManager.getStatsModifierFactory().getStatsModifier(this).getExperience()));
+    }
+
     public String getLookString() {
         StringBuilder sb = new StringBuilder();
         Stats origStats = gameManager.getStatsModifierFactory().getStatsModifier(this);
         Stats modifiedStats = getPlayerStatsWithEquipmentAndLevel();
         Stats diffStats = StatsHelper.getDifference(modifiedStats, origStats);
-        sb.append(Color.MAGENTA)
-                .append("-+=[ ").append(Color.RESET).append(playerName).append(Color.MAGENTA + " ]=+- " + Color.RESET)
-                .append("\r\n");
-        sb.append("Level ").append(Levels.getLevel(origStats.getExperience())).append(" ")
-                .append(Color.YELLOW).append("[").append(Color.RESET).append(CreeperUtils.capitalize(getPlayerClass().getIdentifier())).append(Color.YELLOW).append("]").append(Color.RESET)
-                .append("\r\n");
+        sb.append(getOrnatePlayerName());
+        sb.append(getLevelAndClassString(Levels.getLevel(origStats.getExperience())));
         sb.append("Foraging Level ").append(ForageManager.getLevel(modifiedStats.getForaging())).append("\r\n");
         sb.append(Color.MAGENTA + "Equip--------------------------------" + Color.RESET).append("\r\n");
         sb.append(buildEquipmentString()).append("\r\n");

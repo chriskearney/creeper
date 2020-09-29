@@ -23,6 +23,8 @@ public class PlayerData {
     private Integer currentRoomId;
     private Set<Area> currentAreas;
     private String lookSelf;
+    private String ornatePlayerName;
+    private String ornateLevelAndClass;
     private List<String> inventory;
     private Map<String, Item> itemMap;
     private Map<String, Item> equipmentMap;
@@ -44,6 +46,8 @@ public class PlayerData {
                       Integer currentRoomId,
                       Set<Area> currentAreas,
                       String lookSelf,
+                      String ornatePlayerName,
+                      String ornateLevelAndClass,
                       List<String> inventory,
                       Map<String, Item> itemMap,
                       Map<String, Item> equipmentMap,
@@ -61,6 +65,8 @@ public class PlayerData {
         this.currentRoomId = currentRoomId;
         this.currentAreas = currentAreas;
         this.lookSelf = lookSelf;
+        this.ornatePlayerName = ornatePlayerName;
+        this.ornateLevelAndClass = ornateLevelAndClass;
         this.inventory = inventory;
         this.itemMap = itemMap;
         this.equipmentMap = equipmentMap;
@@ -136,5 +142,13 @@ public class PlayerData {
 
     public Map<String, Item> getEquipmentMap() {
         return equipmentMap;
+    }
+
+    public String getOrnatePlayerName() {
+        return ornatePlayerName;
+    }
+
+    public String getOrnateLevelAndClass() {
+        return ornateLevelAndClass;
     }
 }

@@ -47,7 +47,8 @@ public class Creeper extends CreeperClientMainFrame {
         GossipUserPanel gossipUserPanel = new GossipUserPanel();
         final GossipWindow gossipWindow = new GossipWindow(new Input(line -> creeperApiHttpClient.gossip(line), null), gossipUserPanel);
         final EquipmentPanel equipmentPanel = new EquipmentPanel();
-        final BattlePanel battlePanel = new BattlePanel(creeperApiHttpClient, equipmentPanel);
+        final PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel();
+        final BattlePanel battlePanel = new BattlePanel(creeperApiHttpClient, equipmentPanel, playerInfoPanel);
         final ConsoleStatusBar consoleStatusBar = new ConsoleStatusBar(objectMapper);
         final StatsWindow statsWindow = new StatsWindow(objectMapper);
         final ConsolePanel consoleWindow = new ConsolePanel(consoleStatusBar, getMovementHandler(creeperApiHttpClient), Lists.newArrayList(basicAuthStringSupplier), () -> new JSchShellTtyConnector(clientConnectionInfo));
@@ -68,6 +69,7 @@ public class Creeper extends CreeperClientMainFrame {
         eventBus.register(nearMeWindow);
         eventBus.register(gossipUserPanel);
         eventBus.register(equipmentPanel);
+        eventBus.register(playerInfoPanel);
 
 
         mapPanel.addMouseListener(new MouseAdapter() {
