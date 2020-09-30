@@ -1,12 +1,18 @@
 package com.comandante.creeper.cclient;
 
 import com.comandante.creeper.events.PlayerData;
+import com.comandante.creeper.stats.Levels;
 import com.google.common.eventbus.Subscribe;
 import com.terminal.ui.ColorPane;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class PlayerInfoPanel extends JPanel {
 
@@ -14,31 +20,43 @@ public class PlayerInfoPanel extends JPanel {
 
     private String ornateName;
     private String ornateLevelAndClass;
+    private final JProgressBar playerManaBar;
+    private final JProgressBar playerHealthBar;
 
     public PlayerInfoPanel() {
         this.colorPane = new ColorPane();
-        setLayout(new BorderLayout());
+        this.playerManaBar = new JProgressBar(0, 100);
+        this.playerManaBar.setValue(100);
+        this.playerManaBar.setStringPainted(false);
+        this.playerManaBar.setForeground(ColorPane.D_Blue);
+        this.playerHealthBar = new JProgressBar(0, 100);
+        this.playerHealthBar.setValue(100);
+        this.playerHealthBar.setForeground(ColorPane.D_Green);
+        this.playerHealthBar.setStringPainted(false);
+
+        this.playerManaBar.setMaximumSize(new Dimension(270, 14));
+        this.playerManaBar.setPreferredSize(new Dimension(270, 14));
+        this.playerManaBar.setMinimumSize(new Dimension(270, 14));
+        this.playerHealthBar.setMaximumSize(new Dimension(270, 14));
+        this.playerHealthBar.setPreferredSize(new Dimension(270, 14));
+        this.playerHealthBar.setMinimumSize(new Dimension(270, 14));
+
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBackground(Color.BLACK);
         add(colorPane);
+        add(playerManaBar);
+        add(playerHealthBar);
         setFocusable(false);
         setVisible(true);
     }
 
     @Subscribe
     public void creeperEvent(PlayerData playerData) {
-        boolean render = false;
-        if (!playerData.getOrnatePlayerName().equals(ornateName)) {
-            this.ornateName = playerData.getOrnatePlayerName();
-            render = true;
-        }
-
-        if (!playerData.getOrnateLevelAndClass().equals(ornateLevelAndClass)) {
-            this.ornateLevelAndClass = playerData.getOrnateLevelAndClass();
-            render = true;
-        }
-
-        if (render) {
-            colorPane.appendANSI(ornateName + "\r\n" + ornateLevelAndClass);
-        }
+        this.ornateName = playerData.getOrnatePlayerName();
+        this.ornateLevelAndClass = playerData.getOrnateLevelAndClass();
+        long nextLevel = Levels.getLevel(playerData.getPlayerMetadata().getStats().getExperience()) + 1;
+        long expToNextLevel = Levels.getXp(nextLevel) - playerData.getPlayerMetadata().getStats().getExperience();
+        String gold = "You have " + NumberFormat.getNumberInstance(Locale.US).format(playerData.getPlayerMetadata().getGold()) + com.comandante.creeper.server.player_communication.Color.YELLOW + " gold." + com.comandante.creeper.server.player_communication.Color.RESET;
+        colorPane.appendANSI(ornateName + "\r\n" + ornateLevelAndClass + "\r\n" + expToNextLevel + " xp to level " + nextLevel + "(" + playerData.getXpRatePerSecondOverFiveMinute() + "xp/sec)" + "\r\n" + gold);
     }
 }

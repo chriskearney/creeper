@@ -1692,7 +1692,7 @@ public class Player extends CreeperEntity implements Principal {
     }
 
     public String getOrnatePlayerName() {
-        return "-+=[ " + Color.RESET + playerName + Color.MAGENTA + " ]=+- " + Color.RESET;
+        return Color.MAGENTA + "-+=[ " + Color.RESET + playerName + Color.MAGENTA + " ]=+- " + Color.RESET;
     }
 
     public String getLevelAndClassString(long playerLevel) {

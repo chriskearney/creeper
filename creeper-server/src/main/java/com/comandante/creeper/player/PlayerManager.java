@@ -2,6 +2,7 @@ package com.comandante.creeper.player;
 
 
 import com.codahale.metrics.Gauge;
+import com.codahale.metrics.Meter;
 import com.comandante.creeper.Creeper;
 import com.comandante.creeper.core_game.SentryManager;
 import com.comandante.creeper.core_game.SessionManager;
@@ -33,6 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 import static com.codahale.metrics.MetricRegistry.name;
+import static com.comandante.creeper.command.commands.XpCommand.round;
 import static com.comandante.creeper.entity.EntityManager.SLEEP_MILLIS;
 
 public class PlayerManager {
@@ -111,6 +113,9 @@ public class PlayerManager {
                 }
             }
 
+            Meter meter = Creeper.metrics.meter("experience-" + player.getPlayerName());
+            String xpRatePerSecondOverFiveMinutes = String.valueOf(round(meter.getFiveMinuteRate()));
+
             PlayerData playerData = new PlayerData(playerMetadata,
                     level,
                     expToNextLevel,
@@ -129,7 +134,8 @@ public class PlayerManager {
                     presentPlayers,
                     Sets.newLinkedHashSet(presentItems),
                     presentNpcs,
-                    presentMerchants);
+                    presentMerchants,
+                    xpRatePerSecondOverFiveMinutes);
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
                     .creeperEventType(CreeperEventType.PLAYERDATA)

@@ -32,6 +32,7 @@ public class PlayerData {
     private Set<Item> presentItems;
     private Map<String, String> presentNpcs;
     private Map<String, String> presentMerchants;
+    private String xpRatePerSecondOverFiveMinute;
 
     public PlayerData() {
     }
@@ -54,7 +55,8 @@ public class PlayerData {
                       Map<String, String> presentPlayers,
                       Set<Item> presentItems,
                       Map<String, String> presentNpcs,
-                      Map<String, String> presentMerchants) {
+                      Map<String, String> presentMerchants,
+                      String xpRatePerSecondOverFiveMinute) {
         this.playerMetadata = playerMetadata;
         this.level = level;
         this.xpToNextLevel = xpToNextLevel;
@@ -74,6 +76,7 @@ public class PlayerData {
         this.presentItems = presentItems;
         this.presentNpcs = presentNpcs;
         this.presentMerchants = presentMerchants;
+        this.xpRatePerSecondOverFiveMinute = xpRatePerSecondOverFiveMinute;
     }
 
     public PlayerMetadata getPlayerMetadata() {
@@ -150,5 +153,9 @@ public class PlayerData {
 
     public String getOrnateLevelAndClass() {
         return ornateLevelAndClass;
+    }
+
+    public String getXpRatePerSecondOverFiveMinute() {
+        return xpRatePerSecondOverFiveMinute;
     }
 }
