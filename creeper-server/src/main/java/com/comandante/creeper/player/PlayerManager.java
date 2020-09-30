@@ -114,7 +114,7 @@ public class PlayerManager {
             }
 
             Meter meter = Creeper.metrics.meter("experience-" + player.getPlayerName());
-            String xpRatePerSecondOverFiveMinutes = String.valueOf(round(meter.getFiveMinuteRate()));
+            String xpRatePerSecondOverOneMinutes = String.valueOf(round(meter.getOneMinuteRate()));
 
             PlayerData playerData = new PlayerData(playerMetadata,
                     level,
@@ -135,7 +135,7 @@ public class PlayerManager {
                     Sets.newLinkedHashSet(presentItems),
                     presentNpcs,
                     presentMerchants,
-                    xpRatePerSecondOverFiveMinutes);
+                    xpRatePerSecondOverOneMinutes);
             CreeperEvent build = new CreeperEvent.Builder()
                     .audience(CreeperEvent.Audience.PLAYER_ONLY)
                     .creeperEventType(CreeperEventType.PLAYERDATA)

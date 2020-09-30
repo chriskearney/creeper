@@ -45,9 +45,9 @@ public class BattlePanel extends JPanel {
         this.npcHealthBar.setValue(100);
         this.npcHealthBar.setStringPainted(false);
 
-        this.npcHealthBar.setMaximumSize(new Dimension(270, 14));
-        this.npcHealthBar.setPreferredSize(new Dimension(270, 14));
-        this.npcHealthBar.setMinimumSize(new Dimension(270, 14));
+        this.npcHealthBar.setMaximumSize(new Dimension(270, 7));
+        this.npcHealthBar.setPreferredSize(new Dimension(270, 7));
+        this.npcHealthBar.setMinimumSize(new Dimension(270, 7));
 
         this.imagePanel.setMaximumSize(new Dimension(270, 240));
         this.imagePanel.setMinimumSize(new Dimension(270, 240));

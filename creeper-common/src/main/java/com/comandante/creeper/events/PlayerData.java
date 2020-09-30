@@ -1,6 +1,5 @@
 package com.comandante.creeper.events;
 
-import com.comandante.creeper.items.Equipment;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.player.PlayerMetadata;
 import com.comandante.creeper.stats.Stats;
@@ -32,7 +31,7 @@ public class PlayerData {
     private Set<Item> presentItems;
     private Map<String, String> presentNpcs;
     private Map<String, String> presentMerchants;
-    private String xpRatePerSecondOverFiveMinute;
+    private String xpRatePerSecondOverOneMinute;
 
     public PlayerData() {
     }
@@ -56,7 +55,7 @@ public class PlayerData {
                       Set<Item> presentItems,
                       Map<String, String> presentNpcs,
                       Map<String, String> presentMerchants,
-                      String xpRatePerSecondOverFiveMinute) {
+                      String xpRatePerSecondOverOneMinute) {
         this.playerMetadata = playerMetadata;
         this.level = level;
         this.xpToNextLevel = xpToNextLevel;
@@ -76,7 +75,7 @@ public class PlayerData {
         this.presentItems = presentItems;
         this.presentNpcs = presentNpcs;
         this.presentMerchants = presentMerchants;
-        this.xpRatePerSecondOverFiveMinute = xpRatePerSecondOverFiveMinute;
+        this.xpRatePerSecondOverOneMinute = xpRatePerSecondOverOneMinute;
     }
 
     public PlayerMetadata getPlayerMetadata() {
@@ -155,7 +154,7 @@ public class PlayerData {
         return ornateLevelAndClass;
     }
 
-    public String getXpRatePerSecondOverFiveMinute() {
-        return xpRatePerSecondOverFiveMinute;
+    public String getXpRatePerSecondOverOneMinute() {
+        return xpRatePerSecondOverOneMinute;
     }
 }
