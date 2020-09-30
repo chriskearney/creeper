@@ -56,8 +56,8 @@ public class PlayerInfoPanel extends JPanel {
         long nextLevel = Levels.getLevel(playerData.getPlayerMetadata().getStats().getExperience()) + 1;
         long expToNextLevel = Levels.getXp(nextLevel) - playerData.getPlayerMetadata().getStats().getExperience();
         String gold = "You have " + NumberFormat.getNumberInstance(Locale.US).format(playerData.getPlayerMetadata().getGold()) + com.comandante.creeper.server.player_communication.Color.YELLOW + " gold." + com.comandante.creeper.server.player_communication.Color.RESET;
-        String goldInBank = "You have " + NumberFormat.getNumberInstance(Locale.US).format(playerData.getPlayerMetadata().getGoldInBank()) + com.comandante.creeper.server.player_communication.Color.YELLOW + " gold." + com.comandante.creeper.server.player_communication.Color.RESET;
-        colorPane.appendANSI(ornateName + "\r\n" + ornateLevelAndClass + "\r\n" + expToNextLevel + " xp to level " + nextLevel + " (" + playerData.getXpRatePerSecondOverOneMinute() + "xp/sec)" + "\r\n" + gold);
+        String goldInBank = "You have " + NumberFormat.getNumberInstance(Locale.US).format(playerData.getPlayerMetadata().getGoldInBank()) + com.comandante.creeper.server.player_communication.Color.YELLOW + " gold" + com.comandante.creeper.server.player_communication.Color.RESET + " in the bank.";
+        colorPane.appendANSI(ornateName + "\r\n" + ornateLevelAndClass + "\r\n" + expToNextLevel + " xp to level " + nextLevel + " (" + playerData.getXpRatePerSecondOverOneMinute() + "xp/sec)" + "\r\n" + gold + "\r\n" + goldInBank);
 
         double manaPercent = ((double) playerData.getPlayerMetadata().getStats().getCurrentMana() / playerData.getPlayerStatsWithLevel().getMaxMana()) * 100;
         double healthPercent = ((double) playerData.getPlayerMetadata().getStats().getCurrentHealth() / playerData.getPlayerStatsWithLevel().getMaxHealth()) * 100;
