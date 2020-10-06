@@ -37,7 +37,7 @@ public class BattlePanel extends JPanel {
 
     private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BattlePanel.class);
 
-    public BattlePanel(CreeperApiHttpClient creeperApiHttpClient, EquipmentPanel equipmentPanel, PlayerInfoPanel playerInfoPanel) {
+    public BattlePanel(CreeperApiHttpClient creeperApiHttpClient, EquipmentPanel equipmentPanel, PlayerInfoPanel playerInfoPanel, QuestsPanel questsPanel) {
         this.creeperApiHttpClient = creeperApiHttpClient;
         this.creeperTerminal = new CreeperTerminal("Battle");
         this.imagePanel = new ImagePanel();
@@ -58,37 +58,46 @@ public class BattlePanel extends JPanel {
         setBackground(Color.BLACK);
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-        JPanel jpanelTop = new JPanel();
-        jpanelTop.setLayout(new BoxLayout(jpanelTop, BoxLayout.PAGE_AXIS));
-        jpanelTop.add(imagePanel);
-        jpanelTop.add(npcHealthBar);
-        jpanelTop.setBackground(Color.BLACK);
-        jpanelTop.setBorder(enemyPanelBorder);
+        JPanel npcInfoJPanel = new JPanel();
+        npcInfoJPanel.setLayout(new BoxLayout(npcInfoJPanel, BoxLayout.PAGE_AXIS));
+        npcInfoJPanel.add(imagePanel);
+        npcInfoJPanel.add(npcHealthBar);
+        npcInfoJPanel.setBackground(Color.BLACK);
+        npcInfoJPanel.setBorder(enemyPanelBorder);
 
         equipmentPanel.setMaximumSize(new Dimension(270, 138));
         equipmentPanel.setMinimumSize(new Dimension(270, 138));
         equipmentPanel.setPreferredSize(new Dimension(270, 138));
-        JPanel jpanelBottom = new JPanel();
-        jpanelBottom.setLayout(new BoxLayout(jpanelBottom, BoxLayout.PAGE_AXIS));
-        jpanelBottom.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Equipment"));
-        jpanelBottom.add(equipmentPanel);
-        jpanelBottom.setBackground(Color.BLACK);
+        JPanel equipmentJPanel = new JPanel();
+        equipmentJPanel.setLayout(new BoxLayout(equipmentJPanel, BoxLayout.PAGE_AXIS));
+        equipmentJPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Equipment"));
+        equipmentJPanel.add(equipmentPanel);
+        equipmentJPanel.setBackground(Color.BLACK);
 
-        playerInfoPanel.setMaximumSize(new Dimension(270, 138));
-        playerInfoPanel.setMinimumSize(new Dimension(270, 138));
-        playerInfoPanel.setPreferredSize(new Dimension(270, 138));
-        JPanel jpanelPlayerInfo = new JPanel();
-        jpanelPlayerInfo.setLayout(new BoxLayout(jpanelPlayerInfo, BoxLayout.PAGE_AXIS));
-        jpanelPlayerInfo.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Player"));
-        jpanelPlayerInfo.add(playerInfoPanel);
-        jpanelPlayerInfo.setBackground(Color.BLACK);
+        playerInfoPanel.setMaximumSize(new Dimension(270, 125));
+        playerInfoPanel.setMinimumSize(new Dimension(270, 125));
+        playerInfoPanel.setPreferredSize(new Dimension(270, 125));
+        JPanel playerInfoJPanel = new JPanel();
+        playerInfoJPanel.setLayout(new BoxLayout(playerInfoJPanel, BoxLayout.PAGE_AXIS));
+        playerInfoJPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Player"));
+        playerInfoJPanel.add(playerInfoPanel);
+        playerInfoJPanel.setBackground(Color.BLACK);
 
 
+        //questsPanel.setMaximumSize(new Dimension(270, 66));
+        questsPanel.setMinimumSize(new Dimension(270, 66));
+        questsPanel.setPreferredSize(new Dimension(270, 66));
+        JPanel questsJPanel = new JPanel();
+        questsJPanel.setLayout(new BoxLayout(questsJPanel, BoxLayout.PAGE_AXIS));
+        questsJPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Quests"));
+        questsJPanel.add(questsPanel);
+        questsJPanel.setBackground(Color.BLACK);
 
         //add(equipmentPanel);
-        add(jpanelPlayerInfo);
-        add(jpanelBottom);
-        add(jpanelTop);
+        add(playerInfoJPanel);
+        add(equipmentJPanel);
+        add(questsJPanel);
+        add(npcInfoJPanel);
         // setDefaultCloseOperation(HIDE_ON_CLOSE);
 
 //        setPreferredSize(new Dimension(250, 800));
