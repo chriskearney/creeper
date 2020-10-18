@@ -23,7 +23,7 @@ public class BitlyClientTest {
 
     @Test
     public void bitlyIntegrationTest() throws Exception {
-        Optional<BitlyClient.ShortenedUrlAndTitle> shortenedUrlAndTitle = bitlyClient.getShortenedUrlAndTitle("https://www.zerohedge.com/political/senate-homeland-committee-demands-answers-fbi-over-hunter-biden-laptop");
+        Optional<BitlyClient.ShortenedUrlAndTitle> shortenedUrlAndTitle = bitlyClient.getShortenedUrlAndTitle("https://www.wbtw.com/georgetown-county-news/family-remembers-georgetown-double-homicide-victims-shot-during-traffic-altercation/");
         System.out.println("hi");
     }
 }
