@@ -40,7 +40,6 @@ public class InventoryPanel extends JPanel {
     public InventoryPanel(ObjectMapper objectMapper, UseItemIdHandler useItemIdHandler) {
         this.useItemIdHandler = useItemIdHandler;
         this.objectMapper = objectMapper;
-        this.border.setTitleColor(Color.white);
 
         defaultListModel = new DefaultListModel<>();
         rolledUpInventoryItems = new JList<>(defaultListModel);

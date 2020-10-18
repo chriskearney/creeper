@@ -32,7 +32,6 @@ public class MapPanel extends JPanel {
         this.colorPane = new ColorPane();
         this.mapStatusBar = mapStatusBar;
         this.objectMapper = objectMapper;
-        this.border.setTitleColor(Color.white);
 
         setBorder(border);
         setLayout(new BorderLayout());

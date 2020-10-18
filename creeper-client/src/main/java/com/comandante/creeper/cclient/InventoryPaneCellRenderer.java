@@ -25,3 +25,6 @@ public class InventoryPaneCellRenderer implements ListCellRenderer {
         return colorPane;
     }
 }
+
+
+

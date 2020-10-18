@@ -38,7 +38,6 @@ public class NearPanel extends JPanel {
     public NearPanel(ObjectMapper objectMapper, NearMeHandler nearMeHandler) {
         this.objectMapper = objectMapper;
         this.nearMeHandler = nearMeHandler;
-        this.border.setTitleColor(Color.white);
 
         setBackground(Color.BLACK);
         setLayout(new BorderLayout());

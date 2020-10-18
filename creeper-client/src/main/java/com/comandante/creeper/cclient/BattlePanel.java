@@ -48,6 +48,7 @@ public class BattlePanel extends JPanel {
         this.npcHealthBar.setMaximumSize(new Dimension(270, 7));
         this.npcHealthBar.setPreferredSize(new Dimension(270, 7));
         this.npcHealthBar.setMinimumSize(new Dimension(270, 7));
+        //this.npcHealthBar.setForeground();
 
         this.imagePanel.setMaximumSize(new Dimension(270, 240));
         this.imagePanel.setMinimumSize(new Dimension(270, 240));
@@ -131,7 +132,7 @@ public class BattlePanel extends JPanel {
                 Optional<BufferedImage> npcArt = creeperApiHttpClient.getNpcArt(playerData.getActiveFightNpcId());
                 if (npcArt.isPresent()) {
                     try {
-                        imagePanel.setImage(resizeImage(npcArt.get(), 240, 240));
+                        imagePanel.setImage(resizeImage(npcArt.get(), 270, 240));
                         imagePanel.repaint();
                     } catch (Exception e) {
                         LOG.error("Problem with image", e);
@@ -149,6 +150,12 @@ public class BattlePanel extends JPanel {
         SwingUtilities.invokeLater(() -> {
             if (killNpcEvent.getNpcId().equals(lastNpcId)) {
                 npcHealthBar.setValue(0);
+                BufferedImage image = imagePanel.getImage();
+                if (image != null) {
+                    BufferedImage bufferedImage = ImageTools.convertToDarkGray(image);
+                    imagePanel.setImage(bufferedImage);
+                    repaint();
+                }
             }
         });
     }
