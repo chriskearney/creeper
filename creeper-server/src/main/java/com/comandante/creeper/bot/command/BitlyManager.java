@@ -32,7 +32,9 @@ public class BitlyManager {
         List<Url> found = parser.detect();
 
         for(Url url : found) {
-            return Optional.ofNullable(url.getFullUrl());
+            if (url.getOriginalUrl().startsWith("https://") || url.getOriginalUrl().startsWith("http://")) {
+                return Optional.ofNullable(url.getFullUrl());
+            }
         }
         return Optional.empty();
     }
