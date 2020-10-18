@@ -65,8 +65,6 @@ public class MyListener extends ListenerAdapter {
                 shortenedUrlAndTitle.ifPresent(s -> {
                     if (s.getTitle() != null) {
                         gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(s.getShortenedUrl() + " | " + s.getTitle());
-                    } else {
-                        gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(s.getShortenedUrl());
                     }
                 });
             }
