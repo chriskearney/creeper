@@ -65,6 +65,17 @@ public class CreeperConfiguration extends Configuration {
     private String clientPassPhrase;
     private String clientConnectHostname;
 
+    private String bitlyToken;
+
+    @JsonProperty
+    public String getBitlyToken() {
+        return bitlyToken;
+    }
+
+    public void setBitlyToken(String bitlyToken) {
+        this.bitlyToken = bitlyToken;
+    }
+
     @JsonProperty
     public String getSshHostname() {
         return sshHostname;

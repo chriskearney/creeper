@@ -1,5 +1,7 @@
 package com.comandante.creeper.bot;
 
+import com.comandante.creeper.bot.command.BitlyClient;
+import com.comandante.creeper.bot.command.BitlyManager;
 import com.comandante.creeper.bot.command.TwitterClient;
 import com.comandante.creeper.bot.command.TwitterManager;
 import com.comandante.creeper.bot.command.commands.BotCommand;
@@ -28,11 +30,13 @@ public class MyListener extends ListenerAdapter {
     private final GameManager gameManager;
     private final Integer bridgeRoomId;
     private final TwitterManager twitterManager;
+    private final BitlyManager bitlyManager;
 
-    public MyListener(GameManager gameManager, Integer bridgeRoomId) {
+    public MyListener(GameManager gameManager, Integer bridgeRoomId, BitlyManager bitlyManager) {
         this.gameManager = gameManager;
         this.bridgeRoomId = bridgeRoomId;
         this.twitterManager = new TwitterManager(new TwitterClient(gameManager.getCreeperConfiguration()));
+        this.bitlyManager = bitlyManager;
     }
 
     @Override
@@ -56,6 +60,10 @@ public class MyListener extends ListenerAdapter {
 
             Optional<String> parseChatLineToTweetText = twitterManager.parseChatLineToTweetText(event.getMessage());
             parseChatLineToTweetText.ifPresent(s -> gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(s));
+            if (!parseChatLineToTweetText.isPresent()) {
+                Optional<BitlyClient.ShortenedUrlAndTitle> shortenedUrlAndTitle = bitlyManager.parseChatLineToTweetText(event.getMessage());
+                shortenedUrlAndTitle.ifPresent(s -> gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(s.getShortenedUrl() + " | " + s.getTitle()));
+            }
 
             Room bridgeRoom = gameManager.getRoomManager().getRoom(bridgeRoomId);
             Set<Player> presentPlayers = bridgeRoom.getPresentPlayers();

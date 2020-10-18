@@ -4,6 +4,8 @@ package com.comandante.creeper.core_game;
 import com.comandante.creeper.Creeper;
 import com.comandante.creeper.api.ClientConnectionInfo;
 import com.comandante.creeper.bot.IrcBotService;
+import com.comandante.creeper.bot.command.BitlyClient;
+import com.comandante.creeper.bot.command.BitlyManager;
 import com.comandante.creeper.bot.command.BotCommandFactory;
 import com.comandante.creeper.bot.command.BotCommandManager;
 import com.comandante.creeper.bot.command.commands.BotCommand;
@@ -132,6 +134,7 @@ public class GameManager {
     private final ObjectMapper objectMapper = Creeper.registerJdkModuleAndGetMapper();
     private final MerchantStorage merchantStorage;
     private final LockPickingManager lockPickingManager;
+    private final BitlyManager bitlyManager;
 
     public GameManager(MapDBCreeperStorage mapDBCreeperStorage,
                        CreeperConfiguration creeperConfiguration,
@@ -177,8 +180,12 @@ public class GameManager {
         this.httpclient = httpClient;
         this.listenerService = listenerService;
         this.lockPickingManager = new LockPickingManager(this);
+        this.bitlyManager = new BitlyManager(new BitlyClient(httpClient, objectMapper, creeperConfiguration));
     }
 
+    public BitlyManager getBitlyManager() {
+        return bitlyManager;
+    }
     public ObjectMapper getObjectMapper() {
         return objectMapper;
     }
