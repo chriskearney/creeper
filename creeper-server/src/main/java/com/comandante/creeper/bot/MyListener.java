@@ -60,10 +60,16 @@ public class MyListener extends ListenerAdapter {
 
             Optional<String> parseChatLineToTweetText = twitterManager.parseChatLineToTweetText(event.getMessage());
             parseChatLineToTweetText.ifPresent(s -> gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(s));
-//            if (!parseChatLineToTweetText.isPresent()) {
-//                Optional<BitlyClient.ShortenedUrlAndTitle> shortenedUrlAndTitle = bitlyManager.parseChatLineToTweetText(event.getMessage());
-//                shortenedUrlAndTitle.ifPresent(s -> gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(s.getShortenedUrl() + " | " + s.getTitle()));
-//            }
+            if (!parseChatLineToTweetText.isPresent()) {
+                Optional<BitlyClient.ShortenedUrlAndTitle> shortenedUrlAndTitle = bitlyManager.parseChatLineToTweetText(event.getMessage());
+                shortenedUrlAndTitle.ifPresent(s -> {
+                    if (s.getTitle() != null) {
+                        gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(s.getShortenedUrl() + " | " + s.getTitle());
+                    } else {
+                        gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(s.getShortenedUrl());
+                    }
+                });
+            }
 
             Room bridgeRoom = gameManager.getRoomManager().getRoom(bridgeRoomId);
             Set<Player> presentPlayers = bridgeRoom.getPresentPlayers();

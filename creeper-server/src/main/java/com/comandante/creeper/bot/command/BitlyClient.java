@@ -12,6 +12,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -47,15 +49,14 @@ public class BitlyClient {
         return Optional.empty();
     }
 
-    public Optional<String> getTitle(ShortenedUrl shortenedUrl) {
-        HttpGet httpGet = new HttpGet("https://api-ssl.bitly.com/v4/bitlinks/" + shortenedUrl.getId());
-        httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + creeperConfiguration.getBitlyToken());
-        httpGet.setHeader(HttpHeaders.CONTENT_TYPE,"application/json");
+    public Optional<String> getTitle(String url) {
+        HttpGet httpGet = new HttpGet(url);
         try {
             HttpResponse execute = httpClient.execute(httpGet);
-            JsonNode shortenedResponse = objectMapper.readValue(EntityUtils.toString(execute.getEntity()), JsonNode.class);
-            String title = shortenedResponse.get("title").asText();
-            return Optional.of(title);
+            String htmlResponse = EntityUtils.toString(execute.getEntity());
+            Document parse = Jsoup.parse(htmlResponse);
+            String title = parse.title();
+            return Optional.ofNullable(title);
         } catch (Exception e) {
             log.error("Unable to get shortenedurl!.", e);
         }
@@ -67,7 +68,7 @@ public class BitlyClient {
         if (!shortenedUrl.isPresent()) {
             return Optional.empty();
         }
-        Optional<String> title = getTitle(shortenedUrl.get());
+        Optional<String> title = getTitle(longUrl);
         return Optional.of(new ShortenedUrlAndTitle(shortenedUrl.get().getLink(), title.orElse(null)));
     }
 
