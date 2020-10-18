@@ -71,12 +71,15 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import events.ListenerService;
+import org.apache.commons.io.FileUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.log4j.Logger;
 import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
 import org.nocrala.tools.texttablefmt.Table;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,6 +93,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import static com.comandante.creeper.common.CreeperUtils.getDurationBreakdown;
 import static com.comandante.creeper.server.player_communication.Color.BOLD_OFF;
 import static com.comandante.creeper.server.player_communication.Color.BOLD_ON;
 import static com.comandante.creeper.server.player_communication.Color.RESET;
@@ -1055,6 +1059,49 @@ public class GameManager {
                 creeperConfiguration.getSshUser(),
                 creeperConfiguration.getSshPass()
         );
+    }
+
+    public String getSystemInfo() {
+        String os_name = System.getProperty("os.name", "OS_NAME");
+        String os_version = System.getProperty("os.version", "OS_VERSION");
+        String java_version = System.getProperty("java.version", "JAVA_VERSION");
+        RuntimeMXBean bean = ManagementFactory.getRuntimeMXBean();
+        long uptime = bean.getUptime();
+        String upTime = getDurationBreakdown(uptime);
+        String maxHeap = FileUtils.byteCountToDisplaySize(Runtime.getRuntime().maxMemory());
+        String systemInfo = new StringBuilder()
+                .append(Color.MAGENTA)
+                .append("os_name:")
+                .append(RESET)
+                .append(os_name)
+                .append("\r\n")
+                .append(Color.MAGENTA)
+                .append("os_version:")
+                .append(RESET)
+                .append(os_version)
+                .append("\r\n")
+                .append(Color.MAGENTA)
+                .append("java_version:")
+                .append(RESET)
+                .append(java_version)
+                .append("\r\n")
+                .append(Color.MAGENTA)
+                .append("max_heap:")
+                .append(RESET)
+                .append(maxHeap)
+                .append("\r\n")
+                .append(Color.MAGENTA)
+                .append("uptime:")
+                .append(RESET)
+                .append(upTime)
+                .append("\r\n")
+                .append(Color.MAGENTA)
+                .append("build:")
+                .append(RESET)
+                .append(Creeper.getCreeperVersion())
+                .append("\r\n").toString();
+
+        return systemInfo;
     }
 }
 

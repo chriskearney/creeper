@@ -11,6 +11,7 @@ import com.comandante.creeper.player.Player;
 import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.world.model.Room;
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
@@ -63,7 +64,7 @@ public class MyListener extends ListenerAdapter {
             if (!parseChatLineToTweetText.isPresent()) {
                 Optional<BitlyClient.ShortenedUrlAndTitle> shortenedUrlAndTitle = bitlyManager.parseChatLineToTweetText(event.getMessage());
                 shortenedUrlAndTitle.ifPresent(s -> {
-                    if (s.getTitle() != null) {
+                    if (!Strings.isNullOrEmpty(s.getTitle())) {
                         gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(s.getShortenedUrl() + " | " + s.getTitle());
                     } else {
                         gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(s.getShortenedUrl());
