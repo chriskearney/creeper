@@ -8,6 +8,7 @@ import com.google.common.util.concurrent.AbstractIdleService;
 import org.mapdb.DB;
 import org.mapdb.HTreeMap;
 import org.mapdb.Serializer;
+import org.mapdb.serializer.SerializerString;
 
 import java.util.Map;
 import java.util.Optional;
@@ -20,10 +21,12 @@ public class MapDBCreeperStorage extends AbstractIdleService implements CreeperS
     private final HTreeMap<String, Item> items;
     private final HTreeMap<String, Effect> effects;
     private final HTreeMap<String, PlayerMetadata> playerMetadataStore;
+    private final HTreeMap<String, String> weatherHistory;
 
     private final static String ITEM_MAP = "itemMap";
     private final static String EFFECTS_MAP = "effectsMap";
     private final static String PLAYER_METADATA_MAP = "playerMetadata";
+    private final static String WEATHER_HISTORY = "weatherHistory";
 
     public MapDBCreeperStorage(DB db) {
         this.db = db;
@@ -40,6 +43,11 @@ public class MapDBCreeperStorage extends AbstractIdleService implements CreeperS
         this.playerMetadataStore = db.hashMap(PLAYER_METADATA_MAP)
                 .keySerializer(Serializer.STRING)
                 .valueSerializer(new PlayerMetadataSerializer())
+                .createOrOpen();
+
+        this.weatherHistory = db.hashMap(WEATHER_HISTORY)
+                .keySerializer(Serializer.STRING)
+                .valueSerializer(Serializer.STRING)
                 .createOrOpen();
 
         this.mapDbAutoCommitService = new MapDbAutoCommitService(db);
@@ -79,6 +87,11 @@ public class MapDBCreeperStorage extends AbstractIdleService implements CreeperS
     @Override
     public void removeItem(String itemId) {
         this.items.remove(itemId);
+    }
+
+    @Override
+    public Map<String, String> getWeatherHistory() {
+        return weatherHistory;
     }
 
     @Override

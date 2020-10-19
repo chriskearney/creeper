@@ -22,4 +22,6 @@ public interface CreeperStorage {
     Optional<Item> getItemEntity(String itemId);
 
     void removeItem(String itemId);
+
+    Map<String, String> getWeatherHistory();
 }

@@ -10,6 +10,7 @@ public class BotCommandManager {
     private final ChuckNorrisManager chuckNorrisManager;
     private final DictionaryManager dictionaryManager;
     private final OmdbManager omdbManager;
+    private final WeatherHistoryManager weatherHistoryManager;
 
     public BotCommandManager(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -17,6 +18,7 @@ public class BotCommandManager {
         this.chuckNorrisManager = new ChuckNorrisManager(gameManager.getCreeperConfiguration());
         this.dictionaryManager = new DictionaryManager(gameManager.getCreeperConfiguration());
         this.omdbManager = new OmdbManager();
+        this.weatherHistoryManager = new WeatherHistoryManager(gameManager.getMapDBCreeperStorage());
     }
 
     public GameManager getGameManager() {
@@ -37,5 +39,9 @@ public class BotCommandManager {
 
     public OmdbManager getOmdbManager() {
         return omdbManager;
+    }
+
+    public WeatherHistoryManager getWeatherHistoryManager() {
+        return weatherHistoryManager;
     }
 }
