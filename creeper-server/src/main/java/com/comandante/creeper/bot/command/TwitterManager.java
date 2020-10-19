@@ -15,7 +15,7 @@ public class TwitterManager {
         this.twitterClient = twitterClient;
     }
 
-    public TwitterClient.TweetDetails parseChatLineToTweetText(String chatLine) {
+    public Optional<TwitterClient.TweetDetails> parseChatLineToTweetText(String chatLine) {
         try {
             Optional<String> twitterId = extractFirstTwitterUrl(chatLine);
             if (!twitterId.isPresent()) {

@@ -59,16 +59,17 @@ public class MyListener extends ListenerAdapter {
                 }
             }
 
-            TwitterClient.TweetDetails tweetDetails = twitterManager.parseChatLineToTweetText(event.getMessage());
-            if (!tweetDetails.getTweetText().isEmpty()) {
-                String firstLine = tweetDetails.getTweetText().get(0);
-                String modifiedFirstLine = "@" + tweetDetails.getScreeName() + ": " + firstLine;
-                tweetDetails.getTweetText().add(0, modifiedFirstLine);
+            Optional<TwitterClient.TweetDetails> tweetDetails = twitterManager.parseChatLineToTweetText(event.getMessage());
+            if (tweetDetails.isPresent() && !tweetDetails.get().getTweetText().isEmpty()) {
+                String firstLine = tweetDetails.get().getTweetText().get(0);
+                String modifiedFirstLine = "@" + tweetDetails.get().getScreeName() + ": " + firstLine;
+                tweetDetails.get().getTweetText().add(0, modifiedFirstLine);
+                for (String line: tweetDetails.get().getTweetText()) {
+                    send(line);
+                }
             }
-            parseChatLineToTweetText.ifPresent(s -> gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(s));
 
-
-            if (!parseChatLineToTweetText.isPresent()) {
+            if (!tweetDetails.isPresent()) {
                 Optional<BitlyClient.ShortenedUrlAndTitle> shortenedUrlAndTitle = bitlyManager.parseChatLineToTweetText(event.getMessage());
                 shortenedUrlAndTitle.ifPresent(s -> {
                     if (!Strings.isNullOrEmpty(s.getTitle())) {
