@@ -7,6 +7,9 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class TwitterClient implements TwitterAPI {
 
     private final CreeperConfiguration creeperConfiguration;
@@ -26,8 +29,27 @@ public class TwitterClient implements TwitterAPI {
     }
 
     @Override
-    public String getTweet(String tweetId) throws TwitterException {
+    public TweetDetails getTweet(String tweetId) throws TwitterException {
         Status status = twitter.showStatus(Long.parseLong(tweetId));
-        return "@" + status.getUser().getScreenName() + ": " + status.getText();
+        List<String> tweetStrings = Arrays.asList(status.getText().split("\\r?\\n"));
+        return new TweetDetails(tweetStrings, status.getUser().getScreenName());
+    }
+
+    public static class TweetDetails {
+        private final List<String> tweetText;
+        private final String screeName;
+
+        public TweetDetails(List<String> tweetText, String screeName) {
+            this.tweetText = tweetText;
+            this.screeName = screeName;
+        }
+
+        public List<String> getTweetText() {
+            return tweetText;
+        }
+
+        public String getScreeName() {
+            return screeName;
+        }
     }
 }

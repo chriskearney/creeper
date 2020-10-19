@@ -4,6 +4,6 @@ import twitter4j.TwitterException;
 
 public interface TwitterAPI {
 
-    String getTweet(String tweetId) throws TwitterException;
+    TwitterClient.TweetDetails getTweet(String tweetId) throws TwitterException;
 
 }

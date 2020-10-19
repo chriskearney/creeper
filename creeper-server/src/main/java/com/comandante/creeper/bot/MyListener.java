@@ -59,8 +59,15 @@ public class MyListener extends ListenerAdapter {
                 }
             }
 
-            Optional<String> parseChatLineToTweetText = twitterManager.parseChatLineToTweetText(event.getMessage());
+            TwitterClient.TweetDetails tweetDetails = twitterManager.parseChatLineToTweetText(event.getMessage());
+            if (!tweetDetails.getTweetText().isEmpty()) {
+                String firstLine = tweetDetails.getTweetText().get(0);
+                String modifiedFirstLine = "@" + tweetDetails.getScreeName() + ": " + firstLine;
+                tweetDetails.getTweetText().add(0, modifiedFirstLine);
+            }
             parseChatLineToTweetText.ifPresent(s -> gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(s));
+
+
             if (!parseChatLineToTweetText.isPresent()) {
                 Optional<BitlyClient.ShortenedUrlAndTitle> shortenedUrlAndTitle = bitlyManager.parseChatLineToTweetText(event.getMessage());
                 shortenedUrlAndTitle.ifPresent(s -> {
@@ -85,6 +92,10 @@ public class MyListener extends ListenerAdapter {
             e.printStackTrace();
             SentryManager.logSentry(this.getClass(), e, "IRC Listener Exception!");
         }
+    }
+
+    private void send(String msg) {
+        gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(msg);
     }
 }
 
