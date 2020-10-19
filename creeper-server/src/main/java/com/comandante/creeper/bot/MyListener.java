@@ -60,8 +60,8 @@ public class MyListener extends ListenerAdapter {
             }
 
             Optional<TwitterClient.TweetDetails> tweetDetails = twitterManager.parseChatLineToTweetText(event.getMessage());
-            List<String> twitterOutput = Lists.newArrayList(tweetDetails.get().getTweetText());
             if (tweetDetails.isPresent() && !tweetDetails.get().getTweetText().isEmpty()) {
+                List<String> twitterOutput = Lists.newArrayList(tweetDetails.get().getTweetText());
                 String firstLine = twitterOutput.get(0);
                 String modifiedFirstLine = "@" + tweetDetails.get().getScreeName() + ": " + firstLine;
                 twitterOutput.remove(0);
