@@ -15,13 +15,13 @@ public class TwitterManager {
         this.twitterClient = twitterClient;
     }
 
-    public Optional<String> parseChatLineToTweetText(String chatLine) {
+    public Optional<TwitterClient.TweetDetails> parseChatLineToTweetText(String chatLine) {
         try {
             Optional<String> twitterId = extractFirstTwitterUrl(chatLine);
             if (!twitterId.isPresent()) {
                 return Optional.empty();
             }
-            return Optional.ofNullable(twitterClient.getTweet(twitterId.get()));
+            return twitterClient.getTweet(twitterId.get());
         } catch (Exception e) {
             return Optional.empty();
         }
