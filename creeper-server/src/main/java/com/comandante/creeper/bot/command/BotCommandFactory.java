@@ -1,15 +1,6 @@
 package com.comandante.creeper.bot.command;
 
-import com.comandante.creeper.bot.command.commands.BotCommand;
-import com.comandante.creeper.bot.command.commands.CardsCommand;
-import com.comandante.creeper.bot.command.commands.CheckNorrisBotCommand;
-import com.comandante.creeper.bot.command.commands.DictionaryBotCommand;
-import com.comandante.creeper.bot.command.commands.ForecastCommand;
-import com.comandante.creeper.bot.command.commands.HourlyCommand;
-import com.comandante.creeper.bot.command.commands.ImdbBotCommand;
-import com.comandante.creeper.bot.command.commands.RandomRoomDescriptionCommand;
-import com.comandante.creeper.bot.command.commands.WeatherBotCommand;
-import com.comandante.creeper.bot.command.commands.WhoBotCommand;
+import com.comandante.creeper.bot.command.commands.*;
 import com.google.common.collect.Maps;
 import org.pircbotx.hooks.events.MessageEvent;
 
@@ -32,6 +23,7 @@ public class BotCommandFactory {
         addCommand(new HourlyCommand(botCommandManager));
         addCommand(new RandomRoomDescriptionCommand(botCommandManager));
         addCommand(new CardsCommand(botCommandManager));
+        addCommand(new BtcCommand(botCommandManager));
     }
 
     public BotCommand getCommand(MessageEvent event, String originalFullCmd) {

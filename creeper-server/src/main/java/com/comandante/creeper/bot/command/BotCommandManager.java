@@ -11,6 +11,7 @@ public class BotCommandManager {
     private final DictionaryManager dictionaryManager;
     private final OmdbManager omdbManager;
     private final WeatherHistoryManager weatherHistoryManager;
+    private final CoindeskManager coindeskManager;
 
     public BotCommandManager(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -19,6 +20,7 @@ public class BotCommandManager {
         this.dictionaryManager = new DictionaryManager(gameManager.getCreeperConfiguration());
         this.omdbManager = new OmdbManager();
         this.weatherHistoryManager = new WeatherHistoryManager(gameManager.getMapDBCreeperStorage());
+        this.coindeskManager = new CoindeskManager(new CoindeskClient(gameManager.getHttpclient(), gameManager.getObjectMapper()));
     }
 
     public GameManager getGameManager() {
@@ -43,5 +45,9 @@ public class BotCommandManager {
 
     public WeatherHistoryManager getWeatherHistoryManager() {
         return weatherHistoryManager;
+    }
+
+    public CoindeskManager getCoindeskManager() {
+        return coindeskManager;
     }
 }
