@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class ForecastCommand extends BotCommand {
 
-    static Set<String> triggers = Sets.newHashSet("forecast");
+    static Set<String> triggers = Sets.newHashSet("forecast", "f");
     static String helpUsage = "forecast 97034";
     static String helpDescription = "Obtain weather forecast using a zip code or city name.";
 

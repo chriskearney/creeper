@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public class HourlyCommand extends BotCommand {
-    static Set<String> triggers = Sets.newHashSet("hourly");
+    static Set<String> triggers = Sets.newHashSet("hourly", "h");
     static String helpUsage = "hourly 97034";
     static String helpDescription = "Obtain an hourly weather forecast using a zip code or city name.";
 
