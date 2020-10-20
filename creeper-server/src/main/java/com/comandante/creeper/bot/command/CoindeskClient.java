@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
@@ -12,12 +13,11 @@ import java.util.Date;
 
 public class CoindeskClient {
 
-    private final HttpClient client;
+    private final HttpClient client = HttpClients.createDefault();
     private final ObjectMapper objectMapper;
     private static final Logger LOG = Logger.getLogger(CoindeskClient.class);
 
-    public CoindeskClient(HttpClient client, ObjectMapper objectMapper) {
-        this.client = client;
+    public CoindeskClient(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 

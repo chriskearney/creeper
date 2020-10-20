@@ -20,7 +20,7 @@ public class BotCommandManager {
         this.dictionaryManager = new DictionaryManager(gameManager.getCreeperConfiguration());
         this.omdbManager = new OmdbManager();
         this.weatherHistoryManager = new WeatherHistoryManager(gameManager.getMapDBCreeperStorage());
-        this.coindeskManager = new CoindeskManager(new CoindeskClient(gameManager.getHttpclient(), gameManager.getObjectMapper()));
+        this.coindeskManager = new CoindeskManager(new CoindeskClient(gameManager.getObjectMapper()));
     }
 
     public GameManager getGameManager() {

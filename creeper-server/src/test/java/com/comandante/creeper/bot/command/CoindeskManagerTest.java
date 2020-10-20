@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 @Ignore
 public class CoindeskManagerTest {
 
-    private CoindeskManager coindeskManager = new CoindeskManager(new CoindeskClient(HttpClients.createDefault(), new ObjectMapper()));
+    private CoindeskManager coindeskManager = new CoindeskManager(new CoindeskClient(new ObjectMapper()));
 
     @Test
     public void testIntegrationCoindeskManager() throws Exception {
