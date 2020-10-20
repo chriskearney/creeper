@@ -20,6 +20,6 @@ public class BtcCommand extends BotCommand {
 
     @Override
     public List<String> process() {
-        return Collections.singletonList(botCommandManager.getCoindeskManager().getBitCoinPriceinDollars());
+        return Collections.singletonList("1 Bitcoin equals " + botCommandManager.getCoindeskManager().getBitCoinPriceinDollars() + " (USD)");
     }
 }
