@@ -67,6 +67,17 @@ public class CreeperConfiguration extends Configuration {
 
     private String bitlyToken;
 
+    private String youtubeApi;
+
+    @JsonProperty
+    public String getYoutubeApi() {
+        return youtubeApi;
+    }
+
+    public void setYoutubeApi(String youtubeApi) {
+        this.youtubeApi = youtubeApi;
+    }
+
     @JsonProperty
     public String getBitlyToken() {
         return bitlyToken;

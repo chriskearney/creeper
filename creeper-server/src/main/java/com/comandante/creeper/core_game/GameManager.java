@@ -4,10 +4,14 @@ package com.comandante.creeper.core_game;
 import com.comandante.creeper.Creeper;
 import com.comandante.creeper.api.ClientConnectionInfo;
 import com.comandante.creeper.bot.IrcBotService;
+import com.comandante.creeper.bot.YoutubeClient;
 import com.comandante.creeper.bot.command.BitlyClient;
 import com.comandante.creeper.bot.command.BitlyManager;
 import com.comandante.creeper.bot.command.BotCommandFactory;
 import com.comandante.creeper.bot.command.BotCommandManager;
+import com.comandante.creeper.bot.command.TwitterClient;
+import com.comandante.creeper.bot.command.TwitterManager;
+import com.comandante.creeper.bot.command.YoutubeManager;
 import com.comandante.creeper.bot.command.commands.BotCommand;
 import com.comandante.creeper.chat.Gossip;
 import com.comandante.creeper.chat.Users;
@@ -139,6 +143,7 @@ public class GameManager {
     private final MerchantStorage merchantStorage;
     private final LockPickingManager lockPickingManager;
     private final BitlyManager bitlyManager;
+    private final YoutubeManager youtubeManager;
 
     public GameManager(MapDBCreeperStorage mapDBCreeperStorage,
                        CreeperConfiguration creeperConfiguration,
@@ -185,6 +190,11 @@ public class GameManager {
         this.listenerService = listenerService;
         this.lockPickingManager = new LockPickingManager(this);
         this.bitlyManager = new BitlyManager(new BitlyClient(httpClient, objectMapper, creeperConfiguration));
+        this.youtubeManager = new YoutubeManager(new YoutubeClient(creeperConfiguration, objectMapper, httpClient));
+    }
+
+    public YoutubeManager getYoutubeManager() {
+        return youtubeManager;
     }
 
     public BitlyManager getBitlyManager() {

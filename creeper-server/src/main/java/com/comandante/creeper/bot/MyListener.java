@@ -4,6 +4,7 @@ import com.comandante.creeper.bot.command.BitlyClient;
 import com.comandante.creeper.bot.command.BitlyManager;
 import com.comandante.creeper.bot.command.TwitterClient;
 import com.comandante.creeper.bot.command.TwitterManager;
+import com.comandante.creeper.bot.command.YoutubeManager;
 import com.comandante.creeper.bot.command.commands.BotCommand;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SentryManager;
@@ -32,12 +33,14 @@ public class MyListener extends ListenerAdapter {
     private final Integer bridgeRoomId;
     private final TwitterManager twitterManager;
     private final BitlyManager bitlyManager;
+    private final YoutubeManager youtubeManager;
 
-    public MyListener(GameManager gameManager, Integer bridgeRoomId, BitlyManager bitlyManager) {
+    public MyListener(GameManager gameManager, Integer bridgeRoomId, BitlyManager bitlyManager, YoutubeManager youtubeManager) {
         this.gameManager = gameManager;
         this.bridgeRoomId = bridgeRoomId;
         this.twitterManager = new TwitterManager(new TwitterClient(gameManager.getCreeperConfiguration()));
         this.bitlyManager = bitlyManager;
+        this.youtubeManager = youtubeManager;
     }
 
     @Override
@@ -71,7 +74,23 @@ public class MyListener extends ListenerAdapter {
                 }
             }
 
-            if (!tweetDetails.isPresent()) {
+            Optional<String> videoIdFromYoutubeUrl = youtubeManager.getVideoIdFromYoutubeUrl(event.getMessage());
+            if (videoIdFromYoutubeUrl.isPresent()) {
+                Optional<String> videoInfo = youtubeManager.getVideoInfo(videoIdFromYoutubeUrl.get());
+                Optional<BitlyClient.ShortenedUrl> onlyBitlyUrl = bitlyManager.getOnlyBitlyUrl(event.getMessage());
+                String youTubeResponse = null;
+                if (videoInfo.isPresent()) {
+                    youTubeResponse = videoInfo.get();
+                    if (onlyBitlyUrl.isPresent()) {
+                        youTubeResponse = youTubeResponse + " | " + onlyBitlyUrl.get().getLink();
+                    }
+                }
+                if (!Strings.isNullOrEmpty(youTubeResponse)) {
+                    send(youTubeResponse);
+                }
+            }
+
+            if (!tweetDetails.isPresent() && !videoIdFromYoutubeUrl.isPresent()) {
                 Optional<BitlyClient.ShortenedUrlAndTitle> shortenedUrlAndTitle = bitlyManager.parseChatLineToTweetText(event.getMessage());
                 shortenedUrlAndTitle.ifPresent(s -> {
                     if (!Strings.isNullOrEmpty(s.getTitle())) {

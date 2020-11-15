@@ -27,6 +27,14 @@ public class BitlyManager {
         }
     }
 
+    public Optional<BitlyClient.ShortenedUrl> getOnlyBitlyUrl(String chatLine) {
+        Optional<String> s = extractFirstUrl(chatLine);
+        if (s.isPresent()) {
+            return bitlyClient.shortenUrl(s.get());
+        }
+        return Optional.empty();
+    }
+
     protected static Optional<String> extractFirstUrl(String chatLine) {
         UrlDetector parser = new UrlDetector(chatLine, UrlDetectorOptions.Default);
         List<Url> found = parser.detect();

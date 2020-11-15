@@ -35,7 +35,7 @@ public class IrcBotService extends AbstractIdleService {
                 .setLogin(creeperConfiguration.getIrcUsername())
                 .setServerHostname(creeperConfiguration.getIrcServer())
                 .addAutoJoinChannel(creeperConfiguration.getIrcChannel())
-                .addListener(new MyListener(gameManager, 376, gameManager.getBitlyManager()))
+                .addListener(new MyListener(gameManager, 376, gameManager.getBitlyManager(), gameManager.getYoutubeManager()))
                 .setVersion("creeper irc | build: " + Creeper.getCreeperVersion())
                 .setAutoReconnect(true)
                 .buildConfiguration();
