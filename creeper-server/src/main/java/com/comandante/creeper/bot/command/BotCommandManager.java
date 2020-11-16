@@ -12,6 +12,7 @@ public class BotCommandManager {
     private final OmdbManager omdbManager;
     private final WeatherHistoryManager weatherHistoryManager;
     private final CoindeskManager coindeskManager;
+    private final QuoteManager quoteManager;
 
     public BotCommandManager(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -21,6 +22,7 @@ public class BotCommandManager {
         this.omdbManager = new OmdbManager();
         this.weatherHistoryManager = new WeatherHistoryManager(gameManager.getMapDBCreeperStorage());
         this.coindeskManager = new CoindeskManager(new CoindeskClient(gameManager.getObjectMapper()));
+        this.quoteManager = new QuoteManager(gameManager.getMapDBCreeperStorage().getIrcQuotes());
     }
 
     public GameManager getGameManager() {
@@ -49,5 +51,9 @@ public class BotCommandManager {
 
     public CoindeskManager getCoindeskManager() {
         return coindeskManager;
+    }
+
+    public QuoteManager getQuoteManager() {
+        return quoteManager;
     }
 }

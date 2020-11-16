@@ -1,6 +1,7 @@
 package com.comandante.creeper.bot.command;
 
 import com.comandante.creeper.bot.command.commands.*;
+import com.comandante.creeper.player.Player;
 import com.google.common.collect.Maps;
 import org.pircbotx.hooks.events.MessageEvent;
 
@@ -24,9 +25,11 @@ public class BotCommandFactory {
         addCommand(new RandomRoomDescriptionCommand(botCommandManager));
         addCommand(new CardsCommand(botCommandManager));
         addCommand(new BtcCommand(botCommandManager));
+        addCommand(new LearnCommand(botCommandManager));
+        addCommand(new QueryCommand(botCommandManager));
     }
 
-    public BotCommand getCommand(MessageEvent event, String originalFullCmd) {
+    public BotCommand getCommand(MessageEvent event, String originalFullCmd, Player player) {
         List<String> originalMessageParts = new ArrayList<>(Arrays.asList(originalFullCmd.split(" ")));
         if (originalMessageParts.size() == 0) {
             return null;

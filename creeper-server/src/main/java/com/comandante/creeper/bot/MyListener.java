@@ -55,7 +55,7 @@ public class MyListener extends ListenerAdapter {
                 ArrayList<String> originalMessageParts = Lists.newArrayList(Arrays.asList(event.getMessage().split("!!")));
                 originalMessageParts.remove(0);
                 final String msg = Joiner.on(" ").join(originalMessageParts);
-                BotCommand command = gameManager.getBotCommandFactory().getCommand((MessageEvent) event, msg);
+                BotCommand command = gameManager.getBotCommandFactory().getCommand((MessageEvent) event, msg, null);
                 List<String> response = command.process();
                 for (String line : response) {
                     gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(line);

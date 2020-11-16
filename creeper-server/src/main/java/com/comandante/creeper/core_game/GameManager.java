@@ -326,12 +326,13 @@ public class GameManager {
         return lockPickingManager;
     }
 
-    private String getBotCommandOutput(String cmd) {
+    private String getBotCommandOutput(String cmd, Player player) {
         ArrayList<String> originalMessageParts = com.google.common.collect.Lists.newArrayList(Arrays.asList(cmd.split("!!")));
         originalMessageParts.remove(0);
         final String msg = Joiner.on(" ").join(originalMessageParts);
-        BotCommand command = getBotCommandFactory().getCommand(null, msg);
+        BotCommand command = getBotCommandFactory().getCommand(null, msg, player);
         if (command != null) {
+            command.setPlayer(player);
             List<String> process = command.process();
             StringBuilder sb = new StringBuilder();
             for (String line : process) {
@@ -350,7 +351,7 @@ public class GameManager {
     public void gossip(Player player, String message, boolean apiSource) {
         try {
             if (message.startsWith("!!")) {
-                String botCommandOutput = getBotCommandOutput(message);
+                String botCommandOutput = getBotCommandOutput(message, player);
                 message = message + "\r\n" + botCommandOutput;
             }
         } catch (Exception ex) {

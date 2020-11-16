@@ -1,5 +1,6 @@
 package com.comandante.creeper.storage;
 
+import com.comandante.creeper.bot.command.QuoteManager;
 import com.comandante.creeper.items.Effect;
 import com.comandante.creeper.items.Item;
 import com.comandante.creeper.player.PlayerMetadata;
@@ -10,6 +11,8 @@ import org.mapdb.HTreeMap;
 import org.mapdb.Serializer;
 import org.mapdb.serializer.SerializerString;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -22,11 +25,13 @@ public class MapDBCreeperStorage extends AbstractIdleService implements CreeperS
     private final HTreeMap<String, Effect> effects;
     private final HTreeMap<String, PlayerMetadata> playerMetadataStore;
     private final HTreeMap<String, String> weatherHistory;
+    private final HTreeMap<String, List<QuoteManager.IrcQuote>> ircQuotes;
 
     private final static String ITEM_MAP = "itemMap";
     private final static String EFFECTS_MAP = "effectsMap";
     private final static String PLAYER_METADATA_MAP = "playerMetadata";
     private final static String WEATHER_HISTORY = "weatherHistory";
+    private final static String IRC_QUOTES = "ircQuotes";
 
     public MapDBCreeperStorage(DB db) {
         this.db = db;
@@ -48,6 +53,11 @@ public class MapDBCreeperStorage extends AbstractIdleService implements CreeperS
         this.weatherHistory = db.hashMap(WEATHER_HISTORY)
                 .keySerializer(Serializer.STRING)
                 .valueSerializer(Serializer.STRING)
+                .createOrOpen();
+
+        this.ircQuotes = db.hashMap(IRC_QUOTES)
+                .keySerializer(Serializer.STRING)
+                .valueSerializer(new IrcQuotesSerializer())
                 .createOrOpen();
 
         this.mapDbAutoCommitService = new MapDbAutoCommitService(db);
@@ -92,6 +102,11 @@ public class MapDBCreeperStorage extends AbstractIdleService implements CreeperS
     @Override
     public Map<String, String> getWeatherHistory() {
         return weatherHistory;
+    }
+
+    @Override
+    public Map<String, List<QuoteManager.IrcQuote>> getIrcQuotes() {
+        return ircQuotes;
     }
 
     @Override
