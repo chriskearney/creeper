@@ -55,6 +55,7 @@ import com.comandante.creeper.command.commands.admin.InfoCommand;
 import com.comandante.creeper.command.commands.admin.LoadItemCommand;
 import com.comandante.creeper.command.commands.admin.LoadMerchantCommand;
 import com.comandante.creeper.command.commands.admin.LoadNpcCommand;
+import com.comandante.creeper.command.commands.admin.LoadQuoteFile;
 import com.comandante.creeper.command.commands.admin.NotablesCommand;
 import com.comandante.creeper.command.commands.admin.NpcLocationCommand;
 import com.comandante.creeper.command.commands.admin.ReloadNpcsCommand;
@@ -190,5 +191,6 @@ public class ConfigureCommands {
         creeperCommandRegistry.addCommand(new LoadMerchantCommand(gameManager));
         creeperCommandRegistry.addCommand(new RestartCommand(gameManager));
         creeperCommandRegistry.addCommand(new QuestsCommand(gameManager));
+        creeperCommandRegistry.addCommand(new LoadQuoteFile(gameManager));
     }
 }
