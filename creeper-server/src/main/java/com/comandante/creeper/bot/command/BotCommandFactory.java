@@ -27,6 +27,7 @@ public class BotCommandFactory {
         addCommand(new BtcCommand(botCommandManager));
         addCommand(new LearnCommand(botCommandManager));
         addCommand(new QueryCommand(botCommandManager));
+        addCommand(new GrepCommand(botCommandManager));
     }
 
     public BotCommand getCommand(MessageEvent event, String originalFullCmd, Player player) {
