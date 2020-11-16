@@ -4,6 +4,7 @@ import com.comandante.creeper.bot.command.BotCommandManager;
 import com.comandante.creeper.bot.command.QuoteManager;
 import com.comandante.creeper.server.player_communication.Color;
 import com.google.common.collect.Sets;
+import org.pircbotx.Colors;
 import org.testng.collections.Lists;
 
 import java.util.Collections;
@@ -28,7 +29,7 @@ public class QueryCommand extends BotCommand {
         List<String> response = Lists.newArrayList();
         int i = 1;
         for (QuoteManager.IrcQuote quote: byKeyword) {
-            response.add(Color.BOLD_ON + keywordQuery + "[" + i + "]: " + Color.BOLD_OFF + quote.getQuote());
+            response.add(Colors.BOLD + keywordQuery + "[" + i + "]: " + Colors.BOLD + quote.getQuote());
             i++;
         }
         return response;
