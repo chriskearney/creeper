@@ -47,6 +47,9 @@ public class QuoteProcessor extends AbstractScheduledService {
     @Override
     protected void runOneIteration() throws Exception {
         IrcQuoteRequest poll = quoteQueue.poll();
+        if (poll == null) {
+            return;
+        }
         for (QuoteManager.IrcQuote quote: poll.getIrcQuotes()) {
             rateLimiter.acquire();
             ircBotService.getBot().getUserChannelDao().getChannel(creeperConfiguration.getIrcChannel()).send().message(Colors.BOLD + quote.getKeyword() + "[" + quote.getNumber() + "]: " + Colors.BOLD + quote.getQuote());
