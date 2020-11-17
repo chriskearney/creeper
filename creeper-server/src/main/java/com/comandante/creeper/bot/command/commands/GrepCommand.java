@@ -35,9 +35,18 @@ public class GrepCommand extends BotCommand {
             } else {
                 int totalSeconds = byKeyword.size() * 2;
                 double minutes = ((double) totalSeconds) / 60;
-                return Collections.singletonList("Query will take approximately " + minutes + " minutes. Add -YES to to your command in order to proceed.");
+                return Collections.singletonList("Query will take approximately " + round(minutes, 2) + " minutes. Add -YES to to your command in order to proceed.");
             }
         }
         return Lists.newArrayList();
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 }
