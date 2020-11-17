@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 
 public class QuoteProcessor extends AbstractScheduledService {
 
@@ -31,6 +32,10 @@ public class QuoteProcessor extends AbstractScheduledService {
         Optional<User> user = Optional.empty();
         if (messageEvent.isPresent()) {
             user = Optional.ofNullable(messageEvent.get().getUser());
+            Optional<User> finalUser = user;
+            if (quoteQueue.stream().anyMatch(ircQuoteRequest -> ircQuoteRequest.getUser().equals(finalUser.get()))) {
+                return;
+            }
         }
         try {
             quoteQueue.add(new IrcQuoteRequest(ircQuotes, user));
@@ -66,7 +71,7 @@ public class QuoteProcessor extends AbstractScheduledService {
             return ircQuotes;
         }
 
-        public Optional<User> getNick() {
+        public Optional<User> getUser() {
             return user;
         }
     }
