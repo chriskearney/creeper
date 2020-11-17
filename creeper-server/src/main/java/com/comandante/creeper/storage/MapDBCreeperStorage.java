@@ -31,7 +31,7 @@ public class MapDBCreeperStorage extends AbstractIdleService implements CreeperS
     private final static String EFFECTS_MAP = "effectsMap";
     private final static String PLAYER_METADATA_MAP = "playerMetadata";
     private final static String WEATHER_HISTORY = "weatherHistory";
-    private final static String IRC_QUOTES = "ircQuotes";
+    private final static String IRC_QUOTES = "ircQuotesDatabase";
 
     public MapDBCreeperStorage(DB db) {
         this.db = db;

@@ -76,9 +76,7 @@ public class LoadQuoteFile extends Command {
                 String nickName = lineParts.remove(0);
                 String keyword = lineParts.remove(0);
                 String quote = Joiner.on(" ").join(lineParts);
-                List<QuoteManager.IrcQuote> ircQuotes = gameManager.getMapDBCreeperStorage().getIrcQuotes().getOrDefault(keyword, Lists.newArrayList());
-                ircQuotes.add(new QuoteManager.IrcQuote(nickName, keyword, quote));
-                gameManager.getMapDBCreeperStorage().getIrcQuotes().put(keyword, ircQuotes);
+                gameManager.getQuoteManager().save(new QuoteManager.IrcQuote(nickName, keyword, quote));
                 saveCount++;
             }
             write("Saved " + saveCount + " quotes.");
