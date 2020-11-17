@@ -172,6 +172,9 @@ public class GameManager {
         this.creeperConfiguration = creeperConfiguration;
         this.forageManager = new ForageManager(this);
         this.effectsManager = new EffectsManager(this);
+        this.quoteManager = new QuoteManager(mapDBCreeperStorage.getIrcQuotes());
+        this.quoteProcessor = new QuoteProcessor(this.quoteManager, ircBotService, creeperConfiguration);
+        this.quoteProcessor.startAsync();
         this.botCommandManager = new BotCommandManager(this);
         this.botCommandFactory = new BotCommandFactory(botCommandManager);
         this.statsModifierFactory = new StatsModifierFactory(this);
@@ -195,9 +198,6 @@ public class GameManager {
         this.lockPickingManager = new LockPickingManager(this);
         this.bitlyManager = new BitlyManager(new BitlyClient(httpClient, objectMapper, creeperConfiguration));
         this.youtubeManager = new YoutubeManager(new YoutubeClient(creeperConfiguration, objectMapper, httpClient));
-        this.quoteManager = new QuoteManager(mapDBCreeperStorage.getIrcQuotes());
-        this.quoteProcessor = new QuoteProcessor(this.quoteManager, ircBotService, creeperConfiguration);
-        this.quoteProcessor.startAsync();
     }
 
     public QuoteManager getQuoteManager() {
