@@ -20,6 +20,7 @@ public class QuoteManager {
 
     public void save(IrcQuote ircQuote) {
         List<IrcQuote> ircQuotes = ircQuoteMap.getOrDefault(ircQuote.getKeyword(), Lists.newArrayList());
+        ircQuote.setNumber(ircQuotes.size() + 1);
         ircQuotes.add(ircQuote);
         ircQuoteMap.put(ircQuote.getKeyword(), ircQuotes);
     }
@@ -56,11 +57,19 @@ public class QuoteManager {
         private final String author;
         private final String keyword;
         private final String quote;
+        private int number;
 
         public IrcQuote(String author, String keyword, String quote) {
             this.author = author;
             this.keyword = keyword;
             this.quote = quote;
+        }
+
+        public IrcQuote(String author, String keyword, String quote, int number) {
+            this.author = author;
+            this.keyword = keyword;
+            this.quote = quote;
+            this.number = number;
         }
 
         public String getAuthor() {
@@ -73,6 +82,14 @@ public class QuoteManager {
 
         public String getQuote() {
             return quote;
+        }
+
+        public int getNumber() {
+            return number;
+        }
+
+        public void setNumber(int number) {
+            this.number = number;
         }
     }
 }

@@ -13,6 +13,7 @@ public class BotCommandManager {
     private final WeatherHistoryManager weatherHistoryManager;
     private final CoindeskManager coindeskManager;
     private final QuoteManager quoteManager;
+    private final QuoteProcessor quoteProcessor;
 
     public BotCommandManager(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -23,6 +24,7 @@ public class BotCommandManager {
         this.weatherHistoryManager = new WeatherHistoryManager(gameManager.getMapDBCreeperStorage());
         this.coindeskManager = new CoindeskManager(new CoindeskClient(gameManager.getObjectMapper()));
         this.quoteManager = new QuoteManager(gameManager.getMapDBCreeperStorage().getIrcQuotes());
+        this.quoteProcessor = gameManager.getQuoteProcessor();
     }
 
     public GameManager getGameManager() {
@@ -55,5 +57,9 @@ public class BotCommandManager {
 
     public QuoteManager getQuoteManager() {
         return quoteManager;
+    }
+
+    public QuoteProcessor getQuoteProcessor() {
+        return quoteProcessor;
     }
 }

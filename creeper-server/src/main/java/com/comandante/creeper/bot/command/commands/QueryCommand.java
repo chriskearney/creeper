@@ -9,6 +9,7 @@ import org.testng.collections.Lists;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -26,12 +27,7 @@ public class QueryCommand extends BotCommand {
     public List<String> process() {
         String keywordQuery = args.remove(0);
         List<QuoteManager.IrcQuote> byKeyword = botCommandManager.getQuoteManager().getByKeyword(keywordQuery);
-        List<String> response = Lists.newArrayList();
-        int i = 1;
-        for (QuoteManager.IrcQuote quote: byKeyword) {
-            response.add(Colors.BOLD + keywordQuery + "[" + i + "]: " + Colors.BOLD + quote.getQuote());
-            i++;
-        }
-        return response;
+        botCommandManager.getQuoteProcessor().addIrcQuotes(byKeyword, Optional.ofNullable(getMessageEvent()));
+        return Lists.newArrayList();
     }
 }

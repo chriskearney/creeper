@@ -9,6 +9,8 @@ import com.comandante.creeper.bot.command.BitlyClient;
 import com.comandante.creeper.bot.command.BitlyManager;
 import com.comandante.creeper.bot.command.BotCommandFactory;
 import com.comandante.creeper.bot.command.BotCommandManager;
+import com.comandante.creeper.bot.command.QuoteManager;
+import com.comandante.creeper.bot.command.QuoteProcessor;
 import com.comandante.creeper.bot.command.TwitterClient;
 import com.comandante.creeper.bot.command.TwitterManager;
 import com.comandante.creeper.bot.command.YoutubeManager;
@@ -144,6 +146,8 @@ public class GameManager {
     private final LockPickingManager lockPickingManager;
     private final BitlyManager bitlyManager;
     private final YoutubeManager youtubeManager;
+    private final QuoteProcessor quoteProcessor;
+    private final QuoteManager quoteManager;
 
     public GameManager(MapDBCreeperStorage mapDBCreeperStorage,
                        CreeperConfiguration creeperConfiguration,
@@ -191,6 +195,17 @@ public class GameManager {
         this.lockPickingManager = new LockPickingManager(this);
         this.bitlyManager = new BitlyManager(new BitlyClient(httpClient, objectMapper, creeperConfiguration));
         this.youtubeManager = new YoutubeManager(new YoutubeClient(creeperConfiguration, objectMapper, httpClient));
+        this.quoteManager = new QuoteManager(mapDBCreeperStorage.getIrcQuotes());
+        this.quoteProcessor = new QuoteProcessor(this.quoteManager, ircBotService, creeperConfiguration);
+        this.quoteProcessor.startAsync();
+    }
+
+    public QuoteManager getQuoteManager() {
+        return quoteManager;
+    }
+
+    public QuoteProcessor getQuoteProcessor() {
+        return quoteProcessor;
     }
 
     public YoutubeManager getYoutubeManager() {
