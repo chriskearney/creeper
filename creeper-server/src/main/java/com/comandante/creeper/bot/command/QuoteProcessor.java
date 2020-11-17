@@ -75,7 +75,7 @@ public class QuoteProcessor extends AbstractScheduledService {
             }
             String matchesFound = "[" + poll.getIrcQuotes().size() + "] matches found.";
             if (poll.getUser().isPresent() && poll.getIrcQuotes().size() > 100) {
-                matchesFound += " Kicking the user who requested these results will stop the streaming.  In this case that requesting user is the one and only: " + poll.getUser().get().getNick();
+                matchesFound += " Kicking " + poll.getUser().get().getNick() + " from the channel will immediately stop the bot from streaming these results.";
             }
             ircBotService.getBot().getUserChannelDao().getChannel(creeperConfiguration.getIrcChannel()).send().message(matchesFound);
             for (QuoteManager.IrcQuote quote : poll.getIrcQuotes()) {
@@ -83,7 +83,9 @@ public class QuoteProcessor extends AbstractScheduledService {
                     continue;
                 }
                 rateLimiter.acquire();
-                ircBotService.getBot().getUserChannelDao().getChannel(creeperConfiguration.getIrcChannel()).send().message(Colors.BOLD + quote.getKeyword() + "[" + quote.getNumber() + "]: " + Colors.BOLD + quote.getQuote());
+                if (!shouldStop.get()) {
+                    ircBotService.getBot().getUserChannelDao().getChannel(creeperConfiguration.getIrcChannel()).send().message(Colors.BOLD + quote.getKeyword() + "[" + quote.getNumber() + "]: " + Colors.BOLD + quote.getQuote());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
