@@ -40,7 +40,7 @@ public class GrepCommand extends BotCommand {
                 int totalSeconds = byKeyword.size() * 2;
                 double minutes = ((double) totalSeconds) / 60;
                 String matchesFound = "[" + byKeyword.size() + "] results found.";
-                return Collections.singletonList(matchesFound + " Query will take approximately " + round(minutes, 2) + " minutes. Add -YES to to your command in order to proceed.");
+                return Collections.singletonList(matchesFound + " Query will take approximately " + round(minutes, 2) + " minutes. Add -YES to proceed.");
             }
         }
         botCommandManager.getQuoteProcessor().addIrcQuotes(byKeyword, Optional.ofNullable(getMessageEvent()));
