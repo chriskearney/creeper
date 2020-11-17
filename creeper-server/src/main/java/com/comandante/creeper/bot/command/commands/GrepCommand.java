@@ -32,7 +32,7 @@ public class GrepCommand extends BotCommand {
             yesFlag = Optional.ofNullable(args.remove(0));
         }
         List<QuoteManager.IrcQuote> byKeyword = botCommandManager.getQuoteManager().grep(keywordQuery);
-        if (byKeyword.size() > 100) {
+        if (byKeyword.size() > 10) {
             if (yesFlag.isPresent() && yesFlag.get().equals("-YES")) {
                 botCommandManager.getQuoteProcessor().addIrcQuotes(byKeyword, Optional.ofNullable(getMessageEvent()));
                 return Lists.newArrayList();

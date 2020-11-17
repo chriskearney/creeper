@@ -51,6 +51,8 @@ public class MyListener extends ListenerAdapter {
         }
     }
 
+
+
     @Override
     public void onGenericMessage(GenericMessageEvent event) throws Exception {
         PlayerManager playerManager = gameManager.getPlayerManager();

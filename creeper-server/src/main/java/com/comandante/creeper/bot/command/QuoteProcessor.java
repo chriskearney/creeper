@@ -73,7 +73,7 @@ public class QuoteProcessor extends AbstractScheduledService {
             if (poll == null) {
                 return;
             }
-            String matchesFound = "[" + poll.getIrcQuotes().size() + "] matches found.";
+            String matchesFound = "[" + poll.getIrcQuotes().size() + "] results found.";
             if (poll.getUser().isPresent() && poll.getIrcQuotes().size() > 100) {
                 matchesFound += " Kicking " + poll.getUser().get().getNick() + " from the channel will immediately stop the bot from streaming these results.";
             }
