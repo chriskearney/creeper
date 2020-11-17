@@ -32,6 +32,10 @@ public class QuoteProcessor extends AbstractScheduledService {
         this.creeperConfiguration = creeperConfiguration;
     }
 
+    public boolean isEmpty() {
+        return quoteQueue.isEmpty();
+    }
+
     public void addIrcQuotes(List<QuoteManager.IrcQuote> ircQuotes, Optional<MessageEvent> messageEvent) {
         Optional<User> user = Optional.empty();
         if (messageEvent.isPresent()) {
@@ -48,13 +52,15 @@ public class QuoteProcessor extends AbstractScheduledService {
         }
     }
 
-    public void removeIfUserMatch(User user) {
+    public boolean removeIfUserMatch(User user) {
         if (currentUser == null) {
-            return;
+            return false;
         }
         if (currentUser.equals(user)) {
             shouldStop.set(true);
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -67,6 +73,11 @@ public class QuoteProcessor extends AbstractScheduledService {
             if (poll == null) {
                 return;
             }
+            String matchesFound = "[" + poll.getIrcQuotes().size() + "] matches found.";
+            if (poll.getUser().isPresent() && poll.getIrcQuotes().size() > 100) {
+                matchesFound += " Kicking the user who requested these results will stop the streaming.  In this case that requesting user is the one and only: " + poll.getUser().get().getNick();
+            }
+            ircBotService.getBot().getUserChannelDao().getChannel(creeperConfiguration.getIrcChannel()).send().message(matchesFound);
             for (QuoteManager.IrcQuote quote : poll.getIrcQuotes()) {
                 if (shouldStop.get()) {
                     continue;

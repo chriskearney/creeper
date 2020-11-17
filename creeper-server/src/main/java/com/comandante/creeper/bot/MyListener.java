@@ -46,7 +46,9 @@ public class MyListener extends ListenerAdapter {
 
     @Override
     public void onKick(KickEvent event) throws Exception {
-        gameManager.getQuoteProcessor().removeIfUserMatch(event.getRecipient());
+        if (gameManager.getQuoteProcessor().removeIfUserMatch(event.getRecipient())) {
+            gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(event.getRecipient().getNick() + " was kicked, stopping results.");
+        }
     }
 
     @Override

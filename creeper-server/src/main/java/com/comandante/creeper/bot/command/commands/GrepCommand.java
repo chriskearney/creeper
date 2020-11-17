@@ -23,6 +23,9 @@ public class GrepCommand extends BotCommand {
 
     @Override
     public List<String> process() {
+        if (!botCommandManager.getQuoteProcessor().isEmpty()) {
+            return Lists.newArrayList();
+        }
         String keywordQuery = args.remove(0);
         Optional<String> yesFlag = Optional.empty();
         if (!args.isEmpty()) {
