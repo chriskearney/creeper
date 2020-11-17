@@ -15,6 +15,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import org.pircbotx.hooks.ListenerAdapter;
+import org.pircbotx.hooks.events.KickEvent;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 
@@ -41,6 +42,11 @@ public class MyListener extends ListenerAdapter {
         this.twitterManager = new TwitterManager(new TwitterClient(gameManager.getCreeperConfiguration()));
         this.bitlyManager = bitlyManager;
         this.youtubeManager = youtubeManager;
+    }
+
+    @Override
+    public void onKick(KickEvent event) throws Exception {
+        gameManager.getQuoteProcessor().removeIfUserMatch(event.getRecipient());
     }
 
     @Override

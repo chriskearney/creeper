@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 public class QuoteProcessor extends AbstractScheduledService {
@@ -19,8 +20,11 @@ public class QuoteProcessor extends AbstractScheduledService {
     private final QuoteManager quoteManager;
     private final IrcBotService ircBotService;
     private final CreeperConfiguration creeperConfiguration;
-    private final ArrayBlockingQueue<IrcQuoteRequest> quoteQueue = new ArrayBlockingQueue<>(3);
+    private final ArrayBlockingQueue<IrcQuoteRequest> quoteQueue = new ArrayBlockingQueue<>(1);
     private final RateLimiter rateLimiter = RateLimiter.create(.6);
+    private User currentUser;
+
+    private AtomicBoolean shouldStop = new AtomicBoolean(false);
 
     public QuoteProcessor(QuoteManager quoteManager, IrcBotService ircBotService, CreeperConfiguration creeperConfiguration) {
         this.quoteManager = quoteManager;
@@ -44,20 +48,37 @@ public class QuoteProcessor extends AbstractScheduledService {
         }
     }
 
+    public void removeIfUserMatch(User user) {
+        if (currentUser == null) {
+            return;
+        }
+        if (currentUser.equals(user)) {
+            shouldStop.set(true);
+        }
+    }
+
     @Override
     protected void runOneIteration() throws Exception {
         try {
             IrcQuoteRequest poll = quoteQueue.poll();
+            if (poll.getUser().isPresent()) {
+                currentUser = poll.getUser().get();
+            }
             if (poll == null) {
                 return;
             }
             for (QuoteManager.IrcQuote quote : poll.getIrcQuotes()) {
+                if (shouldStop.get()) {
+                    continue;
+                }
                 rateLimiter.acquire();
                 ircBotService.getBot().getUserChannelDao().getChannel(creeperConfiguration.getIrcChannel()).send().message(Colors.BOLD + quote.getKeyword() + "[" + quote.getNumber() + "]: " + Colors.BOLD + quote.getQuote());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        currentUser = null;
+        shouldStop.set(false);
     }
 
     @Override
