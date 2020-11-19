@@ -104,7 +104,7 @@ public class AccuweatherManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        accuweatherManager = new AccuweatherManager(accuweatherAPI, new EventBus());
+        accuweatherManager = new AccuweatherManager(accuweatherAPI, new EventBus(), new WeatherGovManager(null));
     }
 
     @Test

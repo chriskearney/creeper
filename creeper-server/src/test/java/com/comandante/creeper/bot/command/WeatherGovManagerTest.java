@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
@@ -30,8 +31,8 @@ public class WeatherGovManagerTest {
     @Test
     public void testAlertData() throws Exception {
         WeatherGovManager weatherGovManager = new WeatherGovManager(weatherGovApi);
-        String alerts = weatherGovManager.getAlerts("sadf", "afd");
-        System.out.println(alerts);
+        Optional<String> alerts = weatherGovManager.getAlerts("sadf", "afd");
+        System.out.println(alerts.get());
     }
 
     public String getResourceFileAsString(String fileName) {

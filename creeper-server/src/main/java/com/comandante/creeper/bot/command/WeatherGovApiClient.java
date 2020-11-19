@@ -22,7 +22,7 @@ public class WeatherGovApiClient implements WeatherGovApi {
     private final CloseableHttpClient httpClient;
     private final JsonParser jsonParser = new JsonParser();
 
-    public WeatherGovApiClient(HttpClient httpClient) {
+    public WeatherGovApiClient() {
         this.httpClient = HttpClients.custom().setUserAgent("Creeper MUD Project.").build();
     }
 

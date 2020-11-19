@@ -15,7 +15,7 @@ public class WeatherManager {
 
     public WeatherManager(CreeperConfiguration creeperConfiguration, EventBus eventBus) {
         this.creeperConfiguration = creeperConfiguration;
-        this.accuweatherManager = new AccuweatherManager(new AccuweatherClient(creeperConfiguration), eventBus);
+        this.accuweatherManager = new AccuweatherManager(new AccuweatherClient(creeperConfiguration), eventBus, new WeatherGovManager( new WeatherGovApiClient()));
     }
 
     public String getWeather(String searchString) {
