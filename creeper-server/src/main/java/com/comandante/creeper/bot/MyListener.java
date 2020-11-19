@@ -1,10 +1,6 @@
 package com.comandante.creeper.bot;
 
-import com.comandante.creeper.bot.command.BitlyClient;
-import com.comandante.creeper.bot.command.BitlyManager;
-import com.comandante.creeper.bot.command.TwitterClient;
-import com.comandante.creeper.bot.command.TwitterManager;
-import com.comandante.creeper.bot.command.YoutubeManager;
+import com.comandante.creeper.bot.command.*;
 import com.comandante.creeper.bot.command.commands.BotCommand;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SentryManager;
@@ -14,6 +10,7 @@ import com.comandante.creeper.world.model.Room;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.eventbus.Subscribe;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.KickEvent;
 import org.pircbotx.hooks.events.MessageEvent;
@@ -128,6 +125,11 @@ public class MyListener extends ListenerAdapter {
 
     private void send(String msg) {
         gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(msg);
+    }
+
+    @Subscribe
+    public void receiveWeatherAlertEvent(WeatherAlertReceivedEvent weatherAlertReceivedEvent) {
+        send(weatherAlertReceivedEvent.getWeatherAlert());
     }
 }
 

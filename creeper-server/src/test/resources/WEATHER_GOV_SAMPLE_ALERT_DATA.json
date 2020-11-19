@@ -1,0 +1,105 @@
+{
+  "@context": [
+    "https://geojson.org/geojson-ld/geojson-context.jsonld",
+    {
+      "@version": "1.1",
+      "wx": "https://api.weather.gov/ontology#",
+      "@vocab": "https://api.weather.gov/ontology#"
+    }
+  ],
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "id": "https://api.weather.gov/alerts/NWS-IDP-PROD-4540935",
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "@id": "https://api.weather.gov/alerts/NWS-IDP-PROD-4540935",
+        "@type": "wx:Alert",
+        "id": "NWS-IDP-PROD-4540935",
+        "areaDesc": "Glacier Bay; Eastern Baranof Island and Southern Admiralty Island; Eastern Chichagof Island; Cape Decision to Salisbury Sound Coastal Area; Salisbury Sound to Cape Fairweather Coastal Area; Juneau Borough and Northern Admiralty Island; Haines Borough and Lynn Canal; Inner Channels from Kupreanof Island to Etolin Island; Taiya Inlet and Klondike Highway; Misty Fjords; Cape Fairweather to Cape Suckling Coastal Area; Southern Inner Channels; Dixon Entrance to Cape Decision Coastal Area",
+        "geocode": {
+          "UGC": [
+            "AKZ020",
+            "AKZ024",
+            "AKZ021",
+            "AKZ023",
+            "AKZ022",
+            "AKZ025",
+            "AKZ019",
+            "AKZ026",
+            "AKZ018",
+            "AKZ029",
+            "AKZ017",
+            "AKZ028",
+            "AKZ027"
+          ],
+          "SAME": [
+            "002105",
+            "002220",
+            "002110",
+            "002195",
+            "002100",
+            "002275",
+            "002230",
+            "002130",
+            "002198",
+            "002282"
+          ]
+        },
+        "affectedZones": [
+          "https://api.weather.gov/zones/forecast/AKZ020",
+          "https://api.weather.gov/zones/forecast/AKZ024",
+          "https://api.weather.gov/zones/forecast/AKZ021",
+          "https://api.weather.gov/zones/forecast/AKZ023",
+          "https://api.weather.gov/zones/forecast/AKZ022",
+          "https://api.weather.gov/zones/forecast/AKZ025",
+          "https://api.weather.gov/zones/forecast/AKZ019",
+          "https://api.weather.gov/zones/forecast/AKZ026",
+          "https://api.weather.gov/zones/forecast/AKZ018",
+          "https://api.weather.gov/zones/forecast/AKZ029",
+          "https://api.weather.gov/zones/forecast/AKZ017",
+          "https://api.weather.gov/zones/forecast/AKZ028",
+          "https://api.weather.gov/zones/forecast/AKZ027"
+        ],
+        "references": [],
+        "sent": "2020-11-18T21:41:00-09:00",
+        "effective": "2020-11-18T21:41:00-09:00",
+        "onset": "2020-11-18T21:41:00-09:00",
+        "expires": "2020-11-19T16:00:00-09:00",
+        "ends": null,
+        "status": "Actual",
+        "messageType": "Alert",
+        "category": "Met",
+        "severity": "Moderate",
+        "certainty": "Observed",
+        "urgency": "Expected",
+        "event": "Special Weather Statement",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "senderName": "NWS Juneau AK",
+        "headline": "Special Weather Statement issued November 18 at 9:41PM AKST by NWS Juneau AK",
+        "description": "A gale force front will track across the AK Gulf late Friday then\ncross over the AK Panhandle Saturday. This system will bring a\ncombination of increased winds and heavy precipitation.\n\nFor the Southern and South Central regions precipitation will\nfall mainly as rain with a mix of snow early in the day. Rainfall\ntotals upwards of 1 to 2 inches possible with only minor snow\naccumulation expected.\n\nFor the Northeast Gulf Coast and Northern Panhandle there is the\npotential for significant snow accumulation through the day, with\nhigher amounts at higher elevations. The Northeast Gulf Coast\nwill change over to rain through the day while Juneau and areas\nalong the Icy Strait corridor may change to rain or only mix with\nrain later in the day.\n\nThere is also the potential for another significant weather\nsystem impacting the region on Monday with more heavy rain, snow,\nand increased winds.\n\nPlease stay tuned to NOAA Weather radio or your favorite local\nweather news source as well as checking www.weather.gov/Juneau\nfor updates on this situation.",
+        "instruction": null,
+        "response": "Execute",
+        "parameters": {
+          "NWSheadline": [
+            "STRONG WEATHER SYSTEM IMPACTING THE AK PANHANDLE SATURDAY"
+          ],
+          "EAS-ORG": [
+            "WXR"
+          ],
+          "PIL": [
+            "AJKSPSAJK"
+          ],
+          "BLOCKCHANNEL": [
+            "CMAS",
+            "EAS",
+            "NWEM"
+          ]
+        }
+      }
+    }
+  ],
+  "title": "current watches, warnings, and advisories for 58.8353 N, 136.85 W",
+  "updated": "2020-11-19T06:41:48+00:00"
+}

@@ -10,22 +10,21 @@ import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class AccuweatherManager extends AbstractScheduledService {
 
     private final AccuweatherAPI accuweatherAPI;
+    private final WeatherGovManager weatherGovManager;
     private final EventBus eventBus;
     private final ArrayBlockingQueue<String> alertCheckQueue = new ArrayBlockingQueue<>(10);
 
-    public AccuweatherManager(AccuweatherAPI accuweatherAPI, EventBus eventBus) {
+    public AccuweatherManager(AccuweatherAPI accuweatherAPI, EventBus eventBus, WeatherGovManager weatherGovManager) {
         this.accuweatherAPI = accuweatherAPI;
         this.eventBus = eventBus;
+        this.weatherGovManager = weatherGovManager;
         this.startAsync();
     }
 
@@ -182,7 +181,12 @@ public class AccuweatherManager extends AbstractScheduledService {
             alertCheckQueue.drainTo(locationKeysToCheckForAlerts);
             for (String locationKey: locationKeysToCheckForAlerts) {
                 JsonElement locationDetails = accuweatherAPI.getLocationDetails(locationKey);
-                System.out.println("hi");
+                String latitude = locationDetails.getAsJsonObject().get("GeoPosition").getAsJsonObject().get("Latitude").getAsString();
+                String longitude = locationDetails.getAsJsonObject().get("GeoPosition").getAsJsonObject().get("Longitude").getAsString();
+                Optional<String> alerts = weatherGovManager.getAlerts(latitude, longitude);
+                if (alerts.isPresent()) {
+                    eventBus.post(new WeatherAlertReceivedEvent(alerts.get()));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

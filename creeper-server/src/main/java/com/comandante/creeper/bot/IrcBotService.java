@@ -30,12 +30,14 @@ public class IrcBotService extends AbstractIdleService {
 
     public MultiBotManager newBot() {
         manager = new MultiBotManager();
+        MyListener myListener = new MyListener(gameManager, 376, gameManager.getBitlyManager(), gameManager.getYoutubeManager());
+        gameManager.getEventBus().register(myListener);
         configuration = new org.pircbotx.Configuration.Builder()
                 .setName(creeperConfiguration.getIrcNickname())
                 .setLogin(creeperConfiguration.getIrcUsername())
                 .setServerHostname(creeperConfiguration.getIrcServer())
                 .addAutoJoinChannel(creeperConfiguration.getIrcChannel())
-                .addListener(new MyListener(gameManager, 376, gameManager.getBitlyManager(), gameManager.getYoutubeManager()))
+                .addListener(myListener)
                 .setVersion("creeper irc | build: " + Creeper.getCreeperVersion())
                 .setAutoReconnect(true)
                 .setMessageDelay(2000L)
