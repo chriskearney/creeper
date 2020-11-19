@@ -6,6 +6,7 @@ import org.testng.collections.Lists;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class WeatherGovManager {
 
@@ -22,11 +23,22 @@ public class WeatherGovManager {
             String alertHeadline = alertData.getAsJsonObject().get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("headline").getAsString();
             String alertDescription = alertData.getAsJsonObject().get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("description").getAsString();
             alertStrings.add(alertHeadline);
-            alertStrings.addAll(Arrays.asList(alertDescription.split("[\\r\\n]+")));
+            alertStrings.addAll(reformatAlertDescription(alertDescription));
             return Optional.of(alertStrings);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return Optional.empty();
+    }
+
+    protected List<String> reformatAlertDescription(String rawAlert) {
+        List<String> formattedFinal = Lists.newArrayList();
+        List<String> strings = Arrays.asList(rawAlert.split("\n\n"));
+        strings.forEach(s -> {
+            String replace = s.replaceAll("\n", " ");
+            formattedFinal.add(replace);
+        });
+        return formattedFinal;
+
     }
 }

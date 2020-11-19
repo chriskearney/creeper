@@ -44,4 +44,14 @@ public class WeatherGovManagerTest {
         }
         return null;
     }
+
+    @Test
+    public void testReformat() {
+        String alertData = getResourceFileAsString("WEATHER_GOV_SAMPLE_ALERT_DATA.json");
+        JsonElement parse = jsonParser.parse(alertData);
+        String alertDescription = parse.getAsJsonObject().get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("description").getAsString();
+        WeatherGovManager weatherGovManager = new WeatherGovManager(weatherGovApi);
+        List<String> s = weatherGovManager.reformatAlertDescription(alertDescription);
+        System.out.println(s);
+    }
 }
