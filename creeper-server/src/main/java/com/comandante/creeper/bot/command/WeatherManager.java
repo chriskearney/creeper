@@ -2,6 +2,7 @@ package com.comandante.creeper.bot.command;
 
 
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
+import com.google.common.eventbus.EventBus;
 import org.apache.log4j.Logger;
 
 public class WeatherManager {
@@ -12,9 +13,9 @@ public class WeatherManager {
     private static final Logger log = Logger.getLogger(WeatherManager.class);
 
 
-    public WeatherManager(CreeperConfiguration creeperConfiguration) {
+    public WeatherManager(CreeperConfiguration creeperConfiguration, EventBus eventBus) {
         this.creeperConfiguration = creeperConfiguration;
-        this.accuweatherManager = new AccuweatherManager(new AccuweatherClient(creeperConfiguration));
+        this.accuweatherManager = new AccuweatherManager(new AccuweatherClient(creeperConfiguration), eventBus);
     }
 
     public String getWeather(String searchString) {

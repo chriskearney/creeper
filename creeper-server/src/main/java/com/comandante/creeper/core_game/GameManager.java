@@ -11,8 +11,6 @@ import com.comandante.creeper.bot.command.BotCommandFactory;
 import com.comandante.creeper.bot.command.BotCommandManager;
 import com.comandante.creeper.bot.command.QuoteManager;
 import com.comandante.creeper.bot.command.QuoteProcessor;
-import com.comandante.creeper.bot.command.TwitterClient;
-import com.comandante.creeper.bot.command.TwitterManager;
 import com.comandante.creeper.bot.command.YoutubeManager;
 import com.comandante.creeper.bot.command.commands.BotCommand;
 import com.comandante.creeper.chat.Gossip;
@@ -74,6 +72,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Interner;
 import com.google.common.collect.Interners;
 import com.google.common.collect.Maps;
+import com.google.common.eventbus.EventBus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import events.ListenerService;
@@ -148,6 +147,7 @@ public class GameManager {
     private final YoutubeManager youtubeManager;
     private final QuoteProcessor quoteProcessor;
     private final QuoteManager quoteManager;
+    private final EventBus eventBus;
 
     public GameManager(MapDBCreeperStorage mapDBCreeperStorage,
                        CreeperConfiguration creeperConfiguration,
@@ -157,7 +157,8 @@ public class GameManager {
                        MapsManager mapsManager,
                        ChannelCommunicationUtils channelUtils,
                        HttpClient httpClient,
-                       ListenerService listenerService) {
+                       ListenerService listenerService,
+                       EventBus eventBus) {
         this.mapDBCreeperStorage = mapDBCreeperStorage;
         this.roomManager = roomManager;
         this.playerManager = playerManager;
@@ -198,6 +199,11 @@ public class GameManager {
         this.lockPickingManager = new LockPickingManager(this);
         this.bitlyManager = new BitlyManager(new BitlyClient(httpClient, objectMapper, creeperConfiguration));
         this.youtubeManager = new YoutubeManager(new YoutubeClient(creeperConfiguration, objectMapper, httpClient));
+        this.eventBus = eventBus;
+    }
+
+    public EventBus getEventBus() {
+        return eventBus;
     }
 
     public QuoteManager getQuoteManager() {

@@ -1,6 +1,8 @@
 package com.comandante.creeper.bot.command;
 
 import com.google.common.collect.Lists;
+import com.google.common.eventbus.EventBus;
+import com.google.common.util.concurrent.AbstractScheduledService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
@@ -12,13 +14,19 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
-public class AccuweatherManager {
+public class AccuweatherManager extends AbstractScheduledService {
 
     private final AccuweatherAPI accuweatherAPI;
+    private final EventBus eventBus;
+    private final ArrayBlockingQueue<String> alertCheckQueue = new ArrayBlockingQueue<>(10);
 
-    public AccuweatherManager(AccuweatherAPI accuweatherAPI) {
+    public AccuweatherManager(AccuweatherAPI accuweatherAPI, EventBus eventBus) {
         this.accuweatherAPI = accuweatherAPI;
+        this.eventBus = eventBus;
+        this.startAsync();
     }
 
     public AccuweatherReport getCurrentConditions(String searchString) {
@@ -165,6 +173,25 @@ public class AccuweatherManager {
         Date dateFormat = new java.util.Date(epochDate * 1000);
         String weekday = sdf.format(dateFormat);
         return weekday;
+    }
+
+    @Override
+    protected void runOneIteration() throws Exception {
+        try {
+            List<String> locationKeysToCheckForAlerts = Lists.newArrayList();
+            alertCheckQueue.drainTo(locationKeysToCheckForAlerts);
+            for (String locationKey: locationKeysToCheckForAlerts) {
+                JsonElement locationDetails = accuweatherAPI.getLocationDetails(locationKey);
+                System.out.println("hi");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected Scheduler scheduler() {
+        return Scheduler.newFixedDelaySchedule(0, 1, TimeUnit.SECONDS);
     }
 
     public static class DailyForecastSummary {

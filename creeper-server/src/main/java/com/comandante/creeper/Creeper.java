@@ -114,7 +114,7 @@ public class Creeper extends AbstractIdleService {
         mapsManager = new MapsManager(creeperConfiguration, roomManager, listenerService);
         channelUtils = new ChannelUtils(playerManager, roomManager);
         entityManager = new EntityManager(mapDBCreeperStorage, roomManager, playerManager, npcManager);
-        gameManager = new GameManager(mapDBCreeperStorage, creeperConfiguration, roomManager, playerManager, entityManager, mapsManager, channelUtils, HttpClients.createDefault(), listenerService);
+        gameManager = new GameManager(mapDBCreeperStorage, creeperConfiguration, roomManager, playerManager, entityManager, mapsManager, channelUtils, HttpClients.createDefault(), listenerService, eventBus);
 
         startUpMessage("Reading world from disk.");
         worldStorage = new WorldStorage(roomManager, mapsManager, gameManager.getFloorManager(), entityManager, gameManager);

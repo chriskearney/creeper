@@ -1,0 +1,170 @@
+{
+  "Version": 1,
+  "Key": "2187979",
+  "Type": "City",
+  "Rank": 55,
+  "LocalizedName": "Lake Oswego",
+  "EnglishName": "Lake Oswego",
+  "PrimaryPostalCode": "97034",
+  "Region": {
+    "ID": "NAM",
+    "LocalizedName": "North America",
+    "EnglishName": "North America"
+  },
+  "Country": {
+    "ID": "US",
+    "LocalizedName": "United States",
+    "EnglishName": "United States"
+  },
+  "AdministrativeArea": {
+    "ID": "OR",
+    "LocalizedName": "Oregon",
+    "EnglishName": "Oregon",
+    "Level": 1,
+    "LocalizedType": "State",
+    "EnglishType": "State",
+    "CountryID": "US"
+  },
+  "TimeZone": {
+    "Code": "PST",
+    "Name": "America/Los_Angeles",
+    "GmtOffset": -8,
+    "IsDaylightSaving": false,
+    "NextOffsetChange": "2021-03-14T10:00:00Z"
+  },
+  "GeoPosition": {
+    "Latitude": 45.421,
+    "Longitude": -122.671,
+    "Elevation": {
+      "Metric": {
+        "Value": 142,
+        "Unit": "m",
+        "UnitType": 5
+      },
+      "Imperial": {
+        "Value": 465,
+        "Unit": "ft",
+        "UnitType": 0
+      }
+    }
+  },
+  "IsAlias": false,
+  "SupplementalAdminAreas": [
+    {
+      "Level": 2,
+      "LocalizedName": "Clackamas",
+      "EnglishName": "Clackamas"
+    }
+  ],
+  "DataSets": [
+    "AirQualityCurrentConditions",
+    "AirQualityForecasts",
+    "Alerts",
+    "DailyAirQualityForecast",
+    "DailyPollenForecast",
+    "ForecastConfidence",
+    "FutureRadar",
+    "MinuteCast",
+    "Radar"
+  ],
+  "Details": {
+    "Key": "2187979",
+    "StationCode": "OR54",
+    "StationGmtOffset": -8,
+    "BandMap": "USOR",
+    "Climo": "OR56",
+    "LocalRadar": "KPDX",
+    "MediaRegion": "NW",
+    "Metar": "KPDX",
+    "NXMetro": "PDX",
+    "NXState": "OR_",
+    "Population": 36813,
+    "PrimaryWarningCountyCode": "ORC005",
+    "PrimaryWarningZoneCode": "ORZ006",
+    "Satellite": "OR_",
+    "Synoptic": "72698",
+    "MarineStation": "",
+    "MarineStationGMTOffset": null,
+    "VideoCode": "",
+    "LocationStem": "us/lake-oswego-or/97034",
+    "DMA": {
+      "ID": "820",
+      "EnglishName": "Portland, OR"
+    },
+    "PartnerID": null,
+    "Sources": [
+      {
+        "DataType": "CurrentConditions",
+        "Source": "AccuWeather",
+        "SourceId": 1
+      },
+      {
+        "DataType": "DailyAirQualityForecast",
+        "Source": "AccuWeather",
+        "SourceId": 1
+      },
+      {
+        "DataType": "DailyForecast",
+        "Source": "AccuWeather",
+        "SourceId": 1
+      },
+      {
+        "DataType": "DailyPollenForecast",
+        "Source": "AccuWeather",
+        "SourceId": 1
+      },
+      {
+        "DataType": "ForecastConfidence",
+        "Source": "AccuWeather",
+        "SourceId": 1
+      },
+      {
+        "DataType": "FutureRadar",
+        "Source": "AccuWeather",
+        "SourceId": 1
+      },
+      {
+        "DataType": "HourlyForecast",
+        "Source": "AccuWeather",
+        "SourceId": 1
+      },
+      {
+        "DataType": "MinuteCast",
+        "Source": "AccuWeather",
+        "SourceId": 1
+      },
+      {
+        "DataType": "Radar",
+        "Source": "U.S. National Weather Service",
+        "SourceId": 2
+      },
+      {
+        "DataType": "Severe Weather Push Notifications",
+        "Source": "U.S. National Weather Service",
+        "SourceId": 2
+      },
+      {
+        "DataType": "Alerts",
+        "Source": "U.S. National Weather Service",
+        "SourceId": 2
+      },
+      {
+        "DataType": "AirQualityCurrentConditions",
+        "Source": "Plume Labs",
+        "SourceId": 63
+      },
+      {
+        "DataType": "AirQualityForecasts",
+        "Source": "Plume Labs",
+        "SourceId": 63
+      },
+      {
+        "DataType": "Alerts",
+        "Source": "United States Geological Survey",
+        "SourceId": 70
+      }
+    ],
+    "CanonicalPostalCode": "97034",
+    "CanonicalLocationKey": "2187979"
+  }
+}

@@ -1,5 +1,6 @@
 package com.comandante.creeper.bot.command;
 
+import com.google.common.eventbus.EventBus;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.junit.Before;
@@ -64,6 +65,7 @@ public class AccuweatherManagerTest {
                 return jsonParser.parse(oneDayForeCastJson);
             } catch (Exception e) {
                 throw new RuntimeException(e);
+                //2187979
             }
         }
 
@@ -71,6 +73,16 @@ public class AccuweatherManagerTest {
         public JsonElement getHourlyForecast(String locationKey) {
             try {
                 String oneDayForeCastJson = getResourceFileAsString("ACCUWEATHER_12_HOURS_FORECAST_BY_LOCATIONKEY.json");
+                return jsonParser.parse(oneDayForeCastJson);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public JsonElement getLocationDetails(String locationKey) {
+            try {
+                String oneDayForeCastJson = getResourceFileAsString("ACCUWEATHER_LOCATION_BY_KEY.json");
                 return jsonParser.parse(oneDayForeCastJson);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -92,13 +104,13 @@ public class AccuweatherManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        accuweatherManager = new AccuweatherManager(accuweatherAPI);
+        accuweatherManager = new AccuweatherManager(accuweatherAPI, new EventBus());
     }
 
     @Test
     public void testCurrentConditions() throws Exception {
-        String asdf = accuweatherManager.getAQI("Lake Oswego");
-        System.out.printf(asdf);
+        JsonElement asdf = accuweatherAPI.getLocationDetails("asdf");
+        System.out.printf("asdf");
     }
 
 }

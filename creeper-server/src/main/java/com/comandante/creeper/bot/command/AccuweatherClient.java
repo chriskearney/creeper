@@ -17,6 +17,7 @@ import java.util.List;
 public class AccuweatherClient implements AccuweatherAPI {
 
     private final static String API_BASE_URL = "http://dataservice.accuweather.com";
+    private final static String LOCATIONS_ENDPOINT = "/locations/v1";
     private final static String LOCATIONS_BY_CITY_ENDPOINT = "/locations/v1/cities/search";
     private final static String LOCATIONS_BY_POSTAL_CODE_ENDPOINT = "/locations/v1/postalcodes/search";
     private final static String ONE_DAY_FORECAST_ENDPOINT = "/forecasts/v1/daily/1day/";
@@ -65,6 +66,12 @@ public class AccuweatherClient implements AccuweatherAPI {
     @Override
     public JsonElement getHourlyForecast(String locationKey) {
         HttpGet request = getAuthWiredRequest(HOURLY_FORECAST_ENDPOINT + "/" + locationKey, Lists.newArrayList(new Tuple<>("details", "false")));
+        return getJsonElementFromRequest(request);
+    }
+
+    @Override
+    public JsonElement getLocationDetails(String locationKey) {
+        HttpGet request = getAuthWiredRequest(LOCATIONS_ENDPOINT + "/" + locationKey, Lists.newArrayList(new Tuple<>("details", "true")));
         return getJsonElementFromRequest(request);
     }
 
