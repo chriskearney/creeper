@@ -1,5 +1,7 @@
 package com.comandante.creeper.bot.command;
 
+import com.comandante.creeper.bot.IrcBotService;
+import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.AbstractScheduledService;
@@ -18,13 +20,15 @@ public class AccuweatherManager extends AbstractScheduledService {
 
     private final AccuweatherAPI accuweatherAPI;
     private final WeatherGovManager weatherGovManager;
-    private final EventBus eventBus;
+    private final IrcBotService ircBotService;
+    private final CreeperConfiguration creeperConfiguration;
     private final ArrayBlockingQueue<String> alertCheckQueue = new ArrayBlockingQueue<>(10);
 
-    public AccuweatherManager(AccuweatherAPI accuweatherAPI, EventBus eventBus, WeatherGovManager weatherGovManager) {
+    public AccuweatherManager(AccuweatherAPI accuweatherAPI, IrcBotService ircBotService, WeatherGovManager weatherGovManager, CreeperConfiguration creeperConfiguration) {
         this.accuweatherAPI = accuweatherAPI;
-        this.eventBus = eventBus;
+        this.ircBotService = ircBotService;
         this.weatherGovManager = weatherGovManager;
+        this.creeperConfiguration = creeperConfiguration;
         this.startAsync();
     }
 
@@ -191,7 +195,7 @@ public class AccuweatherManager extends AbstractScheduledService {
                 String longitude = locationDetails.getAsJsonObject().get("GeoPosition").getAsJsonObject().get("Longitude").getAsString();
                 Optional<String> alerts = weatherGovManager.getAlerts(latitude, longitude);
                 if (alerts.isPresent()) {
-                    eventBus.post(new WeatherAlertReceivedEvent(alerts.get()));
+                    ircBotService.getBot().getUserChannelDao().getChannel(creeperConfiguration.getIrcChannel()).send().message(alerts.get());
                 }
             }
         } catch (Exception e) {

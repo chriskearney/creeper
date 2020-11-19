@@ -17,7 +17,7 @@ public class BotCommandManager {
 
     public BotCommandManager(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.weatherManager = new WeatherManager(gameManager.getCreeperConfiguration(), gameManager.getEventBus());
+        this.weatherManager = new WeatherManager(gameManager.getCreeperConfiguration(), gameManager.getIrcBotService());
         this.chuckNorrisManager = new ChuckNorrisManager(gameManager.getCreeperConfiguration());
         this.dictionaryManager = new DictionaryManager(gameManager.getCreeperConfiguration());
         this.omdbManager = new OmdbManager();

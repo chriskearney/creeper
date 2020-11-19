@@ -48,8 +48,6 @@ public class MyListener extends ListenerAdapter {
         }
     }
 
-
-
     @Override
     public void onGenericMessage(GenericMessageEvent event) throws Exception {
         PlayerManager playerManager = gameManager.getPlayerManager();
@@ -127,10 +125,11 @@ public class MyListener extends ListenerAdapter {
         gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(msg);
     }
 
-    @Subscribe
-    public void receiveWeatherAlertEvent(WeatherAlertReceivedEvent weatherAlertReceivedEvent) {
-        send(weatherAlertReceivedEvent.getWeatherAlert());
-    }
+//    @Subscribe
+//    public void receiveWeatherAlertEvent(WeatherAlertReceivedEvent weatherAlertReceivedEvent) {
+//        System.out.println("hi");
+//        send(weatherAlertReceivedEvent.getWeatherAlert());
+//    }
 }
 
 

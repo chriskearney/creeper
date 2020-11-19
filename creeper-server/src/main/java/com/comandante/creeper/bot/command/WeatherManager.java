@@ -1,6 +1,7 @@
 package com.comandante.creeper.bot.command;
 
 
+import com.comandante.creeper.bot.IrcBotService;
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.google.common.eventbus.EventBus;
 import org.apache.log4j.Logger;
@@ -13,9 +14,9 @@ public class WeatherManager {
     private static final Logger log = Logger.getLogger(WeatherManager.class);
 
 
-    public WeatherManager(CreeperConfiguration creeperConfiguration, EventBus eventBus) {
+    public WeatherManager(CreeperConfiguration creeperConfiguration, IrcBotService ircBotService) {
         this.creeperConfiguration = creeperConfiguration;
-        this.accuweatherManager = new AccuweatherManager(new AccuweatherClient(creeperConfiguration), eventBus, new WeatherGovManager( new WeatherGovApiClient()));
+        this.accuweatherManager = new AccuweatherManager(new AccuweatherClient(creeperConfiguration), ircBotService, new WeatherGovManager(new WeatherGovApiClient()), creeperConfiguration);
     }
 
     public String getWeather(String searchString) {
