@@ -177,6 +177,9 @@ public class AccuweatherManager extends AbstractScheduledService {
     @Override
     protected void runOneIteration() throws Exception {
         try {
+            if (alertCheckQueue.isEmpty()) {
+                return;
+            }
             List<String> locationKeysToCheckForAlerts = Lists.newArrayList();
             alertCheckQueue.drainTo(locationKeysToCheckForAlerts);
             for (String locationKey: locationKeysToCheckForAlerts) {
