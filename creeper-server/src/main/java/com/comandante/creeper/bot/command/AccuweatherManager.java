@@ -166,7 +166,7 @@ public class AccuweatherManager extends AbstractScheduledService {
 
         JsonArray AQI = oneDayForecast.getAsJsonObject().get("DailyForecasts").getAsJsonArray().get(0).getAsJsonObject().get("AirAndPollen").getAsJsonArray();
         for (JsonElement next : AQI) {
-            if (next.getAsJsonObject().has("Name") && next.getAsJsonObject().get("Name").getAsString().equals("AirQuality" )) {
+            if (next.getAsJsonObject().has("Name") && next.getAsJsonObject().get("Name").getAsString().equals("AirQuality")) {
                 aqi = next.getAsJsonObject().get("Value").getAsString();
             }
         }
@@ -189,13 +189,15 @@ public class AccuweatherManager extends AbstractScheduledService {
             }
             List<String> locationKeysToCheckForAlerts = Lists.newArrayList();
             alertCheckQueue.drainTo(locationKeysToCheckForAlerts);
-            for (String locationKey: locationKeysToCheckForAlerts) {
+            for (String locationKey : locationKeysToCheckForAlerts) {
                 JsonElement locationDetails = accuweatherAPI.getLocationDetails(locationKey);
                 String latitude = locationDetails.getAsJsonObject().get("GeoPosition").getAsJsonObject().get("Latitude").getAsString();
                 String longitude = locationDetails.getAsJsonObject().get("GeoPosition").getAsJsonObject().get("Longitude").getAsString();
-                Optional<String> alerts = weatherGovManager.getAlerts(latitude, longitude);
+                Optional<List<String>> alerts = weatherGovManager.getAlerts(latitude, longitude);
                 if (alerts.isPresent()) {
-                    ircBotService.getBot().getUserChannelDao().getChannel(creeperConfiguration.getIrcChannel()).send().message(alerts.get());
+                    for (String alertLine : alerts.get()) {
+                        ircBotService.getBot().getUserChannelDao().getChannel(creeperConfiguration.getIrcChannel()).send().message(alertLine);
+                    }
                 }
             }
         } catch (Exception e) {

@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -31,7 +32,7 @@ public class WeatherGovManagerTest {
     @Test
     public void testAlertData() throws Exception {
         WeatherGovManager weatherGovManager = new WeatherGovManager(weatherGovApi);
-        Optional<String> alerts = weatherGovManager.getAlerts("sadf", "afd");
+        Optional<List<String>> alerts = weatherGovManager.getAlerts("sadf", "afd");
         System.out.println(alerts.get());
     }
 
