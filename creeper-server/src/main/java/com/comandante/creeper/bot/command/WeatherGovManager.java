@@ -31,6 +31,10 @@ public class WeatherGovManager {
         return Optional.empty();
     }
 
+    public AccuweatherManager.AccuweatherReport getCurrentWeather() {
+
+    }
+
     protected List<String> reformatAlertDescription(String rawAlert) {
         List<String> formattedFinal = Lists.newArrayList();
         List<String> strings = Arrays.asList(rawAlert.split("\n\n"));

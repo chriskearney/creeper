@@ -18,6 +18,7 @@ public class WeatherGovApiClient implements WeatherGovApi {
 
 
     private final static String WEATHER_GOV_ALERTS_BY_POINT_API = "https://api.weather.gov/alerts/active?point=";
+    private final static String WEATHER_GOV_ALERTS_BY_POINT_STATIONS_SUFFIX = "https://api.weather.gov/points/{lat,long}/stations";
 
     private final CloseableHttpClient httpClient;
     private final JsonParser jsonParser = new JsonParser();
@@ -30,6 +31,19 @@ public class WeatherGovApiClient implements WeatherGovApi {
         HttpGet httpGet = new HttpGet(WEATHER_GOV_ALERTS_BY_POINT_API + latitude + "," + longitude);
         try {
             return getJsonElementFromRequest(httpGet);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public JsonElement getStations(String latitude, String longitude) {
+        HttpGet httpGet = new HttpGet(WEATHER_GOV_ALERTS_BY_POINT_STATIONS_SUFFIX.replace("{lat,long}", latitude + "," + longitude));
+        try {
+            HttpResponse response = httpClient.execute(httpGet);
+            HttpEntity entity = response.getEntity();
+            String responseString = EntityUtils.toString(entity, "UTF-8");
+            return jsonParser.parse(responseString);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

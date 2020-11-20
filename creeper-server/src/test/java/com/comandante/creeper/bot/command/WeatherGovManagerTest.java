@@ -27,6 +27,16 @@ public class WeatherGovManagerTest {
                 throw new RuntimeException(e);
             }
         }
+
+        @Override
+        public JsonElement getStations(String latitude, String longitude) {
+            try {
+                String alertData = getResourceFileAsString("WEATHER_GOV_STATIONS_FOR_POINT.json");
+                return jsonParser.parse(alertData);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     };
 
     @Test
