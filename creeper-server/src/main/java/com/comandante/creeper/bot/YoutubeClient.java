@@ -38,7 +38,7 @@ public class YoutubeClient {
     }
 
     public String getVideoInfo(String videoId) {
-        HttpGet httpGet = new HttpGet(buildVideosUrlById(videoId, "AIzaSyAbfGw0_QS5KEf6WqSn3HlueeGtQJE9rvM"));
+        HttpGet httpGet = new HttpGet(buildVideosUrlById(videoId, creeperConfiguration.getYoutubeApi()));
         try {
             HttpResponse execute = httpClient.execute(httpGet);
             String s = EntityUtils.toString(execute.getEntity());
