@@ -26,7 +26,6 @@ public class WeatherGovApiClient implements WeatherGovApi {
         this.httpClient = HttpClients.custom().setUserAgent("Creeper MUD Project.").build();
     }
 
-    //https://api.weather.gov/alerts/active?point=58.8353%2C-136.85
     public JsonElement getAlertData(String latitude, String longitude) {
         HttpGet httpGet = new HttpGet(WEATHER_GOV_ALERTS_BY_POINT_API + latitude + "," + longitude);
         try {

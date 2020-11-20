@@ -3,10 +3,12 @@ package com.comandante.creeper.bot;
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
+import org.threeten.extra.PeriodDuration;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -70,54 +72,7 @@ public class YoutubeClient {
     }
 
     public static String convertYouTubeDuration(String duration) {
-        String youtubeDuration = duration; //"PT1H2M30S"; // "PT1M13S";
-        Calendar c;
-        c = new GregorianCalendar();
-        try {
-            DateFormat df = new SimpleDateFormat("'PT'mm'M'ss'S'");
-            Date d = df.parse(youtubeDuration);
-            c.setTime(d);
-        } catch (ParseException e) {
-            try {
-                DateFormat df = new SimpleDateFormat("'PT'hh'H'mm'M'ss'S'");
-                Date d = df.parse(youtubeDuration);
-                c.setTime(d);
-            } catch (ParseException e1) {
-                try {
-                    DateFormat df = new SimpleDateFormat("'PT'ss'S'");
-                    Date d = df.parse(youtubeDuration);
-                    c.setTime(d);
-                } catch (ParseException e2) {
-                }
-            }
-        }
-        c.setTimeZone(TimeZone.getDefault());
-
-        String time = "";
-        if ( c.get(Calendar.HOUR) > 0 ) {
-            if ( String.valueOf(c.get(Calendar.HOUR)).length() == 1 ) {
-                time += "0" + c.get(Calendar.HOUR);
-            }
-            else {
-                time += c.get(Calendar.HOUR);
-            }
-            time += ":";
-        }
-        // test minute
-        if ( String.valueOf(c.get(Calendar.MINUTE)).length() == 1 ) {
-            time += "0" + c.get(Calendar.MINUTE);
-        }
-        else {
-            time += c.get(Calendar.MINUTE);
-        }
-        time += ":";
-        // test second
-        if ( String.valueOf(c.get(Calendar.SECOND)).length() == 1 ) {
-            time += "0" + c.get(Calendar.SECOND);
-        }
-        else {
-            time += c.get(Calendar.SECOND);
-        }
-        return time ;
+        PeriodDuration videoDuration = PeriodDuration.parse(duration);
+        return DurationFormatUtils.formatDuration(videoDuration.getDuration().toMillis(), "**H:mm:ss**", true);
     }
 }
