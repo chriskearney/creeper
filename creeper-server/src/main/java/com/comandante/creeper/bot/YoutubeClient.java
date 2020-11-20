@@ -38,12 +38,12 @@ public class YoutubeClient {
     }
 
     public String getVideoInfo(String videoId) {
-        HttpGet httpGet = new HttpGet(buildVideosUrlById(videoId, creeperConfiguration.getYoutubeApi()));
+        HttpGet httpGet = new HttpGet(buildVideosUrlById(videoId, "AIzaSyAbfGw0_QS5KEf6WqSn3HlueeGtQJE9rvM"));
         try {
             HttpResponse execute = httpClient.execute(httpGet);
             String s = EntityUtils.toString(execute.getEntity());
             JsonNode jsonNode = objectMapper.readValue(s, JsonNode.class);
-            String videoDuration = convertYouTubeDuration(jsonNode.get("items").get(0).get("snippet").get("publishedAt").asText());
+            String videoDuration = convertYouTubeDuration(jsonNode.get("items").get(0).get("contentDetails").get("duration").asText()).replace("**", "");
             String authorDate = parseYoutubeAuthorDate(jsonNode.get("items").get(0).get("snippet").get("publishedAt").asText());
             String likeCount = jsonNode.get("items").get(0).get("statistics").get("likeCount").asText();
             String dislikeCount = jsonNode.get("items").get(0).get("statistics").get("dislikeCount").asText();

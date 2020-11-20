@@ -11,6 +11,12 @@ import static org.junit.Assert.*;
 
 public class YoutubeClientTest {
 
+    @Test
+    public void testDurationConversion() {
+        String pt1H2M30S = YoutubeClient.convertYouTubeDuration("PT1H2M30S");
+        System.out.println(pt1H2M30S);
+    }
+
 
 
     @Ignore
