@@ -197,7 +197,7 @@ public class GameManager {
         this.httpclient = httpClient;
         this.listenerService = listenerService;
         this.lockPickingManager = new LockPickingManager(this);
-        this.bitlyManager = new BitlyManager(new BitlyClient(httpClient, objectMapper, creeperConfiguration));
+        this.bitlyManager = new BitlyManager(new BitlyClient(objectMapper, creeperConfiguration));
         this.youtubeManager = new YoutubeManager(new YoutubeClient(creeperConfiguration, objectMapper, httpClient));
         this.eventBus = eventBus;
     }

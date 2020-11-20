@@ -18,12 +18,18 @@ public class BitlyClientTest {
 
     @Before
     public void setUp() {
-        bitlyClient = new BitlyClient(HttpClients.createDefault(), Creeper.registerJdkModuleAndGetMapper(), new CreeperConfiguration());
+        bitlyClient = new BitlyClient(Creeper.registerJdkModuleAndGetMapper(), new CreeperConfiguration());
     }
 
     @Test
     public void bitlyIntegrationTest() throws Exception {
         Optional<BitlyClient.ShortenedUrlAndTitle> shortenedUrlAndTitle = bitlyClient.getShortenedUrlAndTitle("https://www.wbtw.com/georgetown-county-news/family-remembers-georgetown-double-homicide-victims-shot-during-traffic-altercation/");
         System.out.println("hi");
+    }
+
+    @Test
+    public void testGetTitle() throws Exception {
+        Optional<String> title = bitlyClient.getTitle("https://old.reddit.com/r/iamatotalpieceofshit/comments/jxgl02/falsifying_results_to_save_money_impacting_how/");
+        System.out.println(title.get());
     }
 }

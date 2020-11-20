@@ -10,6 +10,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -25,8 +27,8 @@ public class BitlyClient {
     private final CreeperConfiguration creeperConfiguration;
     private static final Logger log = Logger.getLogger(BitlyClient.class);
 
-    public BitlyClient(HttpClient httpClient, ObjectMapper objectMapper, CreeperConfiguration creeperConfiguration) {
-        this.httpClient = httpClient;
+    public BitlyClient(ObjectMapper objectMapper, CreeperConfiguration creeperConfiguration) {
+        this.httpClient = HttpClients.custom().setUserAgent("Mozilla/5.0 Firefox/26.0").build();
         this.objectMapper = objectMapper;
         this.creeperConfiguration = creeperConfiguration;
     }
