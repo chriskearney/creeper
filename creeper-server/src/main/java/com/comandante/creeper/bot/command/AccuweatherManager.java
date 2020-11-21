@@ -65,6 +65,19 @@ public class AccuweatherManager extends AbstractScheduledService {
         return new AccuweatherReport(englishName + ", " + administrativeArea, weatherText, temperature, humidity, feelslike, windDirectionEnglish + " " + windDirectionSpeed + " " + windDirectionUnit);
     }
 
+    public String getCords(String searchString) {
+        String locationKey = null;
+        if (Character.isDigit(searchString.charAt(0))) {
+            JsonElement locationByPostalCode = accuweatherAPI.getLocationByPostalCode(searchString);
+            locationKey = locationByPostalCode.getAsJsonArray().get(0).getAsJsonObject().get("Key").getAsString();
+        } else {
+            JsonElement locationByCity = accuweatherAPI.getLocationByCity(searchString);
+            locationKey = locationByCity.getAsJsonArray().get(0).getAsJsonObject().get("Key").getAsString();
+        }
+
+        return getLatLong(locationKey);
+    }
+
     public String getFiveDayForeCast(String searchString) {
         String locationKey = null;
         String englishName = null;
@@ -174,6 +187,13 @@ public class AccuweatherManager extends AbstractScheduledService {
         return "AQI: " + aqi;
     }
 
+    private String getLatLong(String locationKey) {
+        JsonElement locationDetails = accuweatherAPI.getLocationDetails(locationKey);
+        String latitude = locationDetails.getAsJsonObject().get("GeoPosition").getAsJsonObject().get("Latitude").getAsString();
+        String longitude = locationDetails.getAsJsonObject().get("GeoPosition").getAsJsonObject().get("Longitude").getAsString();
+        return latitude + "," + longitude;
+    }
+
     private String getDayOfTheWeek(long epochDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE");
         Date dateFormat = new java.util.Date(epochDate * 1000);
@@ -195,9 +215,8 @@ public class AccuweatherManager extends AbstractScheduledService {
                 String longitude = locationDetails.getAsJsonObject().get("GeoPosition").getAsJsonObject().get("Longitude").getAsString();
                 Optional<List<String>> alerts = weatherGovManager.getAlerts(latitude, longitude);
                 if (alerts.isPresent()) {
-                    for (String alertLine : alerts.get()) {
-                        ircBotService.getBot().getUserChannelDao().getChannel(creeperConfiguration.getIrcChannel()).send().message(alertLine);
-                    }
+                    String headline = alerts.get().get(0) + " | !!alerts to read more.";
+                    ircBotService.getBot().getUserChannelDao().getChannel(creeperConfiguration.getIrcChannel()).send().message(headline);
                 }
             }
         } catch (Exception e) {

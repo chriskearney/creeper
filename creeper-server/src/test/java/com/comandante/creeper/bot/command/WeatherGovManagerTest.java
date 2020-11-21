@@ -27,6 +27,26 @@ public class WeatherGovManagerTest {
                 throw new RuntimeException(e);
             }
         }
+
+        @Override
+        public JsonElement getStations(String latitude, String longitude) {
+            try {
+                String alertData = getResourceFileAsString("WEATHER_GOV_STATIONS_FOR_POINT.json");
+                return jsonParser.parse(alertData);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public JsonElement getLatestObservations(String stationId) {
+            try {
+                String alertData = getResourceFileAsString("WEATHER_GOV_LATEST_OBSERVATIONS_BY_STATION.json");
+                return jsonParser.parse(alertData);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     };
 
     @Test
@@ -53,5 +73,18 @@ public class WeatherGovManagerTest {
         WeatherGovManager weatherGovManager = new WeatherGovManager(weatherGovApi);
         List<String> s = weatherGovManager.reformatAlertDescription(alertDescription);
         System.out.println(s);
+    }
+
+    @Test
+    public void testGetCurrentConditions() throws Exception {
+        WeatherGovManager weatherGovManager = new WeatherGovManager(weatherGovApi);
+        weatherGovManager.getCurrentWeather("asdf", "asdf");
+    }
+
+    @Test
+    public void testparsingAthing() throws Exception {
+        String blah = "https://api.weather.gov/stations/{stationId}/observations/latest";
+        String kbso = blah.replace("{stationId}", "KBSO");
+        System.out.println(kbso);
     }
 }
