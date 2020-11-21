@@ -39,6 +39,20 @@ public class WeatherGovManager {
         String temperatureCelsius = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("temperature").getAsJsonObject().get("value").getAsString();
         String windChillTemperatureCelsius = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("windChill").getAsJsonObject().get("value").getAsString();
 
+//        temperature in celsius = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("temperature").getAsJsonObject().get("value").getAsString()
+//        windchill in celsius = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("windChill").getAsJsonObject().get("value").getAsString()
+//        textDescription = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("textDescription").getAsString()
+//        windDirectiondegrees = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("windDirection").getAsJsonObject().get("value").getAsString()
+//        kmh windspeed = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("windSpeed").getAsJsonObject().get("value").getAsString()
+//        visibility in meters = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("visibility").getAsJsonObject().get("value").getAsString()
+//
+////82.390185843485
+//        humiditiy percent = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("relativeHumidity").getAsJsonObject().get("value").getAsString()
+
+
+
+        windDirection -> {JsonObject@1129} "{"value":140,"unitCode":"unit:degree_(angle)","qualityControl":"qc:V"}"
+
 
 
         System.out.println("hi");
