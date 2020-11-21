@@ -37,26 +37,38 @@ public class WeatherGovManager {
         JsonElement latestObservation = weatherGovApi.getLatestObservations(extractStationIdentifier(firstObservationStation));
 
         String temperatureCelsius = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("temperature").getAsJsonObject().get("value").getAsString();
+        int temperatureFahrenheit = (int) Math.round(convertFahrenheit(Double.parseDouble(temperatureCelsius)));
+
         String windChillTemperatureCelsius = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("windChill").getAsJsonObject().get("value").getAsString();
+        int windChillTemperatureFahrenheit = (int) Math.round(convertFahrenheit(Double.parseDouble(windChillTemperatureCelsius)));
 
-//        temperature in celsius = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("temperature").getAsJsonObject().get("value").getAsString()
-//        windchill in celsius = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("windChill").getAsJsonObject().get("value").getAsString()
-//        textDescription = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("textDescription").getAsString()
-//        windDirectiondegrees = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("windDirection").getAsJsonObject().get("value").getAsString()
-//        kmh windspeed = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("windSpeed").getAsJsonObject().get("value").getAsString()
-//        visibility in meters = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("visibility").getAsJsonObject().get("value").getAsString()
-//
-////82.390185843485
-//        humiditiy percent = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("relativeHumidity").getAsJsonObject().get("value").getAsString()
+        String textDescription = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("textDescription").getAsString();
 
+        String winDirectionDegrees = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("windDirection").getAsJsonObject().get("value").getAsString();
+        String windSpeedKmh = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("windSpeed").getAsJsonObject().get("value").getAsString();
+        int windSpeedMilesPerHour = (int) Math.round(kmphTomph(Double.parseDouble(windSpeedKmh)));
 
+        String visibilityMeters = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("visibility").getAsJsonObject().get("value").getAsString();
+        int visibilityMiles = (int) Math.round(metersToMiles(Double.parseDouble(visibilityMeters)));
 
-        windDirection -> {JsonObject@1129} "{"value":140,"unitCode":"unit:degree_(angle)","qualityControl":"qc:V"}"
+        String humidityPercent = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("relativeHumidity").getAsJsonObject().get("value").getAsString();
+        int humidityPercentRound = (int) Math.round(Double.parseDouble(humidityPercent));
 
+        String currentConditions = textDescription + " | " + "Temperature: " + temperatureFahrenheit + "F | Wind Chill: " + windChillTemperatureFahrenheit + "F | Humidity: " + humidityPercentRound + "% | Visibility: " + visibilityMiles + "mi | Wind Degrees: " + winDirectionDegrees + " | Wind Speed: " + windSpeedMilesPerHour + "mph";
 
+        return currentConditions;
+    }
 
-        System.out.println("hi");
-        return null;
+    public static double convertFahrenheit(double c) {
+        return  ((9*c)/5)+32;
+    }
+
+    public static double kmphTomph(double kmph) {
+        return 0.6214 * kmph;
+    }
+
+    public static double metersToMiles(double meters) {
+        return meters / 1609.3440057765;
     }
 
     private String extractStationIdentifier(String nwsStationUrl) {

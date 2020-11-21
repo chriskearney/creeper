@@ -29,6 +29,7 @@ public class BotCommandFactory {
         addCommand(new QueryCommand(botCommandManager));
         addCommand(new GrepCommand(botCommandManager));
         addCommand(new NWSCommand(botCommandManager));
+        addCommand(new AlertsCommand(botCommandManager));
     }
 
     public BotCommand getCommand(MessageEvent event, String originalFullCmd, Player player) {

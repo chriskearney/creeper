@@ -215,9 +215,8 @@ public class AccuweatherManager extends AbstractScheduledService {
                 String longitude = locationDetails.getAsJsonObject().get("GeoPosition").getAsJsonObject().get("Longitude").getAsString();
                 Optional<List<String>> alerts = weatherGovManager.getAlerts(latitude, longitude);
                 if (alerts.isPresent()) {
-                    for (String alertLine : alerts.get()) {
-                        ircBotService.getBot().getUserChannelDao().getChannel(creeperConfiguration.getIrcChannel()).send().message(alertLine);
-                    }
+                    String headline = alerts.get().get(0) + " | !!alerts to read more.";
+                    ircBotService.getBot().getUserChannelDao().getChannel(creeperConfiguration.getIrcChannel()).send().message(headline);
                 }
             }
         } catch (Exception e) {
