@@ -65,27 +65,17 @@ public class AccuweatherManager extends AbstractScheduledService {
         return new AccuweatherReport(englishName + ", " + administrativeArea, weatherText, temperature, humidity, feelslike, windDirectionEnglish + " " + windDirectionSpeed + " " + windDirectionUnit);
     }
 
-    public AccuweatherReport getCurrentConditionsNWS(String searchString) {
+    public String getCords(String searchString) {
         String locationKey = null;
-        String englishName = null;
-        String administrativeArea = null;
-
-        //    "EnglishName": "Lake Oswego",
         if (Character.isDigit(searchString.charAt(0))) {
             JsonElement locationByPostalCode = accuweatherAPI.getLocationByPostalCode(searchString);
             locationKey = locationByPostalCode.getAsJsonArray().get(0).getAsJsonObject().get("Key").getAsString();
-            englishName = locationByPostalCode.getAsJsonArray().get(0).getAsJsonObject().get("EnglishName").getAsString();
-            administrativeArea = locationByPostalCode.getAsJsonArray().get(0).getAsJsonObject().get("AdministrativeArea").getAsJsonObject().get("ID").getAsString();
-
         } else {
             JsonElement locationByCity = accuweatherAPI.getLocationByCity(searchString);
             locationKey = locationByCity.getAsJsonArray().get(0).getAsJsonObject().get("Key").getAsString();
-            englishName = locationByCity.getAsJsonArray().get(0).getAsJsonObject().get("EnglishName").getAsString();
-            administrativeArea = locationByCity.getAsJsonArray().get(0).getAsJsonObject().get("AdministrativeArea").getAsJsonObject().get("ID").getAsString();
         }
 
-        String latLong = getLatLong(locationKey);
-
+        return getLatLong(locationKey);
     }
 
     public String getFiveDayForeCast(String searchString) {
@@ -197,7 +187,7 @@ public class AccuweatherManager extends AbstractScheduledService {
         return "AQI: " + aqi;
     }
 
-    public String getLatLong(String locationKey) {
+    private String getLatLong(String locationKey) {
         JsonElement locationDetails = accuweatherAPI.getLocationDetails(locationKey);
         String latitude = locationDetails.getAsJsonObject().get("GeoPosition").getAsJsonObject().get("Latitude").getAsString();
         String longitude = locationDetails.getAsJsonObject().get("GeoPosition").getAsJsonObject().get("Longitude").getAsString();

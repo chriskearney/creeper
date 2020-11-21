@@ -19,6 +19,7 @@ public class WeatherGovApiClient implements WeatherGovApi {
 
     private final static String WEATHER_GOV_ALERTS_BY_POINT_API = "https://api.weather.gov/alerts/active?point=";
     private final static String WEATHER_GOV_ALERTS_BY_POINT_STATIONS_SUFFIX = "https://api.weather.gov/points/{lat,long}/stations";
+    private final static String WEATHER_GOV_STATIONS_LATEST_OBSERVATIONS_API = "https://api.weather.gov/stations/{stationId}/observations/latest";
 
     private final CloseableHttpClient httpClient;
     private final JsonParser jsonParser = new JsonParser();
@@ -40,10 +41,17 @@ public class WeatherGovApiClient implements WeatherGovApi {
     public JsonElement getStations(String latitude, String longitude) {
         HttpGet httpGet = new HttpGet(WEATHER_GOV_ALERTS_BY_POINT_STATIONS_SUFFIX.replace("{lat,long}", latitude + "," + longitude));
         try {
-            HttpResponse response = httpClient.execute(httpGet);
-            HttpEntity entity = response.getEntity();
-            String responseString = EntityUtils.toString(entity, "UTF-8");
-            return jsonParser.parse(responseString);
+            return getJsonElementFromRequest(httpGet);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public JsonElement getLatestObservations(String stationId) {
+        HttpGet httpGet = new HttpGet(WEATHER_GOV_STATIONS_LATEST_OBSERVATIONS_API.replace("{stationId}", stationId));
+        try {
+            return getJsonElementFromRequest(httpGet);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -31,8 +31,23 @@ public class WeatherGovManager {
         return Optional.empty();
     }
 
-    public AccuweatherManager.AccuweatherReport getCurrentWeather() {
+    public String getCurrentWeather(String latitude, String longitude) {
+        JsonElement stations = weatherGovApi.getStations(latitude, longitude);
+        String firstObservationStation = stations.getAsJsonObject().get("observationStations").getAsJsonArray().get(0).getAsString();
+        JsonElement latestObservation = weatherGovApi.getLatestObservations(extractStationIdentifier(firstObservationStation));
 
+        String temperatureCelsius = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("temperature").getAsJsonObject().get("value").getAsString();
+        String windChillTemperatureCelsius = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("windChill").getAsJsonObject().get("value").getAsString();
+
+
+
+        System.out.println("hi");
+        return null;
+    }
+
+    private String extractStationIdentifier(String nwsStationUrl) {
+        List<String> stationParts = Arrays.asList(nwsStationUrl.split("/"));
+        return stationParts.get(stationParts.size() - 1);
     }
 
     protected List<String> reformatAlertDescription(String rawAlert) {
