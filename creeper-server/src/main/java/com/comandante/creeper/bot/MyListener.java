@@ -85,7 +85,7 @@ public class MyListener extends ListenerAdapter {
                 }
                 DateFormat dateFormat = new SimpleDateFormat("hh:mm aa - MMM dd, yyyy");
                 String formattedCreatedAt = dateFormat.format(tweetDetails.get().getCreatedAt());
-                send("[" + formattedCreatedAt + " | retweets: " + putCommas(tweetDetails.get().getReTweets()) + " | likes: " + putCommas(tweetDetails.get().getLikes()) + "]");
+                send("[ " + formattedCreatedAt + " | retweets: " + putCommas(tweetDetails.get().getReTweets()) + " | likes: " + putCommas(tweetDetails.get().getLikes()) + " ]");
             }
 
             Optional<String> videoIdFromYoutubeUrl = youtubeManager.getVideoIdFromYoutubeUrl(event.getMessage());
