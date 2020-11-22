@@ -78,6 +78,9 @@ public class MyListener extends ListenerAdapter {
                 twitterOutput.remove(0);
                 send(modifiedFirstLine);
                 for (String line: twitterOutput) {
+                    if (Strings.isNullOrEmpty(line) || line.trim().isEmpty()) {
+                        continue;
+                    }
                     send(line);
                 }
                 DateFormat dateFormat = new SimpleDateFormat("hh:mm aa - MMM dd, yyyy");
