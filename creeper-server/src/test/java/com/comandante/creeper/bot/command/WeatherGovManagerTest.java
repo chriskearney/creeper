@@ -7,6 +7,9 @@ import org.junit.Test;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -94,5 +97,13 @@ public class WeatherGovManagerTest {
         WeatherGovManager weatherGovManager = new WeatherGovManager(weatherGovApiClient);
         String currentWeather = weatherGovManager.getCurrentWeather("45.4206749", "-122.6706498");
         System.out.println(currentWeather);
+    }
+
+    @Test
+    public void testDate() {
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm aa - MMM dd, yyyy");
+        String formattedCreatedAt = dateFormat.format(date);
+        System.out.println(formattedCreatedAt);
     }
 }

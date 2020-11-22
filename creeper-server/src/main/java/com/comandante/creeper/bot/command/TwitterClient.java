@@ -2,6 +2,7 @@ package com.comandante.creeper.bot.command;
 
 import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -9,6 +10,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +38,7 @@ public class TwitterClient implements TwitterAPI {
         try {
             Status status = twitter.showStatus(Long.parseLong(tweetId));
             List<String> tweetStrings = Arrays.asList(status.getText().split("\\r?\\n"));
-            return Optional.of(new TweetDetails(tweetStrings, status.getUser().getScreenName()));
+            return Optional.of(new TweetDetails(tweetStrings, status.getUser().getScreenName(), status.getCreatedAt(), status.getRetweetCount(), status.getFavoriteCount()));
         } catch (Exception exception) {
             log.error("Unable to call twitter api", exception);
         }
@@ -46,10 +48,16 @@ public class TwitterClient implements TwitterAPI {
     public static class TweetDetails {
         private final List<String> tweetText;
         private final String screeName;
+        private final Date createdAt;
+        private final int reTweets;
+        private final int likes;
 
-        public TweetDetails(List<String> tweetText, String screeName) {
+        public TweetDetails(List<String> tweetText, String screeName, Date createdAt, int reTweets,  int likes) {
             this.tweetText = tweetText;
             this.screeName = screeName;
+            this.createdAt = createdAt;
+            this.reTweets = reTweets;
+            this.likes = likes;
         }
 
         public List<String> getTweetText() {
@@ -58,6 +66,18 @@ public class TwitterClient implements TwitterAPI {
 
         public String getScreeName() {
             return screeName;
+        }
+
+        public Date getCreatedAt() {
+            return createdAt;
+        }
+
+        public int getReTweets() {
+            return reTweets;
+        }
+
+        public int getLikes() {
+            return likes;
         }
     }
 }

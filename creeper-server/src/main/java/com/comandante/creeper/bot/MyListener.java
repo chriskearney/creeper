@@ -16,6 +16,9 @@ import org.pircbotx.hooks.events.KickEvent;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,8 +53,6 @@ public class MyListener extends ListenerAdapter {
 
     @Override
     public void onGenericMessage(GenericMessageEvent event) throws Exception {
-        PlayerManager playerManager = gameManager.getPlayerManager();
-
         try {
             if (!(event instanceof MessageEvent)) {
                 return;
@@ -77,6 +78,9 @@ public class MyListener extends ListenerAdapter {
                 for (String line: twitterOutput) {
                     send(line);
                 }
+                DateFormat dateFormat = new SimpleDateFormat("hh:mm aa - MMM dd, yyyy");
+                String formattedCreatedAt = dateFormat.format(tweetDetails.get().getCreatedAt());
+                send("[ " + formattedCreatedAt + " | retweets: " + tweetDetails.get().getReTweets() + " | like: " + tweetDetails.get().getLikes() + "]");
             }
 
             Optional<String> videoIdFromYoutubeUrl = youtubeManager.getVideoIdFromYoutubeUrl(event.getMessage());
