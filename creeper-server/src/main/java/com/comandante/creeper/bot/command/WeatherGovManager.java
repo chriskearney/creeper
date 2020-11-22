@@ -1,6 +1,7 @@
 package com.comandante.creeper.bot.command;
 
 import com.google.gson.JsonElement;
+import org.pircbotx.Colors;
 import org.testng.collections.Lists;
 
 import java.util.Arrays;
@@ -39,22 +40,13 @@ public class WeatherGovManager {
         String temperatureCelsius = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("temperature").getAsJsonObject().get("value").getAsString();
         int temperatureFahrenheit = (int) Math.round(convertFahrenheit(Double.parseDouble(temperatureCelsius)));
 
-        String windChillTemperatureCelsius = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("windChill").getAsJsonObject().get("value").getAsString();
-        int windChillTemperatureFahrenheit = (int) Math.round(convertFahrenheit(Double.parseDouble(windChillTemperatureCelsius)));
-
-        String textDescription = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("textDescription").getAsString();
-
-        String winDirectionDegrees = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("windDirection").getAsJsonObject().get("value").getAsString();
         String windSpeedKmh = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("windSpeed").getAsJsonObject().get("value").getAsString();
         int windSpeedMilesPerHour = (int) Math.round(kmphTomph(Double.parseDouble(windSpeedKmh)));
-
-        String visibilityMeters = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("visibility").getAsJsonObject().get("value").getAsString();
-        int visibilityMiles = (int) Math.round(metersToMiles(Double.parseDouble(visibilityMeters)));
 
         String humidityPercent = latestObservation.getAsJsonObject().get("properties").getAsJsonObject().get("relativeHumidity").getAsJsonObject().get("value").getAsString();
         int humidityPercentRound = (int) Math.round(Double.parseDouble(humidityPercent));
 
-        String currentConditions = textDescription + " | " + "Temperature: " + temperatureFahrenheit + "F | Wind Chill: " + windChillTemperatureFahrenheit + "F | Humidity: " + humidityPercentRound + "% | Visibility: " + visibilityMiles + "mi | Wind Degrees: " + winDirectionDegrees + " | Wind Speed: " + windSpeedMilesPerHour + "mph";
+        String currentConditions = Colors.BOLD + extractStationIdentifier(firstObservationStation) + Colors.BOLD + "[Temperature: " + temperatureFahrenheit + "F | Humidity: " + humidityPercentRound + "% | Wind Speed: " + windSpeedMilesPerHour + "mph]";
 
         return currentConditions;
     }

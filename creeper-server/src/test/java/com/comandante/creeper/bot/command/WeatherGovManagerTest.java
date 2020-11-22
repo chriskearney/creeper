@@ -87,4 +87,12 @@ public class WeatherGovManagerTest {
         String kbso = blah.replace("{stationId}", "KBSO");
         System.out.println(kbso);
     }
+
+    @Test
+    public void testLiveNws() throws Exception {
+        WeatherGovApiClient weatherGovApiClient = new WeatherGovApiClient();
+        WeatherGovManager weatherGovManager = new WeatherGovManager(weatherGovApiClient);
+        String currentWeather = weatherGovManager.getCurrentWeather("45.4206749", "-122.6706498");
+        System.out.println(currentWeather);
+    }
 }
