@@ -58,7 +58,6 @@ public class YoutubeClient {
     }
 
     private String putCommas(String source) {
-        System.out.println(source);
         return NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(source));
     }
 

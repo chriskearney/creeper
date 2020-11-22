@@ -17,11 +17,13 @@ import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
@@ -80,7 +82,7 @@ public class MyListener extends ListenerAdapter {
                 }
                 DateFormat dateFormat = new SimpleDateFormat("hh:mm aa - MMM dd, yyyy");
                 String formattedCreatedAt = dateFormat.format(tweetDetails.get().getCreatedAt());
-                send("[ " + formattedCreatedAt + " | retweets: " + tweetDetails.get().getReTweets() + " | like: " + tweetDetails.get().getLikes() + "]");
+                send("[" + formattedCreatedAt + " | retweets: " + putCommas(tweetDetails.get().getReTweets()) + " | like: " + putCommas(tweetDetails.get().getLikes()) + "]");
             }
 
             Optional<String> videoIdFromYoutubeUrl = youtubeManager.getVideoIdFromYoutubeUrl(event.getMessage());
@@ -127,6 +129,10 @@ public class MyListener extends ListenerAdapter {
 
     private void send(String msg) {
         gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(msg);
+    }
+
+    private String putCommas(int source) {
+        return NumberFormat.getNumberInstance(Locale.US).format(source);
     }
 
 //    @Subscribe
