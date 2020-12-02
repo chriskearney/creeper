@@ -63,7 +63,7 @@ public class YoutubeClient {
 
     private String parseYoutubeAuthorDate(String youtubeAuthorDate) {
         ZonedDateTime dateTime = ZonedDateTime.parse(youtubeAuthorDate, DateTimeFormatter.ISO_DATE_TIME);
-        return dateTime.getDayOfMonth() + "-" + dateTime.getMonthValue() + "-" + dateTime.getYear();
+        return dateTime.getMonthValue() + "-" + dateTime.getDayOfMonth() + "-" + dateTime.getYear();
     }
 
     private static String buildVideosUrlById(String videoId, String apiKey) {
