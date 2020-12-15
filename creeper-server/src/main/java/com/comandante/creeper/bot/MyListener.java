@@ -16,9 +16,14 @@ import org.pircbotx.hooks.events.KickEvent;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
@@ -50,8 +55,6 @@ public class MyListener extends ListenerAdapter {
 
     @Override
     public void onGenericMessage(GenericMessageEvent event) throws Exception {
-        PlayerManager playerManager = gameManager.getPlayerManager();
-
         try {
             if (!(event instanceof MessageEvent)) {
                 return;
@@ -75,8 +78,14 @@ public class MyListener extends ListenerAdapter {
                 twitterOutput.remove(0);
                 send(modifiedFirstLine);
                 for (String line: twitterOutput) {
+                    if (Strings.isNullOrEmpty(line) || line.trim().isEmpty()) {
+                        continue;
+                    }
                     send(line);
                 }
+                DateFormat dateFormat = new SimpleDateFormat("hh:mm aa - MMM dd, yyyy");
+                String formattedCreatedAt = dateFormat.format(tweetDetails.get().getCreatedAt());
+                send("[ " + formattedCreatedAt + " | retweets: " + putCommas(tweetDetails.get().getReTweets()) + " | likes: " + putCommas(tweetDetails.get().getLikes()) + " ]");
             }
 
             Optional<String> videoIdFromYoutubeUrl = youtubeManager.getVideoIdFromYoutubeUrl(event.getMessage());
@@ -123,6 +132,10 @@ public class MyListener extends ListenerAdapter {
 
     private void send(String msg) {
         gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(msg);
+    }
+
+    private String putCommas(int source) {
+        return NumberFormat.getNumberInstance(Locale.US).format(source);
     }
 
 //    @Subscribe
