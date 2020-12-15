@@ -75,9 +75,9 @@ public class BattlePanel extends JPanel {
         equipmentJPanel.add(equipmentPanel);
         equipmentJPanel.setBackground(Color.BLACK);
 
-        playerInfoPanel.setMaximumSize(new Dimension(270, 125));
-        playerInfoPanel.setMinimumSize(new Dimension(270, 125));
-        playerInfoPanel.setPreferredSize(new Dimension(270, 125));
+        playerInfoPanel.setMaximumSize(new Dimension(270, 120));
+        playerInfoPanel.setMinimumSize(new Dimension(270, 120));
+        playerInfoPanel.setPreferredSize(new Dimension(270, 120));
         JPanel playerInfoJPanel = new JPanel();
         playerInfoJPanel.setLayout(new BoxLayout(playerInfoJPanel, BoxLayout.PAGE_AXIS));
         playerInfoJPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Player"));
