@@ -50,7 +50,7 @@ public class YoutubeClient {
             String dislikeCount = jsonNode.get("items").get(0).get("statistics").get("dislikeCount").asText();
             String channelTitle = jsonNode.get("items").get(0).get("snippet").get("channelTitle").asText();
             String videoViews = jsonNode.get("items").get(0).get("statistics").get("viewCount").asText();
-            String videoTitle = CharMatcher.BREAKING_WHITESPACE.removeFrom(jsonNode.get("items").get(0).get("snippet").get("title").asText());
+            String videoTitle = jsonNode.get("items").get(0).get("snippet").get("title").asText().replace("\n", "").replace("\r", "");
             return videoTitle + " (" + channelTitle + ") | published " + authorDate  + " | duration " + videoDuration + " | views " + putCommas(videoViews) + " | likes " + putCommas(likeCount) + " | dislikes " + putCommas(dislikeCount);
         } catch (IOException e) {
             e.printStackTrace();
