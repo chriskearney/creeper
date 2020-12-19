@@ -25,7 +25,10 @@ public class YoutubeManager {
         if (matcher.find()) {
             videoId = matcher.group(1);
         }
-        return Optional.ofNullable(videoId);
+        if (videoId == null) {
+            return Optional.empty();
+        }
+        return Optional.of(videoId.replaceAll(" .+$", ""));
     }
 
     public Optional<String> getVideoInfo(String videoId) {
