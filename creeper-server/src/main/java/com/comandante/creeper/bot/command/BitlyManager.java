@@ -7,6 +7,8 @@ import com.linkedin.urls.detection.UrlDetectorOptions;
 import java.util.List;
 import java.util.Optional;
 
+import static com.comandante.creeper.bot.MyListener.extractFirstUrl;
+
 public class BitlyManager {
 
     private final BitlyClient bitlyClient;
@@ -31,18 +33,6 @@ public class BitlyManager {
         Optional<String> s = extractFirstUrl(chatLine);
         if (s.isPresent()) {
             return bitlyClient.shortenUrl(s.get());
-        }
-        return Optional.empty();
-    }
-
-    protected static Optional<String> extractFirstUrl(String chatLine) {
-        UrlDetector parser = new UrlDetector(chatLine, UrlDetectorOptions.Default);
-        List<Url> found = parser.detect();
-
-        for(Url url : found) {
-            if (url.getOriginalUrl().startsWith("https://") || url.getOriginalUrl().startsWith("http://")) {
-                return Optional.ofNullable(url.getFullUrl());
-            }
         }
         return Optional.empty();
     }

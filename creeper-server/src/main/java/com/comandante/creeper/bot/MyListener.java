@@ -5,12 +5,13 @@ import com.comandante.creeper.bot.command.commands.BotCommand;
 import com.comandante.creeper.core_game.GameManager;
 import com.comandante.creeper.core_game.SentryManager;
 import com.comandante.creeper.player.Player;
-import com.comandante.creeper.player.PlayerManager;
 import com.comandante.creeper.world.model.Room;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.common.eventbus.Subscribe;
+import com.linkedin.urls.Url;
+import com.linkedin.urls.detection.UrlDetector;
+import com.linkedin.urls.detection.UrlDetectorOptions;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.KickEvent;
 import org.pircbotx.hooks.events.MessageEvent;
@@ -19,7 +20,6 @@ import org.pircbotx.hooks.types.GenericMessageEvent;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -88,7 +88,7 @@ public class MyListener extends ListenerAdapter {
                 send("[ " + formattedCreatedAt + " | retweets: " + putCommas(tweetDetails.get().getReTweets()) + " | likes: " + putCommas(tweetDetails.get().getLikes()) + " ]");
             }
 
-            Optional<String> videoIdFromYoutubeUrl = youtubeManager.getVideoIdFromYoutubeUrl(event.getMessage());
+            Optional<String> videoIdFromYoutubeUrl = youtubeManager.getVideoIdFromChatLine(event.getMessage());
             if (videoIdFromYoutubeUrl.isPresent()) {
                 Optional<String> videoInfo = youtubeManager.getVideoInfo(videoIdFromYoutubeUrl.get());
                 Optional<BitlyClient.ShortenedUrl> onlyBitlyUrl = bitlyManager.getOnlyBitlyUrl(event.getMessage());
@@ -137,6 +137,19 @@ public class MyListener extends ListenerAdapter {
     private String putCommas(int source) {
         return NumberFormat.getNumberInstance(Locale.US).format(source);
     }
+
+    public static Optional<String> extractFirstUrl(String chatLine) {
+        UrlDetector parser = new UrlDetector(chatLine, UrlDetectorOptions.Default);
+        List<Url> found = parser.detect();
+
+        for(Url url : found) {
+            if (url.getOriginalUrl().startsWith("https://") || url.getOriginalUrl().startsWith("http://")) {
+                return Optional.ofNullable(url.getFullUrl());
+            }
+        }
+        return Optional.empty();
+    }
+
 
 //    @Subscribe
 //    public void receiveWeatherAlertEvent(WeatherAlertReceivedEvent weatherAlertReceivedEvent) {

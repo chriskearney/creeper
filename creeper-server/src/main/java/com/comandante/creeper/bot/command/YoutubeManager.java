@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.comandante.creeper.bot.MyListener.extractFirstUrl;
+
 public class YoutubeManager {
 
     private final YoutubeClient youtubeClient;
@@ -17,18 +19,22 @@ public class YoutubeManager {
         this.youtubeClient = youtubeClient;
     }
 
-    public Optional<String> getVideoIdFromYoutubeUrl(String url) {
+    public Optional<String> getVideoIdFromChatLine(String inputLine) {
+        Optional<String> firstUrl = extractFirstUrl(inputLine);
+        if (!firstUrl.isPresent()) {
+            return Optional.empty();
+        }
         String videoId = null;
         String regex = "http(?:s)?:\\/\\/(?:m.)?(?:www\\.)?youtu(?:\\.be\\/|be\\.com\\/(?:watch\\?(?:feature=youtu.be\\&)?v=|v\\/|embed\\/|user\\/(?:[\\w#]+\\/)+))([^&#?\\n]+)";
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(url);
+        Matcher matcher = pattern.matcher(firstUrl.get());
         if (matcher.find()) {
             videoId = matcher.group(1);
         }
         if (videoId == null) {
             return Optional.empty();
         }
-        return Optional.of(videoId.replaceAll(" .+$", ""));
+        return Optional.of(videoId);
     }
 
     public Optional<String> getVideoInfo(String videoId) {
