@@ -27,6 +27,7 @@ public class BotCommandFactory {
         addCommand(new BtcCommand(botCommandManager));
         addCommand(new LearnCommand(botCommandManager));
         addCommand(new QueryCommand(botCommandManager));
+        addCommand(new QuoteCommand(botCommandManager));
         addCommand(new GrepCommand(botCommandManager));
         addCommand(new NWSCommand(botCommandManager));
         addCommand(new AlertsCommand(botCommandManager));

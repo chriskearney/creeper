@@ -15,7 +15,7 @@ import java.util.function.Function;
 
 public class QueryCommand extends BotCommand {
 
-    static Set<String> triggers = Sets.newHashSet("query", "q");
+    static Set<String> triggers = Sets.newHashSet("query");
     static String helpUsage = "query <keyword>";
     static String helpDescription = "Query quotes for a keyword";
 

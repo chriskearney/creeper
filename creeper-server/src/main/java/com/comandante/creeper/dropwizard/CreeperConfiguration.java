@@ -69,6 +69,17 @@ public class CreeperConfiguration extends Configuration {
 
     private String youtubeApi;
 
+    private String alphaVantageApiKey;
+
+    @JsonProperty
+    public String getAlphaVantageApiKey() {
+        return alphaVantageApiKey;
+    }
+
+    public void setAlphaVantageApiKey(String alphaVantageApiKey) {
+        this.alphaVantageApiKey = alphaVantageApiKey;
+    }
+
     @JsonProperty
     public String getYoutubeApi() {
         return youtubeApi;

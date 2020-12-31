@@ -247,6 +247,17 @@
             <version>1.5.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.devotionit</groupId>
+            <artifactId>vantage-client</artifactId>
+            <version>0.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>9.4.15.v20190215</version>
+        </dependency>
 
     </dependencies>
 
