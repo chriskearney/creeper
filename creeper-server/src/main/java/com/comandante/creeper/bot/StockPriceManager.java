@@ -39,10 +39,10 @@ public class StockPriceManager {
                     resp += " (" + Colors.GREEN + "\u2191+" + changeInPercent + "%" + Colors.NORMAL + ")";
                     resp += " " + Colors.GREEN + currencyFormatter.format(change) + Colors.NORMAL;
                 } else if (changeInPercent.compareTo(BigDecimal.ZERO) < 0) {
-                    resp += "(" + Colors.RED + "\u2193+" + changeInPercent + "%" + Colors.NORMAL + ")";
+                    resp += " (" + Colors.RED + "\u2193+" + changeInPercent + "%" + Colors.NORMAL + ")";
                     resp += " " + Colors.RED + currencyFormatter.format(change) + Colors.NORMAL;
                 } else {
-                    resp += "(" + changeInPercent + "%)";
+                    resp += " (" + changeInPercent + "%)";
                 }
 
                 resp += " | open " + currencyFormatter.format(stock.getQuote().getOpen()) +
