@@ -36,19 +36,19 @@ public class StockPriceManager {
                 String resp = stock.getQuote().getSymbol() + " " + currencyFormatter.format(stock.getQuote().getPrice());
 
                 if (changeInPercent.compareTo(BigDecimal.ZERO) > 0) {
-                    resp += " (" + Colors.GREEN + "\u2191+" + changeInPercent + "%" + Colors.NORMAL + ")";
-                    resp += " " + Colors.GREEN + currencyFormatter.format(change) + Colors.NORMAL;
+                    resp += " (" + Colors.GREEN + "\u2191" + changeInPercent + "%" + Colors.NORMAL + ")";
+                    resp += " " + Colors.GREEN + "\u2191" + currencyFormatter.format(change) + Colors.NORMAL;
                 } else if (changeInPercent.compareTo(BigDecimal.ZERO) < 0) {
-                    resp += " (" + Colors.RED + "\u2193+" + changeInPercent + "%" + Colors.NORMAL + ")";
-                    resp += " " + Colors.RED + currencyFormatter.format(change) + Colors.NORMAL;
+                    resp += " (" + Colors.RED + "\u2193" + changeInPercent + "%" + Colors.NORMAL + ")";
+                    resp += " " + Colors.RED + "\u2193" + currencyFormatter.format(change) + Colors.NORMAL;
                 } else {
                     resp += " (" + changeInPercent + "%)";
                 }
 
-                resp += " | open " + currencyFormatter.format(stock.getQuote().getOpen()) +
+                resp += " [open " + currencyFormatter.format(stock.getQuote().getOpen()) +
                         " | high " + currencyFormatter.format(stock.getQuote().getDayHigh()) +
                         " | low " + currencyFormatter.format(stock.getQuote().getDayLow()) + "" +
-                        " | volume " + numberCommaFormatter.format(stock.getQuote().getVolume());
+                        " | volume " + numberCommaFormatter.format(stock.getQuote().getVolume()) + "git ]";
 
             return resp;
 
