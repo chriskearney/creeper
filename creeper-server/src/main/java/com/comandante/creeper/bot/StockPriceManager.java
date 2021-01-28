@@ -31,24 +31,27 @@ public class StockPriceManager {
             Stock stock = YahooFinance.get(symbol, true);
 
 
-                BigDecimal changeInPercent = stock.getQuote().getChangeInPercent();
-                BigDecimal change = stock.getQuote().getChange();
-                String resp = stock.getQuote().getSymbol() + " " + currencyFormatter.format(stock.getQuote().getPrice());
+            BigDecimal changeInPercent = stock.getQuote().getChangeInPercent();
+            BigDecimal change = stock.getQuote().getChange();
+            String resp = stock.getQuote().getSymbol() + " " + currencyFormatter.format(stock.getQuote().getPrice());
 
-                if (changeInPercent.compareTo(BigDecimal.ZERO) > 0) {
-                    resp += " (" + Colors.GREEN + "\u2191" + changeInPercent + "%" + Colors.NORMAL + ")";
-                    resp += " " + Colors.GREEN + "\u2191" + currencyFormatter.format(change) + Colors.NORMAL;
-                } else if (changeInPercent.compareTo(BigDecimal.ZERO) < 0) {
-                    resp += " (" + Colors.RED + "\u2193" + changeInPercent + "%" + Colors.NORMAL + ")";
-                    resp += " " + Colors.RED + "\u2193" + currencyFormatter.format(change) + Colors.NORMAL;
-                } else {
-                    resp += " (" + changeInPercent + "%)";
-                }
+            String downArrow = "\u25BC";
+            String upArrow = "\u25B2";
 
-                resp += " [open " + currencyFormatter.format(stock.getQuote().getOpen()) +
-                        " | high " + currencyFormatter.format(stock.getQuote().getDayHigh()) +
-                        " | low " + currencyFormatter.format(stock.getQuote().getDayLow()) + "" +
-                        " | volume " + numberCommaFormatter.format(stock.getQuote().getVolume()) + "git ]";
+            if (changeInPercent.compareTo(BigDecimal.ZERO) > 0) {
+                resp += " (" + Colors.GREEN + upArrow + "+" + changeInPercent + "%" + Colors.NORMAL + ")";
+                resp += " " + Colors.GREEN + upArrow + currencyFormatter.format(change) + Colors.NORMAL;
+            } else if (changeInPercent.compareTo(BigDecimal.ZERO) < 0) {
+                resp += " (" + Colors.RED + downArrow + changeInPercent + "%" + Colors.NORMAL + ")";
+                resp += " " + Colors.RED + downArrow + currencyFormatter.format(change) + Colors.NORMAL;
+            } else {
+                resp += " (" + changeInPercent + "%)";
+            }
+
+            resp += " [open " + currencyFormatter.format(stock.getQuote().getOpen()) +
+                    " | high " + currencyFormatter.format(stock.getQuote().getDayHigh()) +
+                    " | low " + currencyFormatter.format(stock.getQuote().getDayLow()) + "" +
+                    " | volume " + numberCommaFormatter.format(stock.getQuote().getVolume()) + "]";
 
             return resp;
 
