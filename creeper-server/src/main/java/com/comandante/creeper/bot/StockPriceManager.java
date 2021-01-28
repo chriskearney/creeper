@@ -28,7 +28,7 @@ public class StockPriceManager {
 
     public String getStockPrice(String symbol) {
         try {
-            Stock stock = YahooFinance.get(symbol, true);
+            Stock stock = YahooFinance.get(symbol);
 
             BigDecimal changeInPercent = stock.getQuote().getChangeInPercent();
             BigDecimal change = stock.getQuote().getChange();
