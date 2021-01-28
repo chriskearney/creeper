@@ -33,7 +33,7 @@ public class StockPriceManager {
 
                 BigDecimal changeInPercent = stock.getQuote().getChangeInPercent();
                 BigDecimal change = stock.getQuote().getChange();
-                String resp = stock.getQuote().getSymbol() + currencyFormatter.format(stock.getQuote().getPrice());
+                String resp = stock.getQuote().getSymbol() + " " + currencyFormatter.format(stock.getQuote().getPrice());
 
                 if (changeInPercent.compareTo(BigDecimal.ZERO) > 0) {
                     resp += " (" + Colors.GREEN + "\u2191+" + changeInPercent + "%" + Colors.NORMAL + ")";
