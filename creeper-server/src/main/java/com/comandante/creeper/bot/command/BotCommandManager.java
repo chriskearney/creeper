@@ -1,7 +1,7 @@
 package com.comandante.creeper.bot.command;
 
 
-import com.comandante.creeper.bot.AlphaVantageManager;
+import com.comandante.creeper.bot.StockPriceManager;
 import com.comandante.creeper.core_game.GameManager;
 import org.devotionit.vantage.AlphaVantageClient;
 
@@ -16,7 +16,7 @@ public class BotCommandManager {
     private final CoindeskManager coindeskManager;
     private final QuoteManager quoteManager;
     private final QuoteProcessor quoteProcessor;
-    private final AlphaVantageManager alphaVantageManager;
+    private final StockPriceManager stockPriceManager;
 
     public BotCommandManager(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -28,7 +28,7 @@ public class BotCommandManager {
         this.coindeskManager = new CoindeskManager(new CoindeskClient(gameManager.getObjectMapper()));
         this.quoteManager = new QuoteManager(gameManager.getMapDBCreeperStorage().getIrcQuotes());
         this.quoteProcessor = gameManager.getQuoteProcessor();
-        this.alphaVantageManager = new AlphaVantageManager(new AlphaVantageClient(gameManager.getCreeperConfiguration().getAlphaVantageApiKey()));
+        this.stockPriceManager = new StockPriceManager(new AlphaVantageClient(gameManager.getCreeperConfiguration().getAlphaVantageApiKey()));
     }
 
     public GameManager getGameManager() {
@@ -67,7 +67,7 @@ public class BotCommandManager {
         return quoteProcessor;
     }
 
-    public AlphaVantageManager getAlphaVantageManager() {
-        return alphaVantageManager;
+    public StockPriceManager getAlphaVantageManager() {
+        return stockPriceManager;
     }
 }
