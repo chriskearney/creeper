@@ -30,10 +30,9 @@ public class StockPriceManager {
         try {
             Stock stock = YahooFinance.get(symbol, true);
 
-
             BigDecimal changeInPercent = stock.getQuote().getChangeInPercent();
             BigDecimal change = stock.getQuote().getChange();
-            String resp = stock.getQuote().getSymbol() + " " + currencyFormatter.format(stock.getQuote().getPrice());
+            String resp = Colors.BOLD + stock.getQuote().getSymbol() + Colors.NORMAL + " " + currencyFormatter.format(stock.getQuote().getPrice());
 
             String downArrow = "\u25BC";
             String upArrow = "\u25B2";
