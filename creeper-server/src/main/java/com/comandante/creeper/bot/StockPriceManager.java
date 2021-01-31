@@ -56,12 +56,6 @@ public class StockPriceManager {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
-
-        if (costBasis.isPresent()) {
-            return
-        }
     }
 
     public String getStockPrice(String symbol) {
