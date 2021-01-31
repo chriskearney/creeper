@@ -32,23 +32,20 @@ public class StockPriceManager {
     public String calculateAmountOfStock(String symbol, BigDecimal amount, Optional<BigDecimal> costBasis) {
         try {
             Stock stock = YahooFinance.get(symbol);
-            BigDecimal multiply = stock.getQuote().getPrice().multiply(amount);
-            BigDecimal costBasisAmount = BigDecimal.valueOf(0);
+            BigDecimal totalValueOfStock = stock.getQuote().getPrice().multiply(amount);
+            BigDecimal totalValueOfStockAtCostBasis = BigDecimal.valueOf(0);
 
             if (costBasis.isPresent()) {
-                costBasisAmount = stock.getQuote().getPrice().multiply(costBasis.get());
+                totalValueOfStockAtCostBasis = stock.getQuote().getPrice().multiply(costBasis.get());
             }
 
-
-
-
-            BigDecimal finalResultOfCurrentPrice = multiply.setScale(2, RoundingMode.CEILING);
+            BigDecimal finalResultOfCurrentPrice = totalValueOfStock.setScale(2, RoundingMode.CEILING);
 
             String resp = "You have a total of $" + finalResultOfCurrentPrice + " of " + symbol;
 
             if (costBasis.isPresent()) {
-                BigDecimal profit = multiply.subtract(costBasisAmount).setScale(2, RoundingMode.CEILING);
-                resp += ".  Your total profit is $" + profit + " (cost basis of: $" + costBasisAmount.setScale(2, RoundingMode.CEILING) + ").";
+                BigDecimal profit = totalValueOfStock.subtract(totalValueOfStockAtCostBasis);
+                resp += ".  Your total profit is $" + profit.setScale(2, RoundingMode.CEILING) + " (cost basis of: $" + costBasis + ").";
             }
 
             return resp;
