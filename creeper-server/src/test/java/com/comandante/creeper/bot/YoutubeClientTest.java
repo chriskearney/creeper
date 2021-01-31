@@ -7,6 +7,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.util.Optional;
+
 import static org.junit.Assert.*;
 
 public class YoutubeClientTest {
@@ -28,4 +31,15 @@ public class YoutubeClientTest {
         System.out.println(oazpaoyacd0);
     }
 
+
+    @Test
+    public void testStonk() throws Exception {
+
+        StockPriceManager stockPriceManager = new StockPriceManager(null);
+
+        String s = stockPriceManager.calculateAmountOfStock("DOGE-USD", BigDecimal.valueOf(22401), Optional.of(BigDecimal.valueOf(0.0447)));
+
+        System.out.println(s);
+
+    }
 }

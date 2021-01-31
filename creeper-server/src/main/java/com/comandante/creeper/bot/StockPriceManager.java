@@ -36,7 +36,7 @@ public class StockPriceManager {
             BigDecimal totalValueOfStockAtCostBasis = BigDecimal.valueOf(0);
 
             if (costBasis.isPresent()) {
-                totalValueOfStockAtCostBasis = stock.getQuote().getPrice().multiply(costBasis.get());
+                totalValueOfStockAtCostBasis = costBasis.get().multiply(amount);
             }
 
             BigDecimal finalResultOfCurrentPrice = totalValueOfStock.setScale(2, RoundingMode.CEILING);
@@ -45,7 +45,7 @@ public class StockPriceManager {
 
             if (costBasis.isPresent()) {
                 BigDecimal profit = totalValueOfStock.subtract(totalValueOfStockAtCostBasis);
-                resp += ".  Your total profit is $" + profit.setScale(2, RoundingMode.CEILING) + " (cost basis of: $" + costBasis + ").";
+                resp += ".  Your total profit is: $" + profit.setScale(2, RoundingMode.CEILING) + " (cost basis of: $" + costBasis.get() + ").";
             }
 
             return resp;
