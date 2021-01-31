@@ -25,6 +25,7 @@ public class QuoteCommand extends BotCommand {
     public List<String> process() {
         String stockSymbol = args.remove(0);
         Optional<BigDecimal> amount = Optional.empty();
+        Optional<BigDecimal> costBasis = Optional.empty();
         try {
             String remove = args.remove(0);
             BigDecimal bigDecimal = new BigDecimal(remove);
@@ -33,10 +34,16 @@ public class QuoteCommand extends BotCommand {
             //no-op
         }
 
+        try {
+            String remove = args.remove(0);
+            BigDecimal bigDecimal = new BigDecimal(remove);
+            costBasis = Optional.of(bigDecimal);
+        } catch (Exception e) {
+            //no-op
+        }
+
         if (amount.isPresent()) {
-            BigDecimal calculatedAmount = botCommandManager.getAlphaVantageManager().calculateAmountOfStock(stockSymbol, amount.get());
-            String resp = "You have a total of $" + calculatedAmount + " of " + stockSymbol;
-            return Collections.singletonList(resp);
+            return Collections.singletonList(botCommandManager.getAlphaVantageManager().calculateAmountOfStock(stockSymbol, amount.get(), costBasis));
         } else {
             String stockPrice = botCommandManager.getAlphaVantageManager().getStockPrice(stockSymbol);
             return Collections.singletonList(stockPrice);

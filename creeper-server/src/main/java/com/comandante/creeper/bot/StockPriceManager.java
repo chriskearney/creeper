@@ -15,6 +15,7 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -28,13 +29,38 @@ public class StockPriceManager {
         this.alphaVantageClient = alphaVantageClient;
     }
 
-    public BigDecimal calculateAmountOfStock(String symbol, BigDecimal amount) {
+    public String calculateAmountOfStock(String symbol, BigDecimal amount, Optional<BigDecimal> costBasis) {
         try {
             Stock stock = YahooFinance.get(symbol);
             BigDecimal multiply = stock.getQuote().getPrice().multiply(amount);
-            return multiply.setScale(2, RoundingMode.CEILING);
+            BigDecimal costBasisAmount = BigDecimal.valueOf(0);
+
+            if (costBasis.isPresent()) {
+                costBasisAmount = stock.getQuote().getPrice().multiply(costBasis.get());
+            }
+
+
+
+
+            BigDecimal finalResultOfCurrentPrice = multiply.setScale(2, RoundingMode.CEILING);
+
+            String resp = "You have a total of $" + finalResultOfCurrentPrice + " of " + symbol;
+
+            if (costBasis.isPresent()) {
+                BigDecimal profit = multiply.subtract(costBasisAmount).setScale(2, RoundingMode.CEILING);
+                resp += ".  Your total profit is $" + profit + " (cost basis of: $" + costBasisAmount.setScale(2, RoundingMode.CEILING) + ").";
+            }
+
+            return resp;
+
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+
+
+
+        if (costBasis.isPresent()) {
+            return
         }
     }
 
