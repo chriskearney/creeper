@@ -11,6 +11,8 @@ import yahoofinance.YahooFinance;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.concurrent.CompletableFuture;
@@ -24,6 +26,16 @@ public class StockPriceManager {
 
     public StockPriceManager(AlphaVantageClient alphaVantageClient) {
         this.alphaVantageClient = alphaVantageClient;
+    }
+
+    public BigDecimal calculateAmountOfStock(String symbol, BigDecimal amount) {
+        try {
+            Stock stock = YahooFinance.get(symbol);
+            BigDecimal multiply = stock.getQuote().getPrice().multiply(amount);
+            return multiply.setScale(2, RoundingMode.CEILING);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getStockPrice(String symbol) {
