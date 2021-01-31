@@ -7,6 +7,7 @@ import com.google.common.util.concurrent.RateLimiter;
 import org.pircbotx.Colors;
 import org.pircbotx.User;
 import org.pircbotx.hooks.events.MessageEvent;
+import org.pircbotx.hooks.types.GenericMessageEvent;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class QuoteProcessor extends AbstractScheduledService {
         return quoteQueue.isEmpty();
     }
 
-    public void addIrcQuotes(List<QuoteManager.IrcQuote> ircQuotes, Optional<MessageEvent> messageEvent) {
+    public void addIrcQuotes(List<QuoteManager.IrcQuote> ircQuotes, Optional<GenericMessageEvent> messageEvent) {
         Optional<User> user = Optional.empty();
         if (messageEvent.isPresent()) {
             user = Optional.ofNullable(messageEvent.get().getUser());

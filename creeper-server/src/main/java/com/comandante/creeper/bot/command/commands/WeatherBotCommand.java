@@ -5,6 +5,7 @@ import com.google.api.client.util.Lists;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import org.pircbotx.hooks.events.MessageEvent;
+import org.pircbotx.hooks.types.GenericMessageEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class WeatherBotCommand extends BotCommand {
     public List<String> process() {
         ArrayList<String> resp = Lists.newArrayList();
         String argumentString = joinArgs(args);
-        MessageEvent messageEvent = getMessageEvent();
+        GenericMessageEvent messageEvent = getMessageEvent();
         Optional<String> lastArgString = Optional.empty();
         if (args.isEmpty() && messageEvent != null) {
             lastArgString = botCommandManager.getWeatherHistoryManager().getArgumentString(messageEvent.getUserHostmask().getNick());

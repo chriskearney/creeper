@@ -4,6 +4,7 @@ import com.comandante.creeper.bot.command.commands.*;
 import com.comandante.creeper.player.Player;
 import com.google.common.collect.Maps;
 import org.pircbotx.hooks.events.MessageEvent;
+import org.pircbotx.hooks.types.GenericMessageEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +34,7 @@ public class BotCommandFactory {
         addCommand(new AlertsCommand(botCommandManager));
     }
 
-    public BotCommand getCommand(MessageEvent event, String originalFullCmd, Player player) {
+    public BotCommand getCommand(GenericMessageEvent event, String originalFullCmd, Player player) {
         List<String> originalMessageParts = new ArrayList<>(Arrays.asList(originalFullCmd.split(" ")));
         if (originalMessageParts.size() == 0) {
             return null;

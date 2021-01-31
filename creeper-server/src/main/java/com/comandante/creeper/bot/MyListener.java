@@ -15,6 +15,7 @@ import com.linkedin.urls.detection.UrlDetectorOptions;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.KickEvent;
 import org.pircbotx.hooks.events.MessageEvent;
+import org.pircbotx.hooks.events.PrivateMessageEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 
 import java.text.DateFormat;
@@ -50,6 +51,15 @@ public class MyListener extends ListenerAdapter {
     public void onKick(KickEvent event) throws Exception {
         if (gameManager.getQuoteProcessor().removeIfUserMatch(event.getRecipient())) {
             gameManager.getIrcBotService().getBot().getUserChannelDao().getChannel(gameManager.getCreeperConfiguration().getIrcChannel()).send().message(event.getRecipient().getNick() + " was kicked, stopping results.");
+        }
+    }
+
+    @Override
+    public void onPrivateMessage(PrivateMessageEvent event) throws Exception {
+        BotCommand command = gameManager.getBotCommandFactory().getCommand((GenericMessageEvent) event, event.getMessage(), null);
+        List<String> commandOutputResult = command.process();
+        for (String line: commandOutputResult) {
+            event.respondPrivateMessage(line);
         }
     }
 
