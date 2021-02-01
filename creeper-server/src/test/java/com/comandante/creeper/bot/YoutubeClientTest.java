@@ -37,7 +37,7 @@ public class YoutubeClientTest {
 
         StockPriceManager stockPriceManager = new StockPriceManager(null);
 
-        String s = stockPriceManager.calculateAmountOfStock("DOGE-USD", BigDecimal.valueOf(22401), Optional.of(BigDecimal.valueOf(0.0447)));
+        String s = stockPriceManager.calculateAmountOfStock("DOGE-USD", BigDecimal.valueOf(22401), Optional.of(BigDecimal.valueOf(0.0447)), "barf");
 
         System.out.println(s);
 

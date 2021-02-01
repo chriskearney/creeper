@@ -43,7 +43,8 @@ public class QuoteCommand extends BotCommand {
         }
 
         if (amount.isPresent()) {
-            return Collections.singletonList(botCommandManager.getAlphaVantageManager().calculateAmountOfStock(stockSymbol, amount.get(), costBasis));
+            String nick = getMessageEvent().getUser().getNick();
+            return Collections.singletonList(botCommandManager.getAlphaVantageManager().calculateAmountOfStock(stockSymbol, amount.get(), costBasis, nick));
         } else {
             String stockPrice = botCommandManager.getAlphaVantageManager().getStockPrice(stockSymbol);
             return Collections.singletonList(stockPrice);

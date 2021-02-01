@@ -23,13 +23,16 @@ public class StockPriceManager {
     DecimalFormat currencyFormatter = new DecimalFormat("$#,##0.00;$-#,##0.00");
     NumberFormat numberCommaFormatter = NumberFormat.getInstance();
 
+    String downArrow = "\u25BC";
+    String upArrow = "\u25B2";
+
     private final AlphaVantageClient alphaVantageClient;
 
     public StockPriceManager(AlphaVantageClient alphaVantageClient) {
         this.alphaVantageClient = alphaVantageClient;
     }
 
-    public String calculateAmountOfStock(String symbol, BigDecimal amount, Optional<BigDecimal> costBasis) {
+    public String calculateAmountOfStock(String symbol, BigDecimal amount, Optional<BigDecimal> costBasis, String nick) {
         try {
             Stock stock = YahooFinance.get(symbol);
             BigDecimal totalValueOfStock = stock.getQuote().getPrice().multiply(amount);
@@ -41,14 +44,27 @@ public class StockPriceManager {
 
             BigDecimal finalResultOfCurrentPrice = totalValueOfStock.setScale(2, RoundingMode.CEILING);
 
-            String resp = "You have a total of $" + finalResultOfCurrentPrice + " of " + symbol;
+            String response = nick + " has " + currencyFormatter.format(finalResultOfCurrentPrice) + " worth of " + Colors.BOLD + stock.getQuote().getSymbol() + Colors.NORMAL;
 
             if (costBasis.isPresent()) {
                 BigDecimal profit = totalValueOfStock.subtract(totalValueOfStockAtCostBasis);
-                resp += ".  Your total profit is: $" + profit.setScale(2, RoundingMode.CEILING) + " (cost basis of: $" + costBasis.get() + ").";
+
+                BigDecimal percentChange = totalValueOfStock.subtract(totalValueOfStockAtCostBasis).divide(totalValueOfStockAtCostBasis, 2, RoundingMode.CEILING).multiply(BigDecimal.valueOf(100));
+
+                if (percentChange.compareTo(BigDecimal.ZERO) > 0) {
+                    response += " (" + Colors.GREEN + upArrow + "+" + percentChange + "%" + Colors.NORMAL + ")";
+                    response += " " + Colors.GREEN + upArrow + currencyFormatter.format(profit.setScale(2, RoundingMode.CEILING)) + Colors.NORMAL;
+                    response += " " + "basis=" + costBasis.get();
+                } else if (percentChange.compareTo(BigDecimal.ZERO) < 0) {
+                    response += " (" + Colors.RED + downArrow + percentChange + "%" + Colors.NORMAL + ")";
+                    response += " " + Colors.RED + downArrow + currencyFormatter.format(profit.setScale(2, RoundingMode.CEILING)) + Colors.NORMAL;
+                    response += " " + "basis=" + costBasis.get();
+                } else {
+                    response += " (" + percentChange + "%)";
+                }
             }
 
-            return resp;
+            return response;
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -63,8 +79,6 @@ public class StockPriceManager {
             BigDecimal change = stock.getQuote().getChange();
             String resp = Colors.BOLD + stock.getQuote().getSymbol() + Colors.NORMAL + " " + currencyFormatter.format(stock.getQuote().getPrice());
 
-            String downArrow = "\u25BC";
-            String upArrow = "\u25B2";
 
             if (changeInPercent.compareTo(BigDecimal.ZERO) > 0) {
                 resp += " (" + Colors.GREEN + upArrow + "+" + changeInPercent + "%" + Colors.NORMAL + ")";
