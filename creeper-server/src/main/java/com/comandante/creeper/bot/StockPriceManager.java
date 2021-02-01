@@ -49,7 +49,7 @@ public class StockPriceManager {
             if (costBasis.isPresent()) {
                 BigDecimal profit = totalValueOfStock.subtract(totalValueOfStockAtCostBasis);
 
-                BigDecimal percentChange = totalValueOfStock.subtract(totalValueOfStockAtCostBasis).divide(totalValueOfStockAtCostBasis, 2, RoundingMode.CEILING).multiply(BigDecimal.valueOf(100));
+                BigDecimal percentChange = totalValueOfStock.subtract(totalValueOfStockAtCostBasis).divide(totalValueOfStockAtCostBasis, 4, RoundingMode.CEILING).multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.CEILING);
 
                 if (percentChange.compareTo(BigDecimal.ZERO) > 0) {
                     response += " (" + Colors.GREEN + upArrow + "+" + percentChange + "%" + Colors.NORMAL + ")";
