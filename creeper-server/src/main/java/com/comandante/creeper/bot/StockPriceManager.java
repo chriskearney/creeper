@@ -44,7 +44,7 @@ public class StockPriceManager {
 
             BigDecimal finalResultOfCurrentPrice = totalValueOfStock.setScale(2, RoundingMode.CEILING);
 
-            String response = nick + " has " + currencyFormatter.format(finalResultOfCurrentPrice) + " worth of " + Colors.BOLD + stock.getQuote().getSymbol() + Colors.NORMAL;
+            String response = nick + " has " + Colors.CYAN + currencyFormatter.format(finalResultOfCurrentPrice) + Colors.NORMAL + " worth of " + Colors.BOLD + stock.getQuote().getSymbol() + Colors.NORMAL;
 
             if (costBasis.isPresent()) {
                 BigDecimal profit = totalValueOfStock.subtract(totalValueOfStockAtCostBasis);
@@ -54,11 +54,9 @@ public class StockPriceManager {
                 if (percentChange.compareTo(BigDecimal.ZERO) > 0) {
                     response += " (" + Colors.GREEN + upArrow + "+" + percentChange + "%" + Colors.NORMAL + ")";
                     response += " " + Colors.GREEN + upArrow + currencyFormatter.format(profit.setScale(2, RoundingMode.CEILING)) + Colors.NORMAL;
-                    response += " " + "basis=" + costBasis.get();
                 } else if (percentChange.compareTo(BigDecimal.ZERO) < 0) {
                     response += " (" + Colors.RED + downArrow + percentChange + "%" + Colors.NORMAL + ")";
                     response += " " + Colors.RED + downArrow + currencyFormatter.format(profit.setScale(2, RoundingMode.CEILING)) + Colors.NORMAL;
-                    response += " " + "basis=" + costBasis.get();
                 } else {
                     response += " (" + percentChange + "%)";
                 }
@@ -77,7 +75,7 @@ public class StockPriceManager {
 
             BigDecimal changeInPercent = stock.getQuote().getChangeInPercent();
             BigDecimal change = stock.getQuote().getChange();
-            String resp = Colors.BOLD + stock.getQuote().getSymbol() + Colors.NORMAL + " " + currencyFormatter.format(stock.getQuote().getPrice());
+            String resp = Colors.BOLD + stock.getQuote().getSymbol() + Colors.NORMAL + " " + Colors.CYAN + currencyFormatter.format(stock.getQuote().getPrice()) + Colors.NORMAL;
 
 
             if (changeInPercent.compareTo(BigDecimal.ZERO) > 0) {
