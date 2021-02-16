@@ -40,6 +40,8 @@ public class IrcBotService extends AbstractIdleService {
                 .addListener(myListener)
                 .setVersion("creeper irc | build: " + Creeper.getCreeperVersion())
                 .setAutoReconnect(true)
+                .setAutoReconnectAttempts(Integer.MAX_VALUE)
+                .setAutoReconnectDelay(50)
                 .setMessageDelay(1000L)
                 .buildConfiguration();
         bot = new PircBotX(configuration);
