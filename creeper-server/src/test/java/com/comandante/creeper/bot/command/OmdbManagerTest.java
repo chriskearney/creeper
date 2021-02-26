@@ -12,7 +12,7 @@ public class OmdbManagerTest {
 
     @Test
     public void testOmdb() throws OMDBException {
-        OmdbManager omdbManager = new OmdbManager("5a2b99f0");
+        OmdbManager omdbManager = new OmdbManager("");
         List<String> the_client = omdbManager.getMovieInfo("the client");
         the_client.forEach(System.out::println);
     }
