@@ -184,7 +184,7 @@
         <dependency>
             <groupId>com.omertron</groupId>
             <artifactId>API-OMDB</artifactId>
-            <version>1.0</version>
+            <version>1.5</version>
         </dependency>
 
         <dependency>

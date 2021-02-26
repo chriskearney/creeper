@@ -71,6 +71,17 @@ public class CreeperConfiguration extends Configuration {
 
     private String alphaVantageApiKey;
 
+    private String omdbApiKey;
+
+    @JsonProperty
+    public String getOmdbApiKey() {
+        return omdbApiKey;
+    }
+
+    public void setOmdbApiKey(String omdbApiKey) {
+        this.omdbApiKey = omdbApiKey;
+    }
+
     @JsonProperty
     public String getAlphaVantageApiKey() {
         return alphaVantageApiKey;

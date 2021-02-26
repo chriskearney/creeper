@@ -1,5 +1,6 @@
 package com.comandante.creeper.bot.command;
 
+import com.comandante.creeper.dropwizard.CreeperConfiguration;
 import com.google.api.client.util.Lists;
 import com.omertron.omdbapi.OMDBException;
 import com.omertron.omdbapi.OmdbApi;
@@ -12,7 +13,11 @@ import java.util.List;
 
 public class OmdbManager {
 
-    private final OmdbApi omdb = new OmdbApi();
+    private final OmdbApi omdb;
+
+    public OmdbManager(String apiKey) {
+        this.omdb = new OmdbApi(apiKey);
+    }
 
     public List<String> getMovieInfo(String movieSearchString) throws OMDBException {
         SearchResults results = omdb.search(new OmdbBuilder().setSearchTerm(movieSearchString).build());
