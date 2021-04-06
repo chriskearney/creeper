@@ -15,8 +15,6 @@ import sun.net.www.http.HttpClient;
 import java.io.IOException;
 
 public class WeatherGovApiClient implements WeatherGovApi {
-
-
     private final static String WEATHER_GOV_ALERTS_BY_POINT_API = "https://api.weather.gov/alerts/active?point=";
     private final static String WEATHER_GOV_ALERTS_BY_POINT_STATIONS_SUFFIX = "https://api.weather.gov/points/{lat,long}/stations";
     private final static String WEATHER_GOV_STATIONS_LATEST_OBSERVATIONS_API = "https://api.weather.gov/stations/{stationId}/observations/latest";
