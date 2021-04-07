@@ -65,6 +65,9 @@ public class EquipmentPanel extends JPanel {
         @Override
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             EquipmentSlot equipmentSlot = (EquipmentSlot) value;
+            if (equipmentSlot == null || equipmentSlot.getItem() == null) {
+                return new ColorPane();
+            }
             ColorPane colorPane = new ColorPane();
             colorPane.setOpaque(true);
             colorPane.appendANSI(equipmentSlot.getItem().getEquipment().getEquipmentSlotType().getName() + "\t| " + equipmentSlot.getItem().getItemName());
