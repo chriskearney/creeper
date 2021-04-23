@@ -30,7 +30,7 @@ public class ConsolePanel extends JPanel {
     private final List<JediEmulator.NonControlCharListener> nonControlCharListeners;
     private final Supplier<TtyConnector> ttyConnectorSupplier;
     private final Input input;
-    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Console");
+    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray), "Console");
 
     private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ConsolePanel.class);
 
@@ -61,7 +61,7 @@ public class ConsolePanel extends JPanel {
         inputAndStatus.add(input, BorderLayout.PAGE_END);
         inputAndStatus.add(consoleStatusBar, BorderLayout.PAGE_START);
 
-        this.border.setTitleColor(Color.white);
+        //this.border.setTitleColor(Color.white);
         this.setBackground(Color.black);
         this.setBorder(border);
         this.setLayout(new BorderLayout());

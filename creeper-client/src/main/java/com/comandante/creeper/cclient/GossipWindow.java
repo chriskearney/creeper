@@ -35,7 +35,7 @@ public class GossipWindow extends JFrame {
         jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.PAGE_AXIS));
         jPanel.add(creeperTerminal);
         jPanel.add(input);
-        jPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Gossip"));
+        jPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray), "Gossip"));
         jPanel.setBackground(Color.BLACK);
         add(jPanel, BorderLayout.CENTER);
         add(gossipUserPanel, BorderLayout.LINE_END);

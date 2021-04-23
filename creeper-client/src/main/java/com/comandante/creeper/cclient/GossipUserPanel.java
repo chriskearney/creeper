@@ -21,7 +21,7 @@ public class GossipUserPanel extends JPanel {
 
     private final JList<UserListItem> userListItems;
     private final DefaultListModel<UserListItem> defaultListModel;
-    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Users");
+    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray), "Users");
 
     public GossipUserPanel() {
         defaultListModel = new DefaultListModel<>();

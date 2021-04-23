@@ -35,7 +35,7 @@ public class InventoryPanel extends JPanel {
     private final DefaultListModel<RolledUpInventoryItem> defaultListModel;
     private final ObjectMapper objectMapper;
     private final UseItemIdHandler useItemIdHandler;
-    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Inventory");
+    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray), "Inventory");
 
     public InventoryPanel(ObjectMapper objectMapper, UseItemIdHandler useItemIdHandler) {
         this.useItemIdHandler = useItemIdHandler;

@@ -33,7 +33,7 @@ public class NearPanel extends JPanel {
     private final NearMeHandler nearMeHandler;
     private final JList<NearMeItem> nearMeItems;
     private final DefaultListModel<NearMeItem> defaultListModel;
-    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Near Me");;
+    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray), "Near Me");;
 
     public NearPanel(ObjectMapper objectMapper, NearMeHandler nearMeHandler) {
         this.objectMapper = objectMapper;

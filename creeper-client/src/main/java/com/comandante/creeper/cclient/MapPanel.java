@@ -24,7 +24,7 @@ public class MapPanel extends JPanel {
     private final ColorPane colorPane;
     private final MapStatusBar mapStatusBar;
     private final MapWindowMovementHandler mapWindowMovementHandler;
-    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Map");
+    private final TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray), "Map");
 
 
     public MapPanel(MapStatusBar mapStatusBar, MapWindowMovementHandler mapWindowMovementHandler, ObjectMapper objectMapper) {

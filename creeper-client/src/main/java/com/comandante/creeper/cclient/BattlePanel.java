@@ -54,7 +54,7 @@ public class BattlePanel extends JPanel {
         this.imagePanel.setMinimumSize(new Dimension(270, 240));
         this.imagePanel.setPreferredSize(new Dimension(270, 240));
         this.imagePanel.setBackground(Color.BLACK);
-        this.enemyPanelBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Enemy");
+        this.enemyPanelBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray), "Enemy");
         //setTitle("Battle");
         setBackground(Color.BLACK);
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -71,7 +71,7 @@ public class BattlePanel extends JPanel {
         equipmentPanel.setPreferredSize(new Dimension(270, 138));
         JPanel equipmentJPanel = new JPanel();
         equipmentJPanel.setLayout(new BoxLayout(equipmentJPanel, BoxLayout.PAGE_AXIS));
-        equipmentJPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Equipment"));
+        equipmentJPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray), "Equipment"));
         equipmentJPanel.add(equipmentPanel);
         equipmentJPanel.setBackground(Color.BLACK);
 
@@ -80,7 +80,7 @@ public class BattlePanel extends JPanel {
         playerInfoPanel.setPreferredSize(new Dimension(270, 120));
         JPanel playerInfoJPanel = new JPanel();
         playerInfoJPanel.setLayout(new BoxLayout(playerInfoJPanel, BoxLayout.PAGE_AXIS));
-        playerInfoJPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Player"));
+        playerInfoJPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray), "Player"));
         playerInfoJPanel.add(playerInfoPanel);
         playerInfoJPanel.setBackground(Color.BLACK);
 
@@ -90,7 +90,7 @@ public class BattlePanel extends JPanel {
         questsPanel.setPreferredSize(new Dimension(270, 66));
         JPanel questsJPanel = new JPanel();
         questsJPanel.setLayout(new BoxLayout(questsJPanel, BoxLayout.PAGE_AXIS));
-        questsJPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.green), "Quests"));
+        questsJPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray), "Quests"));
         questsJPanel.add(questsPanel);
         questsJPanel.setBackground(Color.BLACK);
 
@@ -115,7 +115,7 @@ public class BattlePanel extends JPanel {
                 enemyPanelBorder.setBorder(BorderFactory.createLineBorder(Color.red));
                 repaint();
             } else {
-                enemyPanelBorder.setBorder(BorderFactory.createLineBorder(Color.green));
+                enemyPanelBorder.setBorder(BorderFactory.createLineBorder(Color.gray));
                 repaint();
             }
             if (!Strings.isNullOrEmpty(playerData.getActiveFightNpcId())) {
