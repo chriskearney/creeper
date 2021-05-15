@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public abstract class BotCommand  {
     public final BotCommandManager botCommandManager;
     public List<String> args;
     private Player player;
+    private DecimalFormat currencyFormatter = new DecimalFormat("$#,##0.00;$-#,##0.00");
 
     private GenericMessageEvent messageEvent;
 
@@ -94,5 +96,9 @@ public abstract class BotCommand  {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public DecimalFormat getCurrencyFormatter() {
+        return currencyFormatter;
     }
 }

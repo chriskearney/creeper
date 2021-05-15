@@ -26,6 +26,8 @@ public class BotCommandFactory {
         addCommand(new RandomRoomDescriptionCommand(botCommandManager));
         addCommand(new CardsCommand(botCommandManager));
         addCommand(new BtcCommand(botCommandManager));
+        addCommand(new DogeCommand(botCommandManager));
+        addCommand(new EthCommand(botCommandManager));
         addCommand(new LearnCommand(botCommandManager));
         addCommand(new QueryCommand(botCommandManager));
         addCommand(new QuoteCommand(botCommandManager));
